@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<changelog xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
+  <version>2.0</version>
+  <task-change-set user="Pamakids" date="2013-08-06T09:41:38.161Z" timestamp="2013-08-06T09:41:38.161Z">
+    <change idref="t8" to="t-1" to-position="1" resolved="yes">
+      <change idref="t8" attribute="title" type="string" to="选择主题"/>
+    </change>
+    <change idref="t7" to="t-1" to-position="2" resolved="yes">
+      <change idref="t7" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnZDFcJ2ExXCdkNFwnZjFcJ2JiXCdhZFwnYjFcJ2NhXCdhM1wnYWZcJ2NmXCdmMFwnYzZcJ2E0ClxmMCBcCgkKXGYxIFwnYjhcJ2M0XCdiMVwnZTRcJ2JiXCdhZFwnYjFcJ2NhXCdiNFwnZjNcJ2QwXCdhMQpcZjAgXApiLgpcZjEgXCdkMVwnYTFcJ2Q0XCdmMVwnZDFcJ2Q1XCdjOVwnYWIKXGYwIFwKCQpcZjEgXCdiYlwnZjlcJ2IxXCdiZVwnZDFcJ2Q1XCdjOVwnYWJcJ2EzXCdhZlwnZDdcJ2E4XCdkMlwnYjVcJ2QxXCdkNVwnYzlcJ2FiXCdhM1wnYWZcJ2NlXCdmY1wnYzhcJ2ExXCdiYlwnYWRcJ2MzXCdlNlwnZDZcJ2QwXCdiNVwnYzRcJ2QyXCdkMVwnZDNcJ2QwXCdkMVwnZDVcJ2M5XCdhYgpcZjAgXApjLgpcZjEgXCdiM1wnYjdcJ2NmXCdmYQpcZjAgXApkLgpcZjEgXCdiYlwnZDZcJ2I4XCdiNApcZjAgXAplLgpcZjEgXCdjN1wnZTVcJ2IzXCdmZApcZjAgXAoJClxmMSBcJ2M4XCdiN1wnYjZcJ2E4ClxmMCBcCmYuClxmMSBcJ2NkXCdlYVwnYjNcJ2M5ClxmMCBcCgkKXGYxIFwnYzhcJ2I3XCdiNlwnYTgKXGYwIFwKfQ=="/>
+      <change idref="t7" attribute="title" type="string" to="画画"/>
+    </change>
+    <change idref="t9" to="t-1" to-position="3" resolved="yes">
+      <change idref="t9" attribute="title" type="string" to="贴纸"/>
+    </change>
+    <change idref="t10" to="t-1" to-position="4" resolved="yes">
+      <change idref="t10" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjJcJ2E1XCdiN1wnYzUKXGYwIFwKCQpcZjEgXCdiZlwnZWNcJ2EzXCdhZlwnZDZcJ2QwXCdhM1wnYWZcJ2MyXCdmZApcZjAgXApiLgpcZjEgXCdjOVwnY2ZcJ2I0XCdhYgpcZjAgXApjLgpcZjEgXCdiN1wnZDZcJ2NmXCdlZApcZjAgXApkLgpcZjEgXCdjMlwnYmNcJ2QyXCdmNH0="/>
+      <change idref="t10" attribute="title" type="string" to="完成绘画（自动存储）"/>
+    </change>
+    <change idref="t11" to="t-1" to-position="5" resolved="yes">
+      <change idref="t11" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnY2JcJ2Y5XCdkM1wnZDBcJ2Q3XCdmN1wnYzZcJ2I3XCdjMVwnZDBcJ2IxXCdlZApcZjAgXApiLgpcZjEgXCdiZVwnYWJcJ2QxXCdhMVwnY2RcJ2M2XCdiY1wnZjYKXGYwIFwKZC4KXGYxIFwnY2VcJ2QyXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3XCdiY1wnYWYKXGYwIFwKCQpcZjEgXCdjOVwnY2ZcJ2I0XCdhYlwnYTNcJ2FmXCdjOVwnYmVcJ2IzXCdmZH0="/>
+      <change idref="t11" attribute="title" type="string" to="画廊"/>
+    </change>
+    <change idref="t12" to="t-1" to-position="6" resolved="yes">
+      <change idref="t12" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ=="/>
+      <change idref="t12" attribute="title" type="string" to="观看作品"/>
+    </change>
+    <change idref="t13" to="t-1" to-position="7" resolved="yes">
+      <change idref="t13" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmbmlsXGZjaGFyc2V0MTM0IFNUSGVpdGlTQy1MaWdodDt9CntcY29sb3J0Ymw7XHJlZDI1NVxncmVlbjI1NVxibHVlMjU1O1xyZWQ4NVxncmVlbjg1XGJsdWU4NTt9ClxwYXJkXHR4NTYwXHR4MTEyMFx0eDE2ODBcdHgyMjQwXHR4MjgwMFx0eDMzNjBcdHgzOTIwXHR4NDQ4MFx0eDUwNDBcdHg1NjAwXHR4NjE2MFx0eDY3MjBccGFyZGlybmF0dXJhbAoKXGYwXGZzMjIgXGNmMiBcJ2NjXCdmOVwnZDZcJ2JkXCdjYVwnZDVcJ2JjXCdhZn0="/>
+      <change idref="t13" attribute="title" type="string" to="个人信息"/>
+    </change>
+    <change idref="t14" to="t-1" to-position="8" resolved="yes">
+      <change idref="t14" attribute="title" type="string" to="致父母"/>
+    </change>
+    <change idref="t1" attribute="title" type="string" from="任务 1" to="首页" resolved="yes"/>
+    <change idref="t1" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYzNcJ2JmXCdjOFwnZDVcJ2QyXCdiYlwnYmJcJ2FkXCdjZFwnYzZcJ2JjXCdmNgpcZjAgXApiLgpcZjEgXCdkNlwnZjdcJ2NjXCdlMlwnYjBcJ2ZjXCdkNVwnYjlcJ2NhXCdiZQpcZjAgXApjLgpcZjEgXCdkN1wnZjdcJ2M2XCdiN1wnY2RcJ2M2XCdiY1wnZjYKXGYwIFwKZC4KXGYxIFwnYmJcJ2FkXCdjMFwnYzhcJ2M4XCdlYlwnYmZcJ2RhClxmMCBcCmUuClxmMSBcJ2M5XCdjY1wnYjVcJ2VhXCdjOFwnZWJcJ2JmXCdkYQpcZjAgXApmLgpcZjEgXCdkNlwnYzJcJ2I4XCdiOFwnYzRcJ2I4ClxmMCBcCmguClxmMSBcJ2I4XCdmNlwnYzhcJ2NiXCdkMFwnYzVcJ2NmXCdhMgpcZjAgXAp9" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="Pamakids" date="2013-08-06T09:43:07.186Z" timestamp="2013-08-06T09:43:07.186Z">
+    <change idref="t12" attribute="notesAllowingNil" type="textdata" from="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCmIuClxmMSBcJ2I5XCdkYlwnYmZcJ2I0XCdiMVwnZjBcJ2M4XCdjYlwnZDdcJ2Y3XCdjNlwnYjd9" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ==" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-06T11:26:18.999Z" timestamp="2013-08-06T11:26:18.999Z">
+    <change idref="t8" from="t-1" from-position="1" resolved="yes">
+      <change idref="t8" attribute="title" type="string" to="选择主题"/>
+    </change>
+    <change idref="t17" to="t-1" to-position="0" resolved="yes">
+      <change idref="t17" attribute="isGroup" type="real" from="0" to="1"/>
+      <change idref="t17" attribute="taskType" type="real" from="0" to="2"/>
+      <change idref="t17" attribute="title" type="string" to="UI框架"/>
+    </change>
+    <change idref="t1" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
+    <change idref="t1" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
+    <change idref="t1" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
+    <change idref="t1" attribute="title" type="string" from="首页" to="首页+主题详情" resolved="yes"/>
+    <change idref="t1" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
+    <change idref="t1" attribute="staticCost" type="real" from="0" resolved="yes"/>
+    <change idref="t1" attribute="effort" type="real" from="28800" resolved="yes"/>
+    <change idref="t1" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
+    <change idref="t1" attribute="scheduleType" type="real" from="0" resolved="yes"/>
+    <change idref="t1" attribute="internalAssignments" type="string" from="" resolved="yes"/>
+    <change idref="t1" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
+    <change idref="t1" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
+    <change idref="t15" to="t1" to-position="0" resolved="yes">
+      <change idref="t15" attribute="title" type="string" to="策划"/>
+    </change>
+    <change idref="t23" to="t1" to-position="1" resolved="yes">
+      <change idref="t23" attribute="title" type="string" to="设计"/>
+    </change>
+    <change idref="t16" to="t1" to-position="2" resolved="yes">
+      <change idref="t16" attribute="effort" type="real" from="28800" to="3600"/>
+      <change idref="t16" attribute="internalAssignments" type="string" from="" to="2"/>
+      <change idref="t16" attribute="resourceLeveledDate" type="date" to="2013-08-06T00:00:00.000Z"/>
+      <change idref="t16" attribute="title" type="string" to="主题列表开发"/>
+    </change>
+    <change idref="t19" to="t1" to-position="3" resolved="yes">
+      <change idref="t19" attribute="effort" type="real" from="28800" to="3600"/>
+      <change idref="t19" attribute="title" type="string" to="主题详情开发"/>
+    </change>
+    <change idref="t7" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
+    <change idref="t7" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
+    <change idref="t7" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
+    <change idref="t7" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
+    <change idref="t7" attribute="staticCost" type="real" from="0" resolved="yes"/>
+    <change idref="t7" attribute="effort" type="real" from="28800" resolved="yes"/>
+    <change idref="t7" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
+    <change idref="t7" attribute="scheduleType" type="real" from="0" resolved="yes"/>
+    <change idref="t7" attribute="internalAssignments" type="string" from="" resolved="yes"/>
+    <change idref="t7" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
+    <change idref="t7" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
+    <change idref="t32" to="t7" to-position="0" resolved="yes">
+      <change idref="t32" attribute="title" type="string" to="策划完善"/>
+    </change>
+    <change idref="t24" to="t7" to-position="1" resolved="yes">
+      <change idref="t24" attribute="title" type="string" to="设计笔触"/>
+    </change>
+    <change idref="t25" to="t7" to-position="2" resolved="yes">
+      <change idref="t25" attribute="effort" type="real" from="28800" to="288000"/>
+      <change idref="t25" attribute="title" type="string" to="撤销恢复"/>
+    </change>
+    <change idref="t26" to="t7" to-position="3" resolved="yes">
+      <change idref="t26" attribute="effort" type="real" from="28800" to="144000"/>
+      <change idref="t26" attribute="title" type="string" to="播放"/>
+    </change>
+    <change idref="t27" to="t7" to-position="4" resolved="yes">
+      <change idref="t27" attribute="title" type="string" to="UI开发"/>
+    </change>
+    <change idref="t9" from="t-1" from-position="3" to="t7" to-position="5" resolved="yes"/>
+    <change idref="t9" attribute="title" type="string" from="贴纸" to="贴纸旋转" resolved="yes"/>
+    <change idref="t10" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
+    <change idref="t10" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
+    <change idref="t10" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
+    <change idref="t10" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
+    <change idref="t10" attribute="staticCost" type="real" from="0" resolved="yes"/>
+    <change idref="t10" attribute="effort" type="real" from="28800" resolved="yes"/>
+    <change idref="t10" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
+    <change idref="t10" attribute="scheduleType" type="real" from="0" resolved="yes"/>
+    <change idref="t10" attribute="internalAssignments" type="string" from="" resolved="yes"/>
+    <change idref="t10" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
+    <change idref="t10" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
+    <change idref="t30" to="t10" to-position="0" resolved="yes">
+      <change idref="t30" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t30" attribute="title" type="string" to="策划完善"/>
+    </change>
+    <change idref="t33" to="t10" to-position="1" resolved="yes">
+      <change idref="t33" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t33" attribute="title" type="string" to="功能研发"/>
+    </change>
+    <change idref="t11" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
+    <change idref="t11" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
+    <change idref="t11" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
+    <change idref="t11" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
+    <change idref="t11" attribute="staticCost" type="real" from="0" resolved="yes"/>
+    <change idref="t11" attribute="effort" type="real" from="28800" resolved="yes"/>
+    <change idref="t11" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
+    <change idref="t11" attribute="scheduleType" type="real" from="0" resolved="yes"/>
+    <change idref="t11" attribute="internalAssignments" type="string" from="" resolved="yes"/>
+    <change idref="t11" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
+    <change idref="t11" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
+    <change idref="t34" to="t11" to-position="0" resolved="yes">
+      <change idref="t34" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t34" attribute="title" type="string" to="策划完善"/>
+    </change>
+    <change idref="t35" to="t11" to-position="1" resolved="yes">
+      <change idref="t35" attribute="title" type="string" to="任务 1"/>
+    </change>
+    <change idref="t14" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
+    <change idref="t14" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
+    <change idref="t14" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
+    <change idref="t14" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
+    <change idref="t14" attribute="staticCost" type="real" from="0" resolved="yes"/>
+    <change idref="t14" attribute="effort" type="real" from="28800" resolved="yes"/>
+    <change idref="t14" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
+    <change idref="t14" attribute="scheduleType" type="real" from="0" resolved="yes"/>
+    <change idref="t14" attribute="internalAssignments" type="string" from="" resolved="yes"/>
+    <change idref="t14" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
+    <change idref="t14" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
+    <change idref="t22" to="t14" to-position="0" resolved="yes">
+      <change idref="t22" attribute="effort" type="real" from="28800" to="14400"/>
+      <change idref="t22" attribute="title" type="string" to="策划"/>
+    </change>
+    <change idref="t21" to="t14" to-position="1" resolved="yes">
+      <change idref="t21" attribute="effort" type="real" from="28800" to="14400"/>
+      <change idref="t21" attribute="title" type="string" to="开发"/>
+    </change>
+    <change idref="t29" to="t17" to-position="0" resolved="yes">
+      <change idref="t29" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t29" attribute="title" type="string" to="自动换肤"/>
+    </change>
+    <change idref="t18" to="t17" to-position="1" resolved="yes">
+      <change idref="t18" attribute="effort" type="real" from="28800" to="144000"/>
+      <change idref="t18" attribute="title" type="string" to="滚动组件"/>
+    </change>
+    <change idref="t20" to="t17" to-position="2" resolved="yes">
+      <change idref="t20" attribute="effort" type="real" from="28800" to="86400"/>
+      <change idref="t20" attribute="title" type="string" to="列表组件"/>
+    </change>
+    <change idref="t31" to="t17" to-position="3" resolved="yes">
+      <change idref="t31" attribute="effort" type="real" from="28800" to="86400"/>
+      <change idref="t31" attribute="title" type="string" to="Slider"/>
+    </change>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-07T04:00:37.479Z" timestamp="2013-08-07T04:00:37.479Z">
+    <change idref="t12" from="t-1" from-position="5" resolved="yes">
+      <change idref="t12" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgXHVwMCBcbm9zdXBlcnN1YiBcdWxub25lIFxvYmxpcXVlbmVzczAgXGV4cGFuc2lvbjAgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ=="/>
+      <change idref="t12" attribute="title" type="string" to="观看作品"/>
+    </change>
+    <change idref="t36" to="t11" to-position="2" resolved="yes">
+      <change idref="t36" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t36" attribute="title" type="string" to="作品详情"/>
+    </change>
+    <change idref="t37" to="t11" to-position="3" resolved="yes">
+      <change idref="t37" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t37" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t37" attribute="title" type="string" to="作品浏览"/>
+    </change>
+    <change idref="t13" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
+    <change idref="t13" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
+    <change idref="t13" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
+    <change idref="t13" attribute="title" type="string" from="个人信息" to="用户相关" resolved="yes"/>
+    <change idref="t13" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
+    <change idref="t13" attribute="staticCost" type="real" from="0" resolved="yes"/>
+    <change idref="t13" attribute="effort" type="real" from="28800" resolved="yes"/>
+    <change idref="t13" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
+    <change idref="t13" attribute="scheduleType" type="real" from="0" resolved="yes"/>
+    <change idref="t13" attribute="internalAssignments" type="string" from="" resolved="yes"/>
+    <change idref="t13" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
+    <change idref="t13" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
+    <change idref="t38" to="t13" to-position="0" resolved="yes">
+      <change idref="t38" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t38" attribute="title" type="string" to="登陆注册策划"/>
+    </change>
+    <change idref="t39" to="t13" to-position="1" resolved="yes">
+      <change idref="t39" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t39" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t39" attribute="title" type="string" to="登陆注册开发"/>
+    </change>
+    <change idref="t40" to="t13" to-position="2" resolved="yes">
+      <change idref="t40" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t40" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t40" attribute="title" type="string" to="个人信息策划"/>
+    </change>
+    <change idref="t41" to="t13" to-position="3" resolved="yes">
+      <change idref="t41" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t41" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t41" attribute="title" type="string" to="个人信息开发"/>
+    </change>
+    <change idref="t35" attribute="title" type="string" from="任务 1" to="画廊列表研发" resolved="yes"/>
+    <change idref="t35" attribute="effort" type="real" from="28800" to="144000" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-07T04:18:03.005Z" timestamp="2013-08-07T04:18:03.005Z">
+    <change idref="t42" to="t-1" to-position="6" resolved="yes">
+      <change idref="t42" attribute="isGroup" type="real" from="0" to="1"/>
+      <change idref="t42" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t42" attribute="taskType" type="real" from="0" to="2"/>
+      <change idref="t42" attribute="title" type="string" to="商店"/>
+    </change>
+    <change idref="t9" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t9" attribute="internalPrerequisitesString" type="string" to="27FS" resolved="yes"/>
+    <change idref="t9" attribute="resourceLeveledDate" type="date" to="2013-09-19T00:00:00.000Z" resolved="yes"/>
+    <change idref="t15" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t15" attribute="resourceLeveledDate" type="date" to="2013-08-06T00:00:00.000Z" resolved="yes"/>
+    <change idref="t16" attribute="resourceLeveledDate" type="date" from="2013-08-06T00:00:00.000Z" to="2013-08-23T00:00:00.000Z" resolved="yes"/>
+    <change idref="t16" attribute="internalPrerequisitesString" type="string" to="31FS" resolved="yes"/>
+    <change idref="t18" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t18" attribute="internalPrerequisitesString" type="string" to="29FS" resolved="yes"/>
+    <change idref="t18" attribute="resourceLeveledDate" type="date" to="2013-08-08T00:00:00.000Z" resolved="yes"/>
+    <change idref="t19" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t19" attribute="internalPrerequisitesString" type="string" to="16FS" resolved="yes"/>
+    <change idref="t19" attribute="resourceLeveledDate" type="date" to="2013-08-26T00:00:00.000Z" resolved="yes"/>
+    <change idref="t20" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t20" attribute="internalPrerequisitesString" type="string" to="18FS" resolved="yes"/>
+    <change idref="t20" attribute="resourceLeveledDate" type="date" to="2013-08-15T00:00:00.000Z" resolved="yes"/>
+    <change idref="t21" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t21" attribute="internalPrerequisitesString" type="string" to="46FS" resolved="yes"/>
+    <change idref="t21" attribute="resourceLeveledDate" type="date" to="2013-10-16T00:00:00.000Z" resolved="yes"/>
+    <change idref="t22" attribute="effort" type="real" from="14400" to="28800" resolved="yes"/>
+    <change idref="t22" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t22" attribute="internalPrerequisitesString" type="string" to="43FS" resolved="yes"/>
+    <change idref="t22" attribute="resourceLeveledDate" type="date" to="2013-08-26T00:00:00.000Z" resolved="yes"/>
+    <change idref="t24" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t24" attribute="internalPrerequisitesString" type="string" to="19FS" resolved="yes"/>
+    <change idref="t24" attribute="resourceLeveledDate" type="date" to="2013-08-27T00:00:00.000Z" resolved="yes"/>
+    <change idref="t25" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t25" attribute="internalPrerequisitesString" type="string" to="24FS" resolved="yes"/>
+    <change idref="t25" attribute="resourceLeveledDate" type="date" to="2013-08-28T00:00:00.000Z" resolved="yes"/>
+    <change idref="t26" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t26" attribute="internalPrerequisitesString" type="string" to="25FS" resolved="yes"/>
+    <change idref="t26" attribute="resourceLeveledDate" type="date" to="2013-09-11T00:00:00.000Z" resolved="yes"/>
+    <change idref="t27" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t27" attribute="internalPrerequisitesString" type="string" to="26FS" resolved="yes"/>
+    <change idref="t27" attribute="resourceLeveledDate" type="date" to="2013-09-18T00:00:00.000Z" resolved="yes"/>
+    <change idref="t29" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t29" attribute="resourceLeveledDate" type="date" to="2013-08-06T00:00:00.000Z" resolved="yes"/>
+    <change idref="t30" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t30" attribute="internalPrerequisitesString" type="string" to="32FS" resolved="yes"/>
+    <change idref="t30" attribute="resourceLeveledDate" type="date" to="2013-08-08T00:00:00.000Z" resolved="yes"/>
+    <change idref="t31" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t31" attribute="internalPrerequisitesString" type="string" to="20FS" resolved="yes"/>
+    <change idref="t31" attribute="resourceLeveledDate" type="date" to="2013-08-20T00:00:00.000Z" resolved="yes"/>
+    <change idref="t32" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t32" attribute="internalPrerequisitesString" type="string" to="15FS" resolved="yes"/>
+    <change idref="t32" attribute="resourceLeveledDate" type="date" to="2013-08-07T00:00:00.000Z" resolved="yes"/>
+    <change idref="t33" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t33" attribute="internalPrerequisitesString" type="string" to="9FS" resolved="yes"/>
+    <change idref="t33" attribute="resourceLeveledDate" type="date" to="2013-09-20T00:00:00.000Z" resolved="yes"/>
+    <change idref="t34" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t34" attribute="internalPrerequisitesString" type="string" to="30FS" resolved="yes"/>
+    <change idref="t34" attribute="resourceLeveledDate" type="date" to="2013-08-12T00:00:00.000Z" resolved="yes"/>
+    <change idref="t35" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t35" attribute="internalPrerequisitesString" type="string" to="33FS" resolved="yes"/>
+    <change idref="t35" attribute="resourceLeveledDate" type="date" to="2013-09-24T00:00:00.000Z" resolved="yes"/>
+    <change idref="t36" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t36" attribute="internalPrerequisitesString" type="string" to="35FS" resolved="yes"/>
+    <change idref="t36" attribute="resourceLeveledDate" type="date" to="2013-10-01T00:00:00.000Z" resolved="yes"/>
+    <change idref="t37" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t37" attribute="internalPrerequisitesString" type="string" to="36FS" resolved="yes"/>
+    <change idref="t37" attribute="resourceLeveledDate" type="date" to="2013-10-02T00:00:00.000Z" resolved="yes"/>
+    <change idref="t38" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t38" attribute="internalPrerequisitesString" type="string" to="34FS" resolved="yes"/>
+    <change idref="t38" attribute="resourceLeveledDate" type="date" to="2013-08-14T00:00:00.000Z" resolved="yes"/>
+    <change idref="t39" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t39" attribute="internalPrerequisitesString" type="string" to="37FS" resolved="yes"/>
+    <change idref="t39" attribute="resourceLeveledDate" type="date" to="2013-10-04T00:00:00.000Z" resolved="yes"/>
+    <change idref="t40" attribute="internalAssignments" type="string" from="" to="1" resolved="yes"/>
+    <change idref="t40" attribute="internalPrerequisitesString" type="string" to="38FS" resolved="yes"/>
+    <change idref="t40" attribute="resourceLeveledDate" type="date" to="2013-08-15T00:00:00.000Z" resolved="yes"/>
+    <change idref="t41" attribute="internalAssignments" type="string" from="" to="2" resolved="yes"/>
+    <change idref="t41" attribute="internalPrerequisitesString" type="string" to="39FS" resolved="yes"/>
+    <change idref="t41" attribute="resourceLeveledDate" type="date" to="2013-10-08T00:00:00.000Z" resolved="yes"/>
+    <change idref="t44" to="t42" to-position="0" resolved="yes">
+      <change idref="t44" attribute="effort" type="real" from="28800" to="86400"/>
+      <change idref="t44" attribute="internalAssignments" type="string" from="" to="1"/>
+      <change idref="t44" attribute="internalPrerequisitesString" type="string" to="40FS"/>
+      <change idref="t44" attribute="resourceLeveledDate" type="date" to="2013-08-19T00:00:00.000Z"/>
+      <change idref="t44" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t44" attribute="title" type="string" to="数据策划"/>
+    </change>
+    <change idref="t43" to="t42" to-position="1" resolved="yes">
+      <change idref="t43" attribute="effort" type="real" from="28800" to="57600"/>
+      <change idref="t43" attribute="internalAssignments" type="string" from="" to="1"/>
+      <change idref="t43" attribute="internalPrerequisitesString" type="string" to="44FS"/>
+      <change idref="t43" attribute="resourceLeveledDate" type="date" to="2013-08-22T00:00:00.000Z"/>
+      <change idref="t43" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t43" attribute="title" type="string" to="界面策划"/>
+    </change>
+    <change idref="t45" to="t42" to-position="2" resolved="yes">
+      <change idref="t45" attribute="internalAssignments" type="string" from="" to="2"/>
+      <change idref="t45" attribute="internalPrerequisitesString" type="string" to="41FS"/>
+      <change idref="t45" attribute="resourceLeveledDate" type="date" to="2013-10-10T00:00:00.000Z"/>
+      <change idref="t45" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t45" attribute="title" type="string" to="商店列表"/>
+    </change>
+    <change idref="t46" to="t42" to-position="3" resolved="yes">
+      <change idref="t46" attribute="effort" type="real" from="28800" to="86400"/>
+      <change idref="t46" attribute="internalAssignments" type="string" from="" to="2"/>
+      <change idref="t46" attribute="internalPrerequisitesString" type="string" to="45FS"/>
+      <change idref="t46" attribute="resourceLeveledDate" type="date" to="2013-10-11T00:00:00.000Z"/>
+      <change idref="t46" attribute="startConstraintDate" type="date" to="2013-08-07T00:00:00.000Z"/>
+      <change idref="t46" attribute="title" type="string" to="商品详情"/>
+    </change>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-07T04:20:47.454Z" timestamp="2013-08-07T04:20:47.454Z">
+    <change idref="t9" attribute="resourceLeveledDate" type="date" from="2013-09-19T00:00:00.000Z" to="2013-09-22T00:00:00.000Z" resolved="yes"/>
+    <change idref="t21" attribute="resourceLeveledDate" type="date" from="2013-10-16T00:00:00.000Z" to="2013-10-23T00:00:00.000Z" resolved="yes"/>
+    <change idref="t33" attribute="resourceLeveledDate" type="date" from="2013-09-20T00:00:00.000Z" to="2013-09-23T00:00:00.000Z" resolved="yes"/>
+    <change idref="t35" attribute="resourceLeveledDate" type="date" from="2013-09-24T00:00:00.000Z" to="2013-09-25T00:00:00.000Z" resolved="yes"/>
+    <change idref="t36" attribute="resourceLeveledDate" type="date" from="2013-10-01T00:00:00.000Z" to="2013-10-09T00:00:00.000Z" resolved="yes"/>
+    <change idref="t37" attribute="resourceLeveledDate" type="date" from="2013-10-02T00:00:00.000Z" to="2013-10-10T00:00:00.000Z" resolved="yes"/>
+    <change idref="t39" attribute="resourceLeveledDate" type="date" from="2013-10-04T00:00:00.000Z" to="2013-10-12T00:00:00.000Z" resolved="yes"/>
+    <change idref="t41" attribute="resourceLeveledDate" type="date" from="2013-10-08T00:00:00.000Z" to="2013-10-15T00:00:00.000Z" resolved="yes"/>
+    <change idref="t45" attribute="resourceLeveledDate" type="date" from="2013-10-10T00:00:00.000Z" to="2013-10-17T00:00:00.000Z" resolved="yes"/>
+    <change idref="t46" attribute="resourceLeveledDate" type="date" from="2013-10-11T00:00:00.000Z" to="2013-10-18T00:00:00.000Z" resolved="yes"/>
+  </task-change-set>
+  <resource-change-set user="mani" date="2013-08-06T10:01:32.926Z" timestamp="2013-08-06T10:01:32.926Z">
+    <change idref="r2" to="r-1" to-position="1" resolved="yes">
+      <change idref="r2" attribute="name" type="string" to="阿毅"/>
+    </change>
+    <change idref="r3" to="r-1" to-position="2" resolved="yes">
+      <change idref="r3" attribute="name" type="string" to="夏贝"/>
+    </change>
+    <change idref="r1" attribute="name" type="string" from="资源 1" to="志泽" resolved="yes"/>
+  </resource-change-set>
+  <resource-change-set user="mani" date="2013-08-07T04:20:47.452Z" timestamp="2013-08-07T04:20:47.452Z">
+    <change idref="r-1" attribute="overtimeString" type="string" from="" to="4647,28800,4647,61200,,;4654,28800,4654,61200,,;4667,28800,4667,61200,," resolved="yes"/>
+    <change idref="r-1" attribute="timeOffString" type="string" from="" to="4644,28800,4645,61200,,;4655,28800,4659,61200,,;4662,28800,4662,61200,," resolved="yes"/>
+  </resource-change-set>
+  <metadata-change-set user="Pamakids" date="2013-08-06T09:41:38.157Z" timestamp="2013-08-06T09:41:38.157Z">
+    <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-06T00:00:00.000Z" resolved="yes"/>
+  </metadata-change-set>
+  <metadata-change-set user="mani" date="2013-08-07T04:18:03.002Z" timestamp="2013-08-07T04:18:03.002Z">
+    <change idref="m1" attribute="scheduleGranularity" type="real" from="0" to="2" resolved="yes"/>
+  </metadata-change-set>
+  <metadata-change-set user="mani" date="2013-08-07T04:21:06.423Z" timestamp="2013-08-07T04:21:06.423Z">
+    <change idref="m1" attribute="baselineInfo" type="dict" from="{
+    info =     (
+    );
+}" to="{
+    info =     (
+                {
+            name = &quot;Baseline 13-8-7&quot;;
+            uuid = hHP6bCPbvwZ;
+        }
+    );
+}" resolved="yes"/>
+  </metadata-change-set>
+</changelog>
