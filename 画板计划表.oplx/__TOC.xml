@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <omniplan xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
-  <window x="4" y="0" w="1436" h="878">
+  <window x="3" y="0" w="1436" h="878">
     <editing-scenario>kWX_R7iRWd2</editing-scenario>
     <comparison-scenario>hHP6bCPbvwZ</comparison-scenario>
     <view>task</view>
@@ -12,15 +12,16 @@
       <outline x="0" y="0" w="713" h="774">
         <column name="Violations" width="20"/>
         <column name="Notes" width="20"/>
-        <column name="Title" width="214"/>
+        <column name="Title" width="159"/>
         <column name="Effort" width="70"/>
-        <column name="Assigned" width="82"/>
-        <column name="Dependents" width="98"/>
-        <column name="Start" width="100"/>
-        <column name="End" width="100"/>
-        <expanded-items idrefs="t17 t1 t10 t7 t42 t13 t11 t14"/>
+        <column name="Assigned" width="69"/>
+        <column name="Dependents" width="87"/>
+        <column name="Start" width="93"/>
+        <column name="End" width="76"/>
+        <column name="%Done" width="87"/>
+        <expanded-items idrefs="t17 t1 t10 t7 t13 t42 t11 t14"/>
         <expanded-item-notes idrefs="t1 t13 t10 t7 t11"/>
-        <selected-items-at-filter-time idrefs="t26 t45 t13 t32 t9 t27 t46 t14 t33 t20 t15 t34 t21 t29 t40 t16 t35 t22 t41 t17 t36 t23 t42 t10 t18 t37 t24 t43 t11 t19 t30 t38 t25 t44 t12 t31 t39 t7"/>
+        <selected-items-at-filter-time idrefs="t26 t45 t13 t32 t9 t27 t46 t14 t33 t20 t15 t34 t21 t29 t40 t16 t35 t22 t41 t17 t36 t23 t42 t10 t18 t37 t24 t43 t11 t19 t30 t38 t25 t44 t31 t39 t7"/>
       </outline>
       <gantt-view x="-45" y="0" w="722" h="774">
         <view-mode>actual</view-mode>
@@ -67,7 +68,7 @@
     </task-view>
     <resource-view>
       <split-view-divider-position>306</split-view-divider-position>
-      <outline x="0" y="0" w="306" h="643">
+      <outline x="0" y="0" w="306" h="774">
         <column name="IM" width="20"/>
         <column name="Notes" width="20"/>
         <column name="Type" width="49"/>
@@ -75,7 +76,7 @@
         <column name="#" width="75"/>
         <selected-items-at-filter-time idrefs="r3 r2"/>
       </outline>
-      <timeline x="-79" y="0" w="564" h="643">
+      <timeline x="-79" y="0" w="1101" h="774">
         <task-bar-label task-type="group" position="left">
           <key>Title</key>
         </task-bar-label>
@@ -117,7 +118,7 @@
     </resource-view>
     <calendar>
       <split-view-divider-position>290</split-view-divider-position>
-      <outline x="0" y="0" w="290" h="594">
+      <outline x="0" y="0" w="290" h="743">
         <column name="IM" width="20"/>
         <column name="Notes" width="20"/>
         <column name="Type" width="49"/>
