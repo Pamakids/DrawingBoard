@@ -179,7 +179,7 @@
   </task-change-set>
   <task-change-set user="mani" date="2013-08-07T04:00:37.479Z" timestamp="2013-08-07T04:00:37.479Z">
     <change idref="t12" from="t-1" from-position="5" resolved="yes">
-      <change idref="t12" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgXHVwMCBcbm9zdXBlcnN1YiBcdWxub25lIFxvYmxpcXVlbmVzczAgXGV4cGFuc2lvbjAgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ=="/>
+      <change idref="t12" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ=="/>
       <change idref="t12" attribute="title" type="string" to="观看作品"/>
     </change>
     <change idref="t36" to="t11" to-position="2" resolved="yes">
@@ -348,6 +348,12 @@
     <change idref="t41" attribute="resourceLeveledDate" type="date" from="2013-10-08T00:00:00.000Z" to="2013-10-15T00:00:00.000Z" resolved="yes"/>
     <change idref="t45" attribute="resourceLeveledDate" type="date" from="2013-10-10T00:00:00.000Z" to="2013-10-17T00:00:00.000Z" resolved="yes"/>
     <change idref="t46" attribute="resourceLeveledDate" type="date" from="2013-10-11T00:00:00.000Z" to="2013-10-18T00:00:00.000Z" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-07T10:43:54.268Z" timestamp="2013-08-07T10:43:54.268Z">
+    <change idref="t32" attribute="internalEffortDone" type="real" from="0" to="23039.99862670898" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-07T13:25:29.726Z" timestamp="2013-08-07T13:25:29.726Z">
+    <change idref="t18" attribute="internalEffortDone" type="real" from="0" to="14399.99914169312" resolved="yes"/>
   </task-change-set>
   <resource-change-set user="mani" date="2013-08-06T10:01:32.926Z" timestamp="2013-08-06T10:01:32.926Z">
     <change idref="r2" to="r-1" to-position="1" resolved="yes">
