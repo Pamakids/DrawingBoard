@@ -402,7 +402,7 @@
     <title>滚动组件</title>
     <leveled-start>2013-08-08T00:00:00.000Z</leveled-start>
     <effort>144000</effort>
-    <effort-done>14399.9991416931</effort-done>
+    <effort-done>43199.9974250793</effort-done>
     <prerequisite-task idref="t29"/>
     <assignment idref="r2"/>
   </task>
@@ -490,7 +490,7 @@
     <title>策划完善</title>
     <leveled-start>2013-08-07T00:00:00.000Z</leveled-start>
     <effort>28800</effort>
-    <effort-done>23039.998626709</effort-done>
+    <effort-done>23039.998046875</effort-done>
     <prerequisite-task idref="t15"/>
     <assignment idref="r1"/>
   </task>

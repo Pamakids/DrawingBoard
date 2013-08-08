@@ -355,6 +355,9 @@
   <task-change-set user="mani" date="2013-08-07T13:25:29.726Z" timestamp="2013-08-07T13:25:29.726Z">
     <change idref="t18" attribute="internalEffortDone" type="real" from="0" to="14399.99914169312" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-08-08T10:56:03.292Z" timestamp="2013-08-08T10:56:03.292Z">
+    <change idref="t18" attribute="internalEffortDone" type="real" from="14399.9990234375" to="43199.99742507935" resolved="yes"/>
+  </task-change-set>
   <resource-change-set user="mani" date="2013-08-06T10:01:32.926Z" timestamp="2013-08-06T10:01:32.926Z">
     <change idref="r2" to="r-1" to-position="1" resolved="yes">
       <change idref="r2" attribute="name" type="string" to="阿毅"/>
