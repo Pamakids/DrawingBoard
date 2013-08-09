@@ -56,7 +56,7 @@ public class Fusion extends SmoothProxy {
 	}
 	
 	public function get numElement() : int { 
-		return m_view.m_numElement 
+		return m_numElement 
 	}
 	
 	public function get position() : int {
@@ -75,7 +75,7 @@ public class Fusion extends SmoothProxy {
 		cc = c as ComponentProxy
 		this.doValidate(cc)
 		this.layoutElement(cc, gapX, gapY, horizLayout, vertiLayout)
-		m_view.addChild(cc.shell)
+		this.doRender(cc, -1)
 	}
 	
 	public function addElementAt( c:IComponent, index:int = -1, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
@@ -84,12 +84,7 @@ public class Fusion extends SmoothProxy {
 		cc = c as ComponentProxy
 		this.doValidate(cc)
 		this.layoutElement(cc, gapX, gapY, horizLayout, vertiLayout)
-		if (index == -1) {
-			m_view.addChild(cc.shell)
-		}
-		else {
-			m_view.addChildAt(cc.shell, index >= 0 ? index : m_view.numChildren + index + 1)
-		}	
+		this.doRender(cc, index)
 	}
 	
 	public function getElementAt( index:int ) : IComponent {
@@ -101,7 +96,27 @@ public class Fusion extends SmoothProxy {
 	}
 	
 	public function removeAllElement() : void {
-		m_view.removeAllElement();
+		var l:int
+		
+		m_view.removeChildren()
+		l = m_numElement
+		while (--l > -1) {
+			m_elementList[l].dispose()
+		}
+		m_elementList.length = m_numElement = 0
+	}
+	
+	agony_internal function removeElement( c:IComponent ) : void {
+		var index:int
+		
+		index                 =  m_elementList.indexOf(c)
+		m_elementList[index]  =  m_elementList[--m_numElement]
+		m_elementList.pop()
+	}
+	
+	override agony_internal function dispose() : void {
+		this.removeAllElement()
+		super.dispose()
 	}
 	
 	final override agony_internal function get view() : Component { 
@@ -122,16 +137,15 @@ public class Fusion extends SmoothProxy {
 		else {
 			m_internalTransform = smoothing
 		}
-		elementList = m_view.m_elementList 
-		l = m_view.m_numElement
+		l = m_numElement
 		if (!m_externalTransform && !m_internalTransform) {
 			while (--l > -1) {
-				elementList[l].makeTransform(false, true)
+				m_elementList[l].makeTransform(false, true)
 			}
 		}
 		else {
 			while (--l > -1) {
-				elementList[l].makeTransform(true, true);
+				m_elementList[l].makeTransform(true, true);
 			}
 		}
 	}
@@ -144,7 +158,7 @@ public class Fusion extends SmoothProxy {
 			Logger.reportError(this, "addElementAt", "a comp has added to fusion...!!")
 		}
 		cc.m_parent = m_view
-		m_view.m_elementList[m_view.m_numElement++] = cc
+		m_elementList[m_numElement++] = cc
 		if (m_externalTransform || m_internalTransform) {
 			cc.makeTransform(true, true)
 		}
@@ -290,7 +304,18 @@ public class Fusion extends SmoothProxy {
 		m_bb = aa
 	}
 	
+	agony_internal function doRender( cc:ComponentProxy, index:int ) : void {
+		if (index == -1) {
+			m_view.addChild(cc.shell)
+		}
+		else {
+			m_view.addChildAt(cc.shell, index >= 0 ? index : m_view.numChildren + index + 1)
+		}	
+	}
+	
 	agony_internal var m_view:FusionComp
 	agony_internal var m_bb:ComponentProxy
+	agony_internal var m_elementList:Array = []
+	agony_internal var m_numElement:int
 }
 }

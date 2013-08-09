@@ -237,7 +237,7 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	
 	public function kill() : void {
 		if(m_parent) {
-			m_parent.removeElement(this)
+			(m_parent.m_proxy as Fusion).removeElement(this)
 		}
 		this.dispose()
 	}	

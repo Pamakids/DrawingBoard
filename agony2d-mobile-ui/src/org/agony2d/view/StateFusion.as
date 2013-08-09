@@ -10,7 +10,7 @@ public class StateFusion extends PivotFusion {
 			m_state.exit()
 			m_shell.reset()
 			m_view.m_notifier.removeAll()
-			m_view.removeAllElement()
+			this.removeAllElement()
 			m_state = null
 		}
 		if (stateType) {

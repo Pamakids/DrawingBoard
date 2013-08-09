@@ -5,6 +5,9 @@ package assets
 public class AssetsUI
 {
 	
+	[Embed(source="data/02.png")]
+	public static var two:Class
+	
 	
 	[Embed(source="data/cursor.png")]
 	public static var cursor:Class

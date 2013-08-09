@@ -41,6 +41,7 @@ public class NineScaleUIState extends UIState
 		nineScale.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
 			trace(nineScale.x, nineScale.y)
 		})
+		TweenLite.from(nineScale, 2, {x : 600, y:50})
 		nineScale.addEventListener(AEvent.PRESS, __onStartDrag, 80)
 		//TweenLite.to(nineScale, 2, { width:300 , height:200 })
 		
@@ -48,7 +49,7 @@ public class NineScaleUIState extends UIState
 	
 	override public function exit():void
 	{
-		//TweenLite.killTweensOf(nineScale)
+		TweenLite.killTweensOf(nineScale)
 		NineScalePuppet.removeNineScaleData('nineScaleA')
 		
 		//AgonyUI.fusion.removeEventListener(AEvent.PRESS,   __onMouse)
