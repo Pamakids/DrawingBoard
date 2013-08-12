@@ -15,6 +15,7 @@ package states
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Button;
 	import org.agony2d.view.Fusion;
+	import org.agony2d.view.GridScrollFusion;
 	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.LabelButton;
 	import org.agony2d.view.enum.LayoutType;
@@ -27,7 +28,7 @@ package states
 public class ScrollFusionUIState extends UIState
 {
 	
-	private var numImage:int = 64
+	private var numImage:int = 2500
 	private const gapX:int = 150
 	private const gapY:int = 190;
 	
@@ -47,7 +48,7 @@ public class ScrollFusionUIState extends UIState
 		var img:ImageButton
 		
 		// 滚动合体
-		mScrollFusion = new ScrollThumbFusion(400, 400)
+		mScrollFusion = new GridScrollFusion(400, 400, 80, 100)
 		mScrollFusion.x = 200
 		mScrollFusion.y = 80
 		this.fusion.addElement(mScrollFusion)
@@ -65,10 +66,9 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion.limitBottom = true
 		mScrollFusion.limitLeft = true
 		mScrollFusion.limitRight = true
-		mScrollFusion.contentWidth = 2540
-		mScrollFusion.contentHeight = 1000
+		mScrollFusion.contentWidth = 3540
+		mScrollFusion.contentHeight = 3000
 		
-		// 滚动条
 		var FA:Fusion = mScrollFusion.getHorizThumb('scroll', 400, 10)
 		FA.x = 200
 		FA.y = 480
@@ -85,7 +85,7 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion.addEventListener(AEvent.TOP, traceDirection)
 		mScrollFusion.addEventListener(AEvent.BOTTOM, traceDirection)
 		
-/*		mScrollFusion.addEventListener(AEvent.BEGINNING, function(e:AEvent):void
+		/*mScrollFusion.addEventListener(AEvent.BEGINNING, function(e:AEvent):void
 		{
 			Logger.reportMessage(mScrollFusion, AEvent.BEGINNING)
 			TweenLite.killTweensOf(content)
@@ -104,8 +104,8 @@ public class ScrollFusionUIState extends UIState
 		{
 			correctionX = mScrollFusion.correctionX
 			correctionY = mScrollFusion.correctionY
-			velocityX = TouchManager.getInstance().primaryTouch.velocityX
-			velocityY = TouchManager.getInstance().primaryTouch.velocityY
+			velocityX = AgonyUI.currTouch.velocityX
+			velocityY = AgonyUI.currTouch.velocityY
 			//Logger.reportMessage(mScrollFusion, TouchManager.getInstance().primaryTouch.velocityX + ' | ' + TouchManager.getInstance().primaryTouch.velocityY)
 			if (correctionX != 0 || correctionY != 0)
 			{
@@ -125,7 +125,8 @@ public class ScrollFusionUIState extends UIState
 											correctionY = mScrollFusion.correctionY
 											if (correctionX != 0 || correctionY != 0)
 											{
-												content.offset(correctionX, correctionY)
+												content.x += correctionX
+												content.y += correctionY
 												//TweenLite.killTweensOf(content)
 											}
 											mScrollFusion.updateAllThumbs()
@@ -146,8 +147,8 @@ public class ScrollFusionUIState extends UIState
 		{
 			IP = new ImagePuppet(5)
 			IP.embed(AssetsUI.AT_defaultImg)
-			IP.x = (i % 20) * gapX + IP.width / 2
-			IP.y = int(i / 20) * gapY + IP.height / 2 + 60
+			IP.x = (i % 50) * gapX + IP.width / 2
+			IP.y = int(i / 50) * gapY + IP.height / 2 + 60
 			content.addElement(IP)
 			
 			IP.addEventListener(AEvent.CLICK, function(e:AEvent):void
@@ -200,7 +201,7 @@ public class ScrollFusionUIState extends UIState
 		TweenLite.killTweensOf(mScrollFusion.content)
 	}
 	
-	private var mScrollFusion:ScrollThumbFusion
+	private var mScrollFusion:GridScrollFusion
 	
 	private function traceDirection(e:AEvent):void
 	{

@@ -19,6 +19,14 @@ public class Grid extends Notifier {
 		
 	}
 	
+	public function get tileX() : int {
+		return (m_index & 0xFFFF) - TILE_OFFSET
+	}
+	
+	public function get tileY() : int {
+		return (m_index >> 16) - TILE_OFFSET
+	}
+	
 	internal var visible:Boolean
 	
 	internal function addToStage( d:DisplayObjectContainer ) : void {
@@ -30,7 +38,10 @@ public class Grid extends Notifier {
 			d.addChild(cc.shell)
 		}
 		this.visible = true
-		this.dispatchDirectEvent(AEvent.ENTER_STAGE)
+		if (m_elementLength) {
+			this.dispatchDirectEvent(AEvent.ENTER_STAGE)
+			//trace("[ add to stage ] tileX: " + this.tileX, "tileY: " + this.tileY)
+		}
 	}
 	
 	internal function removeFromStage( d:DisplayObjectContainer ) : void {
@@ -42,7 +53,10 @@ public class Grid extends Notifier {
 			d.removeChild(cc.shell)
 		}
 		this.visible = false
-		this.dispatchDirectEvent(AEvent.EXIT_STAGE)
+		if (m_elementLength) {
+			this.dispatchDirectEvent(AEvent.EXIT_STAGE)
+			//trace("[ remove from stage ] tileX: " + this.tileX, "tileY: " + this.tileY)
+		}
 	}
 	
 	internal function removeElement( c:IComponent ) : void {
@@ -65,8 +79,10 @@ public class Grid extends Notifier {
 	
 	private static var cachedGridList:Array = []
 	private static var cachedGridLength:int
+	private static const TILE_OFFSET:int = 8000
 	
 	internal var m_elementList:Array = []
 	internal var m_elementLength:int
+	internal var m_index:int
 }
 }

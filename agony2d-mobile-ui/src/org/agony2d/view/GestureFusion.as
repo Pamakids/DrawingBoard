@@ -1,6 +1,8 @@
 package org.agony2d.view {
 	import flash.geom.Point;
+	
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
 	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
@@ -106,12 +108,17 @@ public class GestureFusion extends PivotFusion {
 			//cachedAngle = Math.atan2(touchB.stageY - touchA.stageY, touchB.stageX - touchA.stageX)
 			cachedDist = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
 			if(m_gestureType & MOVEMENT) {
-				this.setPivot((touchA.stageX + touchB.stageX) * .5, (touchA.stageY + touchB.stageY) * .5, true)
+				this.setPivot((touchA.stageX + touchB.stageX) * .5 / m_pixelRatio, (touchA.stageY + touchB.stageY) * .5 / m_pixelRatio, true)
 			}
 			// 非移动时锁定合体画像中心...
 			else{
 				this.setPivot(this.width * .5, this.height * .5)
 			}
+			trace("[ pivot ]", touchA, touchB)
+		}
+		else {
+			touchA = m_touchList[0]
+			this.setPivot(touchA.stageX / m_pixelRatio, touchA.stageY / m_pixelRatio, true)
 		}
 	}
 	
@@ -122,8 +129,8 @@ public class GestureFusion extends PivotFusion {
 		if (m_numTouchs == 1) {
 			if(m_gestureType & MOVEMENT) {
 				touchA = e.target as Touch
-				this.x += touchA.stageX - touchA.prevStageX
-				this.y += touchA.stageY - touchA.prevStageY
+				this.x += (touchA.stageX - touchA.prevStageX) / m_pixelRatio
+				this.y += (touchA.stageY - touchA.prevStageY) / m_pixelRatio
 				if (!m_gestureHappened) {
 					this.view.m_notifier.dispatchDirectEvent(AEvent.START_DRAG)
 					m_gestureHappened = true
@@ -140,7 +147,7 @@ public class GestureFusion extends PivotFusion {
 				m_gestureHappened = true
 			}
 			if (m_gestureType & MOVEMENT) {
-				this.setGlobalCoord((touchA.stageX + touchB.stageX) * .5, (touchA.stageY + touchB.stageY) * .5)
+				this.setGlobalCoord((touchA.stageX + touchB.stageX) * .5 / m_pixelRatio, (touchA.stageY + touchB.stageY) * .5 / m_pixelRatio)
 				this.view.m_notifier.dispatchDirectEvent(AEvent.DRAGGING)
 //				Logger.reportMessage(view.m_cid, 'movement')
 			}

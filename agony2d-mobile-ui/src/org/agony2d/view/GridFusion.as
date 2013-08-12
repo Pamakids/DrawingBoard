@@ -1,25 +1,29 @@
 package org.agony2d.view {
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
 	import org.agony2d.view.core.ComponentProxy;
 	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.core.UIManager;
+	import org.agony2d.view.puppet.SpritePuppet;
 	
 	use namespace agony_internal;
 	
-public class GridFusion extends Fusion {
+public class GridFusion extends PivotFusion {
 	
 	public function GridFusion( viewX:Number, viewY:Number, viewWidth:Number, viewHeight:Number, gridWidth:int, gridHeight:int ) {
+		if (viewWidth <= 0 && viewWidth <= 0) {
+			Logger.reportError(this, 'constructor', '视域尺寸错误...!!')
+		}
 		m_viewX = viewX
 		m_viewY = viewY
 		m_viewWidth = viewWidth
 		m_viewHeight = viewHeight
 		m_gridWidth = gridWidth
 		m_gridHeight = gridHeight
-		m_prevLeft = m_prevTop = m_prevRight = m_prevBottom = int.MIN_VALUE
 		m_prevLeft = int(m_viewX / m_gridWidth) - 1
 		m_prevTop = int(m_viewY / m_gridHeight) - 1
-		m_prevRight = Math.ceil((m_viewX + m_viewWidth) / m_gridWidth) + 1
-		m_prevBottom = Math.ceil((m_viewY + m_viewHeight) / m_gridHeight) + 1
+		m_prevRight = int((m_viewX + m_viewWidth) / m_gridWidth) + 1
+		m_prevBottom = int((m_viewY + m_viewHeight) / m_gridHeight) + 1
 	}
 	
 	public function get viewportX() : Number {
@@ -32,23 +36,7 @@ public class GridFusion extends Fusion {
 	
 	/** 改变视域... */
 	public function setViewport( x:Number, y:Number ) : void {
-		var type:int
-		
-		if (x < m_viewX && y < m_viewY) {
-			type = LEFT_TOP
-		}
-		else if (x >= m_viewX && y < m_viewY) {
-			type = RIGHT_TOP
-		}
-		else if (x >= m_viewX && y >= m_viewY) {
-			type = RIGHT_BOTTOM
-		}
-		else if (x < m_viewX && y >= m_viewY) {
-			type = LEFT_BOTTOM
-		}
-		m_viewX = x
-		m_viewY = y
-		this.doUpdateViewport(type)
+		this.doUpdateViewport(x, y)
 	}
 	
 	override agony_internal function removeElement( c:IComponent ) : void {
@@ -79,8 +67,9 @@ public class GridFusion extends Fusion {
 		grid = m_gridMap[gridIndex]
 		if (!grid) {
 			grid = m_gridMap[gridIndex] = Grid.NewGrid()
+			grid.m_index = gridIndex
+			grid.visible = (gridX >= m_prevLeft && gridX <= m_prevRight && gridY >= m_prevTop && gridY <= m_prevBottom)
 		}
-		grid.visible = (gridX >= m_prevLeft && gridX <= m_prevRight && gridY >= m_prevTop && gridY <= m_prevBottom)
 		grid.m_elementList[grid.m_elementLength++] = cc
 		m_compMap[cc] = grid
 		if (grid.visible) {
@@ -88,135 +77,137 @@ public class GridFusion extends Fusion {
 		}
 	}
 	
-	agony_internal function doUpdateViewport( type:int ) : void {
-		var gridIndex:int, left:int, top:int, right:int, bottom:int, XA:int, XB:int, YA:int, YB:int, XAA:int, XBB:int, YAA:int, YBB:int, x:int, y:int
+	agony_internal function doUpdateViewport( NX:Number, NY:Number ) : void {
+		var type:int, gridIndex:int, left:int, top:int, right:int, bottom:int, x:int, y:int, YA:int, YB:int, YC:int, YD:int, XA:int, XB:int, YAA:int, YBB:int, YCC:int, YDD:int, XAA:int, XBB:int
 		var grid:Grid
 		
-		top = int(m_viewY / m_gridHeight) - 1
-		left = int(m_viewX / m_gridWidth) - 1
-		right = Math.ceil((m_viewX + m_viewWidth) / m_gridWidth) + 1
-		bottom = Math.ceil((m_viewY + m_viewHeight) / m_gridHeight) + 1
-		switch(type) {
-			case LEFT_TOP:
-				XA = right
-				XB = m_prevRight
-				YA = bottom
-				YB = m_prevBottom
-				XAA = left
-				XBB = m_prevLeft
-				YAA = top
-				YBB = m_prevTop
-				break
-			case RIGHT_TOP:
-				XA = m_prevLeft
-				XB = left
-				YA = bottom
-				YB = m_prevBottom
-				XAA = m_prevRight
-				XBB = right
-				YAA = top
-				YBB = m_prevTop
-				break
-			case RIGHT_BOTTOM:
-				XA = m_prevLeft
-				XB = left
+		top = int(NY / m_gridHeight) - 1
+		left = int(NX / m_gridWidth) - 1
+		right = int((NX + m_viewWidth) / m_gridWidth) + 1
+		bottom = int((NY + m_viewHeight) / m_gridHeight) + 1
+		if (top != m_prevTop || bottom != m_prevBottom || left != m_prevLeft || right != m_prevRight) {
+			if (left > m_prevRight || top > m_prevBottom || right < m_prevLeft || bottom < m_prevTop) {
+				type = EXIT
+			}
+			else if (NX < m_viewX && NY < m_viewY) {
+				type = LEFT | TOP
+			}
+			else if (NX >= m_viewX && NY < m_viewY) {
+				type = TOP
+			}
+			else if (NX < m_viewX && NY >= m_viewY) {
+				type = LEFT
+			}
+			if ( type == EXIT) {
 				YA = m_prevTop
-				YB = top
-				XAA = m_prevRight
-				XBB = right
-				YAA = m_prevBottom
+				YB = m_prevBottom
+				YAA = top
 				YBB = bottom
-				break
-			case LEFT_BOTTOM:
-				XA = right
-				XB = m_prevRight
-				YA = m_prevTop
-				YB = top
-				XAA = left
-				XBB = m_prevLeft
-				YAA = m_prevBottom
-				YBB = bottom
-				break
-		}
-		// remove existing invisible grid...
-		y = YA
-		while (y <= YB) {
-			x = m_prevLeft
-			while (x <= m_prevRight) {
-				gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
-				grid = m_gridMap[gridIndex]
-				if (grid) {
-					grid.removeFromStage(m_view)
-				}
-				x++
+				YC = YCC = 1
 			}
-			y++
-		}
-		if (type > 2) {
-			y = m_prevTop
-			YB = m_prevBottom - YB + YA
-		}
-		else {
-			y = m_prevBottom - YB + YA
-			YB = m_prevBottom
-		}
-		while (y <= YB) {
-			x = XA
-			while (x <= XB) {
-				gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
-				grid = m_gridMap[gridIndex]
-				if (grid) {
-					grid.removeFromStage(m_view)
+			else {
+				if (type & LEFT) {
+					XA = right + 1
+					XB = m_prevRight
+					XAA = left
+					XBB = m_prevLeft - 1
 				}
-				x++
-			}
-			y++
-		}
-		// add new visible grid...
-		y = YAA
-		while (y <= YBB) {
-			x = left
-			while (x <= right) {
-				gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
-				grid = m_gridMap[gridIndex]
-				if (grid) {
-					grid.addToStage(m_view)
+				else {
+					XA = m_prevLeft
+					XB = left - 1
+					XAA = m_prevRight + 1
+					XBB = right
 				}
-				x++
-			}
-			y++
-		}
-		if (type > 2) {
-			y = top
-			YBB = bottom - YBB + YAA
-		}
-		else {
-			y = bottom - YBB + YAA
-			YBB = bottom
-		}
-		while (y <= YBB) {
-			x = XAA
-			while (x <= XBB) {
-				gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
-				grid = m_gridMap[gridIndex]
-				if (grid) {
-					grid.addToStage(m_view)
+				if (type & TOP) {
+					YA = bottom + 1
+					YB = m_prevBottom
+					YC = m_prevTop
+					YD = bottom
+					YAA = top
+					YBB = m_prevTop - 1
+					YCC = m_prevTop
+					YDD = bottom
 				}
-				x++
+				else {
+					YA = m_prevTop
+					YB = top - 1
+					YC = top
+					YD = m_prevBottom
+					YAA = m_prevBottom + 1
+					YBB = bottom
+					YCC = top
+					YDD = m_prevBottom
+				}
 			}
-			y++
+			// remove existing invisible grid...
+			y = YA
+			while (y <= YB) {
+				x = m_prevLeft
+				while (x <= m_prevRight) {
+					gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
+					grid = m_gridMap[gridIndex]
+					if (grid) {
+						grid.removeFromStage(m_view)
+					}
+					x++
+				}
+				y++
+			}
+			y = YC
+			while (y <= YD) {
+				x = XA
+				while (x <= XB) {
+					gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
+					grid = m_gridMap[gridIndex]
+					if (grid) {
+						grid.removeFromStage(m_view)
+					}
+					x++
+				}
+				y++
+			}
+			// add new visible grid...
+			y = YAA
+			while (y <= YBB) {
+				x = left
+				while (x <= right) {
+					gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
+					grid = m_gridMap[gridIndex]
+					if (grid) {
+						grid.addToStage(m_view)
+					}
+					x++
+				}
+				y++
+			}
+			y = YCC
+			while (y <= YDD) {
+				x = XAA
+				while (x <= XBB) {
+					gridIndex = (y + TILE_OFFSET << 16) | x + TILE_OFFSET
+					grid = m_gridMap[gridIndex]
+					if (grid) {
+						grid.addToStage(m_view)
+					}
+					x++
+				}
+				y++
+			}
+			//trace("prev: ", m_prevLeft,m_prevRight,m_prevTop,m_prevBottom)
+			m_prevLeft = left
+			m_prevTop = top
+			m_prevRight = right
+			m_prevBottom = bottom
+			//trace("curr: ", left,right,top,bottom)
 		}
-		m_prevLeft = left
-		m_prevTop = top
-		m_prevRight = right
-		m_prevBottom = bottom
+		m_viewX = NX
+		m_viewY = NY
 	}
 	
 	agony_internal const TILE_OFFSET:int = 8000
-	agony_internal const LEFT_TOP:int = 1
-	agony_internal const RIGHT_TOP:int = 2
-	agony_internal const RIGHT_BOTTOM:int = 3
-	agony_internal const LEFT_BOTTOM:int = 4
+	agony_internal const EXIT:int = -1
+	agony_internal const LEFT:int = 1
+	agony_internal const TOP:int = 2
 	
 	agony_internal var m_prevLeft:int, m_prevTop:int, m_prevRight:int, m_prevBottom:int
 	agony_internal var m_gridMap:Object = { } // tile:all grid

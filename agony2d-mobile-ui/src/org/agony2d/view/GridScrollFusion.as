@@ -30,7 +30,7 @@ package org.agony2d.view {
 	
 	[Event(name = "bottom", type = "org.agony2d.notify.AEvent")] /** 下界限存在并到达 */
 	
-	/** 滚屏合体
+	/** [ GridScrollFusion ]
 	 *  [◆]
 	 * 		1.  limitLeft × limitRight × limitTop × limitBottom
 	 * 		2.  content
@@ -44,13 +44,15 @@ package org.agony2d.view {
 	 *  	a.  触碰 (预滚屏) → 移动 → 达到失效值 → 拖拽 (滚屏)
 	 *  	b.  双指缩放 × 拖拽时，双指中心始终锁定content中轴...
 	 */
-public class ScrollFusion extends PivotFusion {
+public class GridScrollFusion extends PivotFusion {
 	
-	public function ScrollFusion( maskWidth:Number, maskHeight:Number, locked:Boolean = false, horizDisableOffset:int = 8, vertiDisableOffset:int = 8 ) {
-		if (maskWidth <= 0 && maskHeight <= 0) {
-			Logger.reportError(this, 'constructor', '视域尺寸错误...!!')
-		}
-		m_content = new PivotFusion
+	public function GridScrollFusion( maskWidth:Number, maskHeight:Number, gridWidth:int, gridHeight:int, locked:Boolean = false, horizDisableOffset:int = 8, vertiDisableOffset:int = 8 ) {
+		var global:Point
+		
+		m_content = new GridFusion(0, 0, maskWidth, maskHeight, gridWidth, gridHeight)
+		m_content.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
+			m_content.setViewport(-m_content.x, -m_content.y)
+		})
 		this.addElementAt(m_content)
 		m_shell.scrollRect = new Rectangle(0, 0, maskWidth * m_pixelRatio, maskHeight * m_pixelRatio)
 		m_maskWidth  = m_contentWidth  = maskWidth
@@ -59,6 +61,11 @@ public class ScrollFusion extends PivotFusion {
 		m_vertiDisableOffset = vertiDisableOffset
 		m_locked = true
 		this.locked = locked
+		this.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
+			global = this.transformCoord(0, 0, false)
+			m_globalX = global.x / m_pixelRatio
+			m_globalY = global.y / m_pixelRatio
+		})
 	}
 	
 	/** 滚屏界限限制，四方向 */
@@ -84,13 +91,6 @@ public class ScrollFusion extends PivotFusion {
 				//AgonyUI.fusion.removeEventListener(AEvent.PRESS, ____onStart)
 				TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch)
 				this.stopScroll()
-				if (m_numTouchs > 0) {
-					for each(touch in m_touchList) {
-						touch.removeEventListener(AEvent.MOVE,    ____onMove)
-						touch.removeEventListener(AEvent.RELEASE, ____onRelease)
-					}
-					m_touchList.length = m_numTouchs = 0
-				}
 			}
 			else {
 				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, SCROLL_PRIORITY)
@@ -105,6 +105,9 @@ public class ScrollFusion extends PivotFusion {
 	
 	public function set contentWidth( v:Number ) : void { 
 		m_contentWidth = (v < m_maskWidth ? m_maskWidth : v)
+		if (m_horizPuppet) {
+			m_horizPuppet.width = m_maskWidth * m_maskWidth / m_contentWidth
+		}
 	}
 	
 	public function get contentHeight() : Number { 
@@ -113,9 +116,12 @@ public class ScrollFusion extends PivotFusion {
 	
 	public function set contentHeight( v:Number ) : void { 
 		m_contentHeight = (v < m_maskHeight ? m_maskHeight : v)
+		if(m_vertiPuppet) {
+			m_vertiPuppet.height = m_maskHeight * m_maskHeight / m_contentHeight
+		}
 	}
 	
-	/** 水平位置校正值 (0表示未滑出边界，其他表示滑回正常范围需要的最小坐标偏移量) */
+	/** 水平位置校正值 [ 0表示未滑出边界，其他表示滑回正常范围需要的最小坐标偏移量 ]... */
 	final public function get correctionX() : Number {
 		var value:Number
 		
@@ -129,7 +135,7 @@ public class ScrollFusion extends PivotFusion {
 		return 0
 	}
 	
-	/** 垂直位置校正值 (0表示未滑出边界，其他表示滑回正常范围需要的最小坐标偏移量) */
+	/** 垂直位置校正值 [ 0表示未滑出边界，其他表示滑回正常范围需要的最小坐标偏移量 ]... */
 	final public function get correctionY() : Number {
 		var value:Number
 		
@@ -149,6 +155,9 @@ public class ScrollFusion extends PivotFusion {
 	
 	public function set horizRatio( v:Number ) : void {
 		m_content.x = v * (m_maskWidth - m_contentWidth)
+		if (m_horizThumb) {
+			m_horizPuppet.x =  v * (m_maskWidth - m_horizPuppet.width)
+		}
 	}
 	
 	public function get vertiRatio() : Number { 
@@ -157,19 +166,60 @@ public class ScrollFusion extends PivotFusion {
 	
 	public function set vertiRatio( v:Number ) : void {
 		m_content.y = v * (m_maskHeight - m_contentHeight)
+		if (m_vertiThumb) {
+			m_vertiPuppet.y = v * (m_maskHeight - m_vertiPuppet.height)
+		}
+	}
+	
+	/** 滑块为九宫格傀儡 [ 垂直方向 ]... */
+	public function getHorizThumb( dataName:String, length:Number, width:Number = -1 ) : Fusion {
+		if (!m_horizThumb) {
+			m_horizThumb = new Fusion
+			m_horizThumb.interactive = false
+			m_horizThumb.spaceWidth = length
+			m_horizThumb.spaceHeight = width
+			m_horizPuppet = new NineScalePuppet(dataName, length * m_maskWidth / m_contentWidth, width)
+			m_horizThumb.addElementAt(m_horizPuppet)
+		}
+		return m_horizThumb
+	}
+	
+	/** 滑块为九宫格傀儡 [ 水平方向 ]... */
+	public function getVertiThumb( dataName:String, length:Number, width:Number = -1 ) : Fusion {
+		if (!m_vertiThumb) {
+			m_vertiThumb = new Fusion
+			m_vertiThumb.interactive = false
+			m_vertiThumb.spaceWidth = width
+			m_vertiThumb.spaceHeight = length
+			m_vertiPuppet = new NineScalePuppet(dataName, width, length * m_maskHeight / m_contentHeight)
+			m_vertiThumb.addElementAt(m_vertiPuppet)
+		}
+		return m_vertiThumb
 	}
 	
 	public function stopScroll() : void {
-		if (m_readyToScroll) {
-			AgonyUI.fusion.removeEventListener(AEvent.RELEASE, ____onBreak)
-			AgonyUI.fusion.removeEventListener(AEvent.MOVE,    ____onMove)
-			m_readyToScroll = false
+		var touch:Touch
+		
+		if (m_firstTouch) {
+			m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
+			m_firstTouch.removeEventListener(AEvent.MOVE,    ____onMove)
+			m_firstTouch = null
 		}
-		else if (m_scrolling) {
-			//m_content.removeEventListener(AEvent.DRAGGING,     ____onDragging)
-			AgonyUI.fusion.removeEventListener(AEvent.RELEASE, ____onRelease)
-			m_scrolling = false
-			//m_content.stopDrag(true)
+		else if (m_numTouchs > 0) {
+			for each(touch in m_touchList) {
+				touch.removeEventListener(AEvent.MOVE,    ____onMove)
+				touch.removeEventListener(AEvent.RELEASE, ____onRelease)
+			}
+			m_touchList.length = m_numTouchs = 0
+		}
+	}
+	
+	public function updateAllThumbs() : void {
+		if (m_horizThumb) {
+			m_horizPuppet.x = MathUtil.getRatioBetween(m_content.x, 0, m_maskWidth - m_contentWidth) * (m_maskWidth - m_horizPuppet.width)
+		}
+		if (m_vertiThumb) {
+			m_vertiPuppet.y = MathUtil.getRatioBetween(m_content.y, 0, m_maskHeight - m_contentHeight) * (m_maskHeight - m_vertiPuppet.height)
 		}
 	}
 	
@@ -180,10 +230,13 @@ public class ScrollFusion extends PivotFusion {
 	}
 	
 	
-	agony_internal var m_content:PivotFusion
-	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, m_oldX:Number, m_oldY:Number
+	agony_internal var m_content:GridFusion
+	agony_internal var m_horizThumb:Fusion, m_vertiThumb:Fusion
+	agony_internal var m_horizPuppet:NineScalePuppet, m_vertiPuppet:NineScalePuppet
+	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, m_globalX:Number, m_globalY:Number
 	agony_internal var m_horizDisableOffset:int, m_vertiDisableOffset:int
 	agony_internal var m_readyToScroll:Boolean, m_scrolling:Boolean, m_locked:Boolean
+	private var m_firstTouch:Touch
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
 	private const SCROLL_PRIORITY:int = 80000
@@ -192,57 +245,54 @@ public class ScrollFusion extends PivotFusion {
 	
 	protected function ____onNewTouch( e:ATouchEvent ) : void {
 		var point:Point
-		var touch:Touch
 		
-		// 准备期
-		if (!m_scrolling) {
-			if (!m_readyToScroll) {
-				point = this.transformCoord(0, 0, false)
-				touch = e.touch
-				m_oldX = m_startX = touch.stageX / m_pixelRatio
-				m_oldY = m_startY = touch.stageY / m_pixelRatio
-				if (m_startX >= point.x && m_startX <= point.x + m_maskWidth && m_startY >= point.y && m_startY <= point.y + m_maskHeight) {
-					m_readyToScroll = true
-					touch.addEventListener(AEvent.RELEASE, ____onBreak,   false, SCROLL_PRIORITY)
-					touch.addEventListener(AEvent.MOVE,    ____onPreMove, false, SCROLL_PRIORITY)
-					this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
-					//trace('NewTouch')
-				}
+		// [ none ]...[ ready ]...[ scrolling ]...
+		point = this.transformCoord(0, 0, false)
+		m_startX = e.touch.stageX / m_pixelRatio
+		m_startY = e.touch.stageY / m_pixelRatio
+		if (m_startX < m_globalX || m_startX > m_globalX + m_maskWidth || m_startY < m_globalY || m_startY > m_globalY + m_maskHeight) {
+			return
+		}
+		if (m_numTouchs == 0 && !m_firstTouch) {
+			m_firstTouch = e.touch
+			m_firstTouch.addEventListener(AEvent.RELEASE, ____onBreak,   false, SCROLL_PRIORITY)
+			m_firstTouch.addEventListener(AEvent.MOVE,    ____onPreMove, false, SCROLL_PRIORITY)
+			this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
+			//trace('first touch...')
+		}
+		else {
+			if (m_firstTouch) {
+				this.disableFirstTouch()
 			}
-			else {
-				
-			}
+			this.insertTouch(e.touch)
+			//trace('insert touch...')
 		}
 	}
 	
 	protected function ____onBreak( e:AEvent ) : void {
-		var touch:Touch
-		
-		touch = e.target as Touch
-		m_readyToScroll = false
-		touch.removeEventListener(AEvent.RELEASE, ____onBreak)
-		touch.removeEventListener(AEvent.MOVE,    ____onPreMove)
+		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
+		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
+		m_firstTouch = null
 		this.m_view.m_notifier.dispatchDirectEvent(AEvent.COMPLETE)
 	}
 	
 	protected function ____onPreMove( e:AEvent ) : void {
 		var touchX:Number, touchY:Number
-		var touch:Touch
 		
-		touch = e.target as Touch
-		touchX = touch.stageX / m_pixelRatio
-		touchY = touch.stageY / m_pixelRatio
+		touchX = m_firstTouch.stageX / m_pixelRatio
+		touchY = m_firstTouch.stageY / m_pixelRatio
 		// 当发生触摸位移差达到一定条件时，滚屏开始
-		if (Math.abs(m_oldX - m_startX) > m_horizDisableOffset || Math.abs(m_oldY - m_startY) > m_vertiDisableOffset) {
-			m_readyToScroll = false
-			m_scrolling = true
-			touch.removeEventListener(AEvent.RELEASE, ____onBreak)
-			touch.removeEventListener(AEvent.MOVE,    ____onPreMove)
-			UIManager.removeAllTouchs()
-			this.insertTouch(touch)
+		if (Math.abs(touchX - m_startX) > m_horizDisableOffset || Math.abs(touchY - m_startY) > m_vertiDisableOffset) {
+			this.disableFirstTouch()
 		}
-		m_oldX = touchX
-		m_oldY = touchY
+	}
+	
+	protected function disableFirstTouch() : void {
+		UIManager.removeAllTouchs()
+		this.insertTouch(m_firstTouch)
+		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
+		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
+		m_firstTouch = null
 	}
 	
 	protected function ____onMove( e:AEvent ) : void {
@@ -250,19 +300,18 @@ public class ScrollFusion extends PivotFusion {
 		var distA:Number
 		var global:Point
 		
-		e.stopImmediatePropagation()
 		if (m_numTouchs == 1) {
 			touchA = e.target as Touch
-			m_content.x += touchA.stageX - touchA.prevStageX
-			m_content.y += touchA.stageY - touchA.prevStageY
+			m_content.x += (touchA.stageX - touchA.prevStageX) / m_pixelRatio
+			m_content.y += (touchA.stageY - touchA.prevStageY) / m_pixelRatio
+			this.view.m_notifier.dispatchDirectEvent(AEvent.DRAGGING)
 		}
 		else {
 			touchA = m_touchList[m_numTouchs - 2]
 			touchB = m_touchList[m_numTouchs - 1]
-			m_content.setGlobalCoord((touchA.stageX + touchB.stageX) * .5, (touchA.stageY + touchB.stageY) * .5)
-			//rotationA = Math.atan2(touchB.stageY - touchA.stageY, touchB.stageX - touchA.stageX)
+			m_content.setGlobalCoord((touchA.stageX + touchB.stageX) * .5 / m_pixelRatio, (touchA.stageY + touchB.stageY) * .5 / m_pixelRatio)
+			this.view.m_notifier.dispatchDirectEvent(AEvent.DRAGGING)
 			distA = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
-			//this.rotation = cachedDegree + (rotationA - cachedRotation) * 180 / Math.PI
 			m_content.scaleX = m_content.scaleY = cachedScale * distA / cachedDist
 		}
 		if (m_content.x > 0 && limitLeft) {
@@ -293,22 +342,23 @@ public class ScrollFusion extends PivotFusion {
 			m_content.m_draggingOffsetY = m_stage.mouseY - global.y * m_pixelRatio
 			this.m_view.m_notifier.dispatchDirectEvent(AEvent.BOTTOM)
 		}
+		this.updateAllThumbs()
+		e.stopImmediatePropagation()
 	}
 	
 	private function ____onRelease( e:AEvent ) : void {
 		var index:int
 		
-		e.stopImmediatePropagation()
 		index = m_touchList.indexOf(e.target)
 		m_touchList[index] = m_touchList[--m_numTouchs]
 		m_touchList.pop()
 		if (m_numTouchs == 0) {
-			m_scrolling = false
 			this.view.m_notifier.dispatchDirectEvent(AEvent.COMPLETE)
 		}
 		else {
 			this.resetTouchs()
 		}
+		e.stopImmediatePropagation()
 	}
 	
 	private function insertTouch( touch:Touch ) : void {
@@ -321,13 +371,13 @@ public class ScrollFusion extends PivotFusion {
 	private function resetTouchs() : void {
 		var touchA:Touch, touchB:Touch
 		
-		//trace(m_numTouchs)
+		//trace("[ numTouchs ]..." + m_numTouchs)
 		if (m_numTouchs >= 2) {
 			touchA = m_touchList[m_numTouchs - 2]
 			touchB = m_touchList[m_numTouchs - 1]
 			cachedScale = this.scaleX
 			cachedDist = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
-			this.setPivot((touchA.stageX + touchB.stageX) * .5, (touchA.stageY + touchB.stageY) * .5, true)
+			m_content.setPivot((touchA.stageX + touchB.stageX) / m_pixelRatio * .5, (touchA.stageY + touchB.stageY) / m_pixelRatio * .5, true)
 		}
 	}
 }

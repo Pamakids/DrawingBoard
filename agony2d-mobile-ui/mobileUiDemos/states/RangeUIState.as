@@ -52,7 +52,7 @@ package states
 			
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, u)
 			pivot.addEventListener(AEvent.CLICK, function(e:AEvent):void {
-				pivot.setPivot(AgonyUI.currTouch.stageX, AgonyUI.currTouch.stageY, true)
+				pivot.setPivot(AgonyUI.currTouch.stageX / AgonyUI.pixelRatio, AgonyUI.currTouch.stageY / AgonyUI.pixelRatio, true)
 			})
 		}
 		

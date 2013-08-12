@@ -22,6 +22,9 @@ package states
 			var img:ImagePuppet
 			var l:int
 			
+			this.fusion.x = 50
+			this.fusion.y = 50
+			
 			mTrash = new ImagePuppet
 			mTrash.embed(AssetsCore.AT_role)
 			mTrash.x = 0
@@ -31,7 +34,7 @@ package states
 			
 			l = 20
 			while(--l > -1){
-				ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE)
+				ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
 				ges.x = 100 + 700 * Math.random()
 				ges.y = 50 + 500 * Math.random()
 				this.fusion.addElement(ges)

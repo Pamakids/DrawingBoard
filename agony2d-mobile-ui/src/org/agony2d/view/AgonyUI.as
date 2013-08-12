@@ -81,7 +81,7 @@ public class AgonyUI {
 			 "，[ fusionComp ]..."      + FusionComp.cachedFusionLength
 	}
 	
-	public static function startup( invalidWhenLeave:Boolean, debugWidth:int, debugHeight:int, landscape:Boolean = true ) : void {
+	public static function startup( invalidWhenLeave:Boolean, debugWidth:int, debugHeight:int, landscape:Boolean = true, debugPixelRatio:Number = NaN ) : void {
 		if (!ProcessManager.m_stage) {
 			Logger.reportError("AgonyUI", "startup", "AgonyCore has not started up...!!");
 		}
@@ -90,7 +90,7 @@ public class AgonyUI {
 		}
 		UIManager.m_invalidWhenLeave = invalidWhenLeave
 		UIManager.m_stage = ComponentProxy.m_stage = ProcessManager.m_stage
-		m_uiManager = new UIManager(debugWidth, debugHeight, landscape)
+		m_uiManager = new UIManager(debugWidth, debugHeight, landscape, debugPixelRatio)
 	}
 	
 	/** 拖拽超过边界，是否进行方向跟随...optional[ false ] */

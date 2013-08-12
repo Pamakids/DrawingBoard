@@ -35,11 +35,11 @@ package org.agony2d.view.core {
 	 */
 final public class UIManager {
 
-	public function UIManager( debugWidth:int, debugHeight:int, landscape:Boolean ) {
+	public function UIManager( debugWidth:int, debugHeight:int, landscape:Boolean, debugPixelRatio:Number ) {
 		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number
 		
 		if (Multitouch.maxTouchPoints == 0) {
-			pixelRatio  =  1.0
+			pixelRatio  =  isNaN(debugPixelRatio) ? 1.0 : debugPixelRatio 
 			width       =  debugWidth
 			height      =  debugHeight
 		}
@@ -184,7 +184,7 @@ final public class UIManager {
 	
 	
 	agony_internal static const PRIORITY:int = 800 // 触碰优先级
-	agony_internal static var m_registeredPuppets:Vector.<PuppetComp> = new Vector.<PuppetComp>(8000, true)
+	agony_internal static var m_registeredPuppets:Vector.<PuppetComp> = new Vector.<PuppetComp>(22000, true)
 	agony_internal static var m_numRegistered:int
 	agony_internal static var cachedPoint:Point
 	agony_internal static var m_stage:Stage

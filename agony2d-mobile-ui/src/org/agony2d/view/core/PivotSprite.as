@@ -1,6 +1,7 @@
 package org.agony2d.view.core {
-	import flash.display.DisplayObject
-	import flash.geom.Point
+	import flash.display.DisplayObject;
+	import flash.geom.Point;
+	
 	import org.agony2d.core.agony_internal;
 	
 	use namespace agony_internal;
@@ -23,6 +24,7 @@ final public class PivotSprite extends AgonySprite {
 		this.setPivot(m_pivotX, v)
 	}
 	
+	/** 坐标使用实际数据... */
 	agony_internal function setPivot( pivX:Number, pivY:Number, global:Boolean = false ) : void {
 		var PA:Point
 		
