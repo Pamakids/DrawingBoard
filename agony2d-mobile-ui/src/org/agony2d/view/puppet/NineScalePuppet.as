@@ -207,8 +207,10 @@ final class NineScalePuppetComp extends PuppetComp {
 	}
 	
 	override public function set width( v:Number ) : void {
-		m_currWidth = v
-		this.rejustImagePostion()
+		if (m_currWidth != v) {
+			m_currWidth = v
+			this.rejustImagePostion()
+		}
 	}
 	
 	override public function get height() : Number { 
@@ -216,8 +218,10 @@ final class NineScalePuppetComp extends PuppetComp {
 	}
 	
 	override public function set height( v:Number ) : void {
-		m_currHeight = v
-		this.rejustImagePostion()
+		if (m_currHeight != v) {
+			m_currHeight = v
+			this.rejustImagePostion()
+		}
 	}
 	
 	agony_internal function setSize( width:Number, height:Number ) : void {

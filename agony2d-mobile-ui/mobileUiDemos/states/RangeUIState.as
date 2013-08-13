@@ -49,6 +49,7 @@ package states
 			img.embed(AssetsCore.AT_role)
 			pivot.addElement(img)
 			this.fusion.addElement(pivot,300,300)
+			pivot.scaleX = pivot.scaleY = 1.5
 			
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, u)
 			pivot.addEventListener(AEvent.CLICK, function(e:AEvent):void {

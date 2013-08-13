@@ -51,10 +51,9 @@ public class MobileUITest extends Sprite {
 		//TouchManager.getInstance().multiTouchEnabled = true
 		
 		// UI...
-		AgonyUI.startup(false, 900, 600, true, 0.8)
+		AgonyUI.startup(false, 900, 600, true)//, 0.8)
 		AgonyUI.setDragOutFollowed(true)
 		AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
-		
 		
 		// stats
 		AgonyUI.fusion.addElement(new StatsMobileUI)
@@ -62,8 +61,6 @@ public class MobileUITest extends Sprite {
 		// Assets...
 		var assetsList:Array
 		var i:int, l:int
-		
-		
 		
 		assetsList = AssetsCore.getAssetList().concat(AssetsUI.getAssetList())
 		l = assetsList.length

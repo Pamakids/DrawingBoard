@@ -89,39 +89,6 @@ public class GestureFusion extends PivotFusion {
 	private var m_gestureHappened:Boolean
 	
 	
-	private function insertTouch( touch:Touch ) : void {
-		m_touchList[m_numTouchs++] = touch
-		touch.addEventListener(AEvent.MOVE,    ____onMove,    false, GESTURE_PRIORITY)
-		touch.addEventListener(AEvent.RELEASE, ____onRelease, false, GESTURE_PRIORITY)
-		this.resetTouchs()
-	}
-	
-	private function resetTouchs() : void {
-		var touchA:Touch, touchB:Touch
-		
-		//trace(m_numTouchs)
-		if (m_numTouchs >= 2) {
-			touchA = m_touchList[m_numTouchs - 2]
-			touchB = m_touchList[m_numTouchs - 1]
-			cachedRotation = this.rotation
-			cachedScale = this.scaleX
-			//cachedAngle = Math.atan2(touchB.stageY - touchA.stageY, touchB.stageX - touchA.stageX)
-			cachedDist = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
-			if(m_gestureType & MOVEMENT) {
-				this.setPivot((touchA.stageX + touchB.stageX) * .5 / m_pixelRatio, (touchA.stageY + touchB.stageY) * .5 / m_pixelRatio, true)
-			}
-			// 非移动时锁定合体画像中心...
-			else{
-				this.setPivot(this.width * .5, this.height * .5)
-			}
-			trace("[ pivot ]", touchA, touchB)
-		}
-		else {
-			touchA = m_touchList[0]
-			this.setPivot(touchA.stageX / m_pixelRatio, touchA.stageY / m_pixelRatio, true)
-		}
-	}
-	
 	private function ____onMove( e:AEvent ) : void {
 		var touchA:Touch, touchB:Touch
 		var angleA:Number, angleB:Number, distA:Number
@@ -191,6 +158,39 @@ public class GestureFusion extends PivotFusion {
 			this.resetTouchs()
 		}
 		e.stopImmediatePropagation()
+	}
+	
+	private function insertTouch( touch:Touch ) : void {
+		m_touchList[m_numTouchs++] = touch
+		touch.addEventListener(AEvent.MOVE,    ____onMove,    false, GESTURE_PRIORITY)
+		touch.addEventListener(AEvent.RELEASE, ____onRelease, false, GESTURE_PRIORITY)
+		this.resetTouchs()
+	}
+	
+	private function resetTouchs() : void {
+		var touchA:Touch, touchB:Touch
+		
+		//trace(m_numTouchs)
+		if (m_numTouchs >= 2) {
+			touchA = m_touchList[m_numTouchs - 2]
+			touchB = m_touchList[m_numTouchs - 1]
+			cachedRotation = this.rotation
+			cachedScale = this.scaleX
+			//cachedAngle = Math.atan2(touchB.stageY - touchA.stageY, touchB.stageX - touchA.stageX)
+			cachedDist = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
+			if(m_gestureType & MOVEMENT) {
+				this.setPivot((touchA.stageX + touchB.stageX) * .5 / m_pixelRatio, (touchA.stageY + touchB.stageY) * .5 / m_pixelRatio, true)
+			}
+			// 非移动时锁定合体画像中心...
+			else{
+				this.setPivot(this.width * .5, this.height * .5)
+			}
+			trace("[ pivot ]", touchA, touchB)
+		}
+		else {
+			touchA = m_touchList[0]
+			this.setPivot(touchA.stageX / m_pixelRatio, touchA.stageY / m_pixelRatio, true)
+		}
 	}
 }
 }

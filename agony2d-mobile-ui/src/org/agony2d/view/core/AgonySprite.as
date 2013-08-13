@@ -13,7 +13,7 @@ public class AgonySprite extends Sprite {
 	}
 	
 	override public function get scaleX():Number { 
-		return this.m_scaleX 
+		return m_scaleX 
 	}
 	
 	override public function set scaleX( v:Number ) : void {
@@ -21,7 +21,7 @@ public class AgonySprite extends Sprite {
 	}
 	
 	override public function get scaleY():Number { 
-		return this.m_scaleY 
+		return m_scaleY 
 	}
 		
 	override public function set scaleY( v:Number ) : void { 

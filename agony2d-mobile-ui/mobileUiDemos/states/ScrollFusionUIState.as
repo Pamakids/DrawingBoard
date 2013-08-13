@@ -49,9 +49,7 @@ public class ScrollFusionUIState extends UIState
 		
 		// 滚动合体
 		mScrollFusion = new GridScrollFusion(400, 400, 80, 100)
-		mScrollFusion.x = 200
-		mScrollFusion.y = 80
-		this.fusion.addElement(mScrollFusion)
+		this.fusion.addElement(mScrollFusion, 200, 80)
 		content = mScrollFusion.content
 		
 		// 背景

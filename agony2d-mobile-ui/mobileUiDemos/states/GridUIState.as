@@ -49,6 +49,7 @@ public class GridUIState extends UIState
 		sprite.graphics.drawRect(40, 40, 100, 100)
 		this.fusion.addElement(sprite, 100, 50)
 		this.fusion.addElement(mGridFusion, 100, 50)
+		//mGridFusion.pivotX = mGridFusion.pivotY = 400
 		
 		KeyboardManager.getInstance().getState().press.addEventListener('A', function(e:AEvent):void {
 			sprite.x -= MOVEMENT

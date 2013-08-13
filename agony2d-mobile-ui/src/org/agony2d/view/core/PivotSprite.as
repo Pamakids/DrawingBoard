@@ -32,16 +32,20 @@ final public class PivotSprite extends AgonySprite {
 		cachedPoint.y = pivY
 		if (global) {
 			PA = m_child.globalToLocal(cachedPoint)
+			m_pivotX = PA.x
+			m_pivotY = PA.y
 			m_child.x = -PA.x
 			m_child.y = -PA.y
 		}
 		else {
 			cachedPoint = m_child.localToGlobal(cachedPoint)
+			m_pivotX = pivX
+			m_pivotY = pivY
 			m_child.x = -pivX
 			m_child.y = -pivY
 		}
 		PA = this.parent ? this.parent.globalToLocal(cachedPoint) : cachedPoint
-		this.x = PA.x
+		this.x = PA.x 
 		this.y = PA.y
 	}
 	
