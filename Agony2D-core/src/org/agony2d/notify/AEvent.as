@@ -37,7 +37,7 @@ public class AEvent {
 	public static const BEGINNING:String           =  "beginning" /** 开始 */
 	
     public static const COMPLETE:String            =  "complete" /** 完成 */
-		
+	
 	public static const ENTER_FRAME:String         =  "enterFrame" /** 帧更新 */
 	
 	public static const ROUND:String               =  "round" /** 单轮结束 */

@@ -63,22 +63,22 @@ public class ImageUIState extends UIState
 		numImage = urlList.length
 		
 		label = new Button('Btn_A')
-		label.movieClip.scaleX = 80 / label.movieClip.width
-		label.movieClip.scaleY = 40 / label.movieClip.height
+		label.movieClip.scaleX = 120 / label.movieClip.width
+		label.movieClip.scaleY = 50 / label.movieClip.height
 		label.addEventListener(AEvent.CLICK, onLoadImage)
-		this.fusion.addElement(label,110, 15)
+		this.fusion.addElement(label,110, 8)
 		
 		label = new Button('Btn_A')
-		label.movieClip.scaleX = 80 / label.movieClip.width
-		label.movieClip.scaleY = 40 / label.movieClip.height
+		label.movieClip.scaleX = 120 / label.movieClip.width
+		label.movieClip.scaleY = 50 / label.movieClip.height
 		label.addEventListener(AEvent.CLICK, onEmbed)
-		this.fusion.addElement(label, 10, 0, LayoutType.B__A,LayoutType.BA )
+		this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
 		
 		label = new Button('Btn_A')
-		label.movieClip.scaleX = 80 / label.movieClip.width
-		label.movieClip.scaleY = 40 / label.movieClip.height
+		label.movieClip.scaleX = 120 / label.movieClip.width
+		label.movieClip.scaleY = 50 / label.movieClip.height
 		label.addEventListener(AEvent.CLICK, onEmpty)
-		this.fusion.addElement(label, 10, 0, LayoutType.B__A,LayoutType.BA )
+		this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
 		
 		while (i < numImage)
 		{

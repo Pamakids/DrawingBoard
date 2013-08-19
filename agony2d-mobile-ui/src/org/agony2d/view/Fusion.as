@@ -19,9 +19,10 @@ package org.agony2d.view {
 	 *  [◆◆]
 	 *  	1.  addElement
 	 *		2.  addElementAt
-	 * 		3.  getElementAt
-	 * 		4.  setElementIndex
-	 * 		5.  removeAllElement
+	 *  	3.  getElementLayer
+	 * 		4.  setElementLayer
+	 * 		5.  getElementAt
+	 * 		6.  removeAllElement
 	 *  [★]
 			a.  布局方式 × 8 :
 												Top
@@ -60,11 +61,11 @@ public class Fusion extends SmoothProxy {
 	}
 	
 	public function get position() : int {
-		return m_bb ? -1 : m_bb.layer
+		return m_bb ? m_elementList.indexOf(m_bb) : null
 	}
 	
 	public function set position( v:int ) : void {
-		m_bb = (v < 0) ? null : (m_view.getChildAt(v) as Component).m_proxy as ComponentProxy
+		m_bb = m_elementList[v]
 	}
 	
 	public var paddingLeft:Number, paddingRight:Number, paddingTop:Number, paddingBottom:Number
@@ -78,21 +79,25 @@ public class Fusion extends SmoothProxy {
 		this.doRender(cc, -1)
 	}
 	
-	public function addElementAt( c:IComponent, index:int = -1, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
+	public function addElementAt( c:IComponent, layer:int = -1, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
 		var cc:ComponentProxy
 		
 		cc = c as ComponentProxy
 		this.doValidate(cc)
 		this.layoutElement(cc, gapX, gapY, horizLayout, vertiLayout)
-		this.doRender(cc, index)
+		this.doRender(cc, layer)
+	}
+	
+	public function getElementLayer( c:IComponent ) : int {
+		return m_view.getChildIndex((c as ComponentProxy).shell)
+	}
+	
+	public function setElementLayer( c:IComponent, layer:int ) : void {
+		m_view.setChildIndex((c as ComponentProxy).shell, layer)
 	}
 	
 	public function getElementAt( index:int ) : IComponent {
-		return (m_view.getChildAt(index) as Component).m_proxy as IComponent
-	}
-	
-	public function setElementIndex( c:IComponent, index:int ) : void {
-		m_view.setChildIndex(c.displayObject, index)
+		return m_elementList[index]
 	}
 	
 	public function removeAllElement() : void {
@@ -164,6 +169,7 @@ public class Fusion extends SmoothProxy {
 		}
 	}
 	
+	/** [ A ] 本体，[ B ] 前体，[ F ] 父合体 */
 	agony_internal function layoutElement( aa:ComponentProxy, gapX:Number, gapY:Number, horizLayout:int, vertiLayout:int ) : void {
 		var shellA:AgonySprite
 		var AX:Number, AY:Number

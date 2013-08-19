@@ -56,7 +56,7 @@ public class Touch extends Notifier {
 	}
 	
 	public function toString() : String {
-		return "[touch] - ID [ " + m_touchID + " ]..." + m_stageX + '|' + m_stageY + ' / ' + m_prevStageX + '|' + m_prevStageY + " / " + m_maxMoveX + '|' + m_maxMoveY
+		return "[touch] - ID [ " + m_touchID + " ]..." + m_stageX + "|" + m_stageY + " / " + m_prevStageX + "|" + m_prevStageY + " / " + m_maxMoveX + "|" + m_maxMoveY
 	}
 	
 	override public function dispose() : void {
@@ -67,6 +67,8 @@ public class Touch extends Notifier {
 	}
 	
 	internal function setCoords( stageX:Number, stageY:Number ) : void {
+		var tx:Number, ty:Number
+		
 		if(m_stageX != stageX || m_stageY != stageY) {
 			m_stageX = stageX
 			m_stageY = stageY
@@ -76,7 +78,14 @@ public class Touch extends Notifier {
 				m_oldAMouseY = m_currMoveY
 				m_currMoveX = stageX
 				m_currMoveY = stageY
-				this.checkMaxVelocity(m_currMoveX - m_oldAMouseX, m_currMoveY - m_oldAMouseY)
+				tx = m_currMoveX - m_oldAMouseX
+				ty = m_currMoveY - m_oldAMouseY
+				if (MathUtil.adverse(m_maxMoveX, tx) || Math.abs(tx) > Math.abs(m_maxMoveX)) {
+					m_maxMoveX = (tx < 0) ? Math.max(tx, -m_maxVelocity) : Math.min(tx, m_maxVelocity)
+				}
+				if (MathUtil.adverse(m_maxMoveY, ty) || Math.abs(ty) > Math.abs(m_maxMoveY)) {
+					m_maxMoveY = (ty < 0) ? Math.max(ty, -m_maxVelocity) : Math.min(ty, m_maxVelocity)
+				}				
 				m_currCount = Math.ceil(m_invalidCount * m_stage.frameRate / 60.0)
 			}
 		}
@@ -116,15 +125,6 @@ public class Touch extends Notifier {
 		
 		touch = (cachedTouchLength > 0 ? cachedTouchLength-- : 0) ? cachedTouchList.pop() : new Touch
 		return touch.reset(touchID, stageX, stageY)
-	}
-	
-	private function checkMaxVelocity( tx:Number, ty:Number ) : void {
-		if (MathUtil.adverse(m_maxMoveX, tx) || Math.abs(tx) > Math.abs(m_maxMoveX)) {
-			m_maxMoveX = (tx < 0) ? Math.max(tx, -m_maxVelocity) : Math.min(tx, m_maxVelocity)
-		}
-		if (MathUtil.adverse(m_maxMoveY, ty) || Math.abs(ty) > Math.abs(m_maxMoveY)) {
-			m_maxMoveY = (ty < 0) ? Math.max(ty, -m_maxVelocity) : Math.min(ty, m_maxVelocity)
-		}
 	}
 	
 	internal static var cachedTouchLength:int

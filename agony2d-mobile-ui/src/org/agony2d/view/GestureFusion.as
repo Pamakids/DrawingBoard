@@ -69,7 +69,7 @@ public class GestureFusion extends PivotFusion {
 		touch = e.touch
 		if (this.hitTestPoint(touch.stageX / m_pixelRatio, touch.stageY / m_pixelRatio)) {
 			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
-			this.fusion.setElementIndex(this, this.fusion.numElement - 1)
+			this.fusion.setElementLayer(this, this.fusion.numElement - 1)
 			e.stopImmediatePropagation()
 			this.insertTouch(touch)	
 		}

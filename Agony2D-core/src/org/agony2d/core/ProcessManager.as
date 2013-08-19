@@ -12,9 +12,9 @@ package org.agony2d.core {
 
 	use namespace agony_internal
 	
-	[Event(name = "enterFrame", type = "org.agony2d.notify.AEvent")]
+	[Event( name = "enterFrame", type = "org.agony2d.notify.AEvent" )]
 	
-	/** agony process manager
+	/** [ ProcessManager ]
 	 *  [◆]
 	 * 		1.  timeScale
 	 * 		2.  tickRate

@@ -14,49 +14,52 @@ package org.agony2d.view {
 
 	use namespace agony_internal;
 	
-	[Event(name = "beginning", type = "org.agony2d.notify.AEvent")] /** 按下时(预滚屏)派送 */
+	[Event(name = "beginning", type = "org.agony2d.notify.AEvent")]
 	
-	[Event(name = "complete", type = "org.agony2d.notify.AEvent")] /** 弹起时(任何阶段)派送 */
+	[Event(name = "complete", type = "org.agony2d.notify.AEvent")]
 	
-	[Event(name = "left", type = "org.agony2d.notify.AEvent")] /** 左界限存在并到达 */
+	[Event(name = "left", type = "org.agony2d.notify.AEvent")]
 	
-	[Event(name = "right", type = "org.agony2d.notify.AEvent")] /** 右界限存在并到达 */
+	[Event(name = "right", type = "org.agony2d.notify.AEvent")]
 	
-	[Event(name = "top", type = "org.agony2d.notify.AEvent")] /** 上界限存在并到达 */
+	[Event(name = "top", type = "org.agony2d.notify.AEvent")]
 	
-	[Event(name = "bottom", type = "org.agony2d.notify.AEvent")] /** 下界限存在并到达 */
+	[Event(name = "bottom", type = "org.agony2d.notify.AEvent")]
 	
 	/** [ GridScrollFusion ]
 	 *  [◆]
 	 * 		1.  limitLeft × limitRight × limitTop × limitBottom
 	 * 		2.  content
 	 *  	3.  scaleRatio
-	 * 		3.  locked
-	 * 		4.  contentWidth × contentHeight
-	 * 		5.  correctionX × correctionY
-	 * 		6.  horizRatio × vertiRatio
+	 * 		4.  locked
+	 * 		5.  contentWidth × contentHeight
+	 * 		6.  correctionX × correctionY
+	 * 		7.  horizRatio × vertiRatio
 	 *  [◆◆]
-	 * 		3.  stopScroll
+	 * 		1.  stopScroll
+	 *  	2.  updateAllThumbs
 	 *  [★]
-	 *  	a.  触碰 (预滚屏) → 移动 → 达到失效值 → 拖拽 (滚屏)
-	 *  	b.  双指缩放 × 拖拽时，双指中心始终锁定content中轴...
+	 *  	a.  [ interactive ]恒定为true...发生滚屏后自动false...
 	 */
 public class GridScrollFusion extends PivotFusion {
 	
-	public function GridScrollFusion( maskWidth:Number, maskHeight:Number, gridWidth:int, gridHeight:int, locked:Boolean = false, horizDisableOffset:int = 8, vertiDisableOffset:int = 8 ) {
-		var global:Point
-		
+	public function GridScrollFusion( maskWidth:Number, maskHeight:Number, gridWidth:int, gridHeight:int, locked:Boolean = false, 
+									horizDisableOffset:int = 6, vertiDisableOffset:int = 6, scaleRatioLow:Number = 1, scaleRatioHigh:Number = 1 ) {
 		m_content = new GridFusion(0, 0, maskWidth, maskHeight, gridWidth, gridHeight)
+		//m_content = new PivotFusion
 		this.addElementAt(m_content)
 		m_shell.scrollRect = new Rectangle(0, 0, maskWidth * m_pixelRatio, maskHeight * m_pixelRatio)
 		m_maskWidth  = m_contentWidth  = maskWidth
 		m_maskHeight = m_contentHeight = maskHeight
 		m_horizDisableOffset = horizDisableOffset
 		m_vertiDisableOffset = vertiDisableOffset
+		if (scaleRatioLow > 1 || scaleRatioHigh < 1) {
+			Logger.reportError(this, "constructor", "low or high scale ratio param occurs an error...")
+		}
+		m_scaleRatioLow = scaleRatioLow
+		m_scaleRatioHigh = scaleRatioHigh
 		m_locked = true
 		this.locked = locked
-		// debug
-		//m_scaleRatio = m_content.scaleX = m_content.scaleY = 1.5
 	}
 	
 	/** 滚屏界限限制，四方向 */
@@ -116,30 +119,30 @@ public class GridScrollFusion extends PivotFusion {
 		}
 	}
 	
-	/** 水平位置校正值 [ 0表示未滑出边界，其他表示滑回正常范围需要的最小坐标偏移量 ]... */
+	/** when scaleRatio equal 1，fixed by edge ]... */
 	final public function get correctionX() : Number {
 		var value:Number
 		
 		value = m_content.x
 		if (value > 0) {
-			return -value
+			return m_content.pivotX * m_scaleRatio - value
 		}
 		else if(value < this.lengthX) {
-			return this.lengthX - value
+			return m_content.pivotX * m_scaleRatio + this.lengthX - value
 		}
 		return 0
 	}
 	
-	/** 垂直位置校正值 [ 0表示未滑出边界，其他表示滑回正常范围需要的最小坐标偏移量 ]... */
+	/** when scaleRatio equal 1，fixed by edge ]... */
 	final public function get correctionY() : Number {
 		var value:Number
 		
 		value = m_content.y
 		if (value > 0) {
-			return -value
+			return m_content.pivotY * m_scaleRatio - value
 		}
 		else if(value < this.lengthY) {
-			return this.lengthY - value
+			return m_content.pivotY * m_scaleRatio + this.lengthY - value
 		}
 		return 0
 	}
@@ -150,6 +153,7 @@ public class GridScrollFusion extends PivotFusion {
 	
 	public function set horizRatio( v:Number ) : void {
 		m_content.x = v * this.lengthX
+		this.doResetViewport()
 		if (m_horizThumb) {
 			m_horizPuppet.x =  v * (m_maskWidth - m_horizPuppet.width) * m_scaleRatio
 		}
@@ -161,9 +165,22 @@ public class GridScrollFusion extends PivotFusion {
 	
 	public function set vertiRatio( v:Number ) : void {
 		m_content.y = v * this.lengthY
+		this.doResetViewport()
 		if (m_vertiThumb) {
 			m_vertiPuppet.y = v * (m_maskHeight - m_vertiPuppet.height) * m_scaleRatio
 		}
+	}
+	
+	override public function set rotation ( v:Number ) : void { 
+		Logger.reportError(this, "rotation", "不可使用...!!") 
+	}
+	
+	override public function set scaleX ( v:Number ) : void { 
+		Logger.reportError(this, "scaleX", "不可使用...!!")
+	}
+	
+	override public function set scaleY ( v:Number ) : void {
+		Logger.reportError(this, "scaleY", "不可使用...!!") 
 	}
 	
 	/** 滑块为九宫格傀儡 [ 垂直方向 ]... */
@@ -197,7 +214,7 @@ public class GridScrollFusion extends PivotFusion {
 		
 		if (m_firstTouch) {
 			m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
-			m_firstTouch.removeEventListener(AEvent.MOVE,    ____onMove)
+			m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
 			m_firstTouch = null
 		}
 		else if (m_numTouchs > 0) {
@@ -220,6 +237,14 @@ public class GridScrollFusion extends PivotFusion {
 		}
 	}
 	
+	override public function drag( touch:Touch = null, bounds:Rectangle = null ) : void {
+		Logger.reportError(this, "drag", "不可使用...!!")
+	}
+	
+	override public function dragLockCenter( touch:Touch = null, bounds:Rectangle = null, offsetX:Number = 0, offsetY:Number = 0 ) : void {
+		Logger.reportError(this, "dragLockCenter", "不可使用...!!")
+	}
+	
 	override agony_internal function dispose() : void {
 		this.locked = true
 		m_shell.scrollRect = null
@@ -230,9 +255,9 @@ public class GridScrollFusion extends PivotFusion {
 	agony_internal var m_content:GridFusion
 	agony_internal var m_horizThumb:Fusion, m_vertiThumb:Fusion
 	agony_internal var m_horizPuppet:NineScalePuppet, m_vertiPuppet:NineScalePuppet
-	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, cachedScale:Number, cachedDist:Number, m_scaleRatio:Number = 1
+	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, cachedScale:Number, cachedDist:Number, m_scaleRatioLow:Number, m_scaleRatioHigh:Number, m_scaleRatio:Number = 1
 	agony_internal var m_horizDisableOffset:int, m_vertiDisableOffset:int
-	agony_internal var m_readyToScroll:Boolean, m_scrolling:Boolean, m_locked:Boolean
+	agony_internal var m_locked:Boolean
 	private var m_firstTouch:Touch
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
@@ -257,9 +282,7 @@ public class GridScrollFusion extends PivotFusion {
 			m_firstTouch = e.touch
 			m_firstTouch.addEventListener(AEvent.RELEASE, ____onBreak,   false, SCROLL_PRIORITY)
 			m_firstTouch.addEventListener(AEvent.MOVE,    ____onPreMove, false, SCROLL_PRIORITY)
-			this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
-			//m_content.setPivot(m_firstTouch.stageX / m_pixelRatio, m_firstTouch.stageY / m_pixelRatio, true)
-			//trace('first touch...')
+			//trace("first touch...")
 		}
 		// scrolling...
 		else {
@@ -268,7 +291,7 @@ public class GridScrollFusion extends PivotFusion {
 				this.disableFirstTouch()
 			}
 			this.insertTouch(e.touch)
-			//trace('insert touch...')
+			//trace("insert touch...")
 		}
 	}
 	
@@ -276,7 +299,6 @@ public class GridScrollFusion extends PivotFusion {
 		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
 		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
 		m_firstTouch = null
-		this.m_view.m_notifier.dispatchDirectEvent(AEvent.COMPLETE)
 	}
 	
 	protected function ____onPreMove( e:AEvent ) : void {
@@ -284,23 +306,16 @@ public class GridScrollFusion extends PivotFusion {
 		
 		touchX = m_firstTouch.stageX / m_pixelRatio
 		touchY = m_firstTouch.stageY / m_pixelRatio
-		// 当发生触摸位移差达到一定条件时，滚屏开始
+		// 当发生触摸位移差达到一定条件时，start to scroll...
 		if (Math.abs(touchX - m_startX) > m_horizDisableOffset || Math.abs(touchY - m_startY) > m_vertiDisableOffset) {
 			this.insertTouch(m_firstTouch)
 			this.disableFirstTouch()
 		}
 	}
 	
-	protected function disableFirstTouch() : void {
-		UIManager.removeAllTouchs()
-		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
-		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
-		m_firstTouch = null
-	}
-	
 	protected function ____onMove( e:AEvent ) : void {
 		var touchA:Touch, touchB:Touch
-		var distA:Number
+		var distA:Number, orgin:Number, length:Number, ratio:Number
 		
 		if (m_numTouchs == 1) {
 			touchA = e.target as Touch
@@ -312,39 +327,53 @@ public class GridScrollFusion extends PivotFusion {
 			touchA = m_touchList[m_numTouchs - 2]
 			touchB = m_touchList[m_numTouchs - 1]
 			m_content.setGlobalCoord((touchA.stageX + touchB.stageX) * .5 / m_pixelRatio, (touchA.stageY + touchB.stageY) * .5 / m_pixelRatio)
+			if (m_scaleRatioLow != 1 || m_scaleRatioHigh != 1) {
+				distA = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
+				ratio = MathUtil.bound(cachedScale * distA / cachedDist, m_scaleRatioLow, m_scaleRatioHigh)
+				if (ratio != m_scaleRatio) {
+					m_scaleRatio = m_content.scaleX = m_content.scaleY = ratio
+				}
+				else {
+					cachedScale = m_scaleRatio
+					cachedDist = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
+				}
+			}
 			this.view.m_notifier.dispatchDirectEvent(AEvent.DRAGGING)
-			distA = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
-			m_scaleRatio = m_content.scaleX = m_content.scaleY = cachedScale * distA / cachedDist
 		}
-		if (this.orginX > 0 && limitLeft) {
-			this.orginX = 0
+		orgin   =  this.orginX
+		length  =  this.lengthX
+		if (orgin > 0 && (limitLeft || m_scaleRatio != 1)) {
+			m_content.x = m_content.pivotX * m_scaleRatio
 			this.m_view.m_notifier.dispatchDirectEvent(AEvent.LEFT)
 		}
-		else if(this.orginX < this.lengthX && limitRight) {
-			this.orginX = this.lengthX
+		else if(orgin < length && (limitRight || m_scaleRatio != 1)) {
+			m_content.x = length + m_content.pivotX * m_scaleRatio
 			this.m_view.m_notifier.dispatchDirectEvent(AEvent.RIGHT)
 		}
-		if (this.orginY > 0 && limitTop) {
-			this.orginY = 0
+		orgin   =  this.orginY
+		length  =  this.lengthY
+		if (orgin > 0 && (limitTop || m_scaleRatio != 1)) {
+			m_content.y = m_content.pivotY * m_scaleRatio
 			this.m_view.m_notifier.dispatchDirectEvent(AEvent.TOP)
 		}
-		else if(this.orginY < this.lengthY && limitBottom) {
-			this.orginY = this.lengthY
+		else if (orgin < length && (limitBottom || m_scaleRatio != 1)) {
+			m_content.y = length + m_content.pivotY * m_scaleRatio
 			this.m_view.m_notifier.dispatchDirectEvent(AEvent.BOTTOM)
 		}
 		this.updateAllThumbs()
-		this.doResetViewport()
 		e.stopImmediatePropagation()
+		this.doResetViewport()
 		//Logger.reportMessage(this, this.horizRatio + " | " + this.vertiRatio)
 	}
 	
-	private function ____onRelease( e:AEvent ) : void {
+	protected function ____onRelease( e:AEvent ) : void {
 		var index:int
 		
 		index = m_touchList.indexOf(e.target)
 		m_touchList[index] = m_touchList[--m_numTouchs]
 		m_touchList.pop()
 		if (m_numTouchs == 0) {
+			view.interactive = true
 			this.view.m_notifier.dispatchDirectEvent(AEvent.COMPLETE)
 		}
 		else {
@@ -353,58 +382,58 @@ public class GridScrollFusion extends PivotFusion {
 		e.stopImmediatePropagation()
 	}
 	
-	private function insertTouch( touch:Touch ) : void {
+	protected function insertTouch( touch:Touch ) : void {
 		m_touchList[m_numTouchs++] = touch
 		touch.addEventListener(AEvent.MOVE,    ____onMove,    false, SCROLL_PRIORITY)
 		touch.addEventListener(AEvent.RELEASE, ____onRelease, false, SCROLL_PRIORITY)
 		this.resetTouchs()
-		Logger.reportMessage(this, "numTouchs: " + m_numTouchs)
+		//Logger.reportMessage(this, "numTouchs: " + m_numTouchs)
 	}
 	
-	private function resetTouchs() : void {
+	protected function resetTouchs() : void {
 		var touchA:Touch, touchB:Touch
 		
 		if (m_numTouchs >= 2) {
 			touchA = m_touchList[m_numTouchs - 2]
 			touchB = m_touchList[m_numTouchs - 1]
-			cachedScale = m_content.scaleX
+			cachedScale = m_scaleRatio
 			cachedDist = MathUtil.getDistance(touchA.stageX, touchA.stageY, touchB.stageX, touchB.stageY)
 			m_content.setPivot((touchA.stageX + touchB.stageX) / m_pixelRatio * .5, (touchA.stageY + touchB.stageY) / m_pixelRatio * .5, true)
 //			Logger.reportMessage(this, m_content.x + " | " + m_content.y + "__" + m_content.pivotX + " | " + m_content.pivotY)
 		}
 	}
 	
-	private function doResetViewport() : void {
-		var tx:Number = -this.orginX
-		var ty:Number = -this.orginY
-		m_content.setViewport(tx, ty)
-		trace(tx,ty)
+	protected function doResetViewport() : void {
+		var point:Point
+		
+		point = this.transformCoord(0, 0, false)
+		point = m_content.transformCoord(point.x, point.y)
+		m_content.setViewport(point.x, point.y)
 	}
 	
-	/** 水平左侧起点... */
+	protected function disableFirstTouch() : void {
+		UIManager.removeAllTouchs()
+		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
+		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
+		m_firstTouch = null
+		view.interactive = false
+		this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
+	}
+	
 	private function get orginX() : Number {
 		return m_content.x - m_content.pivotX * m_scaleRatio
 	}
 	
-	private function set orginX( v:Number ) : void {
-		m_content.x = v + m_content.pivotX * m_scaleRatio
-	}
-	
-	/** 垂直上侧起点... */
 	private function get orginY() : Number {
 		return m_content.y - m_content.pivotY * m_scaleRatio
 	}
 	
-	private function set orginY( v:Number ) : void {
-		m_content.y = v + m_content.pivotY * m_scaleRatio
-	}
-	
-	/** 水平scrollable长度... */
+	/** horiz scrollable length [ minus ]... */
 	private function get lengthX() : Number {
 		return m_maskWidth - m_contentWidth * m_scaleRatio
 	}
 	
-	/** 垂直scrollable长度... */
+	/** verti scrollable length [ minus ]... */
 	private function get lengthY() : Number {
 		return m_maskHeight - m_contentHeight * m_scaleRatio
 	}

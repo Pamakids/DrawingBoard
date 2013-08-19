@@ -28,7 +28,7 @@ package states
 public class ScrollFusionUIState extends UIState
 {
 	
-	private var numImage:int = 2500
+	private var numImage:int = 400
 	private const gapX:int = 150
 	private const gapY:int = 190;
 	
@@ -44,18 +44,18 @@ public class ScrollFusionUIState extends UIState
 		var correctionX:Number, correctionY:Number, velocityX:Number, velocityY:Number
 		var F:Fusion
 		var touch:Touch
-		var content:Fusion
+		var content:Fusion, thumb:Fusion
 		var img:ImageButton
 		
 		// 滚动合体
-		mScrollFusion = new GridScrollFusion(400, 400, 80, 100)
-		this.fusion.addElement(mScrollFusion, 200, 80)
+		mScrollFusion = new GridScrollFusion(700, 500, 80, 100, false, 6, 6, 1, 2)
+		this.fusion.addElement(mScrollFusion, 50, 30)
 		content = mScrollFusion.content
 		
 		// 背景
 		shape = new SpritePuppet()
 		shape.graphics.beginFill(0xdd4444, 0.4)
-		shape.graphics.drawRect(0, 0, 400, 400)
+		shape.graphics.drawRect(0, 0, 700, 500)
 		shape.cacheAsBitmap = true
 		mScrollFusion.addElementAt(shape, 0)
 		
@@ -67,44 +67,36 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion.contentWidth = 3540
 		mScrollFusion.contentHeight = 3000
 		
-		var FA:Fusion = mScrollFusion.getHorizThumb('scroll', 400, 10)
-		FA.x = 200
-		FA.y = 480
-		this.fusion.addElement(FA)
+		thumb = mScrollFusion.getHorizThumb('scroll', 700, 15)
+		this.fusion.addElement(thumb, 0, 0, LayoutType.BA, LayoutType.B__A)
 		
-		var FB:Fusion = mScrollFusion.getVertiThumb('scroll', 400, 10)
-		FB.x = 600
-		FB.y = 80
-		this.fusion.addElement(FB)
-		
+		thumb = mScrollFusion.getVertiThumb('scroll', 500, 15)
+		this.fusion.position = 0
+		this.fusion.addElement(thumb, 0, 0, LayoutType.B__A, LayoutType.BA)
 		
 		mScrollFusion.addEventListener(AEvent.LEFT, traceDirection)
 		mScrollFusion.addEventListener(AEvent.RIGHT, traceDirection)
 		mScrollFusion.addEventListener(AEvent.TOP, traceDirection)
 		mScrollFusion.addEventListener(AEvent.BOTTOM, traceDirection)
 		
-		/*mScrollFusion.addEventListener(AEvent.BEGINNING, function(e:AEvent):void
+		mScrollFusion.addEventListener(AEvent.BEGINNING, function(e:AEvent):void
 		{
 			Logger.reportMessage(mScrollFusion, AEvent.BEGINNING)
-			TweenLite.killTweensOf(content)
-			content.interactive = true
+			//TweenLite.killTweensOf(content)
 		})
-		content.addEventListener(AEvent.START_DRAG, function(e:AEvent):void
-		{
-			Logger.reportMessage(mScrollFusion, AEvent.START_DRAG)
-			content.interactive = false
-		})
-		//content.addEventListener(AEvent.DRAGGING, function(e:AEvent):void
-		//{
-			//Logger.reportMessage(mScrollFusion, mScrollFusion.horizRatio + ' | ' + mScrollFusion.vertiRatio)
-		//})
 		mScrollFusion.addEventListener(AEvent.COMPLETE, function(e:AEvent):void
+		{
+			Logger.reportMessage(mScrollFusion, AEvent.COMPLETE)
+		})
+		mScrollFusion.content.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
+			Logger.reportMessage(mScrollFusion, AEvent.X_Y_CHANGE)
+		})
+/*		mScrollFusion.addEventListener(AEvent.COMPLETE, function(e:AEvent):void
 		{
 			correctionX = mScrollFusion.correctionX
 			correctionY = mScrollFusion.correctionY
 			velocityX = AgonyUI.currTouch.velocityX
 			velocityY = AgonyUI.currTouch.velocityY
-			//Logger.reportMessage(mScrollFusion, TouchManager.getInstance().primaryTouch.velocityX + ' | ' + TouchManager.getInstance().primaryTouch.velocityY)
 			if (correctionX != 0 || correctionY != 0)
 			{
 				TweenLite.to(content, 1.5, { x:content.x + correctionX, 
@@ -125,7 +117,6 @@ public class ScrollFusionUIState extends UIState
 											{
 												content.x += correctionX
 												content.y += correctionY
-												//TweenLite.killTweensOf(content)
 											}
 											mScrollFusion.updateAllThumbs()
 										},
@@ -145,8 +136,8 @@ public class ScrollFusionUIState extends UIState
 		{
 			IP = new ImagePuppet(5)
 			IP.embed(AssetsUI.AT_defaultImg)
-			IP.x = (i % 50) * gapX + IP.width / 2
-			IP.y = int(i / 50) * gapY + IP.height / 2 + 60
+			IP.x = (i % 20) * gapX + IP.width / 2
+			IP.y = int(i / 20) * gapY + IP.height / 2 + 60
 			content.addElement(IP)
 			
 			IP.addEventListener(AEvent.CLICK, function(e:AEvent):void

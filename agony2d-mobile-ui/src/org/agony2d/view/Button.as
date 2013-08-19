@@ -8,7 +8,7 @@ package org.agony2d.view {
 public class Button extends AbstractMovieClipButton {
 	
 	public function Button( dataName:String ) {
-		super(dataName);
+		super(dataName)
 	}
 	
 	override protected function ____onRelease( e:AEvent ) : void {

@@ -69,8 +69,8 @@ final public class UIManager {
 		if(pixelRatio != 1) {
 			ImagePuppet.m_matrix = new Matrix(pixelRatio, 0, 0, pixelRatio, 0, 0)
 		}
-		trace('\n================================== [ Agony2D - mobileUI ] ==================================')
-		Logger.reportMessage('AgonyUI', "★[ startup ]..." +
+		trace("\n================================== [ Agony2D - mobileUI ] ==================================")
+		Logger.reportMessage("AgonyUI", "★[ startup ]..." +
 							"gpu [ " + Agony.stage.wmodeGPU + " ]..." + 
 							"方向 [ " + (landscape ? "landscape" : "portrait") + " ]..." + 
 							"像素比率 [ " + pixelRatio + " ]..." + 
@@ -84,7 +84,7 @@ final public class UIManager {
 		
 		moduleName = module is String ? module : getClassName(module)
 		if (m_moduleList[moduleName]) {
-			Logger.reportError('UIManager', 'addModule', 'existed module: ' + moduleName)
+			Logger.reportError("UIManager", "addModule", "existed module: " + moduleName)
 		}
 		return m_moduleList[moduleName] = new Module(stateType)
 	}
@@ -220,7 +220,7 @@ final public class UIManager {
 		var objList:Array
 		
 		// debug !!
-		//trace(type + ' | ' + objList)
+		//trace(type + " | " + objList)
 		
 		m_currTouch  =  (event is ATouchEvent) ? (event as ATouchEvent).touch : (event.target as Touch)
 		touchID      =  m_currTouch.touchID
@@ -396,7 +396,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		else {
 			this.doEnter()
 		}
-		Logger.reportMessage('UI -> ◆' + getClassName(m_stateType), '▲[ init ]...stateArgs [ ' + stateArgs + ' ]', 1)
+		Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▲[ init ]...stateArgs [ " + stateArgs + " ]", 1)
 	}
 	
 	public function exit() : void {
@@ -406,7 +406,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		}		
 		if (m_stateFusion) {
 			this.dispatchDirectEvent(AEvent.EXIT_STAGE)
-			Logger.reportMessage('UI -> ◆' + getClassName(m_stateType), '▼[ exit ]...', 2)
+			Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▼[ exit ]...", 2)
 			m_stateFusion.kill()
 			m_stateFusion = null
 			m_stageArgs = null
@@ -442,7 +442,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		if (isAdded) {
 			UIManager.m_rootFusion.addElementAt(m_stateFusion, m_layer, m_gapX, m_gapY, m_horizLayout, m_vertiLayout)
 			this.dispatchDirectEvent(AEvent.ENTER_STAGE)
-			Logger.reportMessage('UI -> ◆' + getClassName(m_stateType), '▲[ add ]...layer [ ' + m_layer + ' ]')
+			Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▲[ add ]...layer [ " + m_layer + " ]")
 		}
 		else {
 			if (m_delayedForRender) {
@@ -452,7 +452,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 			if (this.isPopup) {
 				UIManager.m_monitor.removeChild(m_stateFusion.displayObject)
 				this.dispatchDirectEvent(AEvent.EXIT_STAGE)
-				Logger.reportMessage('UI -> ◆' + getClassName(m_stateType), '▼[ remove ]...')
+				Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▼[ remove ]...")
 			}
 		}
 	}
@@ -466,8 +466,9 @@ final class Module extends Notifier implements IModule, INextUpdater {
 }
 import flash.display.DisplayObject
 import flash.geom.Rectangle
+import org.agony2d.debug.Logger;
 
-/** 顶级合体
+/** [ RootFusion ]
  *  [★]
  *  	a.  即使未触及任何puppet，RootFusion仍会触发事件.
  *  	b.  RootFusion的spaceWidth，spaceHeight属性即是当前屏幕宽高.
@@ -475,47 +476,47 @@ import flash.geom.Rectangle
 final class RootFusion extends Fusion {
 	
 	override public function set x ( v:Number ) : void { 
-		Logger.reportError(this, 'x', '不可使用...!!') 
+		Logger.reportError(this, "x", "不可使用...!!") 
 	}
 	
 	override public function set y ( v:Number ) : void {
-		Logger.reportError(this, 'y', '不可使用...!!') 
+		Logger.reportError(this, "y", "不可使用...!!") 
 	}
 	
 	override public function set rotation ( v:Number ) : void { 
-		Logger.reportError(this, 'rotation', '不可使用...!!') 
+		Logger.reportError(this, "rotation", "不可使用...!!") 
 	}
 	
 	override public function set scaleX ( v:Number ) : void { 
-		Logger.reportError(this, 'scaleX', '不可使用...!!')
+		Logger.reportError(this, "scaleX", "不可使用...!!")
 	}
 	
 	override public function set scaleY ( v:Number ) : void {
-		Logger.reportError(this, 'scaleY', '不可使用...!!') 
+		Logger.reportError(this, "scaleY", "不可使用...!!") 
 	}
 	
 	override public function set interactive ( b:Boolean ) : void {
-		Logger.reportError(this, 'interactive', '不可使用...!!') 
+		Logger.reportError(this, "interactive", "不可使用...!!") 
 	}
 	
 	override public function get displayObject() : DisplayObject { 
-		Logger.reportError(this, 'displayObject', '不可使用...!!') 
+		Logger.reportError(this, "displayObject", "不可使用...!!") 
 		return null
 	}
 	
 	override public function setGlobalCoord( gx:Number, gy:Number ) : void {
-		Logger.reportError(this, 'setGlobalCoord', '不可使用...!!')
+		Logger.reportError(this, "setGlobalCoord", "不可使用...!!")
 	}
 	
 	override public function kill() : void {
-		Logger.reportError(this, 'kill', '不可使用...!!')
+		Logger.reportError(this, "kill", "不可使用...!!")
 	}
 	
 	override public function drag( touch:Touch = null, bounds:Rectangle = null ) : void {
-		Logger.reportError(this, 'drag', '不可使用...!!')
+		Logger.reportError(this, "drag", "不可使用...!!")
 	}
 	
 	override public function dragLockCenter( touch:Touch = null, bounds:Rectangle = null, offsetX:Number = 0, offsetY:Number = 0 ) : void {
-		Logger.reportError(this, 'dragLockCenter', '不可使用...!!')
+		Logger.reportError(this, "dragLockCenter", "不可使用...!!")
 	}
 }

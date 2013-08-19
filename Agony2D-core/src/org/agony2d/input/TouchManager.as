@@ -18,13 +18,13 @@ package org.agony2d.input {
 	
 	[Event( name = "complete", type = "org.agony2d.notify.AEvent" )]
 	
-	/** 触摸管理器
+	/** [ TouchManager ]
 	 *  [◆◆◇]
 	 *  	1.  getInstance
 	 *  [◆]
-	 *  	1.  multiTouchEnabled
-	 * 		2.  velocityEnabled
-	 * 		3.  numTouchs
+	 *  	1.  numTouchs
+	 * 		2.  multiTouchEnabled
+	 * 		3.  velocityEnabled
 	 *  [◆◆]
 	 * 		1.  setVelocityLimit
 	 *  [★]
@@ -43,7 +43,7 @@ public class TouchManager extends Notifier implements IProcess {
 		super(null)
 		stage = Touch.m_stage = ProcessManager.m_stage;
 		if (!stage) {
-			Logger.reportError(this, 'constructor', "AgonyCore hasn't started up...!!");
+			Logger.reportError(this, "constructor", "AgonyCore hasn't started up...!!");
 		}
 		m_touchList = {}
 		eventList = (Multitouch.maxTouchPoints > 0) ? 
@@ -60,12 +60,31 @@ public class TouchManager extends Notifier implements IProcess {
 		return m_instance ||= new TouchManager
 	}
 	
+	public function get numTouchs() : int {
+		return m_numTouchs
+	}
+	
 	public function get multiTouchEnabled() : Boolean { 
 		return m_multiTouchEnabled
 	}
 	
 	public function set multiTouchEnabled( b:Boolean ) : void {
-		m_multiTouchEnabled = b 
+		var touch:Touch
+		
+		if (m_multiTouchEnabled != b) {
+			m_multiTouchEnabled = b
+			if (b) {
+				if (m_allInvalid) {
+					m_allInvalid = false
+				}
+			}
+			else if (m_numTouchs > 0) {
+				m_allInvalid = true
+				for each(touch in m_touchList) {
+					touch.dispatchDirectEvent(AEvent.RELEASE)
+				}
+			}
+		}
 	}
 	
 	public function get velocityEnabled() : Boolean { 
@@ -76,12 +95,8 @@ public class TouchManager extends Notifier implements IProcess {
 		Touch.m_velocityEnabled = b 
 	}
 	
-	public function get numTouchs() : int {
-		return m_numTouchs
-	}
-	
-	/** 速率失效限制 */
-	final public function setVelocityLimit( invalidCount:int = 7, maxVelocity:int = 44 ) : void {
+	/** 速率失效程度限制... */
+	public function setVelocityLimit( invalidCount:int = 7, maxVelocity:int = 44 ) : void {
 		Touch.m_invalidCount = invalidCount
 		Touch.m_maxVelocity = maxVelocity
 	}
@@ -89,7 +104,7 @@ public class TouchManager extends Notifier implements IProcess {
 	final public function update( deltaTime:Number ) : void {
 		var touch:Touch
 		
-		if (!m_allInvalid && m_numTouchs > 0) {
+		if (m_numTouchs > 0 && !m_allInvalid) {
 			for each(touch in m_touchList) {
 				touch.update()
 			}
@@ -101,16 +116,15 @@ public class TouchManager extends Notifier implements IProcess {
 		var touchID:int
 		var touch:Touch
 		
-		//trace(e.type)
 		type     =  e.type
 		touchID  =  (e is TouchEvent) ? (e as TouchEvent).touchPointID : 0
 		if (type == TouchEvent.TOUCH_BEGIN || type == MouseEvent.MOUSE_DOWN) {
 			m_touchList[touchID] = touch = Touch.getTouch(touchID, e.stageX, e.stageY)
 			if (m_numTouchs++ == 0 || m_multiTouchEnabled) {
 				this.dispatchEvent(new ATouchEvent(ATouchEvent.NEW_TOUCH, touch))
-			}			
-			// 同时存在两个以上触摸，全部触摸将失效...
-			if(m_numTouchs > 1 && !m_allInvalid && !m_multiTouchEnabled){
+			}
+			// [ multitouch is false ]，if there are more than two touchs，all touch will be disabled...
+			if(m_numTouchs > 1 && !m_multiTouchEnabled && !m_allInvalid){
 				m_allInvalid = true
 				for each(touch in m_touchList) {
 					touch.dispatchDirectEvent(AEvent.RELEASE)
@@ -143,7 +157,7 @@ public class TouchManager extends Notifier implements IProcess {
 		}
 	}
 	
-	private static var m_instance:TouchManager
+	agony_internal static var m_instance:TouchManager
 	agony_internal static var m_touchList:Object // touchID:Touch
 	agony_internal static var m_numTouchs:int
 	agony_internal static var m_multiTouchEnabled:Boolean, m_allInvalid:Boolean
