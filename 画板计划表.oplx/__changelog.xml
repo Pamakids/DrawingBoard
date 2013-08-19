@@ -358,6 +358,35 @@
   <task-change-set user="mani" date="2013-08-08T10:56:03.292Z" timestamp="2013-08-08T10:56:03.292Z">
     <change idref="t18" attribute="internalEffortDone" type="real" from="14399.9990234375" to="43199.99742507935" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-08-09T10:42:15.375Z" timestamp="2013-08-09T10:42:15.375Z">
+    <change idref="t32" attribute="internalEffortDone" type="real" from="23039.998046875" to="28800" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-09T10:46:13.454Z" timestamp="2013-08-09T10:46:13.454Z">
+    <change idref="t18" attribute="internalEffortDone" type="real" from="43199.99609375" to="72000" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-12T11:12:59.021Z" timestamp="2013-08-12T11:12:59.021Z">
+    <change idref="t18" attribute="internalEffortDone" type="real" from="72000" to="100799.9982833862" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-13T10:52:05.379Z" timestamp="2013-08-13T10:52:05.379Z">
+    <change idref="t9" attribute="resourceLeveledDate" type="date" from="2013-09-22T00:00:00.000Z" to="2013-09-25T00:00:00.000Z" resolved="yes"/>
+    <change idref="t16" attribute="resourceLeveledDate" type="date" from="2013-08-23T00:00:00.000Z" to="2013-08-28T00:00:00.000Z" resolved="yes"/>
+    <change idref="t19" attribute="resourceLeveledDate" type="date" from="2013-08-26T00:00:00.000Z" to="2013-08-29T00:00:00.000Z" resolved="yes"/>
+    <change idref="t20" attribute="resourceLeveledDate" type="date" from="2013-08-15T00:00:00.000Z" to="2013-08-20T00:00:00.000Z" resolved="yes"/>
+    <change idref="t21" attribute="resourceLeveledDate" type="date" from="2013-10-23T00:00:00.000Z" to="2013-10-28T00:00:00.000Z" resolved="yes"/>
+    <change idref="t24" attribute="resourceLeveledDate" type="date" from="2013-08-27T00:00:00.000Z" to="2013-08-30T00:00:00.000Z" resolved="yes"/>
+    <change idref="t25" attribute="resourceLeveledDate" type="date" from="2013-08-28T00:00:00.000Z" to="2013-09-02T00:00:00.000Z" resolved="yes"/>
+    <change idref="t26" attribute="resourceLeveledDate" type="date" from="2013-09-11T00:00:00.000Z" to="2013-09-16T00:00:00.000Z" resolved="yes"/>
+    <change idref="t27" attribute="resourceLeveledDate" type="date" from="2013-09-18T00:00:00.000Z" to="2013-09-24T00:00:00.000Z" resolved="yes"/>
+    <change idref="t31" attribute="resourceLeveledDate" type="date" from="2013-08-20T00:00:00.000Z" to="2013-08-23T00:00:00.000Z" resolved="yes"/>
+    <change idref="t33" attribute="resourceLeveledDate" type="date" from="2013-09-23T00:00:00.000Z" to="2013-09-26T00:00:00.000Z" resolved="yes"/>
+    <change idref="t35" attribute="resourceLeveledDate" type="date" from="2013-09-25T00:00:00.000Z" to="2013-09-29T00:00:00.000Z" resolved="yes"/>
+    <change idref="t36" attribute="resourceLeveledDate" type="date" from="2013-10-09T00:00:00.000Z" to="2013-10-12T00:00:00.000Z" resolved="yes"/>
+    <change idref="t37" attribute="resourceLeveledDate" type="date" from="2013-10-10T00:00:00.000Z" to="2013-10-14T00:00:00.000Z" resolved="yes"/>
+    <change idref="t39" attribute="resourceLeveledDate" type="date" from="2013-10-12T00:00:00.000Z" to="2013-10-16T00:00:00.000Z" resolved="yes"/>
+    <change idref="t41" attribute="resourceLeveledDate" type="date" from="2013-10-15T00:00:00.000Z" to="2013-10-18T00:00:00.000Z" resolved="yes"/>
+    <change idref="t45" attribute="resourceLeveledDate" type="date" from="2013-10-17T00:00:00.000Z" to="2013-10-22T00:00:00.000Z" resolved="yes"/>
+    <change idref="t46" attribute="resourceLeveledDate" type="date" from="2013-10-18T00:00:00.000Z" to="2013-10-23T00:00:00.000Z" resolved="yes"/>
+  </task-change-set>
   <resource-change-set user="mani" date="2013-08-06T10:01:32.926Z" timestamp="2013-08-06T10:01:32.926Z">
     <change idref="r2" to="r-1" to-position="1" resolved="yes">
       <change idref="r2" attribute="name" type="string" to="阿毅"/>
@@ -370,6 +399,9 @@
   <resource-change-set user="mani" date="2013-08-07T04:20:47.452Z" timestamp="2013-08-07T04:20:47.452Z">
     <change idref="r-1" attribute="overtimeString" type="string" from="" to="4647,28800,4647,61200,,;4654,28800,4654,61200,,;4667,28800,4667,61200,," resolved="yes"/>
     <change idref="r-1" attribute="timeOffString" type="string" from="" to="4644,28800,4645,61200,,;4655,28800,4659,61200,,;4662,28800,4662,61200,," resolved="yes"/>
+  </resource-change-set>
+  <resource-change-set user="mani" date="2013-08-13T10:52:05.377Z" timestamp="2013-08-13T10:52:05.377Z">
+    <change idref="r2" attribute="timeOffString" type="string" from="" to="4608,28800,4610,61200,," resolved="yes"/>
   </resource-change-set>
   <metadata-change-set user="Pamakids" date="2013-08-06T09:41:38.157Z" timestamp="2013-08-06T09:41:38.157Z">
     <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-06T00:00:00.000Z" resolved="yes"/>
