@@ -2,14 +2,15 @@ package drawing.supportClasses {
 	import flash.display.BitmapData;
 	import flash.display.IBitmapDrawable;
 	import flash.geom.Rectangle;
+	
 	import org.agony2d.core.agony_internal;
 	
 	use namespace agony_internal;
 	
 final public class CopyPixelsBrush extends BrushBase{
 	
-	public function CopyPixelsBrush( pixelRatio:Number, content:BitmapData, source:IBitmapDrawable, color:uint, density:Number ) {
-		super(pixelRatio, content, color, density)
+	public function CopyPixelsBrush( pixelRatio:Number, content:BitmapData, source:IBitmapDrawable, density:Number, color:uint, alpha:Number ) {
+		super(pixelRatio, content, density, color, alpha)
 		m_data = sourceToBitmapData(source)
 	}
 	
@@ -20,8 +21,7 @@ final public class CopyPixelsBrush extends BrushBase{
 			cachedData = new BitmapData(cachedWidth, cachedHeight, true, 0x0)
 			cachedMatrix.identity()
 			cachedMatrix.scale(m_scale, m_scale)
-			cachedColorTransform.color = 0
-			cachedData.draw(m_data, cachedMatrix, cachedColorTransform, null, null, true)
+			cachedData.draw(m_data, cachedMatrix, this.getColorTransform(), null, null, true)
 			m_prevScale = m_scale
 			m_prevColor = m_color
 		}

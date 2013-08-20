@@ -1,15 +1,17 @@
 package states 
 {
-	import assets.AssetsUI;
+	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
 	import com.greensock.easing.Linear;
 	import com.greensock.easing.Quint;
 	import com.greensock.easing.Strong;
-	import com.greensock.TweenLite;
+	
+	import assets.AssetsUI;
+	
+	import org.agony2d.debug.Logger;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
-	import org.agony2d.debug.Logger;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
@@ -18,12 +20,12 @@ package states
 	import org.agony2d.view.GridScrollFusion;
 	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.LabelButton;
-	import org.agony2d.view.enum.LayoutType;
-	import org.agony2d.view.puppet.ImagePuppet;
-	import org.agony2d.view.puppet.SpritePuppet;
 	import org.agony2d.view.ScrollFusion;
 	import org.agony2d.view.ScrollThumbFusion;
 	import org.agony2d.view.UIState;
+	import org.agony2d.view.enum.LayoutType;
+	import org.agony2d.view.puppet.ImagePuppet;
+	import org.agony2d.view.puppet.SpritePuppet;
 
 public class ScrollFusionUIState extends UIState
 {
@@ -31,6 +33,8 @@ public class ScrollFusionUIState extends UIState
 	private var numImage:int = 400
 	private const gapX:int = 150
 	private const gapY:int = 190;
+	private const maskW:int = 700
+	private const maskH:int = 500
 	
 	private var imageList:Array = []
 	override public function enter():void
@@ -48,16 +52,9 @@ public class ScrollFusionUIState extends UIState
 		var img:ImageButton
 		
 		// 滚动合体
-		mScrollFusion = new GridScrollFusion(700, 500, 80, 100, false, 6, 6, 1, 2)
+		mScrollFusion = new GridScrollFusion(maskW, maskH, 80, 100, false, 6, 6, 1, 2)
 		this.fusion.addElement(mScrollFusion, 50, 30)
 		content = mScrollFusion.content
-		
-		// 背景
-		shape = new SpritePuppet()
-		shape.graphics.beginFill(0xdd4444, 0.4)
-		shape.graphics.drawRect(0, 0, 700, 500)
-		shape.cacheAsBitmap = true
-		mScrollFusion.addElementAt(shape, 0)
 		
 		// 属性
 		mScrollFusion.limitTop = true
@@ -66,11 +63,18 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion.limitRight = true
 		mScrollFusion.contentWidth = 3540
 		mScrollFusion.contentHeight = 3000
-		
-		thumb = mScrollFusion.getHorizThumb('scroll', 700, 15)
+			
+		// 背景
+//		shape = new SpritePuppet()
+//		shape.graphics.beginFill(0xdd4444, 0.4)
+//		shape.graphics.drawRect(0, 0, 700, 500)
+//		shape.cacheAsBitmap = true
+//		mScrollFusion.addElementAt(shape, 0)
+
+		thumb = mScrollFusion.getHorizThumb('scroll', maskW, 15)
 		this.fusion.addElement(thumb, 0, 0, LayoutType.BA, LayoutType.B__A)
 		
-		thumb = mScrollFusion.getVertiThumb('scroll', 500, 15)
+		thumb = mScrollFusion.getVertiThumb('scroll', maskH, 15)
 		this.fusion.position = 0
 		this.fusion.addElement(thumb, 0, 0, LayoutType.B__A, LayoutType.BA)
 		
@@ -81,15 +85,15 @@ public class ScrollFusionUIState extends UIState
 		
 		mScrollFusion.addEventListener(AEvent.BEGINNING, function(e:AEvent):void
 		{
-			Logger.reportMessage(mScrollFusion, AEvent.BEGINNING)
+			//Logger.reportMessage(mScrollFusion, AEvent.BEGINNING)
 			//TweenLite.killTweensOf(content)
 		})
 		mScrollFusion.addEventListener(AEvent.COMPLETE, function(e:AEvent):void
 		{
-			Logger.reportMessage(mScrollFusion, AEvent.COMPLETE)
+			//Logger.reportMessage(mScrollFusion, AEvent.COMPLETE)
 		})
 		mScrollFusion.content.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
-			Logger.reportMessage(mScrollFusion, AEvent.X_Y_CHANGE)
+			//Logger.reportMessage(mScrollFusion, AEvent.X_Y_CHANGE)
 		})
 /*		mScrollFusion.addEventListener(AEvent.COMPLETE, function(e:AEvent):void
 		{

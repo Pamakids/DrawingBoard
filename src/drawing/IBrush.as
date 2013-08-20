@@ -10,5 +10,8 @@ public interface IBrush {
 	
 	function get color() : uint
 	function set color( v:uint ) : void
+	
+	function get alpha() : Number
+	function set alpha( v:Number ) : void
 }
 }

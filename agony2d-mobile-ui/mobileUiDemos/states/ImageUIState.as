@@ -1,15 +1,20 @@
 package states 
 {
-	import assets.AssetsUI;
 	import com.greensock.TweenLite;
+	
+	import assets.AssetsUI;
+	
 	import org.agony2d.input.Touch;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Button;
-	import org.agony2d.view.enum.LayoutType;
 	import org.agony2d.view.Fusion;
+	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.LabelButton;
-	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.UIState;
+	import org.agony2d.view.enum.ImageButtonType;
+	import org.agony2d.view.enum.LayoutType;
+	import org.agony2d.view.puppet.ImagePuppet;
 
 public class ImageUIState extends UIState
 {
@@ -52,31 +57,32 @@ public class ImageUIState extends UIState
 		//this.fusion.pivotX = 300
 		//this.fusion.pivotY = 300
 		this.fusion.setPivot(300,300)
-		
+		AgonyUI.addImageButtonData(AssetsUI.AT_btn_yellow, 'AT_btn_yellow', ImageButtonType.BUTTON_RELEASE_PRESS_INVALID)
+			
 		var IP:ImagePuppet
 		var i:int
-		var label:Button
+		var label:ImageButton
 		var correctionX:Number, correctionY:Number, velocityX:Number, velocityY:Number
 		var F:Fusion
 		var touch:Touch
 		
 		numImage = urlList.length
 		
-		label = new Button('Btn_A')
-		label.movieClip.scaleX = 120 / label.movieClip.width
-		label.movieClip.scaleY = 50 / label.movieClip.height
+		label = new ImageButton('AT_btn_yellow')
+//		label.movieClip.scaleX = 120 / label.movieClip.width
+//		label.movieClip.scaleY = 50 / label.movieClip.height
 		label.addEventListener(AEvent.CLICK, onLoadImage)
 		this.fusion.addElement(label,110, 8)
 		
-		label = new Button('Btn_A')
-		label.movieClip.scaleX = 120 / label.movieClip.width
-		label.movieClip.scaleY = 50 / label.movieClip.height
+		label = new ImageButton('AT_btn_yellow')
+//		label.movieClip.scaleX = 120 / label.movieClip.width
+//		label.movieClip.scaleY = 50 / label.movieClip.height
 		label.addEventListener(AEvent.CLICK, onEmbed)
 		this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
 		
-		label = new Button('Btn_A')
-		label.movieClip.scaleX = 120 / label.movieClip.width
-		label.movieClip.scaleY = 50 / label.movieClip.height
+		label = new ImageButton('AT_btn_yellow')
+//		label.movieClip.scaleX = 120 / label.movieClip.width
+//		label.movieClip.scaleY = 50 / label.movieClip.height
 		label.addEventListener(AEvent.CLICK, onEmpty)
 		this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
 		
@@ -104,6 +110,7 @@ public class ImageUIState extends UIState
 
 	override public function exit():void
 	{	
+		AgonyUI.removeImageButtonData('AT_btn_yellow')
 		TweenLite.killTweensOf(this.fusion)
 		var IP:ImagePuppet
 		var i:int

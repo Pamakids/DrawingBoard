@@ -33,11 +33,13 @@ public class Grid extends Notifier {
 		var i:int
 		var cc:ComponentProxy
 		
-		while (i < m_elementLength) {
-			cc = m_elementList[i++];
-			d.addChild(cc.shell)
+		if (!this.visible){
+			while (i < m_elementLength) {
+				cc = m_elementList[i++];
+				d.addChild(cc.shell)
+			}
+			this.visible = true
 		}
-		this.visible = true
 		if (m_elementLength) {
 			this.dispatchDirectEvent(AEvent.ENTER_STAGE)
 			//trace("[ add to stage ] tileX: " + this.tileX, "tileY: " + this.tileY)
@@ -48,11 +50,13 @@ public class Grid extends Notifier {
 		var i:int
 		var cc:ComponentProxy
 		
-		while (i < m_elementLength) {
-			cc = m_elementList[i++];
-			d.removeChild(cc.shell)
+		if (this.visible){
+			while (i < m_elementLength) {
+				cc = m_elementList[i++];
+				d.removeChild(cc.shell)
+			}
+			this.visible = false
 		}
-		this.visible = false
 		if (m_elementLength) {
 			this.dispatchDirectEvent(AEvent.EXIT_STAGE)
 			//trace("[ remove from stage ] tileX: " + this.tileX, "tileY: " + this.tileY)

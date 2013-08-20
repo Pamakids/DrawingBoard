@@ -39,24 +39,24 @@ public class ButtonState extends UIState {
 		content.spaceHeight = 500
 		this.fusion.addElement(content)
 		
-		bg = new SpritePuppet
-		bg.graphics.beginFill(0xdddddd, .4)
-		bg.graphics.drawRect(0, 0, 550, 500)
-		bg.cacheAsBitmap = true
-		content.addElement(bg)
-		
-		bg = new SpritePuppet
-		bg.graphics.beginFill(0x44dd44, .4)
-		bg.graphics.drawRect(0, 0, 400, 300)
-		bg.cacheAsBitmap = true
-		content.addElement(bg,0, 0, LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
-		
-		content.position = 0
-		bg = new SpritePuppet
-		bg.graphics.beginFill(0xdddd44, .4)
-		bg.graphics.drawRect(0, 0, 200, 200)
-		bg.cacheAsBitmap = true
-		content.addElement(bg, 0, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+//		bg = new SpritePuppet
+//		bg.graphics.beginFill(0xdddddd, .4)
+//		bg.graphics.drawRect(0, 0, 550, 500)
+//		bg.cacheAsBitmap = true
+//		content.addElement(bg)
+//		
+//		bg = new SpritePuppet
+//		bg.graphics.beginFill(0x44dd44, .4)
+//		bg.graphics.drawRect(0, 0, 400, 300)
+//		bg.cacheAsBitmap = true
+//		content.addElement(bg,0, 0, LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
+//		
+//		content.position = 0
+//		bg = new SpritePuppet
+//		bg.graphics.beginFill(0xdddd44, .4)
+//		bg.graphics.drawRect(0, 0, 200, 200)
+//		bg.cacheAsBitmap = true
+//		content.addElement(bg, 0, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 		
 		/////////////////////////////////
 		// ImageButton !!

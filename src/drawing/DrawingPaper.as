@@ -3,9 +3,19 @@ package drawing {
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
 	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
+	
+	import drawing.supportClasses.BrushBase;
+	import drawing.supportClasses.CopyPixelsBrush;
+	import drawing.supportClasses.DrawingBase;
+	import drawing.supportClasses.EraseBrush;
+	import drawing.supportClasses.TransformationBrush;
+	
+	import org.agony2d.Agony;
 	import org.agony2d.core.IProcess;
-	import org.agony2d.renderer.drawing.supportClasses.*
+	import org.agony2d.core.ProcessManager;
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.notify.AEvent;
 	
 	use namespace agony_internal;
 	
@@ -56,6 +66,8 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 			}
 		}
 		m_bytesA = new ByteArray
+		ProcessManager.addFrameProcess(this, 80000)
+		//Agony.process.addEventListener(AEvent.ENTER_FRAME, doLock)
 	}
 	
 	public function get content() : BitmapData {
@@ -78,13 +90,13 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		m_brushIndex = v
 	}
 	
-	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, color:uint, density:Number ) : IBrush {
-		return m_brushList[index] = new CopyPixelsBrush(m_pixelRatio, m_content, source, color, density)
+	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number, color:uint = 0xFFFFFF, alpha:Number = 1 ) : IBrush {
+		return m_brushList[index] = new CopyPixelsBrush(m_pixelRatio, m_content, source, density, color, alpha)
 	}
 	
-	public function createTransformationBrush( sourceList:Array, index:int, color:uint, density:Number, 
-											appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true ) :IBrush {
-		return m_brushList[index] = new TransformationBrush(m_pixelRatio, m_content, sourceList, color, density, appendScaleLow, appendScaleHigh, rotatable)
+	public function createTransformationBrush( sourceList:Array, index:int, density:Number, color:uint = 0xFFFFFF, alpha:Number = 1,
+											appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true, quality:String = null) :IBrush {
+		return m_brushList[index] = new TransformationBrush(m_pixelRatio, m_content, sourceList, density, color, alpha, appendScaleLow, appendScaleHigh, rotatable, quality)
 	}
 	
 	public function createEraseBrush( source:DisplayObject, index:int, density:Number ) : IBrush {
@@ -112,6 +124,7 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		}
 		m_bytesA.writeInt(m_currTime)
 		brush.drawPoint(destX, destY)
+		m_numDrawPerFrame++
 	}
 	
 	final override public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
@@ -154,7 +167,7 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		m_bytesA.length = 0
 		m_commandList[++m_commandIndex] = m_bytesB.length - 1
 		m_commandLength++
-		trace(m_commandList)
+		//trace(m_commandList)
 	}
 	
 	public function undo() : void {
@@ -214,11 +227,20 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		}
 	}
 	
+//	private function doLock( e:AEvent ) : void{
+//		//m_content.unlock()
+//		trace("numDrawPerFrame: " + m_numDrawPerFrame)
+//		m_numDrawPerFrame = 0
+//		trace("elapsedT: " + (getTimer() - m_oldT))
+//	}
+	
 	final public function update( deltaTime:Number ) : void {
 		m_currTime += deltaTime
 		if (m_currTime) {
 			
 		}
+		m_oldT = getTimer()
+		//m_content.lock()
 	}
 	
 	private function get lastCachedImage() : BitmapData {
@@ -235,5 +257,6 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
 	agony_internal var m_currTime:int
+	agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }
 }

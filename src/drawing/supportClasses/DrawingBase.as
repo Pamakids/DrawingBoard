@@ -4,7 +4,6 @@ package drawing.supportClasses {
 	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	
 	use namespace agony_internal;
 	

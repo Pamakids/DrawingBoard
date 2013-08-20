@@ -53,7 +53,6 @@ public class TouchManager extends Notifier implements IProcess {
 		while (--l > -1) {
 			stage.addEventListener(eventList[l], ____onTouchStateUpdate, false, -8000)
 		}
-		ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
 	}
 	
 	public static function getInstance() : TouchManager {
@@ -92,7 +91,15 @@ public class TouchManager extends Notifier implements IProcess {
 	}
 	
 	public function set velocityEnabled( b:Boolean ) : void {
-		Touch.m_velocityEnabled = b 
+		if (Touch.m_velocityEnabled != b) {
+			Touch.m_velocityEnabled = b
+			if (b) {
+				ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
+			}
+			else {
+				ProcessManager.removeFrameProcess(this)
+			}
+		}
 	}
 	
 	/** 速率失效程度限制... */
@@ -104,7 +111,7 @@ public class TouchManager extends Notifier implements IProcess {
 	final public function update( deltaTime:Number ) : void {
 		var touch:Touch
 		
-		if (m_numTouchs > 0 && !m_allInvalid) {
+		if (m_numTouchs > 0 && !m_allInvalid && Touch.m_velocityEnabled) {
 			for each(touch in m_touchList) {
 				touch.update()
 			}

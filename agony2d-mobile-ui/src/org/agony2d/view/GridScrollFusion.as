@@ -49,8 +49,8 @@ public class GridScrollFusion extends PivotFusion {
 		//m_content = new PivotFusion
 		this.addElementAt(m_content)
 		m_shell.scrollRect = new Rectangle(0, 0, maskWidth * m_pixelRatio, maskHeight * m_pixelRatio)
-		m_maskWidth  = m_contentWidth  = maskWidth
-		m_maskHeight = m_contentHeight = maskHeight
+		m_spaceWidth = m_maskWidth  = m_contentWidth  = maskWidth
+		m_spaceHeight = m_maskHeight = m_contentHeight = maskHeight
 		m_horizDisableOffset = horizDisableOffset
 		m_vertiDisableOffset = vertiDisableOffset
 		if (scaleRatioLow > 1 || scaleRatioHigh < 1) {

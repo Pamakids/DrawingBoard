@@ -31,7 +31,7 @@ package org.agony2d.loader {
 
 	use namespace agony_internal
 
-	/** 显示对象加载器
+	/** [ LoaderManager ]
 	 *  [◆]
 	 * 		1.  numLoadings
 	 * 		2.  length

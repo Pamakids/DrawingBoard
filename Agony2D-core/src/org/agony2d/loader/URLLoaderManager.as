@@ -14,7 +14,7 @@ package org.agony2d.loader {
 	import org.agony2d.notify.RangeEvent;
 	use namespace agony_internal
 	
-	/** 数据加载器
+	/** [ URLLoaderManager ]
 	 *  [◆]
 	 * 		1.  numLoadings
 	 * 		2.  length

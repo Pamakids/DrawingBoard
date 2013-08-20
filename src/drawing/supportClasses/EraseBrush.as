@@ -9,7 +9,7 @@ package drawing.supportClasses {
 final public class EraseBrush extends BrushBase {
 	
 	public function EraseBrush( pixelRatio:Number, content:BitmapData, source:DisplayObject, density:Number ) {
-		super(pixelRatio, content, 0x0, density)
+		super(pixelRatio, content, density, 0x0, 1)
 		m_data = source
 		m_data.blendMode = BlendMode.LAYER
 	}
