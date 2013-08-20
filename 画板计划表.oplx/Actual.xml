@@ -408,7 +408,7 @@
     <title>滚动组件</title>
     <leveled-start>2013-08-08T00:00:00.000Z</leveled-start>
     <effort>144000</effort>
-    <effort-done>100800</effort-done>
+    <effort-done>144000</effort-done>
     <prerequisite-task idref="t29"/>
     <assignment idref="r2"/>
   </task>

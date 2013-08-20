@@ -387,6 +387,9 @@
     <change idref="t45" attribute="resourceLeveledDate" type="date" from="2013-10-17T00:00:00.000Z" to="2013-10-22T00:00:00.000Z" resolved="yes"/>
     <change idref="t46" attribute="resourceLeveledDate" type="date" from="2013-10-18T00:00:00.000Z" to="2013-10-23T00:00:00.000Z" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-08-19T11:38:53.263Z" timestamp="2013-08-19T11:38:53.263Z">
+    <change idref="t18" attribute="internalEffortDone" type="real" from="100800" to="144000" resolved="yes"/>
+  </task-change-set>
   <resource-change-set user="mani" date="2013-08-06T10:01:32.926Z" timestamp="2013-08-06T10:01:32.926Z">
     <change idref="r2" to="r-1" to-position="1" resolved="yes">
       <change idref="r2" attribute="name" type="string" to="阿毅"/>
