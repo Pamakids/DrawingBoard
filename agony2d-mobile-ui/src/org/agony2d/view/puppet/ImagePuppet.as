@@ -61,6 +61,7 @@ final public class ImagePuppet extends SmoothProxy {
 		this.checkAndStopLoad()
 		m_key = null
 		m_view.m_img.bitmapData = v
+		this.adjustAlign()
 	}
 	
 	public function get graphics() : IGraphics {

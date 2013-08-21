@@ -1,53 +1,21 @@
-package drawing {
+package drawing.supportClasses {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
 	import flash.utils.ByteArray;
-	import flash.utils.getTimer;
 	
-	import drawing.supportClasses.BrushBase;
-	import drawing.supportClasses.CopyPixelsBrush;
-	import drawing.supportClasses.DrawingBase;
-	import drawing.supportClasses.EraseBrush;
-	import drawing.supportClasses.TransformationBrush;
+	import drawing.IBrush;
 	
-	import org.agony2d.Agony;
 	import org.agony2d.core.IProcess;
 	import org.agony2d.core.ProcessManager;
 	import org.agony2d.core.agony_internal;
-	import org.agony2d.notify.AEvent;
+	import org.agony2d.debug.Logger;
 	
 	use namespace agony_internal;
 	
-	/** 绘纸
-	 *  [◆]
-	 * 		1.  content
-	 *  	2.  bytes
-	 *  	3.  brushIndex
-	 *  [◆◆]
-	 *  	1.  createCopyPixelsBrush
-	 *  	2.  createTransformationBrush
-	 *  	3.  createEraseBrush
-	 *  	4.  getBrushByIndex
-	 * 
-	 *  	5.  drawPoint
-	 *  	6.  drawLine
-	 * 
-	 * 		7.  addCommand
-	 *  	8.  undo
-	 *  	9.  redo
-	 *  	10. clear
-	 *  [★]
-	 * 		a.  绘制(缩放，密度)，保存过程(可接续绘制)，播放/暂停过程(可获取总时长)
-	 * 		b.  可设多重刷子，实时使用.
-	 *  	c.  刷子分类 :
-	 *  			1.  形状固定[ 马克笔 & 水粉笔 & etc ]
-	 *  			2.  旋转缩放透明随机变化[ 铅笔 & 蜡笔 & etc ]
-	 *  			3.  擦除刷子
-	 */
-public class DrawingPaper extends DrawingBase implements IProcess {
+public class PaperBase extends DrawingBase implements IProcess {
 	
-	public function DrawingPaper( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, data:BitmapData = null ) {
+	public function PaperBase( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, data:BitmapData = null ) {
 		var width:Number, height:Number
 		
 		super(pixelRatio)
@@ -67,7 +35,6 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		}
 		m_bytesA = new ByteArray
 		ProcessManager.addFrameProcess(this, 80000)
-		//Agony.process.addEventListener(AEvent.ENTER_FRAME, doLock)
 	}
 	
 	public function get content() : BitmapData {
@@ -88,64 +55,67 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 	
 	public function set brushIndex( v:int ) : void {
 		m_brushIndex = v
+		m_currBrush = m_brushList[v]
+		if(!m_currBrush){
+			Logger.reportError(this, "set brushIndex", "an inexistent brush...!!")
+		}
 	}
 	
-	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number, color:uint = 0xFFFFFF, alpha:Number = 1 ) : IBrush {
-		return m_brushList[index] = new CopyPixelsBrush(m_pixelRatio, m_content, source, density, color, alpha)
+	/** override... */
+	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
+		return null
 	}
 	
-	public function createTransformationBrush( sourceList:Array, index:int, density:Number, color:uint = 0xFFFFFF, alpha:Number = 1,
-											appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true, quality:String = null) :IBrush {
-		return m_brushList[index] = new TransformationBrush(m_pixelRatio, m_content, sourceList, density, color, alpha, appendScaleLow, appendScaleHigh, rotatable, quality)
+	/** override... */
+	public function createTransformationBrush( sourceList:Array, index:int, density:Number, appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true) :IBrush {
+		return null
 	}
 	
-	public function createEraseBrush( source:DisplayObject, index:int, density:Number ) : IBrush {
-		return m_brushList[index] = new EraseBrush(m_pixelRatio, m_content, source, density)
+	public function createEraseBrush( source:DisplayObject, index:int ) : IBrush {
+		return m_brushList[index] = new EraseBrush(m_pixelRatio, m_content, source)
 	}
 	
 	public function getBrushByIndex( index:int ) : IBrush {
 		return m_brushList[index]
 	}
 	
-	final override public function drawPoint( destX:Number, destY:Number ) : void {
-		var brush:BrushBase
+	override public function drawPoint( destX:Number, destY:Number ) : void {
+		//Logger.reportMessage(this, "drawPoint...")
 		
-		brush = m_brushList[m_brushIndex]
 		m_bytesA.writeByte(0) // 类型
 		m_bytesA.writeShort(m_brushIndex)
-		m_bytesA.writeShort(int(brush.m_density * 10.0))
-		m_bytesA.writeShort(int(brush.m_scale * 10.0))
-		m_bytesA.writeUnsignedInt(brush.m_color)
+		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
+		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
+		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
 		m_bytesA.writeShort(int(destX * 10.0))
 		m_bytesA.writeShort(int(destY * 10.0))
-		if (brush is TransformationBrush) {
+		if (m_currBrush is TransformationBrush) {
 			cachedAngle = Math.random() * cachedTwoPI
 			m_bytesA.writeShort(int(cachedAngle * 1000.0))
 		}
 		m_bytesA.writeInt(m_currTime)
-		brush.drawPoint(destX, destY)
-		m_numDrawPerFrame++
+		m_currBrush.drawPoint(destX, destY)
+		m_numSpot++
 	}
 	
-	final override public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
-		var brush:BrushBase
-		
-		brush = m_brushList[m_brushIndex]
+	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
+		//Logger.reportMessage(this, "drawLine...")
+			
 		m_bytesA.writeByte(1) // 类型
 		m_bytesA.writeShort(brushIndex)
-		m_bytesA.writeShort(int(brush.m_density * 10.0))
-		m_bytesA.writeShort(int(brush.m_scale * 10.0))
-		m_bytesA.writeUnsignedInt(brush.m_color)
+		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
+		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
+		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
 		m_bytesA.writeShort(int(currX * 10.0))
 		m_bytesA.writeShort(int(currY * 10.0))
-		if (brush is TransformationBrush) {
+		if (m_currBrush is TransformationBrush) {
 			cachedAngle = Math.random() * cachedTwoPI
 			m_bytesA.writeShort(int(cachedAngle * 1000.0))
 		}
 		m_bytesA.writeShort(int(prevX * 10.0))
 		m_bytesA.writeShort(int(prevY * 10.0))
 		m_bytesA.writeInt(m_currTime)
-		brush.drawLine(currX, currY, prevX, prevY)
+		m_numSpot += m_currBrush.drawLine(currX, currY, prevX, prevY)
 	}
 	
 	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
@@ -195,6 +165,10 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		}
 	}
 	
+	public function dispose() : void {
+		ProcessManager.removeFrameProcess(this)
+	}
+	
 	internal function redraw( position:int, startPosition:int ) : void {
 		var type:int
 		var currX:Number, currY:Number, prevX:Number, prevY:Number
@@ -227,36 +201,23 @@ public class DrawingPaper extends DrawingBase implements IProcess {
 		}
 	}
 	
-//	private function doLock( e:AEvent ) : void{
-//		//m_content.unlock()
-//		trace("numDrawPerFrame: " + m_numDrawPerFrame)
-//		m_numDrawPerFrame = 0
-//		trace("elapsedT: " + (getTimer() - m_oldT))
-//	}
-	
-	final public function update( deltaTime:Number ) : void {
+	public function update( deltaTime:Number ) : void {
 		m_currTime += deltaTime
 		if (m_currTime) {
 			
 		}
-		m_oldT = getTimer()
-		//m_content.lock()
 	}
-	
-	private function get lastCachedImage() : BitmapData {
-		return null
-	}
-	
-	internal static var cachedTwoPI:Number = Math.PI * 2
 	
 	agony_internal var m_brushList:Vector.<BrushBase> = new <BrushBase>[]
 	agony_internal var m_brushIndex:int
+	agony_internal var m_currBrush:BrushBase
 	agony_internal var m_commandList:Vector.<int> = new <int>[] // command index:bytes position
 	agony_internal var m_cachedList:Vector.<int> = new <int>[] // cached image index:bytes position
 	agony_internal var m_commandLength:int, m_commandIndex:int = -1 // 命令所在指针位置表示该命令刚刚完成...
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
-	agony_internal var m_currTime:int
-	agony_internal static var m_oldT:int, m_numDrawPerFrame:int
+	agony_internal var m_currTime:int, m_numSpot:int
+	
+	//agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }
 }

@@ -16,7 +16,7 @@ package drawing {
 	 */
 public class DrawingPlayer {
 	
-	public function DrawingPlayer( paper:DrawingPaper ) {
+	public function DrawingPlayer( paper:CommonPaper ) {
 		m_paper = paper
 	}
 	
@@ -54,6 +54,6 @@ public class DrawingPlayer {
 	}
 	
 	agony_internal var m_delay:DelayManager = new DelayManager
-	agony_internal var m_paper:DrawingPaper
+	agony_internal var m_paper:CommonPaper
 }
 }

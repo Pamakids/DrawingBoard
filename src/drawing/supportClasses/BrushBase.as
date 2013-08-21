@@ -3,12 +3,10 @@ package drawing.supportClasses {
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
 	import flash.geom.ColorTransform;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
-	import drawing.DrawingPaper;
+	import drawing.CommonPaper;
 	import drawing.IBrush;
 	
 	import org.agony2d.core.agony_internal;
@@ -18,12 +16,12 @@ package drawing.supportClasses {
 
 public class BrushBase extends DrawingBase implements IBrush{
 	
-	public function BrushBase( pixelRatio:Number, content:BitmapData, density:Number, color:uint, alpha:Number ) {
+	public function BrushBase( pixelRatio:Number, content:BitmapData, density:Number ) {
 		super(pixelRatio)
 		m_content = content
-		m_color = color
-		m_alpha = alpha
 		this.density = density
+		m_color = 0xFFFFFF
+		m_scale = m_alpha = 1
 	}
 	
 	public function get density() : Number {
@@ -58,7 +56,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		m_alpha = v
 	}
 	
-	override public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
+	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : int {
 		var distA:Number, tmpX:Number, tmpY:Number
 		var i:int, l:int
 		
@@ -67,17 +65,16 @@ public class BrushBase extends DrawingBase implements IBrush{
 		distA = Math.sqrt(tmpX * tmpX + tmpY * tmpY)
 		l = Math.ceil(distA / m_density)
 			
-		
-		var t:int = getTimer()
-		m_content.lock()
+//		var t:int = getTimer()
+//		m_content.lock()
 		while (++i <= l) {
 			this.drawPoint(prevX + tmpX * i / l, prevY + tmpY * i / l)
-			DrawingPaper.m_numDrawPerFrame++
+			//DrawingPaper.m_numDrawPerFrame++
 		}
-		m_content.unlock()
-		Logger.reportMessage(this, "elapsedT: " + (getTimer() - t) + "...num: " + l)
+//		m_content.unlock()
+//		Logger.reportMessage(this, "elapsedT: " + (getTimer() - t) + "...num: " + l)
 			
-		
+		return l
 	}
 	
 	protected function sourceToBitmapData( source:IBitmapDrawable ) : BitmapData {
@@ -98,7 +95,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		return result
 	}
 	
-	protected function getColorTransform() :  ColorTransform{
+	protected function getColorTransform() :  ColorTransform {
 		var r:Number = (m_color >> 16) / 255.0;
 		var g:Number = (m_color >> 8 & 255) / 255.0;
 		var b:Number = (m_color & 255) / 255.0;
@@ -110,13 +107,10 @@ public class BrushBase extends DrawingBase implements IBrush{
 		cachedColorTransform.greenOffset = 0;
 		cachedColorTransform.blueOffset = 0;
 		cachedColorTransform.alphaOffset = 0
-		cachedColorTransform.alphaMultiplier = 1
 		return cachedColorTransform
 	}
 	
-	agony_internal var m_density:Number // 每隔多少像素绘制一次，最低不小于3...
-	agony_internal var m_scale:Number = 1.0
+	agony_internal var m_scale:Number, m_alpha:Number, m_density:Number // 每隔多少像素绘制一次，最低不小于3...
 	agony_internal var m_color:uint
-	agony_internal var m_alpha:Number
 }
 }

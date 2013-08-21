@@ -18,17 +18,12 @@ public class DrawingBase {
 		
 	}
 	
-	/** override */
-	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
-
-	}
-	
 	protected static var cachedPoint:Point = new Point
-	//protected static var cachedRectA:Rectangle = new Rectangle
 	protected static var cachedMatrix:Matrix = new Matrix
 	protected static var cachedColorTransform:ColorTransform = new ColorTransform
 	protected static var cachedAngle:Number
-	
+	protected static var cachedTwoPI:Number = Math.PI * 2
+		
 	protected var m_pixelRatio:Number
 	protected var m_content:BitmapData
 }
