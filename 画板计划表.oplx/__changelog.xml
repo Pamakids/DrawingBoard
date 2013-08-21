@@ -1,42 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <changelog xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
   <version>2.0</version>
-  <task-change-set user="Pamakids" date="2013-08-06T09:41:38.161Z" timestamp="2013-08-06T09:41:38.161Z">
-    <change idref="t8" to="t-1" to-position="1" resolved="yes">
-      <change idref="t8" attribute="title" type="string" to="选择主题"/>
-    </change>
-    <change idref="t7" to="t-1" to-position="2" resolved="yes">
-      <change idref="t7" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnZDFcJ2ExXCdkNFwnZjFcJ2JiXCdhZFwnYjFcJ2NhXCdhM1wnYWZcJ2NmXCdmMFwnYzZcJ2E0ClxmMCBcCgkKXGYxIFwnYjhcJ2M0XCdiMVwnZTRcJ2JiXCdhZFwnYjFcJ2NhXCdiNFwnZjNcJ2QwXCdhMQpcZjAgXApiLgpcZjEgXCdkMVwnYTFcJ2Q0XCdmMVwnZDFcJ2Q1XCdjOVwnYWIKXGYwIFwKCQpcZjEgXCdiYlwnZjlcJ2IxXCdiZVwnZDFcJ2Q1XCdjOVwnYWJcJ2EzXCdhZlwnZDdcJ2E4XCdkMlwnYjVcJ2QxXCdkNVwnYzlcJ2FiXCdhM1wnYWZcJ2NlXCdmY1wnYzhcJ2ExXCdiYlwnYWRcJ2MzXCdlNlwnZDZcJ2QwXCdiNVwnYzRcJ2QyXCdkMVwnZDNcJ2QwXCdkMVwnZDVcJ2M5XCdhYgpcZjAgXApjLgpcZjEgXCdiM1wnYjdcJ2NmXCdmYQpcZjAgXApkLgpcZjEgXCdiYlwnZDZcJ2I4XCdiNApcZjAgXAplLgpcZjEgXCdjN1wnZTVcJ2IzXCdmZApcZjAgXAoJClxmMSBcJ2M4XCdiN1wnYjZcJ2E4ClxmMCBcCmYuClxmMSBcJ2NkXCdlYVwnYjNcJ2M5ClxmMCBcCgkKXGYxIFwnYzhcJ2I3XCdiNlwnYTgKXGYwIFwKfQ=="/>
-      <change idref="t7" attribute="title" type="string" to="画画"/>
-    </change>
-    <change idref="t9" to="t-1" to-position="3" resolved="yes">
-      <change idref="t9" attribute="title" type="string" to="贴纸"/>
-    </change>
-    <change idref="t10" to="t-1" to-position="4" resolved="yes">
-      <change idref="t10" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjJcJ2E1XCdiN1wnYzUKXGYwIFwKCQpcZjEgXCdiZlwnZWNcJ2EzXCdhZlwnZDZcJ2QwXCdhM1wnYWZcJ2MyXCdmZApcZjAgXApiLgpcZjEgXCdjOVwnY2ZcJ2I0XCdhYgpcZjAgXApjLgpcZjEgXCdiN1wnZDZcJ2NmXCdlZApcZjAgXApkLgpcZjEgXCdjMlwnYmNcJ2QyXCdmNH0="/>
-      <change idref="t10" attribute="title" type="string" to="完成绘画（自动存储）"/>
-    </change>
-    <change idref="t11" to="t-1" to-position="5" resolved="yes">
-      <change idref="t11" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnY2JcJ2Y5XCdkM1wnZDBcJ2Q3XCdmN1wnYzZcJ2I3XCdjMVwnZDBcJ2IxXCdlZApcZjAgXApiLgpcZjEgXCdiZVwnYWJcJ2QxXCdhMVwnY2RcJ2M2XCdiY1wnZjYKXGYwIFwKZC4KXGYxIFwnY2VcJ2QyXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3XCdiY1wnYWYKXGYwIFwKCQpcZjEgXCdjOVwnY2ZcJ2I0XCdhYlwnYTNcJ2FmXCdjOVwnYmVcJ2IzXCdmZH0="/>
-      <change idref="t11" attribute="title" type="string" to="画廊"/>
-    </change>
-    <change idref="t12" to="t-1" to-position="6" resolved="yes">
-      <change idref="t12" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ=="/>
-      <change idref="t12" attribute="title" type="string" to="观看作品"/>
-    </change>
-    <change idref="t13" to="t-1" to-position="7" resolved="yes">
-      <change idref="t13" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmbmlsXGZjaGFyc2V0MTM0IFNUSGVpdGlTQy1MaWdodDt9CntcY29sb3J0Ymw7XHJlZDI1NVxncmVlbjI1NVxibHVlMjU1O1xyZWQ4NVxncmVlbjg1XGJsdWU4NTt9ClxwYXJkXHR4NTYwXHR4MTEyMFx0eDE2ODBcdHgyMjQwXHR4MjgwMFx0eDMzNjBcdHgzOTIwXHR4NDQ4MFx0eDUwNDBcdHg1NjAwXHR4NjE2MFx0eDY3MjBccGFyZGlybmF0dXJhbAoKXGYwXGZzMjIgXGNmMiBcJ2NjXCdmOVwnZDZcJ2JkXCdjYVwnZDVcJ2JjXCdhZn0="/>
-      <change idref="t13" attribute="title" type="string" to="个人信息"/>
-    </change>
-    <change idref="t14" to="t-1" to-position="8" resolved="yes">
-      <change idref="t14" attribute="title" type="string" to="致父母"/>
-    </change>
-    <change idref="t1" attribute="title" type="string" from="任务 1" to="首页" resolved="yes"/>
-    <change idref="t1" attribute="notesAllowingNil" type="textdata" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYzNcJ2JmXCdjOFwnZDVcJ2QyXCdiYlwnYmJcJ2FkXCdjZFwnYzZcJ2JjXCdmNgpcZjAgXApiLgpcZjEgXCdkNlwnZjdcJ2NjXCdlMlwnYjBcJ2ZjXCdkNVwnYjlcJ2NhXCdiZQpcZjAgXApjLgpcZjEgXCdkN1wnZjdcJ2M2XCdiN1wnY2RcJ2M2XCdiY1wnZjYKXGYwIFwKZC4KXGYxIFwnYmJcJ2FkXCdjMFwnYzhcJ2M4XCdlYlwnYmZcJ2RhClxmMCBcCmUuClxmMSBcJ2M5XCdjY1wnYjVcJ2VhXCdjOFwnZWJcJ2JmXCdkYQpcZjAgXApmLgpcZjEgXCdkNlwnYzJcJ2I4XCdiOFwnYzRcJ2I4ClxmMCBcCmguClxmMSBcJ2I4XCdmNlwnYzhcJ2NiXCdkMFwnYzVcJ2NmXCdhMgpcZjAgXAp9" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="Pamakids" date="2013-08-06T09:43:07.186Z" timestamp="2013-08-06T09:43:07.186Z">
-    <change idref="t12" attribute="notesAllowingNil" type="textdata" from="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCmIuClxmMSBcJ2I5XCdkYlwnYmZcJ2I0XCdiMVwnZjBcJ2M4XCdjYlwnZDdcJ2Y3XCdjNlwnYjd9" to="e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMTg3XGNvY29hc3VicnRmMzQwCntcZm9udHRibFxmMFxmc3dpc3NcZmNoYXJzZXQwIEhlbHZldGljYTtcZjFcZm5pbFxmY2hhcnNldDEzNCBTVEhlaXRpU0MtTGlnaHQ7fQp7XGNvbG9ydGJsO1xyZWQyNTVcZ3JlZW4yNTVcYmx1ZTI1NTtccmVkODVcZ3JlZW44NVxibHVlODU7fQpccGFyZFx0eDU2MFx0eDExMjBcdHgxNjgwXHR4MjI0MFx0eDI4MDBcdHgzMzYwXHR4MzkyMFx0eDQ0ODBcdHg1MDQwXHR4NTYwMFx0eDYxNjBcdHg2NzIwXHBhcmRpcm5hdHVyYWwKClxmMFxmczIyIFxjZjIgYS4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2Q3XCdkNFwnYmNcJ2JhXCdiNVwnYzRcJ2Q3XCdmN1wnYzZcJ2I3ClxmMCBcCgkKXGYxIFwnYjdcJ2Q2XCdjZlwnZWRcJ2EzXCdhZlwnYzlcJ2NmXCdiNFwnYWIKXGYwIFwKYi4KXGYxIFwnYjlcJ2RiXCdiZlwnYjRcJ2IxXCdmMFwnYzhcJ2NiXCdkN1wnZjdcJ2M2XCdiNwpcZjAgXAoJClxmMSBcJ2I3XCdkNlwnY2ZcJ2VkXCdhM1wnYWZcJ2MxXCdmNFwnZDFcJ2Q0fQ==" resolved="yes"/>
-  </task-change-set>
   <task-change-set user="mani" date="2013-08-06T11:26:18.999Z" timestamp="2013-08-06T11:26:18.999Z">
     <change idref="t8" from="t-1" from-position="1" resolved="yes">
       <change idref="t8" attribute="title" type="string" to="选择主题"/>
@@ -387,15 +351,9 @@
     <change idref="t45" attribute="resourceLeveledDate" type="date" from="2013-10-17T00:00:00.000Z" to="2013-10-22T00:00:00.000Z" resolved="yes"/>
     <change idref="t46" attribute="resourceLeveledDate" type="date" from="2013-10-18T00:00:00.000Z" to="2013-10-23T00:00:00.000Z" resolved="yes"/>
   </task-change-set>
-  <resource-change-set user="mani" date="2013-08-06T10:01:32.926Z" timestamp="2013-08-06T10:01:32.926Z">
-    <change idref="r2" to="r-1" to-position="1" resolved="yes">
-      <change idref="r2" attribute="name" type="string" to="阿毅"/>
-    </change>
-    <change idref="r3" to="r-1" to-position="2" resolved="yes">
-      <change idref="r3" attribute="name" type="string" to="夏贝"/>
-    </change>
-    <change idref="r1" attribute="name" type="string" from="资源 1" to="志泽" resolved="yes"/>
-  </resource-change-set>
+  <task-change-set user="mani" date="2013-08-19T11:38:53.263Z" timestamp="2013-08-19T11:38:53.263Z">
+    <change idref="t18" attribute="internalEffortDone" type="real" from="100800" to="144000" resolved="yes"/>
+  </task-change-set>
   <resource-change-set user="mani" date="2013-08-07T04:20:47.452Z" timestamp="2013-08-07T04:20:47.452Z">
     <change idref="r-1" attribute="overtimeString" type="string" from="" to="4647,28800,4647,61200,,;4654,28800,4654,61200,,;4667,28800,4667,61200,," resolved="yes"/>
     <change idref="r-1" attribute="timeOffString" type="string" from="" to="4644,28800,4645,61200,,;4655,28800,4659,61200,,;4662,28800,4662,61200,," resolved="yes"/>
@@ -403,9 +361,6 @@
   <resource-change-set user="mani" date="2013-08-13T10:52:05.377Z" timestamp="2013-08-13T10:52:05.377Z">
     <change idref="r2" attribute="timeOffString" type="string" from="" to="4608,28800,4610,61200,," resolved="yes"/>
   </resource-change-set>
-  <metadata-change-set user="Pamakids" date="2013-08-06T09:41:38.157Z" timestamp="2013-08-06T09:41:38.157Z">
-    <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-06T00:00:00.000Z" resolved="yes"/>
-  </metadata-change-set>
   <metadata-change-set user="mani" date="2013-08-07T04:18:03.002Z" timestamp="2013-08-07T04:18:03.002Z">
     <change idref="m1" attribute="scheduleGranularity" type="real" from="0" to="2" resolved="yes"/>
   </metadata-change-set>
