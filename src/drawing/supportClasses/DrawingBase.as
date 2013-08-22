@@ -1,16 +1,17 @@
 package drawing.supportClasses {
 	import flash.display.BitmapData;
-	import org.agony2d.core.agony_internal;
 	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
+	
+	import org.agony2d.core.agony_internal;
 	
 	use namespace agony_internal;
 	
 public class DrawingBase {
 	
-	public function DrawingBase( pixelRatio:Number ) {
-		m_pixelRatio = pixelRatio
+	public function DrawingBase( contentRatio:Number ) {
+		m_contentRatio = contentRatio
 	}
 	
 	/** override */
@@ -24,7 +25,7 @@ public class DrawingBase {
 	protected static var cachedAngle:Number
 	protected static var cachedTwoPI:Number = Math.PI * 2
 		
-	protected var m_pixelRatio:Number
+	protected var m_contentRatio:Number, m_fitRatio:Number
 	protected var m_content:BitmapData
 }
 }

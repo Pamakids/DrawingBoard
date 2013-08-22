@@ -1,7 +1,6 @@
 package drawing.supportClasses{
 	import flash.display.BitmapData;
 	import flash.display.IBitmapDrawable;
-	import flash.display.StageQuality;
 	
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.view.Fusion;
@@ -30,7 +29,7 @@ public class MobileCopyPixelsBrush extends CopyPixelsBrush{
 		}
 		spot = new ImagePuppet(5)
 		spot.bitmapData = cachedData
-		m_buffer.addElement(spot, destX, destY)
+		m_buffer.addElement(spot, destX/m_contentRatio, destY/m_contentRatio)
 	}
 	
 	agony_internal var m_buffer:Fusion

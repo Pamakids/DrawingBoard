@@ -4,20 +4,18 @@ package drawing.supportClasses {
 	import flash.display.IBitmapDrawable;
 	import flash.geom.ColorTransform;
 	import flash.geom.Rectangle;
-	import flash.utils.getTimer;
 	
-	import drawing.CommonPaper;
 	import drawing.IBrush;
 	
 	import org.agony2d.core.agony_internal;
-	import org.agony2d.debug.Logger;
 	
 	use namespace agony_internal;
 
 public class BrushBase extends DrawingBase implements IBrush{
 	
-	public function BrushBase( pixelRatio:Number, content:BitmapData, density:Number ) {
+	public function BrushBase( pixelRatio:Number, fitRatio:Number, content:BitmapData, density:Number ) {
 		super(pixelRatio)
+		m_fitRatio = fitRatio
 		m_content = content
 		this.density = density
 		m_color = 0xFFFFFF
@@ -29,7 +27,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 	}
 	
 	public function set density( v:Number ) : void {
-		m_density = (v < 3 ? 3 : v) * m_pixelRatio
+		m_density = (v < 3 ? 3 : v)// * m_contentRatio
 	}
 	
 	public function get scale() : Number {
@@ -63,7 +61,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		tmpX = currX - prevX
 		tmpY = currY - prevY
 		distA = Math.sqrt(tmpX * tmpX + tmpY * tmpY)
-		l = Math.ceil(distA / m_density)
+		l = Math.ceil(distA / m_density / m_fitRatio)
 			
 //		var t:int = getTimer()
 //		m_content.lock()
@@ -81,15 +79,15 @@ public class BrushBase extends DrawingBase implements IBrush{
 		var rect:Rectangle
 		var result:BitmapData
 		
-		if (source is BitmapData && (m_pixelRatio == 1)) {
+		if (source is BitmapData) {
 			result = (source as BitmapData).clone()
 		}
 		else {
 			rect = (source is BitmapData) ? (source as BitmapData).rect : (source as DisplayObject).getBounds(source as DisplayObject)
-			result = new BitmapData(Math.ceil(rect.width * m_pixelRatio), Math.ceil(rect.height * m_pixelRatio), true, 0x0)
+			result = new BitmapData(Math.ceil(rect.width), Math.ceil(rect.height), true, 0x0)
 			cachedMatrix.identity()
 			cachedMatrix.translate(-rect.x, -rect.y)
-			cachedMatrix.scale(m_pixelRatio, m_pixelRatio)
+			//cachedMatrix.scale(m_pixelRatio, m_pixelRatio)
 			result.draw(source, cachedMatrix, null, null, null, true)
 		}
 		return result

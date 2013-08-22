@@ -45,7 +45,7 @@ public class MobileTransformationBrush extends TransformationBrush{
 		if (m_rotatable) {
 			spot.rotation = cachedAngle / cachedTwoPI * 360
 		}
-		m_buffer.addElement(spot, destX, destY)
+		m_buffer.addElement(spot, destX/m_contentRatio, destY/m_contentRatio)
 	}
 	
 	agony_internal var m_buffer:Fusion

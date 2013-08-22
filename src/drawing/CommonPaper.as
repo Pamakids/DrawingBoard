@@ -38,16 +38,16 @@ package drawing {
 	 */
 public class CommonPaper extends PaperBase {
 	
-	public function CommonPaper( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, data:BitmapData = null ) {
-		super(paperWidth, paperHeight, pixelRatio, data)
+	public function CommonPaper( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, data:BitmapData = null, maxSize:int = 1024 ) {
+		super(paperWidth, paperHeight, pixelRatio, data, maxSize)
 	}
 	
 	override public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
-		return m_brushList[index] = new CopyPixelsBrush(m_pixelRatio, m_content, source, density)
+		return m_brushList[index] = new CopyPixelsBrush(m_contentRatio, m_fitRatio, m_content, source, density)
 	}
 	
 	override public function createTransformationBrush( sourceList:Array, index:int, density:Number, appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true) :IBrush {
-		return m_brushList[index] = new TransformationBrush(m_pixelRatio, m_content, sourceList, density, appendScaleLow, appendScaleHigh, rotatable)
+		return m_brushList[index] = new TransformationBrush(m_contentRatio, m_fitRatio, m_content, sourceList, density, appendScaleLow, appendScaleHigh, rotatable)
 	}
 }
 }

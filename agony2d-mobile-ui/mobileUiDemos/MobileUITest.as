@@ -45,7 +45,7 @@ public class MobileUITest extends Sprite {
 	
 	private function init(e:Event) : void {
 		// Engine !!
-		Agony.startup(this.stage, null, 'medium')
+		Agony.startup(this.stage, null, 'low')
 		
 		// keyboard...
 		KeyboardManager.getInstance().initialize()

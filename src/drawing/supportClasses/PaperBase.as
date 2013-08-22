@@ -15,13 +15,24 @@ package drawing.supportClasses {
 	
 public class PaperBase extends DrawingBase implements IProcess {
 	
-	public function PaperBase( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, data:BitmapData = null ) {
-		var width:Number, height:Number
+	public function PaperBase( paperWidth:int, paperHeight:int, contentRatio:Number, data:BitmapData, maxSize:int ) {
+		var width:Number, height:Number, ratio:Number
 		
-		super(pixelRatio)
-		width = paperWidth * pixelRatio
-		height = paperHeight * pixelRatio
-		m_content = new BitmapData(width, height, true, 0x0)
+		super(contentRatio)
+		
+		width = paperWidth / contentRatio
+		height = paperHeight / contentRatio
+		if(width > maxSize || height > maxSize){
+			ratio = maxSize / Math.max(width, height)
+			m_fitRatio = ratio / m_contentRatio
+			m_contentRatio = ratio
+			width  *= m_contentRatio
+			height *= m_contentRatio
+		}
+		else{
+			m_contentRatio = m_fitRatio = 1
+		}
+		m_content = new BitmapData(width, height, true, 0x44dddd)
 		if (data) {
 			if (data.width == width && data.height == height) {
 				cachedPoint.setTo(0, 0)
@@ -35,10 +46,17 @@ public class PaperBase extends DrawingBase implements IProcess {
 		}
 		m_bytesA = new ByteArray
 		ProcessManager.addFrameProcess(this, 80000)
+			
+		Logger.reportMessage(this, "width: " + width + "...height: " + height + "...contentRatio: " + m_contentRatio + "...fitRatio: " + m_fitRatio + "...")
 	}
 	
 	public function get content() : BitmapData {
 		return m_content
+	}
+	
+	/** [0 ~ 1] */
+	public function get contentRatio() : Number {
+		return m_contentRatio// > 1 ? 1: m_contentRatio
 	}
 	
 	public function get bytes() : ByteArray {
@@ -72,7 +90,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 	}
 	
 	public function createEraseBrush( source:DisplayObject, index:int ) : IBrush {
-		return m_brushList[index] = new EraseBrush(m_pixelRatio, m_content, source)
+		return m_brushList[index] = new EraseBrush(m_contentRatio, m_fitRatio, m_content, source)
 	}
 	
 	public function getBrushByIndex( index:int ) : IBrush {
@@ -94,7 +112,8 @@ public class PaperBase extends DrawingBase implements IProcess {
 			m_bytesA.writeShort(int(cachedAngle * 1000.0))
 		}
 		m_bytesA.writeInt(m_currTime)
-		m_currBrush.drawPoint(destX, destY)
+//		m_currBrush.drawPoint(destX , destY )
+		m_currBrush.drawPoint(destX * m_contentRatio, destY * m_contentRatio)
 		m_numSpot++
 	}
 	
@@ -115,7 +134,8 @@ public class PaperBase extends DrawingBase implements IProcess {
 		m_bytesA.writeShort(int(prevX * 10.0))
 		m_bytesA.writeShort(int(prevY * 10.0))
 		m_bytesA.writeInt(m_currTime)
-		m_numSpot += m_currBrush.drawLine(currX, currY, prevX, prevY)
+//		m_numSpot += m_currBrush.drawLine(currX , currY, prevX , prevY )
+		m_numSpot += m_currBrush.drawLine(currX * m_contentRatio, currY * m_contentRatio, prevX * m_contentRatio, prevY * m_contentRatio)
 	}
 	
 	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
@@ -138,6 +158,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 		m_commandList[++m_commandIndex] = m_bytesB.length - 1
 		m_commandLength++
 		//trace(m_commandList)
+		Logger.reportMessage(this, m_numSpot)
 	}
 	
 	public function undo() : void {
@@ -217,7 +238,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
 	agony_internal var m_currTime:int, m_numSpot:int
-	
+	//agony_internal var m_contentRatio:Number
 	//agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }
 }

@@ -222,6 +222,9 @@ final public class UIManager {
 		// debug !!
 		//trace(type + " | " + objList)
 		
+		if (!m_rootFusion.interactive) {
+			return
+		}
 		m_currTouch  =  (event is ATouchEvent) ? (event as ATouchEvent).touch : (event.target as Touch)
 		touchID      =  m_currTouch.touchID
 		type         =  event.type
@@ -493,10 +496,6 @@ final class RootFusion extends Fusion {
 	
 	override public function set scaleY ( v:Number ) : void {
 		Logger.reportError(this, "scaleY", "不可使用...!!") 
-	}
-	
-	override public function set interactive ( b:Boolean ) : void {
-		Logger.reportError(this, "interactive", "不可使用...!!") 
 	}
 	
 	override public function get displayObject() : DisplayObject { 

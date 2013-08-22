@@ -1,18 +1,14 @@
 package drawing {
 	import flash.display.BitmapData;
 	import flash.display.IBitmapDrawable;
-	import flash.display.StageQuality;
-	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
 	import drawing.supportClasses.MobileCopyPixelsBrush;
 	import drawing.supportClasses.MobileTransformationBrush;
 	import drawing.supportClasses.PaperBase;
 	
-	import org.agony2d.Agony;
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
-	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.puppet.ImagePuppet;
 	
@@ -35,14 +31,14 @@ public class MobilePaper extends PaperBase {
 	
 	override public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
 		var brush:MobileCopyPixelsBrush
-		m_brushList[index] = brush = new MobileCopyPixelsBrush(m_pixelRatio, source, density)
+		m_brushList[index] = brush = new MobileCopyPixelsBrush(m_contentRatio, source, density)
 		brush.m_buffer = m_buffer
 		return brush
 	}
 	
 	override public function createTransformationBrush( sourceList:Array, index:int, density:Number, appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true) :IBrush {
 		var brush:MobileTransformationBrush
-		m_brushList[index] = brush = new MobileTransformationBrush(m_pixelRatio, sourceList, density, appendScaleLow, appendScaleHigh, rotatable)
+		m_brushList[index] = brush = new MobileTransformationBrush(m_contentRatio, sourceList, density, appendScaleLow, appendScaleHigh, rotatable)
 		brush.m_buffer = m_buffer
 		return brush
 	}
@@ -79,7 +75,7 @@ public class MobilePaper extends PaperBase {
 			//var rect:Rectangle = m_buffer.displayObject.getBounds(Agony.stage)
 			//trace(rect)
 			var t:int = getTimer()
-			m_content.drawWithQuality(m_buffer.displayObject, null, null, null, null, false, StageQuality.MEDIUM)
+			m_content.draw(m_buffer.displayObject, null, null, null, null, false)
 			Logger.reportMessage(this, m_buffer.numElement + "...elapsedT: " + (getTimer() - t))
 			m_buffer.removeAllElement()
 			m_numSpot = 0
