@@ -9,12 +9,12 @@ package org.agony2d.loader {
 	
 public interface ILoader extends INotifier {
 	
-	function get loading() : Boolean
+	function get data() : Object
 	
 	function get url() : String
 	
-	function get data() : Object
-	
 	function get ratio() : Number
+	
+	function get loading() : Boolean
 }
 }

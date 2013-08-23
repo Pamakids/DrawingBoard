@@ -8,7 +8,7 @@ public class ErrorEvent extends AEvent {
 		this.errorID = id
 	}
 	
-	public static const IO_ERROR : String = "ioError" /** IO错误 */
+	public static const IO_ERROR : String = "ioError"
 	
 	public var errorID:int;
 	public var text:String

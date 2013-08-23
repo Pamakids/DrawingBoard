@@ -1,7 +1,7 @@
 package org.agony2d.notify {
 	import org.agony2d.utils.getClassName
 	
-	/** Agony事件
+	/** [ AEvent ]
 	 *  [◆]
 	 * 		1.  target
 	 * 		2.  type
@@ -31,88 +31,49 @@ public class AEvent {
 		return getClassName(this) + ' type="' + m_type + '" target=' + getClassName(m_target)
 	}
     
+	public static const BEGINNING:String           =  "beginning"
+	public static const ROUND:String               =  "round"
+    public static const COMPLETE:String            =  "complete"
 	
-	// ------------------- Common -------------------
+	public static const ENTER_FRAME:String         =  "enterFrame"
+	public static const CHANGE:String              =  "change"
+	public static const SELECT:String              =  "select"
 	
-	public static const BEGINNING:String           =  "beginning" /** 开始 */
+	public static const VISIBLE_CHANGE:String      =  "visibleChange"
+	public static const INTERACTIVE_CHANGE:String  =  "interactiveChange"
+	public static const KILL:String                =  "kill"
 	
-    public static const COMPLETE:String            =  "complete" /** 完成 */
-	
-	public static const ENTER_FRAME:String         =  "enterFrame" /** 帧更新 */
-	
-	public static const ROUND:String               =  "round" /** 单轮结束 */
-	
-	public static const CHANGE:String              =  "change" /** 变化 */
-	
-	public static const VISIBLE_CHANGE:String      =  "visibleChange" /** 可见状态变化 */
-	
-	public static const INTERACTIVE_CHANGE:String  =  "interactiveChange" /** 交互状态变化 */
-	
-	public static const SELECT:String              =  "select" /** 选择 */
-	
-	public static const KILL:String                =  "kill" /** 死亡 */
+    public static const FLUSH:String               =  "flush"
+	public static const PENDING:String             =  "pending"
+	public static const SUCCESS:String             =  "success"
 	
 	
-	// ------------------- Cookie -------------------
-	
-    public static const FLUSH:String               =  "flush" /** 刷新 */
-	
-	public static const PENDING:String             =  "pending" /** 待定 */
-	
-	public static const SUCCESS:String             =  "success" /** 成功 */
-	
-	
-	// ------------------- View -------------------
-	
-	public static const PRESS:String         =  "press" /** 按下 */
-	
-	public static const RELEASE:String       =  "release" /** 弹起 */
-	
-	public static const MOVE:String          =  "move" /** 移动 */
-	
-	public static const OVER:String          =  "over" /** 移上 */
-	
-	public static const LEAVE:String         =  "leave" /** 移出 */
-	
-	public static const CLICK:String         =  "click" /** 单击 */
-	
-	public static const DOUBLE_CLICK:String  =  "doubleClick" /** 双击 */
+	public static const PRESS:String         =  "press"
+	public static const RELEASE:String       =  "release"
+	public static const MOVE:String          =  "move"
+	public static const OVER:String          =  "over"
+	public static const LEAVE:String         =  "leave"
+	public static const CLICK:String         =  "click"
+	public static const DOUBLE_CLICK:String  =  "doubleClick"
 	
 	public static const X_Y_CHANGE:String    =  "xYChange"
+	public static const ENTER_STAGE:String   =  "enterStage"
+	public static const EXIT_STAGE:String    =  "exitStage"
 	
-	public static const ENTER_STAGE:String   =  "enterStage" /** 进入舞台 */
+	public static const LEFT:String          =  "left"
+	public static const RIGHT:String         =  "right"
+	public static const TOP:String           =  "top"
+	public static const BOTTOM:String        =  "bottom"
 	
-	public static const EXIT_STAGE:String    =  "exitStage" /** 移出舞台 */
-	
-	public static const LEFT:String          =  "left" /** 左方向 */
-	
-	public static const RIGHT:String         =  "right" /** 右方向 */
-	
-	public static const TOP:String           =  "top" /** 上方向 */
-	
-	public static const BOTTOM:String        =  "bottom" /** 下方向 */
-	
-	
-	// ------------------- Drag -------------------
-	
-	public static const START_DRAG:String    =  "startDrag" /** 开始拖动 */
-	
-	public static const DRAGGING:String      =  "dragging" /** 拖动中 */
-	
-	public static const STOP_DRAG:String     =  "stopDrag" /** 停止拖动 */
+	public static const START_DRAG:String    =  "startDrag"
+	public static const DRAGGING:String      =  "dragging"
+	public static const STOP_DRAG:String     =  "stopDrag"
 	
 	
-	// ------------------- Input -------------------
-	
-	public static const FOCUS_IN : String    =  "focusIn" /** 焦点获取 */
-	
-	public static const FOCUS_OUT : String   =  "focusOut" /** 焦点失去 */
-	
-	
-	// ------------------- Button -------------------
+	public static const FOCUS_IN : String    =  "focusIn"
+	public static const FOCUS_OUT : String   =  "focusOut"
 	
 	public static const BUTTON_PRESS:String    =  "buttonPress";
-	
 	public static const BUTTON_RELEASE:String  =  "buttonRelease";
 	
 	internal var m_target:Object

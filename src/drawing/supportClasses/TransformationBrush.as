@@ -22,7 +22,6 @@ public class TransformationBrush extends BrushBase {
 		m_appendScaleLow = appendScaleLow
 		m_appendScaleHigh = appendScaleHigh
 		m_rotatable = rotatable
-		Logger.reportMessage(this, "Add transformation brush: len(" + sourceList.length + ")...")
 	}
 	
 	override public function drawPoint( destX:Number, destY:Number ) : void {

@@ -25,7 +25,8 @@ package org.agony2d.view.puppet {
 	
 	/** [ ImagePuppet ]
 	 *  [◆◆◇]
-	 * 		1.  clearImageCache
+	 *  	1.  addImageData
+	 * 		2.  clearImageCache
 	 *  [◆]
 	 * 		1.  key
 	 * 		2.  bitmapData
@@ -42,6 +43,24 @@ final public class ImagePuppet extends SmoothProxy {
 		m_alignCode     =  alignCode
 		m_pivotOffsetX  =  pivotOffsetX * m_pixelRatio
 		m_pivotOffsetY  =  pivotOffsetY * m_pixelRatio
+	}
+	
+	public static function addImageData( bitmapRef:*, dataName:String ) : void {
+		var data:BitmapData
+		
+		if (bitmapRef is BitmapData) {
+			data = bitmapRef as BitmapData
+		}
+		else if (bitmapRef is Class) {
+			try {
+				data = (new bitmapRef).bitmapData
+			}
+			catch (error:Error) {
+				Logger.reportError("ImagePuppet", 'embed', '参数定义类型错误...!')
+				return
+			}
+		}
+		m_bitmapDataList[dataName] = getRatioBitmap(data)
 	}
 	
 	public static function clearImageCache() : void {

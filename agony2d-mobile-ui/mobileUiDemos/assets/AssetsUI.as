@@ -8,26 +8,18 @@ public class AssetsUI
 	[Embed(source="data/02.png")]
 	public static var two:Class
 	
-	
-	[Embed(source="data/cursor.png")]
-	public static var cursor:Class
+	[Embed(source="data/btn_play.jpg")]
+	public static var btn_play:Class
 	
 	[Embed(source="data/scroll.png")]
 	public static var scroll:Class
 	
-	[Embed(source="data/nokiafc22.ttf", embedAsCFF = 'false', fontFamily = 'Abduction')]
-	public static var nokiafc22:Class
-	
-	
-	[Embed(source="data/bg.swf", mimeType="application/octet-stream")] private static const bg:Class
 	[Embed(source = "data/uiDemo.swf", mimeType = "application/octet-stream")]private static const uiDemo:Class
-	[Embed(source = "data/fonts.swf", mimeType = "application/octet-stream")]private static const fonts:Class
+	
 	public static function getAssetList() : Array
 	{
 		return [
-					new bg,
 					new uiDemo,
-					new fonts
 				]
 	}
 	
@@ -45,9 +37,6 @@ public class AssetsUI
 	
 	[Embed(source = "data/nineScaleA.jpg")]
 	public static var IMG_nineScaleA:Class
-	
-	[Embed(source = "data/nineScaleB.jpg")]
-	public static var IMG_nineScaleB:Class
 	
 	[Embed(source = "data/gesture.png")]
 	public static var IMG_gesture:Class

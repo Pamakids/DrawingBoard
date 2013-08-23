@@ -1,14 +1,14 @@
 /*
-    [字体]
-	[Embed(source='/../media/fonts/Abduction.ttf', embedAsCFF='false', fontName/fontFamily='Abduction')]
+    [Font]
+	[Embed(source="/../media/fonts/Abduction.ttf", embedAsCFF="false", fontName/fontFamily="Abduction")]
 
 	[XML]
 	[Embed(source = "colonist_32_32.xml",mimeType = "application/octet-stream")] 
 
-	[MP3 / SWF(自身)]
+	[MP3 / SWF]
 	[Embed(source = "colonist_32_32.mp3")] 
 
-	[SWF(提取内部类)]
+	[SWF(internal for get classes)]
 	[Embed(source = "colonist_32_32.swf", mimeType = "application/octet-stream")]
 */
 package org.agony2d.loader {
@@ -43,10 +43,9 @@ package org.agony2d.loader {
 	 * 		3.  killAll
 	 * 		4.  dispose
 	 *  [★]
-	 * 		a.  由于可能会有多个加载器同时存在的情况，可单独实例化 !!
-	 * 		b.  正在加载中的加载对象，只能通过◆◆killAll方法，强制停止其加载.
-	 * 		c.  当progress到达终点时，由 [下一帧后期] 触发complete事件 !!
-	 *  	d.  完成后，加载器会生成相应"显示对象"(content)，所以内存会增加...
+	 * 		a.  Multiple instance is available...!!
+	 * 		b.  A loader(ILoader) for loading want to be stopped by force，just only can use◆◆killAll...
+	 * 		c.  A native loader dispatch [ complete ] event At the tail of next frame，when progress arrive to 1...
 	 */
 final public class LoaderManager extends LoaderManagerBase {
 	
@@ -70,15 +69,15 @@ final public class LoaderManager extends LoaderManagerBase {
 		return m_instance ||= new LoaderManager
 	}
 	
-	final public function getLoader( url:String, priority:int = 0, forced:Boolean = false ) : ILoader {
+	public function getLoader( url:String, priority:int = 0, forced:Boolean = false ) : ILoader {
 		return this.getNewLoader(url, priority, forced)
 	}
 	
-	final public function getBytesLoader( bytes:ByteArray, priority:int = 0, forced:Boolean = true ) : ILoader {
+	public function getBytesLoader( bytes:ByteArray, priority:int = 0, forced:Boolean = true ) : ILoader {
 		return this.getNewLoader(bytes, priority, forced)
 	}
 	
-	final override public function dispose() : void {
+	override public function dispose() : void {
 		var loader:LoaderAdvance
 		
 		super.dispose()
@@ -90,24 +89,22 @@ final public class LoaderManager extends LoaderManagerBase {
 		}
 	}
 	
-	final override agony_internal function doLoadNext() : void {
+	override agony_internal function doLoadNext() : void {
 		var loader:LoaderAdvance
 		var NL:LoaderProp
 		
 		NL = this.nextLoader
 		if (!NL || m_paused) {
-			// 全部完成
 			if (m_length.value == 0) {
 				this.dispatchDirectEvent(AEvent.COMPLETE)
 			}
 			return
 		}
-		// 弱加载
+		// weak load...
 		if (NL.autoRemoved) {
 			this._removeLoader(NL, false)
 			this.doLoadNext()
 		}
-		// 剩余加载器
 		else if (m_loaderQueueLength > 0) {
 			--m_loaderQueueLength
 			loader       =  m_loaderQueue.pop()
@@ -123,7 +120,7 @@ final public class LoaderManager extends LoaderManagerBase {
 		}
 	}
 	
-	final agony_internal function ____onComplete( e:Event ) : void {
+	agony_internal function ____onComplete( e:Event ) : void {
 		var loaderInfo:LoaderInfo
 		var loader:LoaderAdvance
 		var prop:LoaderProp
@@ -131,7 +128,7 @@ final public class LoaderManager extends LoaderManagerBase {
 		loaderInfo  =  e.target as LoaderInfo
 		loader      =  loaderInfo.loader as LoaderAdvance
 		prop        =  loader.prop
-		// 有loader刚刚被stop而又同时触发complete(系统自动次帧处理)时，将其忽略.
+		// sometimes，a native loader is been stopped and then dispatch [ complete ] event(next frame happens) exactly，ignore it...
 		if (prop) {
 			m_loaderQueue[m_loaderQueueLength++] = loader
 			prop.m_data = loaderInfo.content
@@ -142,14 +139,14 @@ final public class LoaderManager extends LoaderManagerBase {
 		}
 	}
 	
-	final agony_internal function ____onProgress( e:ProgressEvent ) : void {
+	agony_internal function ____onProgress( e:ProgressEvent ) : void {
 		var prop:LoaderProp
 		
 		prop = ((e.target as LoaderInfo).loader as LoaderAdvance).prop
 		prop.dispatchEvent(new RangeEvent(RangeEvent.PROGRESS, e.bytesLoaded, e.bytesTotal))
 	}
 	
-	final agony_internal function ____onIoError( e:IOErrorEvent ) : void {
+	agony_internal function ____onIoError( e:IOErrorEvent ) : void {
 		var loader:LoaderAdvance
 		var prop:LoaderProp
 		
@@ -157,7 +154,7 @@ final public class LoaderManager extends LoaderManagerBase {
 		prop = loader.prop
 		this.dispatchDirectEvent(AEvent.ROUND)
 		if(!prop.dispatchEvent(new ErrorEvent(IOErrorEvent.IO_ERROR, e.text, e.errorID))) {
-			Logger.reportWarning(this, '____onIoError', 'URL:(' + prop.url + ')')
+			Logger.reportWarning(this, "____onIoError", "URL:(" + prop.url + ")")
 		}
 		this._removeLoader(prop, false)
 		this.doLoadNext()
@@ -174,15 +171,15 @@ import org.agony2d.loader.supportClasses.LoaderProp;
 
 final internal class LoaderAdvance extends Loader implements IUnload {
 	
-	final public function get kbLoaded() : Number {
+	public function get kbLoaded() : Number {
 		return contentLoaderInfo ? contentLoaderInfo.bytesLoaded / 1024 : 0
 	}
 	
-	final public function get kbTotal() : Number {
+	public function get kbTotal() : Number {
 		return contentLoaderInfo ? contentLoaderInfo.bytesTotal / 1024 : 0
 	}
 	
-	final override public function close() : void {
+	override public function close() : void {
 		try {
 			super.close()
 		}

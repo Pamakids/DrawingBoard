@@ -70,7 +70,7 @@ final internal class Observer {
 	internal function execute( ...args ) : void {
 		m_curr = m_head.next
 		while (m_curr) {
-			// 防止执行中加入优先级较低的侦听器，可能导致直接触发执行...!!
+			// to prevent a lower priority listener for just be added，doesn't be directly called during the current ob is being executed...
 			if (m_curr.delayed) {
 				m_curr.delayed = false
 			}

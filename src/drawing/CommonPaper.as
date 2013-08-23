@@ -7,10 +7,11 @@ package drawing {
 	import drawing.supportClasses.TransformationBrush;
 	
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
 	
 	use namespace agony_internal;
 	
-	/** 绘纸
+	/** [ CommonPaper ]
 	 *  [◆]
 	 * 		1.  content
 	 *  	2.  bytes
@@ -28,13 +29,6 @@ package drawing {
 	 *  	8.  undo
 	 *  	9.  redo
 	 *  	10. clear
-	 *  [★]
-	 * 		a.  绘制(缩放，密度)，保存过程(可接续绘制)，播放/暂停过程(可获取总时长)
-	 * 		b.  可设多重刷子，实时使用.
-	 *  	c.  刷子分类 :
-	 *  			1.  形状固定[ 马克笔 & 水粉笔 & etc ]
-	 *  			2.  旋转缩放透明随机变化[ 铅笔 & 蜡笔 & etc ]
-	 *  			3.  擦除刷子
 	 */
 public class CommonPaper extends PaperBase {
 	
@@ -43,11 +37,19 @@ public class CommonPaper extends PaperBase {
 	}
 	
 	override public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
-		return m_brushList[index] = new CopyPixelsBrush(m_contentRatio, m_fitRatio, m_content, source, density)
+		var brush:IBrush
+		
+		m_brushList[index] = brush = new CopyPixelsBrush(m_contentRatio, m_fitRatio, m_content, source, density)
+		Logger.reportMessage(this, "Add copy-pixels brush [ " + index + " ]...")
+		return brush
 	}
 	
 	override public function createTransformationBrush( sourceList:Array, index:int, density:Number, appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true) :IBrush {
-		return m_brushList[index] = new TransformationBrush(m_contentRatio, m_fitRatio, m_content, sourceList, density, appendScaleLow, appendScaleHigh, rotatable)
+		var brush:IBrush
+		
+		m_brushList[index] = brush = new TransformationBrush(m_contentRatio, m_fitRatio, m_content, sourceList, density, appendScaleLow, appendScaleHigh, rotatable)
+		Logger.reportMessage(this, "Add transformation brush [ " + index + " ]...")
+		return brush 
 	}
 }
 }

@@ -16,17 +16,15 @@ package org.agony2d.loader.supportClasses {
 	
 public class LoaderManagerBase extends Notifier implements INextUpdater {
 	
-	/** 正在同时加载的数量 */
 	final public function get numLoadings() : int { 
 		return m_maxLoaders - m_loaderQueueLength 
 	}
 	
-	/** 加载项目总数量 */
 	final public function get length() : IntProperty { 
 		return m_length
 	}
 	
-	/** 总剩余长度，侦听总加载进度使用... */
+	/** using for all load ratio... */
 	final public function get totalValue() : Number
 	{
 		var LA:LoaderProp
@@ -99,7 +97,7 @@ public class LoaderManagerBase extends Notifier implements INextUpdater {
 		m_dirty = false
 	}
 	
-	/** 同时加载相同的source会覆盖...!! */
+	/** if has same source，overwirte it...!! */
 	final agony_internal function getNewLoader( source:*, priority:int, forced:Boolean ) : ILoader {
 		var LA:LoaderProp, LB:LoaderProp
 		var overwrite:Boolean
@@ -186,8 +184,8 @@ public class LoaderManagerBase extends Notifier implements INextUpdater {
 	agony_internal var m_head:LoaderProp = new LoaderProp
 	agony_internal var m_length:IntProperty = new IntProperty()
 	agony_internal var m_loaderQueue:Array = []
-	agony_internal var m_maxLoaders:int	/** 最大加载器数量 */
-	agony_internal var m_loaderQueueLength:int  /** 未启动的加载器数量 */
+	agony_internal var m_maxLoaders:int
+	agony_internal var m_loaderQueueLength:int  /** num loader waiting to load */
 	agony_internal var m_paused:Boolean, m_dirty:Boolean
 }
 }

@@ -7,11 +7,6 @@ package org.agony2d.notify.properties
 	
 dynamic public class MapProperty extends PropertyBase 
 {
-	
-	/** ◆◆改变值
-	 *  @param	key
-	 *  @param	v
-	 */
 	public function setValue( key:String, v:* ) : void
 	{
 		if (!m_object)
@@ -25,16 +20,13 @@ dynamic public class MapProperty extends PropertyBase
 		}
 	}
 	
-	/** ◆◆改变数据源
-	 *  @param	v
-	 */
 	public function setObject( v:Object ) : void
 	{
 		var key:String
 		
 		if (getClassName(v) != 'Object')
 		{
-			Logger.reportError(this, 'setObject', '参数类型错误:' + getClassName(v, false))
+			Logger.reportError(this, 'setObject', 'err:' + getClassName(v, false))
 		}
 		for (key in m_object)
 		{
@@ -55,8 +47,6 @@ dynamic public class MapProperty extends PropertyBase
 		this.makeStain()
 	}
 	
-	/** ◆◆列表项目信息
-	 */
 	public function toString() : String
 	{
 		var notFirst:Boolean

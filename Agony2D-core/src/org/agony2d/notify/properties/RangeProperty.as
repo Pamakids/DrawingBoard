@@ -12,7 +12,7 @@ package org.agony2d.notify.properties {
 	 *  	3.  high
 	 *  	4.  ratio
 	 *  [★]
-	 *  	a.  最低精确度0.1...
+	 *  	a.  minimum accuracy [ 0.1 ]...
 	 */
 public class RangeProperty extends PropertyBase {
 	

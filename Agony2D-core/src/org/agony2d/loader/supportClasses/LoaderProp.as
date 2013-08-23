@@ -44,10 +44,10 @@ final public class LoaderProp extends Notifier implements ILoader {
 	}
 	
 	agony_internal var prev:LoaderProp, next:LoaderProp
-	agony_internal var m_loader:IUnload  // 存在时，表示正在加载中
+	agony_internal var m_loader:IUnload  // indicate if it's been loading...
 	agony_internal var m_data:Object
 	agony_internal var m_source:*
-    agony_internal var priority:Number  // 优先级
+    agony_internal var priority:Number
 	agony_internal var m_dataFormat:String
 	agony_internal var m_forced:Boolean
 }

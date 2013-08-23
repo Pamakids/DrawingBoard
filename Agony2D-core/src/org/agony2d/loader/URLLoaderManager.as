@@ -25,9 +25,9 @@ package org.agony2d.loader {
 	 * 		2.  killAll
 	 * 		3.  dispose
 	 * 	[★]
-	 *  	a.  progress到达终点时，URLLoader直接触发complete事件. 
-	 * 		b.  手动模拟「次帧后期」执行.
-	 *  	c.  数据加载器一般无需单独实例化，使用系统实例足够...
+	 *  	a.  single instantce is enough...!!
+	 *  	b.  A native loader dispatch [ complete ] event immediately，when progress arrive to 1...
+	 * 			so it need to manually simulate [ next frame dispatch complete event ]... 
 	 */
 final public class URLLoaderManager extends LoaderManagerBase {
 	
@@ -52,7 +52,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 	}
 	
 	/** @see flash.net.URLLoaderDataFormat */
-	final public function getLoader( url:String, dataFormat:String = null, priority:int = 0, forced:Boolean = false ) : ILoader {
+	public function getLoader( url:String, dataFormat:String = null, priority:int = 0, forced:Boolean = false ) : ILoader {
 		var L:LoaderProp
 		
 		L = this.getNewLoader(url, priority, forced) as LoaderProp
@@ -60,7 +60,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		return L
 	}
 	
-	final override public function dispose() : void {
+	override public function dispose() : void {
 		var UL:URLLoaderAdvance
 		
 		super.dispose()
@@ -73,7 +73,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		}
 	}
 	
-	final override agony_internal function doLoadNext() : void {
+	override agony_internal function doLoadNext() : void {
 		var UL:URLLoaderAdvance
 		var NL:LoaderProp
 		var l:int
@@ -87,7 +87,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 			}
 			return
 		}
-		// 弱加载
+		// weak load...
 		if (NL.autoRemoved) {
 			this._removeLoader(NL, false)
 			this.doLoadNext()
@@ -104,7 +104,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		}
 	}
 	
-	final agony_internal function ____onFinish( e:Event ) : void {
+	agony_internal function ____onFinish( e:Event ) : void {
 		var UL:URLLoaderAdvance
 		var prop:LoaderProp
 		
@@ -120,18 +120,18 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		}
 	}
 	
-	final agony_internal function ____onComplete( e:Event ) : void {
+	agony_internal function ____onComplete( e:Event ) : void {
 		(e.target as URLLoaderAdvance).finish()
 	}
 	
-	final agony_internal function ____onProgress( e:ProgressEvent ) : void {
+	agony_internal function ____onProgress( e:ProgressEvent ) : void {
 		var prop:LoaderProp
 		
 		prop = (e.target as URLLoaderAdvance).prop
 		prop.dispatchEvent(new RangeEvent(RangeEvent.PROGRESS, e.bytesLoaded, e.bytesTotal))
 	}
 	
-	final agony_internal function ____onIoError( e:IOErrorEvent ) : void {
+	agony_internal function ____onIoError( e:IOErrorEvent ) : void {
 		var UL:URLLoaderAdvance
 		var prop:LoaderProp
 		
@@ -163,10 +163,10 @@ use namespace agony_internal
 
 final internal class URLLoaderAdvance extends URLLoader implements INextUpdater, IUnload {
 	
-	final public function get kbLoaded() : Number { return this.bytesLoaded / 1024 }
-	final public function get kbTotal() : Number { return this.bytesTotal / 1024 }
+	public function get kbLoaded() : Number { return this.bytesLoaded / 1024 }
+	public function get kbTotal() : Number { return this.bytesTotal / 1024 }
 	
-	final override public function close() : void {
+	override public function close() : void {
 		super.close()
 		if (m_finished) {
 			NextUpdaterManager.removeNextUpdater(this)
@@ -175,7 +175,7 @@ final internal class URLLoaderAdvance extends URLLoader implements INextUpdater,
 		prop = null
 	}
 	
-	final internal function finish() : void {
+	internal function finish() : void {
 		m_finished = true
 		NextUpdaterManager.addNextUpdater(this)
 	}

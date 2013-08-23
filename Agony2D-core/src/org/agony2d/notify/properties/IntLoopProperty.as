@@ -13,7 +13,7 @@ public class IntLoopProperty extends IntProperty {
 		super(v, low, high);
 	}
 	
-	/** 高低界限之间进行循环... */
+	/** do loop between low and high... */
 	override public function set value( v:int ) : void {
 		if (v > m_high) {
 			v = (v - m_low) % (m_high - m_low + 1) + m_low

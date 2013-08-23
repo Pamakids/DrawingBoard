@@ -18,7 +18,9 @@ package{
 	import org.agony2d.view.CheckBox;
 	import org.agony2d.view.core.IModule;
 	import org.agony2d.view.enum.ButtonEffectType;
+	import org.agony2d.view.enum.ImageButtonType;
 	import org.agony2d.view.enum.LayoutType;
+	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.puppet.NineScalePuppet;
 	import org.agony2d.view.StatsMobileUI;
 	import states.*;
@@ -73,10 +75,6 @@ public class MobileUITest extends Sprite {
 	
 	private function onAssetsComplete(e:AEvent) : void {
 		LoaderManager.getInstance().removeEventListener(AEvent.COMPLETE, onAssetsComplete)
-		
-		AgonyUI.addMovieClipButtonData('Btn_A', 'Btn_A')
-		AgonyUI.addMovieClipButtonData('Select_A', 'Select_A')
-		NineScalePuppet.addNineScaleData((new AssetsUI.scroll).bitmapData, 'scroll')
 		
 		this.initUI()
 		
@@ -139,30 +137,35 @@ public class MobileUITest extends Sprite {
 	}
 	
 	private function initUI():void {
-		var lb:Button
+		var lb:ImageButton
 		var cb:CheckBox
 		var txt:TextField
+		
+		AgonyUI.addMovieClipButtonData('Btn_A', 'Btn_A')
+		AgonyUI.addMovieClipButtonData('Select_A', 'Select_A')
+		AgonyUI.addImageButtonData(AssetsUI.btn_play, "btn_play", ImageButtonType.BUTTON_RELEASE)
+		NineScalePuppet.addNineScaleData((new AssetsUI.scroll).bitmapData, 'scroll')
 		
 		// stats
 		AgonyUI.fusion.addElement(new StatsMobileUI)
 		
-		lb = new Button('Btn_A');
-		lb.movieClip.scaleY = 90 / lb.height
-		AgonyUI.fusion.addElement(lb, 0, 50, LayoutType.AB, LayoutType.B__A)
+		lb = new ImageButton('btn_play', 5);
+		lb.rotation = -90
+		AgonyUI.fusion.addElement(lb, 50, 70, LayoutType.AB, LayoutType.B__A)
 		lb.addEventListener(AEvent.CLICK, function(e:AEvent):void {
 			mStateIndex.value--
 		})
 		
-		lb = new Button('Btn_A');
-		lb.movieClip.scaleY = 90 / lb.height
-		AgonyUI.fusion.addElement(lb, 0, 80, LayoutType.AB, LayoutType.B__A)
+		lb = new ImageButton('btn_play', 5);
+		lb.rotation = 90
+		AgonyUI.fusion.addElement(lb, 0, 50, LayoutType.AB, LayoutType.B__A)
 		lb.addEventListener(AEvent.CLICK, function(e:AEvent):void {
 			mStateIndex.value++
 		})
 		
 		cb = new CheckBox('Select_A', false);
 		cb.movieClip.scaleX = cb.movieClip.scaleY = 4.5
-		AgonyUI.fusion.addElement(cb, 0, 80, LayoutType.AB, LayoutType.B__A)
+		AgonyUI.fusion.addElement(cb, -40, 30, LayoutType.AB, LayoutType.B__A)
 		cb.addEventListener(AEvent.CHANGE, function(e:AEvent):void
 		{
 			TouchManager.getInstance().multiTouchEnabled = cb.selected

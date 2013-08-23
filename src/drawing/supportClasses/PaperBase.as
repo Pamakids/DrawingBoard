@@ -98,10 +98,8 @@ public class PaperBase extends DrawingBase implements IProcess {
 	}
 	
 	override public function drawPoint( destX:Number, destY:Number ) : void {
-		//Logger.reportMessage(this, "drawPoint...")
-		
-		m_bytesA.writeByte(0) // 类型
-		m_bytesA.writeShort(m_brushIndex)
+		m_bytesA.writeByte(0) // type
+		m_bytesA.writeShort(m_brushIndex) // brush index
 		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
 		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
 		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
@@ -112,16 +110,12 @@ public class PaperBase extends DrawingBase implements IProcess {
 			m_bytesA.writeShort(int(cachedAngle * 1000.0))
 		}
 		m_bytesA.writeInt(m_currTime)
-//		m_currBrush.drawPoint(destX , destY )
 		m_currBrush.drawPoint(destX * m_contentRatio, destY * m_contentRatio)
-		m_numSpot++
 	}
 	
 	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
-		//Logger.reportMessage(this, "drawLine...")
-			
-		m_bytesA.writeByte(1) // 类型
-		m_bytesA.writeShort(brushIndex)
+		m_bytesA.writeByte(1) // type
+		m_bytesA.writeShort(brushIndex) // brush index
 		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
 		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
 		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
@@ -134,8 +128,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 		m_bytesA.writeShort(int(prevX * 10.0))
 		m_bytesA.writeShort(int(prevY * 10.0))
 		m_bytesA.writeInt(m_currTime)
-//		m_numSpot += m_currBrush.drawLine(currX , currY, prevX , prevY )
-		m_numSpot += m_currBrush.drawLine(currX * m_contentRatio, currY * m_contentRatio, prevX * m_contentRatio, prevY * m_contentRatio)
+		m_currBrush.drawLine(currX * m_contentRatio, currY * m_contentRatio, prevX * m_contentRatio, prevY * m_contentRatio)
 	}
 	
 	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
@@ -158,7 +151,6 @@ public class PaperBase extends DrawingBase implements IProcess {
 		m_commandList[++m_commandIndex] = m_bytesB.length - 1
 		m_commandLength++
 		//trace(m_commandList)
-		Logger.reportMessage(this, m_numSpot)
 	}
 	
 	public function undo() : void {
@@ -170,12 +162,6 @@ public class PaperBase extends DrawingBase implements IProcess {
 		}
 	}
 	
-	public function clear() : void {
-		m_content.fillRect(m_content.rect, 0x0)
-		m_commandList.length = m_commandLength = m_bytesB.length = 0
-		m_commandIndex = -1
-	}
-	
 	public function redo() : void {
 		var position:int, startPosition:int
 		
@@ -184,6 +170,12 @@ public class PaperBase extends DrawingBase implements IProcess {
 			position = m_commandList[++m_commandIndex]
 			this.redraw(position, 0)
 		}
+	}
+	
+	public function clear() : void {
+		m_content.fillRect(m_content.rect, 0x0)
+		m_commandList.length = m_commandLength = m_bytesB.length = 0
+		m_commandIndex = -1
 	}
 	
 	public function dispose() : void {
@@ -237,7 +229,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 	agony_internal var m_commandLength:int, m_commandIndex:int = -1 // 命令所在指针位置表示该命令刚刚完成...
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
-	agony_internal var m_currTime:int, m_numSpot:int
+	agony_internal var m_currTime:int
 	//agony_internal var m_contentRatio:Number
 	//agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }

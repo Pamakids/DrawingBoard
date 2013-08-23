@@ -4,7 +4,7 @@ package org.agony2d.notify.properties
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.properties.supportClasses.PropertyBase
 	
-	/** 列表属性
+	/** 
 	 *  [◆]
 	 * 		1.  itemArray
 	 *  [◆◆]
@@ -13,19 +13,12 @@ package org.agony2d.notify.properties
 	 *  	3.  getItem
 	 *  	4.  removeAllItems
 	 *  [★]
-	 *  	a.  列表项目每个对应一个独立id!!
 	 */
 public class ListProperty extends PropertyBase 
 {
 	
-	/** ◆列表项目数组 */
 	public function get itemArray() : Array { return m_itemArray }
 	
-	/** ◆◆加入列表项目
-	 *  @param	itemData
-	 *  @param	id
-	 *  @return
-	 */
 	public function addItem( itemData:Object, id:int = -1 ) : MapProperty
 	{
 		var item:ListItemProperty
@@ -43,7 +36,7 @@ public class ListProperty extends PropertyBase
 			id = m_numItems++
 			if (m_itemMap[id])
 			{
-				Logger.reportError(this, 'addItem', 'id重复!!')
+				Logger.reportError(this, 'addItem', '!!')
 			}
 			m_itemMap[id] = m_itemArray[id] = item = new ListItemProperty(id)
 		}
@@ -52,9 +45,6 @@ public class ListProperty extends PropertyBase
 		return item
 	}
 	
-	/** ◆◆削除列表项目
-	 *  @param	id
-	 */
 	public function removeItem( id:uint ) : void
 	{
 		var item:ListItemProperty
@@ -63,7 +53,7 @@ public class ListProperty extends PropertyBase
 		item = m_itemMap[id]
 		if (!item)
 		{
-			Logger.reportWarning(this, 'removeItem', '不存在的列表项目.')
+			Logger.reportWarning(this, 'removeItem', '.')
 			return
 		}
 		delete m_itemMap[id]
@@ -74,17 +64,11 @@ public class ListProperty extends PropertyBase
 		this.makeStain()
 	}
 	
-	/** ◆◆获取列表项目
-	 *  @param	id
-	 *  @return
-	 */
 	public function getItem( id:uint ) : MapProperty
 	{
 		return m_itemMap[id]
 	}
 	
-	/** ◆◆削除全部列表项目
-	 */
 	public function removeAllItems() : void
 	{
 		var l:int
