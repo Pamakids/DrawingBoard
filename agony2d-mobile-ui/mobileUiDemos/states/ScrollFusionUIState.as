@@ -55,7 +55,8 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion = new GridScrollFusion(maskW, maskH, 80, 100, false, 6, 6, 1, 2)
 		this.fusion.addElement(mScrollFusion, 50, 30)
 		content = mScrollFusion.content
-		
+		mScrollFusion.singleTouchForMovement = false
+			
 		// 属性
 		mScrollFusion.limitTop = true
 		mScrollFusion.limitBottom = true
@@ -143,7 +144,7 @@ public class ScrollFusionUIState extends UIState
 			IP.x = (i % 20) * gapX + IP.width / 2
 			IP.y = int(i / 20) * gapY + IP.height / 2 + 60
 			content.addElement(IP)
-			
+			IP.userData = i
 			IP.addEventListener(AEvent.CLICK, function(e:AEvent):void
 			{
 				trace(e.target.userData)

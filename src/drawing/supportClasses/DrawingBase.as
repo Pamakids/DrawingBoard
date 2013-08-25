@@ -14,11 +14,6 @@ public class DrawingBase {
 		m_contentRatio = contentRatio
 	}
 	
-	/** override */
-	public function drawPoint( destX:Number, destY:Number ) : void {
-		
-	}
-	
 	protected static var cachedPoint:Point = new Point
 	protected static var cachedMatrix:Matrix = new Matrix
 	protected static var cachedColorTransform:ColorTransform = new ColorTransform

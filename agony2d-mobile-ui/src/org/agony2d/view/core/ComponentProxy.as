@@ -1,18 +1,19 @@
 package org.agony2d.view.core {
-	import flash.display.DisplayObject
-	import flash.display.Stage
-	import flash.geom.Point
-	import flash.geom.Rectangle
-	import org.agony2d.Agony
+	import flash.display.DisplayObject;
+	import flash.display.Stage;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	
+	import org.agony2d.Agony;
 	import org.agony2d.core.INextUpdater;
 	import org.agony2d.core.NextUpdaterManager;
-	import org.agony2d.input.Touch
-	import org.agony2d.input.TouchManager
-	import org.agony2d.core.agony_internal
-	import org.agony2d.debug.Logger
-	import org.agony2d.view.AgonyUI
-	import org.agony2d.view.Fusion
+	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
+	import org.agony2d.input.Touch;
+	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.Fusion;
 	
 	use namespace agony_internal;
 	
@@ -229,6 +230,10 @@ public class ComponentProxy implements IComponent, INextUpdater {
 		cachedPoint = toLocal ? view.globalToLocal(cachedPoint) : view.localToGlobal(cachedPoint)
 		return new Point(cachedPoint.x / m_pixelRatio , cachedPoint.y / m_pixelRatio)
 	}
+	
+//	public function globalToLocal( point:Point ) : Point {
+//		c
+//	}
 	
 	/** 使用全局坐标... */
 	public function hitTestPoint( globalX:Number, globalY:Number ) : Boolean {

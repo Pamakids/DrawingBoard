@@ -55,6 +55,11 @@ public class BrushBase extends DrawingBase implements IBrush{
 		m_alpha = v
 	}
 	
+	/** override... */
+	public function drawPoint( destX:Number, destY:Number ) : void {
+		
+	}
+	
 	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
 		var distA:Number, tmpX:Number, tmpY:Number
 		var i:int, l:int

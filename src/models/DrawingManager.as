@@ -1,6 +1,5 @@
 package models
 {
-	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.utils.ByteArray;
 	
@@ -42,21 +41,21 @@ package models
 			shape.graphics.drawCircle(0, 0, 10)
 			
 			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.brush1)).bitmapData, 0, 10)//, 0xdddd44)
-			brush.scale = 1
-			brush.alpha = 0.4
+			brush.scale = 0.8
+			//brush.alpha = 0.9
 			
 			brush = mPaper.createTransformationBrush([(new (BrushAssets.brush2)).bitmapData], 1, 10,0,0,true)
-			brush.scale = 0.7
+			brush.scale = 1.2
 			brush.color = 0xdddd44
-			brush.alpha = 0.2
+			brush.alpha = 0.8
 			
 			brush = mPaper.createCopyPixelsBrush(shape, 2, 10)//, 0xdddd44)
 			brush.color = 0x4444dd
 			brush.scale = 1.5
 			brush.alpha = 0.1
 			
-			brush = mPaper.createEraseBrush(shape, 3)
-			brush.scale = 3
+			brush = mPaper.createEraseBrush(shape, 3, 6)
+			brush.scale = 2.5
 			
 			mPaper.brushIndex = 0
 				

@@ -30,7 +30,8 @@ public class PaperBase extends DrawingBase implements IProcess {
 			height *= m_contentRatio
 		}
 		else{
-			m_contentRatio = m_fitRatio = 1
+			m_contentRatio = 1
+			m_fitRatio = 1 / contentRatio
 		}
 		m_content = new BitmapData(width, height, true, 0x44dddd)
 		if (data) {
@@ -57,6 +58,14 @@ public class PaperBase extends DrawingBase implements IProcess {
 	/** [0 ~ 1] */
 	public function get contentRatio() : Number {
 		return m_contentRatio// > 1 ? 1: m_contentRatio
+	}
+	
+	public function get fitRatio() : Number {
+		return m_fitRatio
+	}
+	
+	public function get isDrawing() : Boolean {
+		return m_isDrawing
 	}
 	
 	public function get bytes() : ByteArray {
@@ -89,15 +98,19 @@ public class PaperBase extends DrawingBase implements IProcess {
 		return null
 	}
 	
-	public function createEraseBrush( source:DisplayObject, index:int ) : IBrush {
-		return m_brushList[index] = new EraseBrush(m_contentRatio, m_fitRatio, m_content, source)
+	public function createEraseBrush( source:DisplayObject, index:int, density:Number ) : IBrush {
+		return m_brushList[index] = new EraseBrush(m_contentRatio, m_fitRatio, density, m_content, source)
 	}
 	
 	public function getBrushByIndex( index:int ) : IBrush {
 		return m_brushList[index]
 	}
 	
-	override public function drawPoint( destX:Number, destY:Number ) : void {
+	public function drawPoint( destX:Number, destY:Number ) : Boolean {
+		if(m_isDrawing){
+			return false
+		}
+		m_isDrawing = true
 		m_bytesA.writeByte(0) // type
 		m_bytesA.writeShort(m_brushIndex) // brush index
 		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
@@ -111,6 +124,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 		}
 		m_bytesA.writeInt(m_currTime)
 		m_currBrush.drawPoint(destX * m_contentRatio, destY * m_contentRatio)
+		return true
 	}
 	
 	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
@@ -132,7 +146,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 	}
 	
 	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
-	public function addCommand() : void {
+	public function drawEnd() : void {
 		var position:int
 		
 		// check and clear...
@@ -150,7 +164,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 		m_bytesA.length = 0
 		m_commandList[++m_commandIndex] = m_bytesB.length - 1
 		m_commandLength++
-		//trace(m_commandList)
+		m_isDrawing = false
 	}
 	
 	public function undo() : void {
@@ -230,6 +244,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
 	agony_internal var m_currTime:int
+	agony_internal var m_isDrawing:Boolean
 	//agony_internal var m_contentRatio:Number
 	//agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }

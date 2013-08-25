@@ -56,9 +56,12 @@ final public class ImagePuppet extends SmoothProxy {
 				data = (new bitmapRef).bitmapData
 			}
 			catch (error:Error) {
-				Logger.reportError("ImagePuppet", 'embed', '参数定义类型错误...!')
+				Logger.reportError("ImagePuppet", 'embed', '参数定义类型错误...!!')
 				return
 			}
+		}
+		else {
+			Logger.reportError("ImagePuppet", 'embed', '参数类型错误...!!')
 		}
 		m_bitmapDataList[dataName] = getRatioBitmap(data)
 	}
@@ -109,7 +112,7 @@ final public class ImagePuppet extends SmoothProxy {
 				BP = new bitmapRef()
 			}
 			catch (error:Error) {
-				Logger.reportError(this, 'embed', '参数定义类型错误...!')
+				Logger.reportError(this, 'embed', '参数定义类型错误...!!')
 				return
 			}
 			BA = getRatioBitmap(BP.bitmapData)

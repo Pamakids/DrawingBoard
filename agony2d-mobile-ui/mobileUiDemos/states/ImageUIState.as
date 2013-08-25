@@ -53,12 +53,6 @@ public class ImageUIState extends UIState
 	
 	override public function enter():void
 	{
-		//this.fusion.move(80,10)
-		//this.fusion.pivotX = 300
-		//this.fusion.pivotY = 300
-		this.fusion.setPivot(300,300)
-		AgonyUI.addImageButtonData(AssetsUI.AT_btn_yellow, 'AT_btn_yellow', ImageButtonType.BUTTON_RELEASE_PRESS_INVALID)
-			
 		var IP:ImagePuppet
 		var i:int
 		var label:ImageButton
@@ -66,45 +60,58 @@ public class ImageUIState extends UIState
 		var F:Fusion
 		var touch:Touch
 		
+		//this.fusion.move(80,10)
+		//this.fusion.pivotX = 300
+		//this.fusion.pivotY = 300
+		this.fusion.setPivot(300,300)
+		AgonyUI.addImageButtonData(AssetsUI.AT_btn_yellow, 'AT_btn_yellow', ImageButtonType.BUTTON_RELEASE_PRESS_INVALID)
+		TweenLite.from(this.fusion, 2, {scaleX:0.1, scaleY:0.2})
+
+		
 		numImage = urlList.length
 		
-		label = new ImageButton('AT_btn_yellow')
-//		label.movieClip.scaleX = 120 / label.movieClip.width
-//		label.movieClip.scaleY = 50 / label.movieClip.height
-		label.addEventListener(AEvent.CLICK, onLoadImage)
-		this.fusion.addElement(label,110, 8)
-		
-		label = new ImageButton('AT_btn_yellow')
-//		label.movieClip.scaleX = 120 / label.movieClip.width
-//		label.movieClip.scaleY = 50 / label.movieClip.height
-		label.addEventListener(AEvent.CLICK, onEmbed)
-		this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
-		
-		label = new ImageButton('AT_btn_yellow')
-//		label.movieClip.scaleX = 120 / label.movieClip.width
-//		label.movieClip.scaleY = 50 / label.movieClip.height
-		label.addEventListener(AEvent.CLICK, onEmpty)
-		this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
-		
-		while (i < numImage)
 		{
-			IP = new ImagePuppet(5)
-			IP.embed(AssetsUI.AT_defaultImg)
-			//IP.graphics.beginFill(0xdddd44, 0.4)
-			//IP.graphics.drawRect( -IP.width / 2 - 10, -IP.height / 2 - 10, IP.width + 20, IP.height + 20)
-			//IP.cacheAsBitmap = true
-			this.fusion.addElement(IP, (i % 5) * gapX + IP.width / 2 + 100, int(i / 5) * gapY + IP.height / 2 + 60)
-			IP.addEventListener(AEvent.CLICK, function(e:AEvent):void
-			{
-				trace(e.target.userData)
-			})
-			imageList[i] = IP
-			IP.userData = urlList[i]
-			i++
+			label = new ImageButton('AT_btn_yellow')
+	//		label.movieClip.scaleX = 120 / label.movieClip.width
+	//		label.movieClip.scaleY = 50 / label.movieClip.height
+			label.addEventListener(AEvent.CLICK, onLoadImage)
+			this.fusion.addElement(label,110, 8)
 		}
 		
-		//this.fusion.filters = [new BlurFilter(10,10,3)]
-		TweenLite.from(this.fusion, 2, {scaleX:0.1, scaleY:0.2})
+		{
+			label = new ImageButton('AT_btn_yellow')
+	//		label.movieClip.scaleX = 120 / label.movieClip.width
+	//		label.movieClip.scaleY = 50 / label.movieClip.height
+			label.addEventListener(AEvent.CLICK, onEmbed)
+			this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
+		}
+		
+		{
+			label = new ImageButton('AT_btn_yellow')
+	//		label.movieClip.scaleX = 120 / label.movieClip.width
+	//		label.movieClip.scaleY = 50 / label.movieClip.height
+			label.addEventListener(AEvent.CLICK, onEmpty)
+			this.fusion.addElement(label, 120, 0, LayoutType.B__A,LayoutType.BA )
+		}
+		
+		{
+			while (i < numImage)
+			{
+				IP = new ImagePuppet(5)
+				IP.embed(AssetsUI.AT_defaultImg)
+				//IP.graphics.beginFill(0xdddd44, 0.4)
+				//IP.graphics.drawRect( -IP.width / 2 - 10, -IP.height / 2 - 10, IP.width + 20, IP.height + 20)
+				//IP.cacheAsBitmap = true
+				this.fusion.addElement(IP, (i % 5) * gapX + IP.width / 2 + 100, int(i / 5) * gapY + IP.height / 2 + 60)
+				IP.addEventListener(AEvent.CLICK, function(e:AEvent):void
+				{
+					trace(e.target.userData)
+				})
+				imageList[i] = IP
+				IP.userData = urlList[i]
+				i++
+			}
+		}
 	}
 	
 

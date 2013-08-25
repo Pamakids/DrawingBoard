@@ -28,8 +28,8 @@ package
 			doInit()
 		}
 		
-		[Embed(source = "assets/02.png")]
-		private var asset_brush:Class
+//		[Embed(source = "assets/02.png")]
+//		private var asset_brush:Class
 		
 		private function doInit():void{
 			Agony.startup(stage)
@@ -37,7 +37,7 @@ package
 			var stats:Fusion = new StatsMobileUI
 			AgonyUI.fusion.addElement(stats)
 			
-			mData = (new asset_brush).bitmapData
+			//mData = (new asset_brush).bitmapData
 //			mBA = new BitmapData(800, 480,true,0x0)
 //			var bp:Bitmap=new Bitmap(mBA)
 //			this.addChild(bp)

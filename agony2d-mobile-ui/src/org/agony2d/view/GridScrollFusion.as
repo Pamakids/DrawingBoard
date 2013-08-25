@@ -97,6 +97,14 @@ public class GridScrollFusion extends PivotFusion {
 		}
 	}
 	
+	public function get singleTouchForMovement() : Boolean {
+		return m_singleTouchForMovement
+	}
+	
+	public function set singleTouchForMovement( b:Boolean ) : void {
+		m_singleTouchForMovement = b
+	}
+	
 	public function get contentWidth() : Number {
 		return m_contentWidth
 	}
@@ -183,6 +191,10 @@ public class GridScrollFusion extends PivotFusion {
 		Logger.reportError(this, "scaleY", "不可使用...!!") 
 	}
 	
+	override public function set interactive ( b:Boolean ) : void {
+		Logger.reportError(this, "interactive", "不可使用...!!") 
+	}
+	
 	/** 滑块为九宫格傀儡 [ 垂直方向 ]... */
 	public function getHorizThumb( dataName:String, length:Number, width:Number = -1 ) : Fusion {
 		if (!m_horizThumb) {
@@ -257,7 +269,7 @@ public class GridScrollFusion extends PivotFusion {
 	agony_internal var m_horizPuppet:NineScalePuppet, m_vertiPuppet:NineScalePuppet
 	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, cachedScale:Number, cachedDist:Number, m_scaleRatioLow:Number, m_scaleRatioHigh:Number, m_scaleRatio:Number = 1
 	agony_internal var m_horizDisableOffset:int, m_vertiDisableOffset:int
-	agony_internal var m_locked:Boolean
+	agony_internal var m_locked:Boolean, m_singleTouchForMovement:Boolean = true
 	private var m_firstTouch:Touch
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
@@ -287,11 +299,11 @@ public class GridScrollFusion extends PivotFusion {
 		// scrolling...
 		else {
 			if (m_firstTouch) {
-				this.insertTouch(m_firstTouch)
 				this.disableFirstTouch()
 			}
 			this.insertTouch(e.touch)
 			//trace("insert touch...")
+			e.stopImmediatePropagation()
 		}
 	}
 	
@@ -304,11 +316,13 @@ public class GridScrollFusion extends PivotFusion {
 	protected function ____onPreMove( e:AEvent ) : void {
 		var touchX:Number, touchY:Number
 		
+		if(!m_singleTouchForMovement){
+			return
+		}
 		touchX = m_firstTouch.stageX / m_pixelRatio
 		touchY = m_firstTouch.stageY / m_pixelRatio
 		// 当发生触摸位移差达到一定条件时，start to scroll...
 		if (Math.abs(touchX - m_startX) > m_horizDisableOffset || Math.abs(touchY - m_startY) > m_vertiDisableOffset) {
-			this.insertTouch(m_firstTouch)
 			this.disableFirstTouch()
 		}
 	}
@@ -318,6 +332,9 @@ public class GridScrollFusion extends PivotFusion {
 		var distA:Number, orgin:Number, length:Number, ratio:Number
 		
 		if (m_numTouchs == 1) {
+//			if(!m_singleTouchForMovement && m_firstTouch){
+//				return
+//			}
 			touchA = e.target as Touch
 			m_content.x += (touchA.stageX - touchA.prevStageX) / m_pixelRatio
 			m_content.y += (touchA.stageY - touchA.prevStageY) / m_pixelRatio
@@ -415,6 +432,9 @@ public class GridScrollFusion extends PivotFusion {
 		UIManager.removeAllTouchs()
 		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
 		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
+		m_firstTouch.dispatchDirectEvent(AEvent.RELEASE)
+		m_firstTouch.removeAll()
+		this.insertTouch(m_firstTouch)
 		m_firstTouch = null
 		view.interactive = false
 		this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
