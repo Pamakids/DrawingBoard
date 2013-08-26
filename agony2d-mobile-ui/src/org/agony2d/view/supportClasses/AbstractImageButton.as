@@ -26,7 +26,7 @@ public class AbstractImageButton extends AbstractButton {
 		var prop:ImageButtonProp
 		
 		if (m_imageButtonPropList[dataName]) {
-			Logger.reportWarning("AbstractImageButton", "addImageButtonData", "already added data : [ " + dataName + " ]...")
+			//Logger.reportWarning("AbstractImageButton", "addImageButtonData", "already added data : [ " + dataName + " ]...")
 			return
 		}
 		if (source is BitmapData) {

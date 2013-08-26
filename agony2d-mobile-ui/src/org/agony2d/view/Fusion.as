@@ -60,6 +60,10 @@ public class Fusion extends SmoothProxy {
 		return m_numElement 
 	}
 	
+	public function get elementList() : Array {
+		return m_elementList
+	}
+	
 	public function get position() : int {
 		return m_bb ? m_elementList.indexOf(m_bb) : null
 	}

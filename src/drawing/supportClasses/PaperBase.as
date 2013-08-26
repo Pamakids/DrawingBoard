@@ -68,6 +68,10 @@ public class PaperBase extends DrawingBase implements IProcess {
 		return m_isDrawing
 	}
 	
+	public function get isEraseState() : Boolean{
+		return m_isEraseState
+	}
+	
 	public function get bytes() : ByteArray {
 		return m_bytesB
 	}
@@ -86,6 +90,11 @@ public class PaperBase extends DrawingBase implements IProcess {
 		if(!m_currBrush){
 			Logger.reportError(this, "set brushIndex", "an inexistent brush...!!")
 		}
+		m_isEraseState = (m_currBrush is EraseBrush)
+	}
+	
+	public function get currBrush() : IBrush{
+		return m_currBrush
 	}
 	
 	/** override... */
@@ -102,9 +111,9 @@ public class PaperBase extends DrawingBase implements IProcess {
 		return m_brushList[index] = new EraseBrush(m_contentRatio, m_fitRatio, density, m_content, source)
 	}
 	
-	public function getBrushByIndex( index:int ) : IBrush {
-		return m_brushList[index]
-	}
+//	public function getBrushByIndex( index:int ) : IBrush {
+//		return m_brushList[index]
+//	}
 	
 	public function drawPoint( destX:Number, destY:Number ) : Boolean {
 		if(m_isDrawing){
@@ -244,7 +253,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
 	agony_internal var m_currTime:int
-	agony_internal var m_isDrawing:Boolean
+	agony_internal var m_isDrawing:Boolean, m_isEraseState:Boolean
 	//agony_internal var m_contentRatio:Number
 	//agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }

@@ -12,6 +12,9 @@ package assets
 		[Embed(source="data/buttons/btn_reset.png")]
 		public static const btn_reset:Class
 		
+		[Embed(source="data/buttons/btn_shop.png")]
+		public static const btn_shop:Class
+		
 		[Embed(source="data/buttons/btn_setting.png")]
 		public static const btn_setting:Class
 	}

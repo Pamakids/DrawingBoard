@@ -13,6 +13,8 @@ public class CopyPixelsBrush extends BrushBase{
 		super(contentRatio, fitRatio, content, density)
 		m_data = sourceToBitmapData(source)
 		cachedData = m_data.clone()
+		cachedWidth = m_data.width * m_scale * m_fitRatio
+		cachedHeight = m_data.height * m_scale * m_fitRatio
 	}
 	
 	override public function drawPoint( destX:Number, destY:Number ) : void {

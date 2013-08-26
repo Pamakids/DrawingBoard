@@ -4,6 +4,7 @@ package states
 	
 	import drawing.CommonPaper;
 	
+	import models.Config;
 	import models.DrawingManager;
 	
 	import org.agony2d.input.ATouchEvent;
@@ -13,7 +14,9 @@ package states
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.GridScrollFusion;
 	import org.agony2d.view.UIState;
+	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.puppet.ImagePuppet;
+	import org.agony2d.view.puppet.SpritePuppet;
 
 	public class GameSceneUIState extends UIState
 	{
@@ -58,7 +61,20 @@ package states
 		private var mPaper:CommonPaper
 		private var mImg:ImagePuppet
 		private var mPixelRatio:Number, mContentRatio:Number
+		private var mEraser:SpritePuppet
 		
+		
+		private function getEraser() : IComponent {
+			if(!mEraser){
+				mEraser = new SpritePuppet
+				mEraser.cacheAsBitmap = true
+			}
+			mEraser.graphics.clear()
+			mEraser.graphics.lineStyle(1.4, 0, 0.9)
+			mEraser.graphics.beginFill(0xdddd44, 0.15)
+			mEraser.graphics.drawCircle(0,0,mPaper.currBrush.scale * Config.ERASER_SIZE)
+			return mEraser
+		}
 		
 		private function __onNewTouch(e:ATouchEvent):void
 		{
@@ -66,21 +82,24 @@ package states
 			var ratio:Number
 			var point:Point
 			
-			ratio = 1 / mContentRatio * mBoard.scaleRatio
-//			ratio = 1 / mContentRatio * mPixelRatio
+//			ratio = 1 / mContentRatio * mBoard.scaleRatio
+			ratio = 1 / mContentRatio * mPixelRatio
 			touch = e.touch
 			//trace(ratio)
-			point = mImg.transformCoord(touch.stageX  , touch.stageY )
+//			point = mImg.transformCoord(touch.stageX  , touch.stageY )
 //			point = mImg.transformCoord(touch.stageX  , touch.stageY )	
-//			point = mImg.transformCoord(touch.stageX / mPixelRatio, touch.stageY / mPixelRatio )
+			point = mImg.transformCoord(touch.stageX / mPixelRatio, touch.stageY / mPixelRatio )
 				
 //			if(mPaper.drawPoint(touch.stageX * ratio, touch.stageY * ratio)){
-			trace(point)
+			//trace(point)
 //			if(mPaper.drawPoint(point.x, point.y)){
 			if(mPaper.drawPoint(point.x* ratio, point.y* ratio)){
 				touch.addEventListener(AEvent.MOVE, __onMove)
 				touch.addEventListener(AEvent.RELEASE, __onRelease)
 				
+				if(mPaper.isEraseState){
+					mBoard.content.addElement(this.getEraser(), point.x* 1 / mContentRatio, point.y* 1 / mContentRatio)
+				}
 				//Logger.reportMessage(this, "new touch...")
 			}
 		}
@@ -91,25 +110,33 @@ package states
 			var ratio:Number
 			var pointA:Point, pointB:Point
 			
-			ratio = 1 / mContentRatio * mBoard.scaleRatio
-//			ratio = 1 / mContentRatio * mPixelRatio
+//			ratio = 1 / mContentRatio * mBoard.scaleRatio
+			ratio = 1 / mContentRatio * mPixelRatio
 			touch = e.target as Touch
 //			trace(ratio)
 			
-//			pointA = mImg.transformCoord(touch.stageX / mPixelRatio , touch.stageY  / mPixelRatio)
-//			pointB = mImg.transformCoord(touch.prevStageX / mPixelRatio , touch.prevStageY / mPixelRatio )
+			pointA = mImg.transformCoord(touch.stageX / mPixelRatio , touch.stageY  / mPixelRatio)
+			pointB = mImg.transformCoord(touch.prevStageX / mPixelRatio , touch.prevStageY / mPixelRatio )
 				
-			pointA = mImg.transformCoord(touch.stageX , touch.stageY )
-			pointB = mImg.transformCoord(touch.prevStageX , touch.prevStageY )
+//			pointA = mImg.transformCoord(touch.stageX , touch.stageY )
+//			pointB = mImg.transformCoord(touch.prevStageX , touch.prevStageY )
 				
-			trace(pointA + "..." + pointB)
+			//trace(pointA + "..." + pointB)
 //			mPaper.drawLine(touch.stageX, touch.stageY,touch.prevStageX,touch.prevStageY)
 //			mPaper.drawLine(pointA.x, pointA.y,pointB.x, pointB.y)
 			mPaper.drawLine(pointA.x * ratio, pointA.y * ratio,pointB.x * ratio,pointB.y * ratio)
+			if(mEraser){
+				mEraser.x = pointA.x * 1 / mContentRatio
+				mEraser.y = pointA.y * 1 / mContentRatio
+			}
 		}
 		
 		private function __onRelease(e:AEvent):void {
 			mPaper.drawEnd()
+			if(mEraser){
+				mEraser.kill()
+				mEraser = null
+			}
 		}
 	}
 }
