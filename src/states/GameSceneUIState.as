@@ -2,6 +2,8 @@ package states
 {
 	import flash.geom.Point;
 	
+	import assets.ImgAssets;
+	
 	import drawing.CommonPaper;
 	
 	import models.Config;
@@ -27,15 +29,28 @@ package states
 		
 		private function doAddPaper():void
 		{	
+			var img:ImagePuppet
+			
 			mPixelRatio = AgonyUI.pixelRatio
 			mPaper = DrawingManager.getInstance().paper
 			mContentRatio = mPaper.contentRatio
-			{
 				
-				mBoard = new GridScrollFusion(AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 4000, 4000, false, 4,4,1,2.5)
+			// board...
+			{
+				mBoard = new GridScrollFusion(AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 4000, 4000, false, 4,4,1,4)
 				//mBoard = new Fusion
 				mBoard.singleTouchForMovement = false
 				mBoard.limitLeft = mBoard.limitRight = mBoard.limitTop = mBoard.limitBottom = true
+					
+				// bg...
+				{
+					img = new ImagePuppet
+					img.embed(ImgAssets.img_drawing_bg, false)
+					img.interactive = false
+					mBoard.content.addElement(img)	
+				}
+					
+				// content...
 				{
 					mImg = new ImagePuppet
 					mImg.interactive = false
@@ -46,8 +61,8 @@ package states
 				
 				mBoard.contentWidth = AgonyUI.fusion.spaceWidth * mContentRatio
 				mBoard.contentHeight = AgonyUI.fusion.spaceHeight * mContentRatio
+				this.fusion.addElement(mBoard)	
 			}
-			this.fusion.addElement(mBoard)	
 		}
 		
 		private function doAddDrawingControl():void

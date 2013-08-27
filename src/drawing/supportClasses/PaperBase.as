@@ -1,19 +1,13 @@
 package drawing.supportClasses {
 	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
-	import flash.display.IBitmapDrawable;
 	import flash.utils.ByteArray;
 	
-	import drawing.IBrush;
-	
-	import org.agony2d.core.IProcess;
-	import org.agony2d.core.ProcessManager;
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
 	
 	use namespace agony_internal;
 	
-public class PaperBase extends DrawingBase implements IProcess {
+public class PaperBase extends DrawingBase {
 	
 	public function PaperBase( paperWidth:int, paperHeight:int, contentRatio:Number, data:BitmapData, maxSize:int ) {
 		var width:Number, height:Number, ratio:Number
@@ -33,7 +27,7 @@ public class PaperBase extends DrawingBase implements IProcess {
 			m_contentRatio = 1
 			m_fitRatio = 1 / contentRatio
 		}
-		m_content = new BitmapData(width, height, true, 0x44dddd)
+		m_content = new BitmapData(width, height, true, 0x0)
 		if (data) {
 			if (data.width == width && data.height == height) {
 				cachedPoint.setTo(0, 0)
@@ -45,9 +39,6 @@ public class PaperBase extends DrawingBase implements IProcess {
 				m_content.draw(data, cachedMatrix, null, null, null, true)
 			}
 		}
-		m_bytesA = new ByteArray
-		ProcessManager.addFrameProcess(this, 80000)
-			
 		Logger.reportMessage(this, "width: " + width + "...height: " + height + "...contentRatio: " + m_contentRatio + "...fitRatio: " + m_fitRatio + "...")
 	}
 	
@@ -64,14 +55,6 @@ public class PaperBase extends DrawingBase implements IProcess {
 		return m_fitRatio
 	}
 	
-	public function get isDrawing() : Boolean {
-		return m_isDrawing
-	}
-	
-	public function get isEraseState() : Boolean{
-		return m_isEraseState
-	}
-	
 	public function get bytes() : ByteArray {
 		return m_bytesB
 	}
@@ -79,133 +62,27 @@ public class PaperBase extends DrawingBase implements IProcess {
 	public function set bytes( v:ByteArray ) : void {
 		m_bytesB = v
 	}
-	
-	public function get brushIndex() : int {
-		return m_brushIndex
-	}
-	
-	public function set brushIndex( v:int ) : void {
-		m_brushIndex = v
-		m_currBrush = m_brushList[v]
-		if(!m_currBrush){
-			Logger.reportError(this, "set brushIndex", "an inexistent brush...!!")
-		}
-		m_isEraseState = (m_currBrush is EraseBrush)
-	}
-	
-	public function get currBrush() : IBrush{
-		return m_currBrush
-	}
-	
+
 	/** override... */
-	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
-		return null
-	}
-	
-	/** override... */
-	public function createTransformationBrush( sourceList:Array, index:int, density:Number, appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true) :IBrush {
-		return null
-	}
-	
-	public function createEraseBrush( source:DisplayObject, index:int, density:Number ) : IBrush {
-		return m_brushList[index] = new EraseBrush(m_contentRatio, m_fitRatio, density, m_content, source)
-	}
-	
+//	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
+//		return null
+//	}
+//	
+//	/** override... */
+//	public function createTransformationBrush( sourceList:Array, index:int, density:Number, appendScaleLow:Number = 0, appendScaleHigh:Number = 0, rotatable:Boolean = true) :IBrush {
+//		return null
+//	}
+
 //	public function getBrushByIndex( index:int ) : IBrush {
 //		return m_brushList[index]
 //	}
 	
-	public function drawPoint( destX:Number, destY:Number ) : Boolean {
-		if(m_isDrawing){
-			return false
-		}
-		m_isDrawing = true
-		m_bytesA.writeByte(0) // type
-		m_bytesA.writeShort(m_brushIndex) // brush index
-		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
-		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
-		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
-		m_bytesA.writeShort(int(destX * 10.0))
-		m_bytesA.writeShort(int(destY * 10.0))
-		if (m_currBrush is TransformationBrush) {
-			cachedAngle = Math.random() * cachedTwoPI
-			m_bytesA.writeShort(int(cachedAngle * 1000.0))
-		}
-		m_bytesA.writeInt(m_currTime)
-		m_currBrush.drawPoint(destX * m_contentRatio, destY * m_contentRatio)
-		return true
-	}
-	
-	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
-		m_bytesA.writeByte(1) // type
-		m_bytesA.writeShort(brushIndex) // brush index
-		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
-		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
-		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
-		m_bytesA.writeShort(int(currX * 10.0))
-		m_bytesA.writeShort(int(currY * 10.0))
-		if (m_currBrush is TransformationBrush) {
-			cachedAngle = Math.random() * cachedTwoPI
-			m_bytesA.writeShort(int(cachedAngle * 1000.0))
-		}
-		m_bytesA.writeShort(int(prevX * 10.0))
-		m_bytesA.writeShort(int(prevY * 10.0))
-		m_bytesA.writeInt(m_currTime)
-		m_currBrush.drawLine(currX * m_contentRatio, currY * m_contentRatio, prevX * m_contentRatio, prevY * m_contentRatio)
-	}
-	
-	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
-	public function drawEnd() : void {
-		var position:int
-		
-		// check and clear...
-		if (m_commandIndex == -1) {
-			m_commandList.length = m_bytesB.length = 0
-		}
-		else if (m_commandIndex < m_commandLength - 1) {
-			position = m_commandList[m_commandIndex]
-			m_bytesB.length = position + 1
-			m_commandList.splice(m_commandIndex + 1, m_commandLength - 1 - m_commandIndex)
-			m_commandLength = m_commandIndex + 1
-		}
-		// flush buffer...
-		m_bytesB.writeBytes(m_bytesA)
-		m_bytesA.length = 0
-		m_commandList[++m_commandIndex] = m_bytesB.length - 1
-		m_commandLength++
-		m_isDrawing = false
-	}
-	
-	public function undo() : void {
-		var position:int
-		
-		if (m_commandIndex >= 0) {
-			position = (m_commandIndex-- == 0) ? 0 : m_commandList[m_commandIndex]
-			this.redraw(position, 0)
-		}
-	}
-	
-	public function redo() : void {
-		var position:int, startPosition:int
-		
-		if (m_commandIndex < m_commandLength - 1) {
-			//startPosition = (m_commandIndex < 0) ? 0 : m_commandList[m_commandIndex]
-			position = m_commandList[++m_commandIndex]
-			this.redraw(position, 0)
-		}
-	}
-	
-	public function clear() : void {
-		m_content.fillRect(m_content.rect, 0x0)
-		m_commandList.length = m_commandLength = m_bytesB.length = 0
-		m_commandIndex = -1
-	}
-	
+	/** override... */
 	public function dispose() : void {
-		ProcessManager.removeFrameProcess(this)
+		
 	}
 	
-	internal function redraw( position:int, startPosition:int ) : void {
+	protected function redraw( position:int, startPosition:int ) : void {
 		var type:int
 		var currX:Number, currY:Number, prevX:Number, prevY:Number
 		var brush:BrushBase
@@ -237,24 +114,8 @@ public class PaperBase extends DrawingBase implements IProcess {
 		}
 	}
 	
-	public function update( deltaTime:Number ) : void {
-		m_currTime += deltaTime
-		if (m_currTime) {
-			
-		}
-	}
-	
 	agony_internal var m_brushList:Vector.<BrushBase> = new <BrushBase>[]
 	agony_internal var m_brushIndex:int
-	agony_internal var m_currBrush:BrushBase
-	agony_internal var m_commandList:Vector.<int> = new <int>[] // command index:bytes position
-	agony_internal var m_cachedList:Vector.<int> = new <int>[] // cached image index:bytes position
-	agony_internal var m_commandLength:int, m_commandIndex:int = -1 // 命令所在指针位置表示该命令刚刚完成...
-	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
-	agony_internal var m_currTime:int
-	agony_internal var m_isDrawing:Boolean, m_isEraseState:Boolean
-	//agony_internal var m_contentRatio:Number
-	//agony_internal static var m_oldT:int, m_numDrawPerFrame:int
 }
 }

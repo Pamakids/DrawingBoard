@@ -19,7 +19,7 @@ public class DrawingBase {
 	protected static var cachedColorTransform:ColorTransform = new ColorTransform
 	protected static var cachedAngle:Number
 	protected static var cachedTwoPI:Number = Math.PI * 2
-		
+
 	protected var m_contentRatio:Number, m_fitRatio:Number
 	protected var m_content:BitmapData
 }

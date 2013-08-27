@@ -1,37 +1,37 @@
 package org.agony2d.view.core {
-	import flash.display.DisplayObject
-	import flash.display.DisplayObjectContainer
-	import flash.display.Sprite
-	import flash.display.Stage
-	import flash.geom.Matrix
-	import flash.geom.Point
-	import flash.geom.Rectangle
-	import flash.system.Capabilities
-	import flash.ui.Multitouch
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.display.Stage;
+	import flash.geom.Matrix;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import flash.system.Capabilities;
+	import flash.ui.Multitouch;
 	
-	import org.agony2d.input.Touch
-	import org.agony2d.input.ATouchEvent
-	import org.agony2d.utils.getClassName
-	import org.agony2d.view.Fusion
-	import org.agony2d.view.puppet.ImagePuppet
-	import org.agony2d.view.puppet.supportClasses.GraphicsProxy
-	import org.agony2d.Agony
-	import org.agony2d.input.TouchManager
-	import org.agony2d.core.agony_internal
-	import org.agony2d.debug.Logger
-	import org.agony2d.view.core.Component
-	import org.agony2d.view.core.IComponent
-	import org.agony2d.view.core.AgonySprite
-	import org.agony2d.notify.AEvent
+	import org.agony2d.Agony;
+	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
+	import org.agony2d.input.ATouchEvent;
+	import org.agony2d.input.Touch;
+	import org.agony2d.input.TouchManager;
+	import org.agony2d.notify.AEvent;
+	import org.agony2d.utils.getClassName;
+	import org.agony2d.view.Fusion;
+	import org.agony2d.view.core.AgonySprite;
+	import org.agony2d.view.core.Component;
+	import org.agony2d.view.core.IComponent;
+	import org.agony2d.view.puppet.ImagePuppet;
+	import org.agony2d.view.puppet.supportClasses.GraphicsProxy;
 	import org.agony2d.view.puppet.supportClasses.PuppetComp;
 
 	use namespace agony_internal;
 	
 	/**
 	 * 	[★]
-	 *  	a.  ■[ UI ] -> ◆priority: 800...
-	 *  		■[ drag ] -> ◆priority: 8000...
-	 *  		■[ gesture & scroll ] -> ◆priority: 80000...
+	 *  	a.  ■[ UI ] -> ◆priority: 8000...
+	 *  		■[ drag ] -> ◆priority: 22000...
+	 *  		■[ gesture & scroll ] -> ◆priority: 60000...
 	 */
 final public class UIManager {
 
@@ -183,7 +183,7 @@ final public class UIManager {
 	////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	agony_internal static const PRIORITY:int = 800 // 触碰优先级
+	agony_internal static const PRIORITY:int = 8000 // 触碰优先级
 	agony_internal static var m_registeredPuppets:Vector.<PuppetComp> = new Vector.<PuppetComp>(22000, true)
 	agony_internal static var m_numRegistered:int
 	agony_internal static var cachedPoint:Point
@@ -191,7 +191,7 @@ final public class UIManager {
 	agony_internal static var m_rootFusion:RootFusion
 	agony_internal static var m_monitor:Sprite
 	agony_internal static var m_currTouch:Touch
-	agony_internal static var m_invalidWhenLeave:Boolean
+	agony_internal static var m_invalidWhenLeave:Boolean, m_autoStopPropagation:Boolean = true
 	agony_internal static var m_touchMap:Object = {} // tid  : pcid
 	agony_internal static var m_moduleList:Object = {} // name : uimodule
 	
@@ -248,8 +248,9 @@ final public class UIManager {
 					PA = parent as PuppetComp
 				}
 				if (PA && PA.interactiveZ) {
-					// 发生交互，中止传播...!!
-					event.stopImmediatePropagation()
+					if(m_autoStopPropagation){
+						event.stopImmediatePropagation()
+					}
 					switch(type) {
 						case ATouchEvent.NEW_TOUCH:
 							if (PA.cachedTid < 0) {

@@ -9,6 +9,7 @@ package
 	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.enum.ButtonEffectType;
 	
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
@@ -30,6 +31,7 @@ package
 		private function doInitAgony() : void {
 			Agony.startup(stage, null, StageQuality.LOW)	
 			AgonyUI.startup(false, 1024, 768, true)
+			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true
 		}
 		

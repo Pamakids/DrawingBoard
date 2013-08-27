@@ -1,6 +1,6 @@
 package org.agony2d.view {
-	import org.agony2d.core.agony_internal;
 	import org.agony2d.core.ProcessManager;
+	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.input.Touch;
 	import org.agony2d.view.core.ComponentProxy;
@@ -69,6 +69,14 @@ public class AgonyUI {
 	
 	public static function get pixelRatio() : Number { 
 		return ComponentProxy.m_pixelRatio
+	}
+	
+	public static function get autoStopPropagation() : Boolean {
+		return UIManager.m_autoStopPropagation
+	}
+	
+	public static function set autoStopPropagation( b:Boolean ) : void {
+		UIManager.m_autoStopPropagation = b
 	}
 	
 	public static function get currTouch() : Touch {

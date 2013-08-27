@@ -309,7 +309,7 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	agony_internal static var m_stage:Stage
 	agony_internal static var m_pixelRatio:Number
 	agony_internal static var m_isDragOutFollowed:Boolean
-	agony_internal static const PRIORITY:int = 8000 // 触碰优先级[ drag ]...
+	agony_internal static const PRIORITY:int = 22000 // 触碰优先级[ drag ]...
 	
 	agony_internal var m_parent:FusionComp
 	agony_internal var m_dragging:Boolean, m_dragged:Boolean, m_draggingInBounds:Boolean, cachedInteractive:Boolean, m_xyDirty:Boolean

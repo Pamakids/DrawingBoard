@@ -49,15 +49,15 @@ package models
 			brush.color = 0xdddd44
 			brush.alpha = 0.7
 			
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 10)//, 0xdddd44)
-			brush.color = 0x4444dd
-			brush.scale = 1.2
-			brush.alpha = 0.2
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 12)//, 0xdddd44)
+			brush.color = 0xdd4444
+			brush.scale = 0.8
+			brush.alpha = 0.8
 			
 			brush = mPaper.createEraseBrush(shape, 3, 6)
 			brush.scale = 2.5
 			
-			mPaper.brushIndex = 0
+			mPaper.brushIndex = 2
 				
 			
 		}		

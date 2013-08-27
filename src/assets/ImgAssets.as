@@ -17,5 +17,10 @@ package assets
 		
 		[Embed(source="data/buttons/btn_setting.png")]
 		public static const btn_setting:Class
+		
+		
+		
+		[Embed(source="data/images/drawing_bg.jpg")]
+		public static const img_drawing_bg:Class
 	}
 }
