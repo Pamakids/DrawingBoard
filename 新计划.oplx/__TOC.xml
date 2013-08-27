@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <omniplan xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
-  <window x="5" y="0" w="1436" h="878">
-    <editing-scenario>kWX_R7iRWd2</editing-scenario>
-    <comparison-scenario>hHP6bCPbvwZ</comparison-scenario>
+  <window x="117" y="43" w="899" h="630">
+    <editing-scenario>n9_SmqC435Q</editing-scenario>
     <view>task</view>
     <change-tracking/>
     <draw-folded/>
     <status-display>basic</status-display>
     <task-view>
-      <split-view-divider-position>826</split-view-divider-position>
-      <outline x="0" y="0" w="826" h="774">
+      <split-view-divider-position>693</split-view-divider-position>
+      <outline x="0" y="0" w="693" h="526">
         <column name="Violations" width="20"/>
         <column name="Notes" width="20"/>
-        <column name="Title" width="191"/>
+        <column name="Title" width="346"/>
         <column name="Effort" width="70"/>
-        <column name="Assigned" width="69"/>
-        <column name="Dependents" width="87"/>
-        <column name="Start" width="93"/>
-        <column name="End" width="76"/>
-        <column name="%Done" width="87"/>
-        <column name="Prerequisites" width="102"/>
-        <expanded-items idrefs="t14 t17 t10 t7 t42 t13 t48 t47 t11 t1"/>
-        <expanded-item-notes idrefs="t1 t13 t10 t7 t11"/>
-        <selected-items-at-filter-time idrefs="t7 t26 t45 t13 t32 t51 t9 t27 t46 t14 t33 t20 t47 t15 t34 t21 t29 t40 t48 t16 t35 t22 t41 t17 t36 t23 t42 t10 t18 t37 t43 t11 t19 t30 t38 t25 t44 t31 t39 t50"/>
+        <column name="Start" width="130"/>
+        <column name="Dependents" width="100"/>
+        <expanded-items idrefs="t1"/>
+        <selected-items-at-filter-time idrefs="t4 t7 t3 t6 t2"/>
       </outline>
-      <gantt-view x="-45" y="0" w="609" h="774">
+      <gantt-view x="-29" y="0" w="205" h="526">
         <view-mode>actual</view-mode>
         <dependency-lines/>
         <constraints/>
@@ -55,7 +49,7 @@
         <task-bar-label task-type="task" position="right">
           <key>Assigned</key>
         </task-bar-label>
-        <scale scale-name="Automatic" full-day-width="300">
+        <scale scale-name="Automatic" full-day-width="11391.9">
           <selected/>
         </scale>
         <scale scale-name="Day" full-day-width="1215"/>
@@ -69,15 +63,14 @@
     </task-view>
     <resource-view>
       <split-view-divider-position>306</split-view-divider-position>
-      <outline x="0" y="0" w="306" h="774">
+      <outline x="0" y="0" w="306" h="526">
         <column name="IM" width="20"/>
         <column name="Notes" width="20"/>
         <column name="Type" width="49"/>
         <column name="Resource" width="121"/>
         <column name="#" width="75"/>
-        <selected-items-at-filter-time idrefs="r3 r2"/>
       </outline>
-      <timeline x="-79" y="0" w="1101" h="774">
+      <timeline x="-79" y="0" w="564" h="526">
         <task-bar-label task-type="group" position="left">
           <key>Title</key>
         </task-bar-label>
@@ -119,7 +112,7 @@
     </resource-view>
     <calendar>
       <split-view-divider-position>290</split-view-divider-position>
-      <outline x="0" y="0" w="290" h="743">
+      <outline x="0" y="0" w="290" h="495">
         <column name="IM" width="20"/>
         <column name="Notes" width="20"/>
         <column name="Type" width="49"/>
@@ -130,10 +123,9 @@
     </calendar>
   </window>
   <project>
-    <next-task-id>52</next-task-id>
-    <next-resource-id>4</next-resource-id>
-    <scenario id="kWX_R7iRWd2" name="Actual" filename="Actual.xml"/>
-    <scenario id="hHP6bCPbvwZ" name="Baseline 13-8-7" filename="hHP6bCPbvwZ.xml"/>
+    <next-task-id>8</next-task-id>
+    <next-resource-id>2</next-resource-id>
+    <scenario id="n9_SmqC435Q" name="Actual" filename="Actual.xml"/>
     <date-display dates="true" times="false" seconds="false"/>
     <numbering-style>wbs</numbering-style>
     <auto-level/>
