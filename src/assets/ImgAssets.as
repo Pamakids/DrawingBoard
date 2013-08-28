@@ -22,5 +22,14 @@ package assets
 		
 		[Embed(source="data/images/drawing_bg.jpg")]
 		public static const img_drawing_bg:Class
+		
+		[Embed(source="data/images/bottom_bg.png")]
+		public static const img_bottom_bg:Class
+		
+		[Embed(source="data/images/thumb_A.png")]
+		public static const img_thumb_A:Class
+		
+		[Embed(source="data/images/track_A.png")]
+		public static const img_track_A:Class
 	}
 }

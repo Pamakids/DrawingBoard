@@ -34,6 +34,7 @@ public class MobileUITest extends Sprite {
 	 
 	public var mStateList:Array =
 	[
+		RangeUIState,
 		GridUIState,
 		ButtonState,
 		ScrollFusionUIState,
@@ -41,7 +42,6 @@ public class MobileUITest extends Sprite {
 		//AnimeState,
 		NineScaleUIState,
 		TextUIState,
-		RangeUIState,
 		GestureUIState
 	]
 	

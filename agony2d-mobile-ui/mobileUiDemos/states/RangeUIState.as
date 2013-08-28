@@ -1,7 +1,10 @@
 package states 
 {
-  import assets.AssetsCore;
   import flash.text.TextField;
+  
+  import assets.AssetsCore;
+  import assets.AssetsUI;
+  
   import org.agony2d.Agony;
   import org.agony2d.input.KeyboardManager;
   import org.agony2d.input.Touch;
@@ -10,8 +13,9 @@ package states
   import org.agony2d.view.AgonyUI;
   import org.agony2d.view.PivotFusion;
   import org.agony2d.view.ProgressBar;
+  import org.agony2d.view.Slider;
+  import org.agony2d.view.UIState;
   import org.agony2d.view.puppet.ImagePuppet;
-  import org.agony2d.view.UIState
 	
 	public class RangeUIState extends UIState
 	{
@@ -20,65 +24,61 @@ package states
 		{
 			var progress:ProgressBar
 			
-			progress = new ProgressBar('Range_A')
-			progress.x = 200
-			progress.y = 200
-			this.fusion.addElement(progress)
 			
-			var txt:TextField = new TextField()
-			txt.y = -40
-			progress.sprite.addChild(txt)
-			progress.range.addEventListener(AEvent.CHANGE,function(e:AEvent):void
 			{
-				txt.text = String(progress.range.value)
-			})
+				progress = new ProgressBar('Range_A')
+				this.fusion.addElement(progress, 200, 200)
+			}
 			
-			KeyboardManager.getInstance().getState().press.addEventListener('A', function():void
 			{
-				progress.range.value -= 10
-			})
-			KeyboardManager.getInstance().getState().press.addEventListener('D', function():void
+				slider = new Slider(AssetsUI.IMG_track_A, AssetsUI.IMG_thumb_A, 1, false)
+				this.fusion.addElement(slider, 200, 300)
+				slider.addEventListener(AEvent.CHANGE, __onChange)
+				this.doAddHotspot(slider.thumb)
+			}
+			
 			{
-				progress.range.value += 10
-			})
-			
-			AgonyUI.fusion.addEventListener(AEvent.PRESS, __onPress)
-			
-			pivot = new PivotFusion()
-			img = new ImagePuppet(7)
-			img.embed(AssetsCore.AT_role)
-			pivot.addElement(img)
-			this.fusion.addElement(pivot,300,300)
-			pivot.scaleX = pivot.scaleY = 1.5
-			
-			Agony.process.addEventListener(AEvent.ENTER_FRAME, u)
-			pivot.addEventListener(AEvent.CLICK, function(e:AEvent):void {
-				pivot.setPivot(AgonyUI.currTouch.stageX / AgonyUI.pixelRatio, AgonyUI.currTouch.stageY / AgonyUI.pixelRatio, true)
-			})
+				slider = new Slider(AssetsUI.IMG_track_B, AssetsUI.IMG_thumb_B, 1, true, 40)
+				this.fusion.addElement(slider, 300, 300)
+				this.doAddHotspot(slider.thumb)
+				
+				slider.addEventListener(AEvent.CHANGE, __onChange)
+				KeyboardManager.getInstance().getState().press.addEventListener("A", __onUpdateToMin)
+				KeyboardManager.getInstance().getState().press.addEventListener("Z", __onUpdateToMax)
+			}
 		}
 		
 		override public function exit() : void
 		{
-			KeyboardManager.getInstance().getState().press.removeEventAllListeners('A')
-			KeyboardManager.getInstance().getState().press.removeEventAllListeners('D')
-			
-			AgonyUI.fusion.removeEventListener(AEvent.PRESS, __onPress)
-			Agony.process.removeEventListener(AEvent.ENTER_FRAME, u)
+			KeyboardManager.getInstance().getState().press.removeEventListener("A", __onUpdateToMin)
+			KeyboardManager.getInstance().getState().press.removeEventListener("Z", __onUpdateToMax)
 		}
 		
 		
+		private var slider:Slider
 		private	var img:ImagePuppet
 		private	var pivot:PivotFusion
 			
+		
 		/////////////////////////////////////////////////////////////////////////
 		
-		private function __onPress(e:AEvent):void
-		{
-			
+		
+		private function __onChange(e:AEvent):void {
+			trace(e.target as Slider)
 		}
 		
-		private function u(e:AEvent):void {
-			pivot.rotation++
+		private function __onUpdateToMin(e:AEvent):void {
+			slider.ratio = 0
+		}
+		
+		private function __onUpdateToMax(e:AEvent):void {
+			slider.ratio = 1
+		}
+		
+		private function doAddHotspot(thumb:ImagePuppet) : void {
+			thumb.graphics.beginFill(0x0, 0)
+			thumb.graphics.drawCircle(thumb.width / 2, thumb.height / 2, 30)
+			thumb.cacheAsBitmap = true
 		}
 	}
 }

@@ -37,9 +37,22 @@ public class AssetsUI
 	
 	[Embed(source = "data/nineScaleA.jpg")]
 	public static var IMG_nineScaleA:Class
-	
+		
 	[Embed(source = "data/gesture.png")]
 	public static var IMG_gesture:Class
+	
+	
+	[Embed(source = "data/track_A.png")]
+	public static var IMG_track_A:Class
+	
+	[Embed(source = "data/thumb_A.png")]
+	public static var IMG_thumb_A:Class
+	
+	[Embed(source = "data/track_B.png")]
+	public static var IMG_track_B:Class
+	
+	[Embed(source = "data/thumb_B.png")]
+	public static var IMG_thumb_B:Class
 }
 
 }

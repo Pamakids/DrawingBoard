@@ -1,5 +1,7 @@
 package 
 {
+	import com.sociodox.theminer.TheMiner;
+	
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
 	import flash.events.Event;
@@ -10,7 +12,9 @@ package
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.enum.ButtonEffectType;
+	import org.agony2d.view.enum.LayoutType;
 	
+	import states.GameBottomUIState;
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
 	
@@ -33,6 +37,8 @@ package
 			AgonyUI.startup(false, 1024, 768, true)
 			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true
+				
+			this.addChild(new TheMiner)
 		}
 		
 		private function doInitModel() : void {
@@ -43,6 +49,8 @@ package
 			
 			AgonyUI.addModule("GameScene", GameSceneUIState).init()
 			AgonyUI.addModule("GameTop", GameTopUIState).init()
+//			AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, 0, 1, LayoutType.F__AF)
+			//AgonyUI.addModule("GameBottom", GameBottomUIState).init()
 		}
 	
 		

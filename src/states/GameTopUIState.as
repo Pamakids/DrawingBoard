@@ -53,10 +53,10 @@ package states
 			}
 			
 			// stats
-			{
-				stats = new StatsMobileUI
-				this.fusion.addElement(stats)
-			}
+//			{
+//				stats = new StatsMobileUI
+//				this.fusion.addElement(stats)
+//			}
 			
 			mImgList = []
 			
