@@ -50,6 +50,13 @@
     </change>
     <change idref="t2" attribute="internalPrerequisitesString" type="string" to="7FS" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-08-28T10:44:02.250Z" timestamp="2013-08-28T10:44:02.250Z">
+    <change idref="t2" attribute="internalEffortDone" type="real" from="0" to="43200" resolved="yes"/>
+    <change idref="t7" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-28T10:44:44.571Z" timestamp="2013-08-28T10:44:44.571Z">
+    <change idref="t2" attribute="internalEffortDone" type="real" from="43200" to="28511.99855804443" resolved="yes"/>
+  </task-change-set>
   <metadata-change-set user="mani" date="2013-08-27T03:59:29.202Z" timestamp="2013-08-27T03:59:29.202Z">
     <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-27T00:00:00.000Z" resolved="yes"/>
   </metadata-change-set>
