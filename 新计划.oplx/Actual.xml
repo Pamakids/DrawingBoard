@@ -72,6 +72,7 @@
   <task id="t2">
     <title>滚动条组件</title>
     <effort>86400</effort>
+    <effort-done>28511.9985580444</effort-done>
     <prerequisite-task idref="t7"/>
   </task>
   <task id="t3">
@@ -92,6 +93,7 @@
   <task id="t7">
     <title>画画功能</title>
     <effort>28800</effort>
+    <effort-done>28800</effort-done>
   </task>
   <critical-path root="-1" enabled="false" resources="false">
     <color r="1" g="0.5" b="0.5"/>
