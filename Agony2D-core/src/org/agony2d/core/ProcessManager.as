@@ -21,7 +21,7 @@ package org.agony2d.core {
 	 * 		3.  elapsed
 	 * 		4.  running
 	 *  [★]
-	 *  	a.  可使用其作为[ 系统级通知者 ]...
+	 *  	a.  default system notifier...
 	 */
 public class ProcessManager extends Notifier {
 	
@@ -116,16 +116,13 @@ public class ProcessManager extends Notifier {
 		//Logger.reportMessage(this, '==============PROCESS==============: ' + m_elapsed)
 	}
 	
-	// Frame
-	agony_internal static const TWEEN:int     =  8000 /** 缓动 */
-	agony_internal static const KEYBOARD:int  =  1600 /** 键盘 */
-	agony_internal static const INTERACT:int  =  800  /** 滑鼠(触碰) */
-	agony_internal static const DELAY:int     =  200  /** 延迟 */
-	agony_internal static const TIMER:int     =  100  /** 定时 */
-	
-	// Tick
-	agony_internal static const ANIME:int   =  200 /** 动画 */
-	agony_internal static const MOTION:int  =  50 /** 移动 */
+	agony_internal static const KEYBOARD:int   =  90000
+	agony_internal static const INTERACT:int   =  22000
+	agony_internal static const TWEEN:int      =  8000
+	agony_internal static const DELAY:int      =  4000
+	agony_internal static const TIMER:int      =  2000
+	agony_internal static const ANIMATION:int  =  1000
+	//agony_internal static const MOTION:int   =  50
 	
 	agony_internal static var m_frameProcessor:ProcessorCore, m_tickProcessor:ProcessorCore
 	agony_internal static var m_stage:Stage

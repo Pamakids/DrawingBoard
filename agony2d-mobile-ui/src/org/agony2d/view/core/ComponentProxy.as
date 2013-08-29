@@ -308,8 +308,8 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	agony_internal static var cachedPoint:Point
 	agony_internal static var m_stage:Stage
 	agony_internal static var m_pixelRatio:Number
-	agony_internal static var m_isDragOutFollowed:Boolean
-	agony_internal static const PRIORITY:int = 22000 // 触碰优先级[ drag ]...
+	agony_internal static var m_isDragOutFollowed:Boolean = true
+	agony_internal static const DRAG_PRIORITY:int = 90000 // 触碰优先级[ drag ]...
 	
 	agony_internal var m_parent:FusionComp
 	agony_internal var m_dragging:Boolean, m_dragged:Boolean, m_draggingInBounds:Boolean, cachedInteractive:Boolean, m_xyDirty:Boolean
@@ -335,7 +335,7 @@ public class ComponentProxy implements IComponent, INextUpdater {
 			m_boundsWidth   =   Infinity
 			m_boundsHeight  =   Infinity
 		}
-		m_touchForDrag.addEventListener(AEvent.MOVE,    ____onDragging, false, PRIORITY)
+		m_touchForDrag.addEventListener(AEvent.MOVE,    ____onDragging, false, DRAG_PRIORITY)
 		AgonyUI.fusion.addEventListener(AEvent.RELEASE, ____onDragComplete)
 		m_dragging = true
 	}
@@ -343,6 +343,8 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	agony_internal function ____onDragging( e:AEvent ) : void {
 		var touchX:Number, touchY:Number
 		
+		//Logger.reportMessage(this, "dragging...")
+		e.stopImmediatePropagation()
 		touchX  =  m_touchForDrag.stageX
 		touchY  =  m_touchForDrag.stageY
 		m_draggingInBounds = !(touchX < m_boundsX + m_draggingOffsetX || touchX > m_boundsX + m_boundsWidth + m_draggingOffsetX || touchY < m_boundsY + m_draggingOffsetY || touchY > m_boundsY + m_boundsHeight + m_draggingOffsetY)

@@ -81,7 +81,7 @@ public class GestureFusion extends PivotFusion {
 	}
 	
 	
-	private static const GESTURE_PRIORITY:int = 80000
+	private static const GESTURE_PRIORITY:int = 180000
 	private var m_gestureType:int
 	private var m_touchList:Array = []
 	private var m_numTouchs:int

@@ -20,21 +20,20 @@ package states
 	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.enum.ImageButtonType;
 	import org.agony2d.view.enum.LayoutType;
+	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
 	public class GameTopUIState extends UIState
 	{
 		
 		override public function enter():void{
-			var img:ImageButton
+			var imgBtn:ImageButton
 			var stats:Fusion
-			var sprite:SpritePuppet
-			const Y_COORD:int = 41
+			var img:ImagePuppet
 			
 			AgonyUI.addImageButtonData(ImgAssets.btn_back, "btn_back", ImageButtonType.BUTTON_RELEASE)
-			AgonyUI.addImageButtonData(ImgAssets.btn_setting, "btn_setting", ImageButtonType.BUTTON_RELEASE)
 			AgonyUI.addImageButtonData(ImgAssets.btn_reset, "btn_reset", ImageButtonType.BUTTON_RELEASE)
-			AgonyUI.addImageButtonData(ImgAssets.btn_shop, "btn_shop", ImageButtonType.BUTTON_RELEASE)
+			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE)
 				
 			mPaper = DrawingManager.getInstance().paper
 			
@@ -43,66 +42,53 @@ package states
 			
 			// bg
 			{
-				sprite = new SpritePuppet
-				sprite.graphics.lineStyle(2, 0, 0.4)
-				sprite.graphics.beginFill(0x444444, .4)
-				sprite.graphics.drawRoundRect(0,1,AgonyUI.fusion.spaceWidth, 80,66,66)
-				sprite.cacheAsBitmap = true
-				//sprite.interactive = false
-				this.fusion.addElement(sprite)
+//				sprite = new SpritePuppet
+//				sprite.graphics.lineStyle(2, 0, 0.4)
+//				sprite.graphics.beginFill(0x444444, .4)
+//				sprite.graphics.drawRoundRect(0,1,AgonyUI.fusion.spaceWidth, 80,66,66)
+//				sprite.cacheAsBitmap = true
+//				//sprite.interactive = false
+//				this.fusion.addElement(sprite)
+				
+				img = new ImagePuppet
+				img.embed(ImgAssets.img_top_bg, false)
+				this.fusion.addElement(img)
 			}
-			
-			// stats
-//			{
-//				stats = new StatsMobileUI
-//				this.fusion.addElement(stats)
-//			}
 			
 			mImgList = []
 			
 			// back
 			{
-				img = new ImageButton("btn_back", 5)
+				imgBtn = new ImageButton("btn_back", 5)
 //				img.embed(ImgAssets.btn_back)
-				this.fusion.addElement(img, 110, Y_COORD)
-				img.addEventListener(AEvent.CLICK, onBack)
-				mImgList.push(img)
-			}
-			
-			
-			// shop
-			{
-				img = new ImageButton("btn_shop", 5)
-				//img.embed(ImgAssets.btn_setting)
-				this.fusion.addElement(img, 120, Y_COORD, LayoutType.F__A__F_ALIGN)
-				img.addEventListener(AEvent.CLICK, onShop)
-				mImgList.push(img)
-			}
-			
-			// setting
-			{
-				img = new ImageButton("btn_setting", 5)
-				//img.embed(ImgAssets.btn_setting)
-				this.fusion.addElement(img, 210, Y_COORD, LayoutType.F__A__F_ALIGN)
-				img.addEventListener(AEvent.CLICK, onSetting)
-				mImgList.push(img)
+				this.fusion.addElement(imgBtn, 17 + imgBtn.width / 2, 6 + imgBtn.height / 2)
+				imgBtn.addEventListener(AEvent.CLICK, onTopBack)
+				mImgList.push(imgBtn)
 			}
 			
 			// reset
 			{
-				img = new ImageButton("btn_reset", 5)
+				imgBtn = new ImageButton("btn_reset", 5)
 				//img.embed(ImgAssets.btn_reset)
-				this.fusion.addElement(img, 28, Y_COORD, LayoutType.F__AF)
-				img.addEventListener(AEvent.CLICK, onReset)
-				mImgList.push(img)
+				this.fusion.addElement(imgBtn, 862 + imgBtn.width / 2, 6 + imgBtn.height / 2)
+				imgBtn.addEventListener(AEvent.CLICK, onTopReset)
+				mImgList.push(imgBtn)
+			}
+			
+			// reset
+			{
+				imgBtn = new ImageButton("btn_complete", 5)
+				this.fusion.addElement(imgBtn, 967 + imgBtn.width / 2, 6 + imgBtn.height / 2)
+				imgBtn.addEventListener(AEvent.CLICK, onTopComplete)
+				mImgList.push(imgBtn)
 			}
 			
 			var l:int = mImgList.length
 			while(--l>-1){
-				img = mImgList[l]
-				img.addEventListener(AEvent.BUTTON_PRESS, onButtonPress)
-				img.addEventListener(AEvent.BUTTON_RELEASE, onButtonRelease)
-				img.addEventListener(AEvent.PRESS, onMakeSfxForPress)
+				imgBtn = mImgList[l]
+				imgBtn.addEventListener(AEvent.BUTTON_PRESS, onButtonPress)
+				imgBtn.addEventListener(AEvent.BUTTON_RELEASE, onButtonRelease)
+				imgBtn.addEventListener(AEvent.PRESS, onMakeSfxForPress)
 			}
 		}
 		
@@ -118,21 +104,18 @@ package states
 		private var mImgList:Array
 		
 		
-		private function onBack(e:AEvent):void{
-			mPaper.brushIndex = 0
+		private function onTopBack(e:AEvent):void{
+
 		}
 		
-		private function onShop(e:AEvent):void{
-			mPaper.brushIndex = 1
-		}
-				
-		private function onSetting(e:AEvent):void{
-			mPaper.brushIndex = 2
+		private function onTopReset(e:AEvent):void{
+			
 		}
 		
-		private function onReset(e:AEvent):void{
-			mPaper.brushIndex = 3
+		private function onTopComplete(e:AEvent):void{
+			
 		}
+		
 		
 		
 		private const SCALE_A:Number = 0.85

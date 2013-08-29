@@ -33,12 +33,12 @@ package org.agony2d {
 	 *  [◆◆◇]
 	 *		1.  startup
 	 *  [■]
-	 * 		a.  √ process
-	 * 		b.  √ notifier
-	 * 		c.  √ loader    [ loader × url-loader ]
-	 * 		d.  √ timer		[ timer × delay ]
-	 * 		f.  input		[ mouse × touch，keyboard ]
-	 * 		g.  media		[ sound × record，video ]
+	 * 		a.  process
+	 * 		b.  notifier
+	 * 		c.  loader    [ loader × url-loader ]
+	 * 		d.  timer     [ timer × delay ]
+	 * 		f.  input     [ mouse × touch，keyboard ]
+	 * 		g.  media     [ sound × record，video ]
 	 * 		h.  cookie
 	 *  [★]
 	 * 		a.  To conquer fear，you must become fear.

@@ -23,7 +23,7 @@ final internal class AnimeManager implements IProcess
 	{
 		if (m_runningLength == 0 && m_joiningLength == 0)
 		{
-			ProcessManager.addTickProcess(this, ProcessManager.ANIME);
+			ProcessManager.addTickProcess(this, ProcessManager.ANIMATION);
 			m_systemTime = 0;
 			
 			Logger.reportMessage(this, '动画机器，启动 !!');

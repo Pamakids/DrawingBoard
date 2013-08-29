@@ -38,7 +38,7 @@ package
 			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true
 				
-			this.addChild(new TheMiner)
+			//this.addChild(new TheMiner)
 		}
 		
 		private function doInitModel() : void {
@@ -49,7 +49,7 @@ package
 			
 			AgonyUI.addModule("GameScene", GameSceneUIState).init()
 			AgonyUI.addModule("GameTop", GameTopUIState).init()
-//			AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, 0, 1, LayoutType.F__AF)
+			AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -100, 1, LayoutType.F__AF)
 			//AgonyUI.addModule("GameBottom", GameBottomUIState).init()
 		}
 	

@@ -1,36 +1,20 @@
 package org.agony2d.debug {
 	import flash.system.Capabilities
 	import flash.utils.getQualifiedClassName
-
+	
+	/** [ lineType ] 0: no operation，1: line feed for prev，2: line feed for next... */
 public class Logger {
 	
-	/** ◆◆◇记录错误
-	 *  @param	module
-	 *  @param	method
-	 *  @param	hint
-	 *  @param  lineType  0: 没有操作，1: 上一段换行，2: 下一段换行
-	 */
 	public static function reportError( module:*, method:String, hint:*, lineType:int = 0 ) : void {
 		throw new Error(makeInfo(module, ERROR, 2).concat(' ...◆[ ' + method + ' ]').concat(makeBody(hint, lineType)))
 	}
 	
-	/** ◆◆◇记录警告
-	 *  @param	module
-	 *  @param	method
-	 *  @param	hint
-	 *  @param  lineType  0: 没有操作，1: 上一段换行，2: 下一段换行
-	 */
 	public static function reportWarning( module:*, method:String, hint:*, lineType:int = 0 ) : void {
 		if(Capabilities.isDebugger) {
 			trace(makeInfo(module, WARNING, lineType).concat(' ...◆[ ' + method + ' ]').concat(makeBody(hint, lineType)))
 		}
 	}
 	
-	/** ◆◆◇记录消息
-	 *  @param	module
-	 *  @param	hint
-	 *  @param  lineType  0: 没有操作，1: 上一段换行，2: 下一段换行
-	 */
 	public static function reportMessage( module:*, hint:*, lineType:int = 0 ) : void {
 		if (Capabilities.isDebugger) {
 			trace(makeInfo(module, MESSAGE, lineType).concat(makeBody(hint, lineType)))

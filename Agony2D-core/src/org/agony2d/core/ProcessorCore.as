@@ -4,12 +4,12 @@ package org.agony2d.core {
 
 internal class ProcessorCore {
 	
-	/** 新加入的进程侦听器，下一帧进入队列... */
+	/** new process goes into the queue at next frame... */
 	final internal function addProcess( process:IProcess, priority:int ) : int {
 		var PA:ProcessProp
 		
 		if (m_processList[process]) {
-			Logger.reportWarning(this, 'addProcess', '加入重复进程...')
+			Logger.reportWarning(this, "addProcess", "the process already exists...")
 			return m_numProcessor;
 		}
 		PA           =  new ProcessProp
@@ -26,7 +26,7 @@ internal class ProcessorCore {
 		PA = m_processList[process]
 		delete m_processList[process]
 		if (!PA) {
-			Logger.reportError(this, 'removeProcess', '不存在的进程...!!');
+			Logger.reportError(this, "removeProcess", "process does not exists...!!");
 		}
 		if (!PA.enqueued) {
 			index = cachedWaitingList.indexOf(PA)

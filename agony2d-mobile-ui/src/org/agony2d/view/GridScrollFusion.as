@@ -273,7 +273,7 @@ public class GridScrollFusion extends PivotFusion {
 	private var m_firstTouch:Touch
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
-	private const SCROLL_PRIORITY:int = 80000
+	private const SCROLL_PRIORITY:int = 22000
 	
 	
 	protected function ____onNewTouch( e:ATouchEvent ) : void {

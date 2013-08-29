@@ -1,7 +1,10 @@
 package org.agony2d.view {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
+	import org.agony2d.input.Touch;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.properties.RangeProperty;
 	import org.agony2d.utils.MathUtil;
@@ -14,7 +17,7 @@ package org.agony2d.view {
 	
 public class Slider extends Fusion {
 	
-	public function Slider( track:*, thumb:*, padding:Number = 2, horiz:Boolean = true, 
+	public function Slider( track:*, thumb:*, padding:Number = 1, horiz:Boolean = true, 
 							value:Number = 0, low:Number = 0, high:Number = 100 ) {
 		
 		{
@@ -43,6 +46,7 @@ public class Slider extends Fusion {
 		if (low != value) {
 			this.doUpdateThumbCoord()
 		}
+		
 	}
 	
 	public function get value() : Number {
@@ -97,6 +101,7 @@ public class Slider extends Fusion {
 	private function ____onPressThumb( e:AEvent ) : void {
 		var left:Number, top:Number, width:Number, height:Number
 		var globalA:Point, globalB:Point
+		var touch:Touch
 		
 		globalA = this.transformCoord(0, 0, false)
 		globalB = m_thumb.transformCoord(0, 0, false)
@@ -122,6 +127,9 @@ public class Slider extends Fusion {
 		else {
 			m_sliderRect.setTo(left, top, width, height)
 		}
+//		touch = AgonyUI.currTouch
+//		touch.dispatchDirectEvent(AEvent.RELEASE)
+//		touch.removeAll()
 		m_thumb.drag(null, m_sliderRect)
 		m_thumb.addEventListener(AEvent.DRAGGING, ____onDragging)
 	}
