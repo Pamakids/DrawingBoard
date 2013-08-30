@@ -1,6 +1,6 @@
 package 
 {
-	import com.sociodox.theminer.TheMiner;
+	//import com.sociodox.theminer.TheMiner;
 	
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
@@ -9,7 +9,9 @@ package
 	import models.DrawingManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.TouchManager;
+	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.enum.ButtonEffectType;
 	import org.agony2d.view.enum.LayoutType;
@@ -30,6 +32,7 @@ package
 			this.doInitAgony()
 			this.doInitModel()
 			this.doInitView()
+			this.doController()
 		}
 		
 		private function doInitAgony() : void {
@@ -49,44 +52,22 @@ package
 			
 			AgonyUI.addModule("GameScene", GameSceneUIState).init()
 			AgonyUI.addModule("GameTop", GameTopUIState).init()
-			AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -100, 1, LayoutType.F__AF)
-			//AgonyUI.addModule("GameBottom", GameBottomUIState).init()
+			AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -110, 1, LayoutType.F__AF)
 		}
-	
 		
-		
-		
-	//			KeyboardManager.getInstance().initialize()
-	//			KeyboardManager.getInstance().getState().press.addEventListener('Q', function(e:AEvent):void
-	//			{
-	//				if (KeyboardManager.getInstance().isKeyPressed("SHIFT")) {
-	//					if (m_paper.brushIndex < 3) {
-	//						++m_paper.brushIndex
-	//					}
-	//					else {
-	//						m_paper.brushIndex = 0
-	//					}
-	//				}
-	//			})
-	//			KeyboardManager.getInstance().getState().press.addEventListener('Z', function(e:AEvent):void
-	//			{
-	//				if (KeyboardManager.getInstance().isKeyPressed("SHIFT")) {
-	//					m_paper.undo()
-	//				}
-	//			})
-	//			KeyboardManager.getInstance().getState().press.addEventListener('Y', function(e:AEvent):void
-	//			{
-	//				if (KeyboardManager.getInstance().isKeyPressed("SHIFT")) {
-	//					m_paper.redo()
-	//				}
-	//			})
-	//			KeyboardManager.getInstance().getState().press.addEventListener('C', function(e:AEvent):void
-	//			{
-	//				if (KeyboardManager.getInstance().isKeyPressed("SHIFT")) {
-	//					m_paper.clear()
-	//				}
-	//			})
-	
-	
+		private function doController() : void{
+			KeyboardManager.getInstance().initialize()
+			KeyboardManager.getInstance().getState().press.addEventListener("A", function(e:AEvent):void{
+				AgonyUI.getModule("GameScene").init()
+				AgonyUI.getModule("GameTop").init()
+				AgonyUI.getModule("GameBottom").init(-1, null, true, true, 0, -110, 1, LayoutType.F__AF)
+			})
+			KeyboardManager.getInstance().getState().press.addEventListener("K", function(e:AEvent):void{
+				AgonyUI.getModule("GameScene").exit()
+				AgonyUI.getModule("GameTop").exit()
+				AgonyUI.getModule("GameBottom").exit()
+				DrawingManager.getInstance().paper.reset(true)
+			})
+		}
 	}
 }

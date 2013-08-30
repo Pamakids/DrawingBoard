@@ -17,7 +17,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		super(pixelRatio)
 		m_fitRatio = fitRatio
 		m_content = content
-		this.density = density
+		this.density = m_rawDensity = density
 		m_color = 0xFFFFFF
 		m_scale = m_alpha = 1
 	}
@@ -73,6 +73,12 @@ public class BrushBase extends DrawingBase implements IBrush{
 		}	
 	}
 	
+	agony_internal function reset() : void{
+		m_color = 0xFFFFFF
+		m_scale = m_alpha = 1
+		this.density = m_rawDensity
+	}
+	
 	protected function sourceToBitmapData( source:IBitmapDrawable ) : BitmapData {
 		var rect:Rectangle
 		var result:BitmapData
@@ -104,7 +110,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		return cachedColorTransform
 	}
 	
-	agony_internal var m_scale:Number, m_alpha:Number, m_density:Number
+	agony_internal var m_scale:Number, m_alpha:Number, m_density:Number, m_rawDensity:Number
 	agony_internal var m_color:uint
 }
 }

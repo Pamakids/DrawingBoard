@@ -109,7 +109,7 @@ package states
 		}
 		
 		private function onTopReset(e:AEvent):void{
-			
+			DrawingManager.getInstance().paper.reset()
 		}
 		
 		private function onTopComplete(e:AEvent):void{

@@ -4,6 +4,7 @@ package states
 	
 	import assets.ImgAssets;
 	
+	import models.Config;
 	import models.DrawingManager;
 	
 	import org.agony2d.notify.AEvent;
@@ -13,6 +14,7 @@ package states
 
 	public class GameBottomUIState extends UIState
 	{
+		
 		override public function enter():void
 		{
 			var bg:ImagePuppet
@@ -47,6 +49,8 @@ package states
 				bg = new ImagePuppet
 				bg.embed(ImgAssets.img_bottom_bg, false)
 				this.fusion.addElement(bg)
+				this.fusion.spaceWidth = bg.width
+				this.fusion.spaceHeight = bg.height
 			}
 			
 			// all brush
@@ -64,12 +68,19 @@ package states
 			
 			// brush scale slider
 			{
-				mBrushScaleSlider = new Slider(ImgAssets.img_track_A, ImgAssets.img_thumb_A, 1, false, 1, 0.33, 3)
+				mBrushScaleSlider = new Slider(ImgAssets.img_track_A, ImgAssets.img_thumb_A, 1, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
 				this.fusion.addElement(mBrushScaleSlider, 0, 16)
 				mBrushScaleSlider.addEventListener(AEvent.CHANGE, onBrushScaleChange)
+				this.doAddHotspot(mBrushScaleSlider.thumb)
 			}
 			
 			this.doSelectBursh(0)
+		}
+		
+		private function doAddHotspot(thumb:ImagePuppet) : void {
+			thumb.graphics.beginFill(0x0, 0)
+			thumb.graphics.drawCircle(thumb.width / 2, thumb.height / 2, 25)
+			thumb.cacheAsBitmap = true
 		}
 		
 		override public function exit():void{
@@ -107,12 +118,12 @@ package states
 			mCurrBrushImg = img
 			mBrushScaleSlider.x = img.x + img.width / 2 - 6
 			DrawingManager.getInstance().paper.brushIndex = index
+			//trace( DrawingManager.getInstance().paper.currBrush.scale)
+			mBrushScaleSlider.value = DrawingManager.getInstance().paper.currBrush.scale
 		}
 			
 		private function onBrushScaleChange(e:AEvent):void{
-			var slider:Slider
-			
-			trace(e.target as Slider)
+			DrawingManager.getInstance().paper.currBrush.scale = mBrushScaleSlider.value
 		}
 		
 		//private var 

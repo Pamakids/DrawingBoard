@@ -20,6 +20,7 @@ final public class EraseBrush extends BrushBase {
 		cachedMatrix.scale(m_scale * m_fitRatio, m_scale * m_fitRatio)
 //		cachedMatrix.scale(m_scale , m_scale )
 		cachedMatrix.translate(destX, destY)
+//		m_content.drawWithQuality(m_data, cachedMatrix, null, BlendMode.ERASE, null, false, "low")
 		m_content.draw(m_data, cachedMatrix, null, BlendMode.ERASE, null, false)
 		//m_content.fillRect(new Rectangle(destX - 30, destY - 30, 60,60),0x0)
 	}

@@ -15,6 +15,16 @@ package org.agony2d.view {
 	
 	[Event(name = "change", type = "org.agony2d.notify.AEvent")] 
 	
+	/** [ Slider ]
+	 *  [◆]
+	 *  	1.  value
+	 *  	2.  ratio
+	 *  	3.  track
+	 *  	4.  thumb
+	 *  []
+	 *  	a.  thumb由参数传入，极大程度上提高灵活度.
+	 *  	b.  padding_low和padding_high和padding_fixed(固定方向)引入，自由设定滑动范围
+	 */
 public class Slider extends Fusion {
 	
 	public function Slider( track:*, thumb:*, padding:Number = 1, horiz:Boolean = true, 

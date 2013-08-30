@@ -54,7 +54,7 @@ public class SoundDemo extends Sprite
 		
 		pauseBtn = new PushButton(this, 500, 130, 'play', function(e:MouseEvent):void
 		{ 
-			MusicManager.getInstance().loadAndPlay('初日.mp3', 1, 1, false).addEventListener(AEvent.COMPLETE, function(e:AEvent):void
+			MusicManager.getInstance().loadAndPlay('Feeling Heart.mp3', 1, 1, false).addEventListener(AEvent.COMPLETE, function(e:AEvent):void
 			{
 				trace('[Music] - complete !!')
 			})

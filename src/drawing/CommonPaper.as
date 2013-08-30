@@ -169,10 +169,22 @@ public class CommonPaper extends PaperBase implements IProcess {
 		}
 	}
 	
-	public function clear() : void {
+	public function reset( containsbrush:Boolean = false ) : void {
+		var brush:BrushBase
+		var l:int
+		
 		m_content.fillRect(m_content.rect, 0x0)
 		m_commandList.length = m_commandLength = m_bytesB.length = 0
 		m_commandIndex = -1
+		if(containsbrush){
+			l = m_brushList.length
+			while(--l>-1){
+				brush = m_brushList[l]
+				if(brush){
+					brush.reset()
+				}
+			}
+		}
 	}
 	
 	override public function dispose() : void {

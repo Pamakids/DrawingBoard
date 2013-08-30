@@ -1,8 +1,13 @@
 package org.agony2d.view.puppet.supportClasses {
-	import flash.display.Bitmap
-	import flash.display.BitmapData
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.PixelSnapping;
 	
 final public class AutoSmoothingBitmap extends Bitmap {
+	
+//	public function AutoSmoothingBitmap(){
+//		super(null, PixelSnapping.AUTO)
+//	}
 	
 	override public function set bitmapData( v:BitmapData ) : void {
 		super.bitmapData = v

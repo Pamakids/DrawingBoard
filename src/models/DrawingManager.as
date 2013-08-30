@@ -23,6 +23,13 @@ package models
 			this.doAddBrush()
 		}
 		
+		public function reset() : void {
+			
+		}
+		
+		
+		
+		
 		private function doInitPaper():void
 		{
 			mPaper = new CommonPaper( AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 1 / AgonyUI.pixelRatio, null, 850)
@@ -41,38 +48,19 @@ package models
 			shape.graphics.drawCircle(0, 0, Config.ERASER_SIZE)
 			
 			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.brush1)).bitmapData, 0, 10)//, 0xdddd44)
-			brush.scale = 1
-			//brush.alpha = 0.9
-			
 			brush = mPaper.createTransformationBrush([(new (BrushAssets.brush2)).bitmapData], 1, 10,0,0,true)
-//			brush.scale = 0.8
-//			brush.color = 0xdddd44
-//			brush.alpha = 0.7
-			
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 12)//, 0xdddd44)
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 12)
 			brush.color = 0xdd4444
-//			brush.scale = 0.8
-//			brush.alpha = 0.8
-				
 			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 3, 12)//, 0xdddd44)
 			brush.color = 0xd44dd44
-				
 			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 4, 12)//, 0xdddd44)
 			brush.color = 0x4444dd
-
 			brush = mPaper.createEraseBrush(shape, 5, 5)
-			brush.scale = 2.5
 			
-			mPaper.brushIndex = 2
+			mPaper.brushIndex = 0
 				
 			
 		}		
-		
-		
-		
-		
-		
-		
 		
 		
 		
