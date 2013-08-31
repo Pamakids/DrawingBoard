@@ -5,6 +5,7 @@ package
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
 	import flash.events.Event;
+	import flash.system.Capabilities;
 	
 	import models.DrawingManager;
 	
@@ -32,7 +33,9 @@ package
 			this.doInitAgony()
 			this.doInitModel()
 			this.doInitView()
-			this.doController()
+			if(Capabilities.isDebugger){
+				this.doDebugController()
+			}
 		}
 		
 		private function doInitAgony() : void {
@@ -52,10 +55,16 @@ package
 			
 			AgonyUI.addModule("GameScene", GameSceneUIState).init()
 			AgonyUI.addModule("GameTop", GameTopUIState).init()
-			AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -110, 1, LayoutType.F__AF)
+			
+			if(Capabilities.isDebugger){
+				AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -100, 1, LayoutType.F__AF)
+			}
+			else{
+				AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, 0, 1, LayoutType.F__AF)
+			}
 		}
 		
-		private function doController() : void{
+		private function doDebugController() : void{
 			KeyboardManager.getInstance().initialize()
 			KeyboardManager.getInstance().getState().press.addEventListener("A", function(e:AEvent):void{
 				AgonyUI.getModule("GameScene").init()

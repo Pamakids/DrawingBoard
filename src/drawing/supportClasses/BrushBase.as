@@ -99,8 +99,8 @@ public class BrushBase extends DrawingBase implements IBrush{
 	protected function getColorTransform() :  ColorTransform {
 		var r:Number, g:Number, b:Number
 		
-		r = (m_color >> 16) / 255.0;
-		g = (m_color >> 8 & 255) / 255.0;
+		r = ((m_color >> 16) & 255) / 255.0;
+		g = ((m_color >> 8) & 255) / 255.0;
 		b = (m_color & 255) / 255.0;
 		cachedColorTransform.redMultiplier = r;
 		cachedColorTransform.greenMultiplier = g;

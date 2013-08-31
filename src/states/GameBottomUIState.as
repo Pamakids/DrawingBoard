@@ -1,15 +1,14 @@
 package states
 {
-	import flash.geom.Point;
-	
 	import assets.ImgAssets;
 	
-	import models.Config;
-	import models.DrawingManager;
-	
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.view.Slider;
+	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.ImageButton;
+	import org.agony2d.view.StateFusion;
 	import org.agony2d.view.UIState;
+	import org.agony2d.view.core.IComponent;
+	import org.agony2d.view.enum.ImageButtonType;
 	import org.agony2d.view.puppet.ImagePuppet;
 
 	public class GameBottomUIState extends UIState
@@ -18,31 +17,11 @@ package states
 		override public function enter():void
 		{
 			var bg:ImagePuppet
-			var slider:Slider
-			var img:ImagePuppet
-			const GAP_Y:int = 653
-			var brushIcons:Array
-			var i:int, l:int
+			var imgBtn:ImageButton
 			
-			mBrushCoordsA = 
-			[
-				new Point(90, 632 - GAP_Y),
-				new Point(164, 634 - GAP_Y),
-				new Point(233, 635 - GAP_Y),
-				new Point(293, 626 - GAP_Y),
-				new Point(358, 628 - GAP_Y),
-				new Point(442, 637 - GAP_Y)
-			]
-			
-			brushIcons = 
-			[
-				ImgAssets.img_brush_waterColor,
-				ImgAssets.img_brush_pencil,
-				ImgAssets.img_brush_crayon,
-				ImgAssets.img_brush_pink,
-				ImgAssets.img_brush_maker,
-				ImgAssets.img_brush_eraser
-			]
+			AgonyUI.addImageButtonData(ImgAssets.btn_brush, "btn_brush", ImageButtonType.BUTTON_RELEASE)
+			AgonyUI.addImageButtonData(ImgAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE)
+				
 				
 			// bg
 			{
@@ -53,79 +32,63 @@ package states
 				this.fusion.spaceHeight = bg.height
 			}
 			
-			// all brush
+			// btn bar
 			{
-				l = brushIcons.length
-				while(i < l){
-					img = new ImagePuppet
-					img.embed(brushIcons[i], false)
-					img.userData = i
-					this.fusion.addElement(img, mBrushCoordsA[i].x, mRawBrushY )//,1, LayoutType.F__AF)
-					img.addEventListener(AEvent.PRESS, onSelectBrush)
-					mImgList[i++] = img
-				}
+				imgBtn = new ImageButton("btn_brush")
+				imgBtn.userData = 0
+				this.fusion.addElement(imgBtn, 20, 18)
+				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+					
+				imgBtn = new ImageButton("btn_paster")
+				imgBtn.userData = 1
+				this.fusion.addElement(imgBtn, 14, 72)
+				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
 			}
 			
-			// brush scale slider
+			// state fustion
 			{
-				mBrushScaleSlider = new Slider(ImgAssets.img_track_A, ImgAssets.img_thumb_A, 1, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
-				this.fusion.addElement(mBrushScaleSlider, 0, 16)
-				mBrushScaleSlider.addEventListener(AEvent.CHANGE, onBrushScaleChange)
-				this.doAddHotspot(mBrushScaleSlider.thumb)
+				mStateFusion = new StateFusion
+				mStateFusion.setState(GameBottomBrushUIState)
+				this.fusion.addElement(mStateFusion)
 			}
-			
-			this.doSelectBursh(0)
 		}
-		
-		private function doAddHotspot(thumb:ImagePuppet) : void {
-			thumb.graphics.beginFill(0x0, 0)
-			thumb.graphics.drawCircle(thumb.width / 2, thumb.height / 2, 25)
-			thumb.cacheAsBitmap = true
-		}
-		
-		override public function exit():void{
 
+		override public function exit():void{
+			AgonyUI.removeImageButtonData("btn_brush")
+			AgonyUI.removeImageButtonData("btn_paster")
 		}
 		
+
+		private var mStateFusion:StateFusion
+		private var mIndex:int
 		
 		
-		private var mBrushCoordsA:Array
-		private var mRawBrushY:int = 24
-		private var mImgList:Array = []
-		private var mCurrBrushImg:ImagePuppet
-		private var mBrushScaleSlider:Slider
 		
-			
-		private function onSelectBrush(e:AEvent):void{
+		private function onStateChange(e:AEvent):void{
 			var index:int
 			
-			index = int(e.target.userData)
-			if(DrawingManager.getInstance().paper.brushIndex == index){
+			index = (e.target as IComponent).userData as int
+			if(mIndex == index){
 				return
 			}
-			this.doSelectBursh(index)
-		}
-		
-		private function doSelectBursh(index:int):void{
-			var img:ImagePuppet
-			
-			if(mCurrBrushImg){
-				mCurrBrushImg.y = mRawBrushY
-					
+			mIndex = index
+			switch(index)
+			{
+				case 0:
+				{
+					mStateFusion.setState(GameBottomBrushUIState)
+					break;
+				}
+				case 1:
+				{
+					mStateFusion.setState(GameBottomPasterUIState)
+				}
+				default:
+				{
+					break;
+				}
 			}
-			img = mImgList[index]
-			img.y = mBrushCoordsA[index].y
-			mCurrBrushImg = img
-			mBrushScaleSlider.x = img.x + img.width / 2 - 6
-			DrawingManager.getInstance().paper.brushIndex = index
-			//trace( DrawingManager.getInstance().paper.currBrush.scale)
-			mBrushScaleSlider.value = DrawingManager.getInstance().paper.currBrush.scale
 		}
-			
-		private function onBrushScaleChange(e:AEvent):void{
-			DrawingManager.getInstance().paper.currBrush.scale = mBrushScaleSlider.value
-		}
-		
-		//private var 
 	}
 }
+
