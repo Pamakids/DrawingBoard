@@ -7,7 +7,7 @@ package org.agony2d.view.puppet.supportClasses {
 public class SpritePuppetComp extends GraphicsComp {
 	
 	public function SpritePuppetComp() {
-		m_graphics = new GraphicsProxy(this.graphics, 1.0)
+		m_graphics = new GraphicsProxy(this.graphics, this, 1.0)
 	}
 	
 	override agony_internal function recycle() : void {

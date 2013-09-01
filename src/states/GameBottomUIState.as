@@ -17,10 +17,10 @@ package states
 		override public function enter():void
 		{
 			var bg:ImagePuppet
-			var imgBtn:ImageButton
+			var img:ImagePuppet
 			
-			AgonyUI.addImageButtonData(ImgAssets.btn_brush, "btn_brush", ImageButtonType.BUTTON_RELEASE)
-			AgonyUI.addImageButtonData(ImgAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE)
+//			AgonyUI.addImageButtonData(ImgAssets.btn_brush, "btn_brush", ImageButtonType.BUTTON_RELEASE)
+//			AgonyUI.addImageButtonData(ImgAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE)
 				
 				
 			// bg
@@ -34,15 +34,19 @@ package states
 			
 			// btn bar
 			{
-				imgBtn = new ImageButton("btn_brush")
-				imgBtn.userData = 0
-				this.fusion.addElement(imgBtn, 20, 18)
-				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+				img = new ImagePuppet
+				img.embed(ImgAssets.btn_brush)
+				img.userData = 0
+				this.fusion.addElement(img, 20, 18)
+				img.addEventListener(AEvent.CLICK, onStateChange)
+				img.graphics.quickDrawRect(67,52)
 					
-				imgBtn = new ImageButton("btn_paster")
-				imgBtn.userData = 1
-				this.fusion.addElement(imgBtn, 14, 72)
-				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+				img = new ImagePuppet
+				img.embed(ImgAssets.btn_paster)
+				img.userData = 1
+				this.fusion.addElement(img, 16, 72)
+				img.addEventListener(AEvent.CLICK, onStateChange)
+				img.graphics.quickDrawRect(67,52)
 			}
 			
 			// state fustion

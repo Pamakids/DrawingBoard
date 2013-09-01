@@ -9,7 +9,7 @@ final public class ImagePuppetComp extends GraphicsComp {
 	public function ImagePuppetComp() {
 		m_img = new AutoSmoothingBitmap
 		this.addChild(m_img)
-		m_graphics = new GraphicsProxy(this.graphics, ComponentProxy.m_pixelRatio)
+		m_graphics = new GraphicsProxy(this.graphics, this, ComponentProxy.m_pixelRatio)
 	}
 	
 	override agony_internal function dispose() : void {

@@ -23,5 +23,9 @@ public interface IGraphics {
 	function lineTo( x:Number, y:Number ) : void
 	
 	function clear() : void
+	
+	//function quickDrawCircle( radius:Number, color:uint = 0x0, alpha:Number = 0 ) : void
+	
+	function quickDrawRect( width:Number, height:Number, color:uint = 0x0, alpha:Number = 0 ) : void
 }
 }

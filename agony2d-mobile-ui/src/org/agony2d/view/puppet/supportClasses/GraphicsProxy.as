@@ -9,8 +9,9 @@ package org.agony2d.view.puppet.supportClasses {
 
 final public class GraphicsProxy implements IGraphics {
 	
-	public function GraphicsProxy( graphics:Graphics, pixelRatio:Number ) {
+	public function GraphicsProxy( graphics:Graphics, comp:GraphicsComp, pixelRatio:Number ) {
 		m_graphics = graphics
+		m_comp = comp
 		m_ratio = pixelRatio
 	}
 	
@@ -65,8 +66,19 @@ final public class GraphicsProxy implements IGraphics {
 		m_dirty = true
 	}
 	
+	public function quickDrawRect( width:Number, height:Number, color:uint = 0x0, alpha:Number = 0 ) : void {
+		var W:Number, H:Number
+		
+		W = m_comp.width * m_ratio
+		H = m_comp.height * m_ratio
+		m_graphics.beginFill(color, alpha)
+		m_graphics.drawRect( -(width - W) * .5, -(height - H) * .5, width, height)
+		m_dirty = true
+	}
+	
 	agony_internal var m_ratio:Number
 	agony_internal var m_dirty:Boolean
 	agony_internal var m_graphics:Graphics
+	agony_internal var m_comp:GraphicsComp
 }
 }

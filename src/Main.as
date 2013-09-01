@@ -1,6 +1,6 @@
 package 
 {
-	//import com.sociodox.theminer.TheMiner;
+	import com.sociodox.theminer.TheMiner;
 	
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
@@ -44,7 +44,7 @@ package
 			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true
 				
-			//this.addChild(new TheMiner)
+			this.addChild(new TheMiner)
 		}
 		
 		private function doInitModel() : void {
