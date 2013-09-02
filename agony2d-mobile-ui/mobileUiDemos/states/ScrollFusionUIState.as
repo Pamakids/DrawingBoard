@@ -56,7 +56,11 @@ public class ScrollFusionUIState extends UIState
 		this.fusion.addElement(mScrollFusion, 50, 30)
 		content = mScrollFusion.content
 		mScrollFusion.singleTouchForMovement = false
-			
+		mScrollFusion.delayTimeForDisable = 0.5
+		mScrollFusion.addEventListener(AEvent.BREAK, function(e:AEvent):void {
+			trace("break")
+		})
+	
 		// 属性
 		mScrollFusion.limitTop = true
 		mScrollFusion.limitBottom = true
@@ -66,11 +70,11 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion.contentHeight = 3000
 			
 		// 背景
-//		shape = new SpritePuppet()
-//		shape.graphics.beginFill(0xdd4444, 0.4)
-//		shape.graphics.drawRect(0, 0, 700, 500)
-//		shape.cacheAsBitmap = true
-//		mScrollFusion.addElementAt(shape, 0)
+		shape = new SpritePuppet()
+		shape.graphics.beginFill(0xdd4444, 0.4)
+		shape.graphics.drawRect(0, 0, 700, 500)
+		shape.cacheAsBitmap = true
+		mScrollFusion.addElementAt(shape, 0)
 
 		thumb = mScrollFusion.getHorizThumb('scroll', maskW, 15)
 		this.fusion.addElement(thumb, 0, 0, LayoutType.BA, LayoutType.B__A)

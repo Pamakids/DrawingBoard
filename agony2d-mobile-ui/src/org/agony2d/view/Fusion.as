@@ -191,6 +191,14 @@ public class Fusion extends SmoothProxy {
 				case LayoutType.F__A__F_ALIGN:
 					AX = paddingLeft + (this.spaceWidth - paddingLeft - paddingRight - aa.spaceWidth) / 2 + gapX
 					break
+				
+				case LayoutType.A_F_F:
+					AX = paddingLeft + gapX - aa.spaceWidth
+					break
+				
+				case LayoutType.F_F_A:
+					AX = this.spaceWidth - paddingRight + gapX
+					break
 					
 				case LayoutType.A__B:
 					if(m_bb) {
@@ -254,7 +262,15 @@ public class Fusion extends SmoothProxy {
 				case LayoutType.F__A__F_ALIGN:
 					AY = paddingTop + (this.spaceHeight - paddingTop - paddingBottom - aa.spaceHeight) / 2 + gapY
 					break
-					
+				
+				case LayoutType.A_F_F:
+					AY = paddingTop + gapY - aa.spaceHeight
+					break
+				
+				case LayoutType.F_F_A:
+					AY = this.spaceHeight - paddingBottom + gapY
+					break
+				
 				case LayoutType.A__B:
 					if(m_bb) {
 						AY = m_bb.y - aa.spaceHeight + gapY

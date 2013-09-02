@@ -9,37 +9,8 @@ package drawing.supportClasses {
 	
 public class PaperBase extends DrawingBase {
 	
-	public function PaperBase( paperWidth:int, paperHeight:int, contentRatio:Number, data:BitmapData, maxSize:int ) {
-		var width:Number, height:Number, ratio:Number
-		
+	public function PaperBase( contentRatio:Number ) {
 		super(contentRatio)
-		
-		width = paperWidth / contentRatio
-		height = paperHeight / contentRatio
-		if(width > maxSize || height > maxSize){
-			ratio = maxSize / Math.max(width, height)
-			m_fitRatio = ratio / m_contentRatio
-			m_contentRatio = ratio
-			width  *= m_contentRatio
-			height *= m_contentRatio
-		}
-		else{
-			m_contentRatio = 1
-			m_fitRatio = 1 / contentRatio
-		}
-		m_content = new BitmapData(width, height, true, 0x0)
-		if (data) {
-			if (data.width == width && data.height == height) {
-				cachedPoint.setTo(0, 0)
-				m_content.copyPixels(data, data.rect, cachedPoint, null, null, true)
-			}
-			else {
-				cachedMatrix.identity()
-				cachedMatrix.scale(width / data.width, height / data.height)
-				m_content.draw(data, cachedMatrix, null, null, null, true)
-			}
-		}
-		Logger.reportMessage(this, "width: " + width + "...height: " + height + "...contentRatio: " + m_contentRatio + "...fitRatio: " + m_fitRatio + "...")
 	}
 	
 	public function get content() : BitmapData {
@@ -117,5 +88,6 @@ public class PaperBase extends DrawingBase {
 	agony_internal var m_brushList:Vector.<BrushBase> = new <BrushBase>[]
 	agony_internal var m_brushIndex:int
 	agony_internal var m_bytesB:ByteArray = new ByteArray // output bytes...
+	agony_internal var m_base:BitmapData
 }
 }

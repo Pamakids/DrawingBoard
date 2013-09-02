@@ -33,6 +33,7 @@ public class AEvent {
     
 	public static const BEGINNING:String           =  "beginning"
 	public static const ROUND:String               =  "round"
+	public static const BREAK:String               =  "break"
     public static const COMPLETE:String            =  "complete"
 	
 	public static const ENTER_FRAME:String         =  "enterFrame"

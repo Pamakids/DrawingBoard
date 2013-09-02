@@ -26,6 +26,6 @@ public interface IGraphics {
 	
 	//function quickDrawCircle( radius:Number, color:uint = 0x0, alpha:Number = 0 ) : void
 	
-	function quickDrawRect( width:Number, height:Number, color:uint = 0x0, alpha:Number = 0 ) : void
+	function quickDrawRect( width:Number, height:Number, color:uint = 0x0, alpha:Number = 0, tx:Number = 0, ty:Number = 0 ) : void
 }
 }

@@ -1,11 +1,15 @@
 package drawing {
+	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
-	import org.agony2d.timer.DelayManager;
+	
+	import drawing.supportClasses.PaperBase;
+	
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.timer.DelayManager;
 	
 	use namespace agony_internal;
 	
-	/** 绘制播放器
+	/** [ DrawingPlayer ]
 	 *  [◆]
 	 *  	1.  paused
 	 *  	2.  timeScale
@@ -14,10 +18,14 @@ package drawing {
 	 * 		2.  fastAdvance
 	 * 		3.  stop
 	 */
-public class DrawingPlayer {
+public class DrawingPlayer extends PaperBase {
 	
-	public function DrawingPlayer( paper:CommonPaper ) {
-		m_paper = paper
+	public function DrawingPlayer( paper:CommonPaper, contentRatio:Number ) {
+		super(contentRatio)
+		m_content = paper.m_content.clone()
+		m_content.fillRect(m_content.rect, 0x0)
+		m_base = paper.m_base.clone()
+		m_brushList = paper.m_brushList
 	}
 	
 	public function get paused() : Boolean { 
@@ -54,6 +62,5 @@ public class DrawingPlayer {
 	}
 	
 	agony_internal var m_delay:DelayManager = new DelayManager
-	agony_internal var m_paper:CommonPaper
 }
 }

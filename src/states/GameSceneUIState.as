@@ -9,6 +9,7 @@ package states
 	import models.Config;
 	import models.DrawingManager;
 	
+	import org.agony2d.Agony;
 	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
@@ -27,6 +28,10 @@ package states
 			this.doAddDrawingControl()
 		}
 		
+		
+		public static const START_DRAW:String = "startDraw"
+		
+		
 		private function doAddPaper():void
 		{	
 			var img:ImagePuppet
@@ -38,7 +43,7 @@ package states
 			// board...
 			{
 				mBoard = new GridScrollFusion(AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 4000, 4000, false, 4,4,1,4)
-				//mBoard = new Fusion
+				mBoard.delayTimeForDisable = 0.5
 				mBoard.singleTouchForMovement = false
 				mBoard.limitLeft = mBoard.limitRight = mBoard.limitTop = mBoard.limitBottom = true
 					
@@ -108,7 +113,7 @@ package states
 //			if(mPaper.drawPoint(touch.stageX * ratio, touch.stageY * ratio)){
 			//trace(point)
 //			if(mPaper.drawPoint(point.x, point.y)){
-			if(mPaper.drawPoint(point.x* ratio, point.y* ratio)){
+			if(mPaper.startDraw(point.x* ratio, point.y* ratio)){
 				touch.addEventListener(AEvent.MOVE, __onMove)
 				touch.addEventListener(AEvent.RELEASE, __onRelease)
 				
@@ -117,6 +122,8 @@ package states
 				}
 				//Logger.reportMessage(this, "new touch...")
 			}
+			
+			Agony.process.dispatchDirectEvent(START_DRAW)
 		}
 		
 		private function __onMove(e:AEvent):void
@@ -147,7 +154,7 @@ package states
 		}
 		
 		private function __onRelease(e:AEvent):void {
-			mPaper.drawEnd()
+			mPaper.endDraw()
 			if(mEraser){
 				mEraser.kill()
 				mEraser = null

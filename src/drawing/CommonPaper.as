@@ -38,8 +38,38 @@ package drawing {
 	 */
 public class CommonPaper extends PaperBase implements IProcess {
 	
-	public function CommonPaper( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, data:BitmapData = null, maxSize:int = 1024 ) {
-		super(paperWidth, paperHeight, pixelRatio, data, maxSize)
+	public function CommonPaper( paperWidth:int, paperHeight:int, pixelRatio:Number = 1, base:BitmapData = null, maxSize:int = 1024 ) {
+		var width:Number, height:Number, ratio:Number
+		
+		super(pixelRatio)
+		
+		width = paperWidth / pixelRatio
+		height = paperHeight / contentRatio
+		if(width > maxSize || height > maxSize){
+			ratio = maxSize / Math.max(width, height)
+			m_fitRatio = ratio / m_contentRatio
+			m_contentRatio = ratio
+			width  *= m_contentRatio
+			height *= m_contentRatio
+		}
+		else{
+			m_contentRatio = 1
+			m_fitRatio = 1 / pixelRatio
+		}
+		m_content = new BitmapData(width, height, true, 0x0)
+		if (base) {
+			if (base.width == width && base.height == height) {
+				cachedPoint.setTo(0, 0)
+				m_content.copyPixels(base, base.rect, cachedPoint, null, null, true)
+			}
+			else {
+				cachedMatrix.identity()
+				cachedMatrix.scale(width / base.width, height / base.height)
+				m_content.draw(base, cachedMatrix, null, null, null, true)
+			}
+			m_base = m_content.clone()
+		}
+		Logger.reportMessage(this, "width: " + width + "...height: " + height + "...contentRatio: " + m_contentRatio + "...fitRatio: " + m_fitRatio + "...")
 		m_bytesA = new ByteArray
 		ProcessManager.addFrameProcess(this, 80000)
 	}
@@ -89,7 +119,7 @@ public class CommonPaper extends PaperBase implements IProcess {
 		return m_brushList[index] = new EraseBrush(m_contentRatio, m_fitRatio, density, m_content, source)
 	}
 	
-	public function drawPoint( destX:Number, destY:Number ) : Boolean {
+	public function startDraw( destX:Number, destY:Number ) : Boolean {
 		if(m_isDrawing){
 			return false
 		}
@@ -129,7 +159,7 @@ public class CommonPaper extends PaperBase implements IProcess {
 	}
 	
 	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
-	public function drawEnd() : void {
+	public function endDraw() : void {
 		var position:int
 		
 		// check and clear...

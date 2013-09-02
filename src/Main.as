@@ -33,7 +33,7 @@ package
 			this.doInitAgony()
 			this.doInitModel()
 			this.doInitView()
-			if(Capabilities.isDebugger){
+			if(!Agony.isMoblieDevice){
 				this.doDebugController()
 			}
 		}
@@ -56,7 +56,7 @@ package
 			AgonyUI.addModule("GameScene", GameSceneUIState).init()
 			AgonyUI.addModule("GameTop", GameTopUIState).init()
 			
-			if(Capabilities.isDebugger){
+			if(!Agony.isMoblieDevice){
 				AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -100, 1, LayoutType.F__AF)
 			}
 			else{

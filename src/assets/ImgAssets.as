@@ -11,9 +11,10 @@ package assets
 		[Embed(source="data/buttons/btn_reset.png")] public static const btn_reset:Class
 		[Embed(source="data/buttons/btn_complete.png")] public static const btn_complete:Class
 		
-		
 		[Embed(source="data/images/drawing_bg.jpg")] public static const img_drawing_bg:Class
 		
+		[Embed(source="data/buttons/btn_game_bottom_up.png")] public static const btn_game_bottom_up:Class
+		[Embed(source="data/buttons/btn_game_bottom_down.png")] public static const btn_game_bottom_down:Class
 		[Embed(source="data/buttons/btn_brush.png")] public static const btn_brush:Class
 		[Embed(source="data/buttons/btn_paster.png")] public static const btn_paster:Class
 		[Embed(source="data/images/bottom_bg.png")] public static const img_bottom_bg:Class

@@ -8,6 +8,7 @@ package org.agony2d.view {
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.timer.DelayManager;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.core.UIManager;
 	import org.agony2d.view.puppet.NineScalePuppet;
@@ -15,6 +16,8 @@ package org.agony2d.view {
 	use namespace agony_internal;
 	
 	[Event(name = "beginning", type = "org.agony2d.notify.AEvent")]
+	
+	[Event(name = "break", type = "org.agony2d.notify.AEvent")]
 	
 	[Event(name = "complete", type = "org.agony2d.notify.AEvent")]
 	
@@ -103,6 +106,14 @@ public class GridScrollFusion extends PivotFusion {
 	
 	public function set singleTouchForMovement( b:Boolean ) : void {
 		m_singleTouchForMovement = b
+	}
+	
+	public function get delayTimeForDisable() : Number {
+		return m_delayTimeForDisable
+	}
+	
+	public function set delayTimeForDisable( v:Number ) : void {
+		m_delayTimeForDisable = v
 	}
 	
 	public function get contentWidth() : Number {
@@ -236,6 +247,14 @@ public class GridScrollFusion extends PivotFusion {
 			}
 			m_touchList.length = m_numTouchs = 0
 		}
+		if(m_allStopped){
+			m_allStopped = false
+			TouchManager.getInstance().removeEventListener(AEvent.COMPLETE, onTouchClear)
+		}
+		if (m_delayID >= 0) {
+			DelayManager.getInstance().removeDelayedCall(m_delayID)
+			m_delayID = -1
+		}
 	}
 	
 	public function updateAllThumbs() : void {
@@ -269,10 +288,12 @@ public class GridScrollFusion extends PivotFusion {
 	agony_internal var m_horizPuppet:NineScalePuppet, m_vertiPuppet:NineScalePuppet
 	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, cachedScale:Number, cachedDist:Number, m_scaleRatioLow:Number, m_scaleRatioHigh:Number, m_scaleRatio:Number = 1
 	agony_internal var m_horizDisableOffset:int, m_vertiDisableOffset:int
-	agony_internal var m_locked:Boolean, m_singleTouchForMovement:Boolean = true
+	agony_internal var m_locked:Boolean, m_allStopped:Boolean, m_singleTouchForMovement:Boolean = true
 	private var m_firstTouch:Touch
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
+	private var m_delayTimeForDisable:Number = -1
+	private var m_delayID:int = -1
 	private const SCROLL_PRIORITY:int = 22000
 	
 	
@@ -286,7 +307,7 @@ public class GridScrollFusion extends PivotFusion {
 		globalY = global.y
 		m_startX = e.touch.stageX / m_pixelRatio
 		m_startY = e.touch.stageY / m_pixelRatio
-		if (m_startX < globalX || m_startX > globalX + m_maskWidth || m_startY < globalY || m_startY > globalY + m_maskHeight) {
+		if (m_startX < globalX || m_startX > globalX + m_maskWidth || m_startY < globalY || m_startY > globalY + m_maskHeight || m_allStopped) {
 			return
 		}
 		// premove...
@@ -295,6 +316,9 @@ public class GridScrollFusion extends PivotFusion {
 			m_firstTouch.addEventListener(AEvent.RELEASE, ____onBreak,   false, SCROLL_PRIORITY)
 			m_firstTouch.addEventListener(AEvent.MOVE,    ____onPreMove, false, SCROLL_PRIORITY)
 			//trace("first touch...")
+			if (m_delayTimeForDisable > 0) {
+				m_delayID = DelayManager.getInstance().delayedCall(m_delayTimeForDisable, doDelayForDisable)
+			}
 		}
 		// scrolling...
 		else {
@@ -311,6 +335,10 @@ public class GridScrollFusion extends PivotFusion {
 		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
 		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
 		m_firstTouch = null
+		if (m_delayID >= 0) {
+			DelayManager.getInstance().removeDelayedCall(m_delayID)
+			m_delayID = -1
+		}
 	}
 	
 	protected function ____onPreMove( e:AEvent ) : void {
@@ -437,7 +465,26 @@ public class GridScrollFusion extends PivotFusion {
 		this.insertTouch(m_firstTouch)
 		m_firstTouch = null
 		view.interactive = false
+		if (m_delayID >= 0) {
+			DelayManager.getInstance().removeDelayedCall(m_delayID)
+			m_delayID = -1
+		}
 		this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
+	}
+	
+	protected function doDelayForDisable() : void {
+		m_delayID = -1
+		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
+		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
+		m_firstTouch = null
+		m_allStopped = true
+		TouchManager.getInstance().addEventListener(AEvent.COMPLETE, onTouchClear)
+		this.view.m_notifier.dispatchDirectEvent(AEvent.BREAK)
+	}
+	
+	private function onTouchClear( e:AEvent ) : void {
+		m_allStopped = false
+		TouchManager.getInstance().removeEventListener(AEvent.COMPLETE, onTouchClear)
 	}
 	
 	private function get orginX() : Number {

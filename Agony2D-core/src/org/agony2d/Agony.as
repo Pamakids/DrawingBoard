@@ -18,11 +18,12 @@ package org.agony2d {
 	import flash.ui.Mouse;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
+	
 	import org.agony2d.core.ProcessManager;
+	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.renderer.anime.Animator;
 	import org.agony2d.renderer.anime.SectionManager;
-	import org.agony2d.core.agony_internal
 	
 	use namespace agony_internal;
 	
@@ -52,6 +53,10 @@ public class Agony {
 	
 	public static function get root() : DisplayObjectContainer {
 		return m_root 
+	}
+	
+	public static function get isMoblieDevice() : Boolean {
+		return Multitouch.maxTouchPoints > 0
 	}
 	
 	public static function get process() : ProcessManager { 

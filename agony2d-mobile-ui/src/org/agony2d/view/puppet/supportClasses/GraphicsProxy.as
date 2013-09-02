@@ -1,7 +1,8 @@
 package org.agony2d.view.puppet.supportClasses {
-	import flash.display.BitmapData
-	import flash.display.Graphics
-	import flash.geom.Matrix
+	import flash.display.BitmapData;
+	import flash.display.Graphics;
+	import flash.geom.Matrix;
+	
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.view.puppet.IGraphics;
 
@@ -66,13 +67,13 @@ final public class GraphicsProxy implements IGraphics {
 		m_dirty = true
 	}
 	
-	public function quickDrawRect( width:Number, height:Number, color:uint = 0x0, alpha:Number = 0 ) : void {
+	public function quickDrawRect( width:Number, height:Number, color:uint = 0x0, alpha:Number = 0, tx:Number = 0, ty:Number = 0 ) : void {
 		var W:Number, H:Number
 		
 		W = m_comp.width * m_ratio
 		H = m_comp.height * m_ratio
 		m_graphics.beginFill(color, alpha)
-		m_graphics.drawRect( -(width - W) * .5, -(height - H) * .5, width, height)
+		m_graphics.drawRect(tx -(width - W) * .5, ty - (height - H) * .5, width, height)
 		m_dirty = true
 	}
 	

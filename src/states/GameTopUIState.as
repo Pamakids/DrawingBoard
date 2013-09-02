@@ -8,10 +8,14 @@ package states
 	
 	import drawing.CommonPaper;
 	
+	import models.Config;
 	import models.DrawingManager;
 	
+	import org.agony2d.Agony;
 	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
+	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ImageButton;
@@ -53,6 +57,7 @@ package states
 				img = new ImagePuppet
 				img.embed(ImgAssets.img_top_bg, false)
 				this.fusion.addElement(img)
+				mHeight = img.height
 			}
 			
 			mImgList = []
@@ -86,22 +91,27 @@ package states
 			var l:int = mImgList.length
 			while(--l>-1){
 				imgBtn = mImgList[l]
-				imgBtn.addEventListener(AEvent.BUTTON_PRESS, onButtonPress)
-				imgBtn.addEventListener(AEvent.BUTTON_RELEASE, onButtonRelease)
+//				imgBtn.addEventListener(AEvent.BUTTON_PRESS, onButtonPress)
+//				imgBtn.addEventListener(AEvent.BUTTON_RELEASE, onButtonRelease)
 				imgBtn.addEventListener(AEvent.PRESS, onMakeSfxForPress)
 			}
+			
+			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 		}
 		
 		override public function exit():void{
-			var l:int = mImgList.length
-			while(--l>-1){
-				TweenLite.killTweensOf(mImgList[l])
-			}
+//			var l:int = mImgList.length
+//			while(--l>-1){
+//				TweenLite.killTweensOf(mImgList[l])
+//			}
+			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
+			TweenLite.killTweensOf(this.fusion)
 		}
 		
 		
 		private var mPaper:CommonPaper
 		private var mImgList:Array
+		private var mHeight:Number
 		
 		
 		private function onTopBack(e:AEvent):void{
@@ -120,24 +130,33 @@ package states
 		
 		private const SCALE_A:Number = 0.85
 		private const SCLAE_T:Number = 0.3
-		private function onButtonPress( e:AEvent ) : void{
-			var AA:IComponent
-			
-			AA = e.target as IComponent
-			AA.scaleX = AA.scaleY = 1
-			TweenLite.to(AA, SCLAE_T, {scaleX:SCALE_A, scaleY:SCALE_A,ease:Cubic.easeOut})
-		}
+//		private function onButtonPress( e:AEvent ) : void{
+//			var AA:IComponent
+//			
+//			AA = e.target as IComponent
+//			AA.scaleX = AA.scaleY = 1
+//			TweenLite.to(AA, SCLAE_T, {scaleX:SCALE_A, scaleY:SCALE_A,ease:Cubic.easeOut})
+//		}
 		
-		private function onButtonRelease( e:AEvent ) : void{
-			var AA:IComponent
-			
-			AA = e.target as IComponent
-			AA.scaleX = AA.scaleY = SCALE_A
-			TweenLite.to(AA, SCLAE_T, {scaleX:1, scaleY:1,ease:Cubic.easeOut})
-		}
-		
+//		private function onButtonRelease( e:AEvent ) : void{
+//			var AA:IComponent
+//			
+//			AA = e.target as IComponent
+//			AA.scaleX = AA.scaleY = SCALE_A
+//			TweenLite.to(AA, SCLAE_T, {scaleX:1, scaleY:1,ease:Cubic.easeOut})
+//		}
+//		
 		private function onMakeSfxForPress(e:AEvent):void{
 			SfxManager.getInstance().play(SoundAssets.press)
+		}
+		
+		private function onSceneBottomVisibleChange(e:DataEvent):void{
+			if(e.data as Boolean){
+				TweenLite.to(this.fusion, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:-mHeight,overwrite:1})
+			}
+			else{
+				TweenLite.to(this.fusion, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:0,overwrite:1})
+			}
 		}
 	}
 }

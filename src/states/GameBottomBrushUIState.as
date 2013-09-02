@@ -1,5 +1,7 @@
 package states
 {
+	import com.greensock.TweenLite;
+	
 	import flash.display.BitmapData;
 	import flash.geom.ColorTransform;
 	import flash.geom.Point;
@@ -9,7 +11,9 @@ package states
 	import models.Config;
 	import models.DrawingManager;
 	
+	import org.agony2d.Agony;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.Slider;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.core.IComponent;
@@ -107,17 +111,17 @@ package states
 			}
 			
 			this.doSelectBrush(0)
+				
+			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 		}
 		
-		
-		private function doAddHotspot(thumb:ImagePuppet) : void {
-			thumb.graphics.beginFill(0x0, 0)
-			thumb.graphics.drawCircle(thumb.width / 2, thumb.height / 2, 25)
-			thumb.cacheAsBitmap = true
+		override public function exit():void
+		{
+			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
+			TweenLite.killTweensOf(mCurrBrushImg)
 		}
 		
-		
-		
+
 		private static var mPickerColorTransform:ColorTransform = new ColorTransform
 		
 		
@@ -130,6 +134,11 @@ package states
 		
 		
 		
+		private function doAddHotspot(thumb:ImagePuppet) : void {
+			thumb.graphics.beginFill(0x0, 0)
+			thumb.graphics.drawCircle(thumb.width / 2, thumb.height / 2, 25)
+			thumb.cacheAsBitmap = true
+		}
 		
 		private function onSelectBrush(e:AEvent):void{
 			var index:int
@@ -185,6 +194,14 @@ package states
 			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
 		}
 		
+		private function onSceneBottomVisibleChange(e:DataEvent):void{
+			if(e.data as Boolean){
+				TweenLite.to(mCurrBrushImg, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:mRawBrushY,overwrite:1})
+			}
+			else{
+				TweenLite.to(mCurrBrushImg, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:mBrushCoordsA[DrawingManager.getInstance().paper.brushIndex].y,overwrite:1})
+			}
+		}
 		
 			
 	}

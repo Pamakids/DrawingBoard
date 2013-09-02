@@ -14,13 +14,13 @@ public class DrawingBase {
 		m_contentRatio = contentRatio
 	}
 	
-	protected static var cachedPoint:Point = new Point
-	protected static var cachedMatrix:Matrix = new Matrix
-	protected static var cachedColorTransform:ColorTransform = new ColorTransform
-	protected static var cachedAngle:Number
-	protected static var cachedTwoPI:Number = Math.PI * 2
+	agony_internal static var cachedPoint:Point = new Point
+	agony_internal static var cachedMatrix:Matrix = new Matrix
+	agony_internal static var cachedColorTransform:ColorTransform = new ColorTransform
+	agony_internal static var cachedAngle:Number
+	agony_internal static var cachedTwoPI:Number = Math.PI * 2
 
-	protected var m_contentRatio:Number, m_fitRatio:Number
-	protected var m_content:BitmapData
+	agony_internal var m_contentRatio:Number, m_fitRatio:Number
+	agony_internal var m_content:BitmapData
 }
 }
