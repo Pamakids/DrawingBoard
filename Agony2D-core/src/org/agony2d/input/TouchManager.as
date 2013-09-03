@@ -53,6 +53,7 @@ public class TouchManager extends Notifier implements IProcess {
 		while (--l > -1) {
 			stage.addEventListener(eventList[l], ____onTouchStateUpdate, false, -8000)
 		}
+		ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
 	}
 	
 	public static function getInstance() : TouchManager {
@@ -91,15 +92,23 @@ public class TouchManager extends Notifier implements IProcess {
 	}
 	
 	public function set velocityEnabled( b:Boolean ) : void {
-		if (Touch.m_velocityEnabled != b) {
-			Touch.m_velocityEnabled = b
-			if (b) {
-				ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
-			}
-			else {
-				ProcessManager.removeFrameProcess(this)
-			}
-		}
+		Touch.m_velocityEnabled = b
+	}
+	
+	public function get isMoveByFrame() : Boolean {
+		return Touch.m_isMoveByFrame
+	}
+	
+	public function set isMoveByFrame( b:Boolean ) : void {
+		Touch.m_isMoveByFrame = b
+	}
+	
+	public function lock() : void {
+		m_locked = true
+	}
+	
+	public function unlock() : void {
+		m_locked = false
 	}
 	
 	/** 速率失效程度限制... */
@@ -111,7 +120,7 @@ public class TouchManager extends Notifier implements IProcess {
 	final public function update( deltaTime:Number ) : void {
 		var touch:Touch
 		
-		if (m_numTouchs > 0 && !m_allInvalid && Touch.m_velocityEnabled) {
+		if (m_numTouchs > 0 && !m_allInvalid) {
 			for each(touch in m_touchList) {
 				touch.update()
 			}
@@ -123,6 +132,9 @@ public class TouchManager extends Notifier implements IProcess {
 		var touchID:int
 		var touch:Touch
 		
+		if (m_locked) {
+			return
+		}
 		type     =  e.type
 		touchID  =  (e is TouchEvent) ? (e as TouchEvent).touchPointID : 0
 		if (type == TouchEvent.TOUCH_BEGIN || type == MouseEvent.MOUSE_DOWN) {
@@ -167,6 +179,6 @@ public class TouchManager extends Notifier implements IProcess {
 	agony_internal static var m_instance:TouchManager
 	agony_internal static var m_touchList:Object // touchID:Touch
 	agony_internal static var m_numTouchs:int
-	agony_internal static var m_multiTouchEnabled:Boolean, m_allInvalid:Boolean
+	agony_internal static var m_multiTouchEnabled:Boolean, m_allInvalid:Boolean, m_locked:Boolean
 }
 }

@@ -61,7 +61,7 @@ public class Touch extends Notifier {
 	
 	override public function dispose() : void {
 		super.dispose()
-		//m_moveStateA = false
+		m_moveStateA = false
 		m_maxMoveX = m_maxMoveY = 0
 		cachedTouchList[cachedTouchLength] = this
 	}
@@ -72,10 +72,14 @@ public class Touch extends Notifier {
 		if(m_stageX != stageX || m_stageY != stageY) {
 			m_stageX = stageX
 			m_stageY = stageY
-			this.dispatchDirectEvent(AEvent.MOVE)
+			if (m_isMoveByFrame) {
+				m_moveStateA = true
+			}
+			else {
+				this.dispatchDirectEvent(AEvent.MOVE)
+			}
 			m_prevStageX = m_stageX
 			m_prevStageY = m_stageY
-			//m_moveStateA = true
 			if (m_velocityEnabled) {
 				m_oldAMouseX = m_currMoveX
 				m_oldAMouseY = m_currMoveY
@@ -96,12 +100,12 @@ public class Touch extends Notifier {
 	
 	internal function update() : void {
 		// Move
-		//if (m_moveStateA) {
-			//m_moveStateA = false
-			//this.dispatchDirectEvent(AEvent.MOVE)
-			//m_prevStageX = m_stageX
-			//m_prevStageY = m_stageY
-		//}
+		if (m_isMoveByFrame && m_moveStateA) {
+			m_moveStateA = false
+			this.dispatchDirectEvent(AEvent.MOVE)
+			m_prevStageX = m_stageX
+			m_prevStageY = m_stageY
+		}
 		// Velocity
 		if (m_currCount > 0) {
 			if (--m_currCount == 0) {
@@ -135,13 +139,13 @@ public class Touch extends Notifier {
 	internal static var m_invalidCount:int = 7
 	internal static var m_maxVelocity:int = 44
 	internal static var m_stage:Stage
-	internal static var m_velocityEnabled:Boolean
+	internal static var m_velocityEnabled:Boolean, m_isMoveByFrame:Boolean
 	internal static const m_mouseFriction:Number = .55
 	
 	internal var m_touchID:int
 	internal var m_stageX:Number, m_stageY:Number
 	internal var m_currCount:int
-	//internal var m_moveStateA:Boolean
+	internal var m_moveStateA:Boolean
 	internal var m_prevStageX:Number, m_prevStageY:Number, m_oldAMouseX:Number, m_oldAMouseY:Number, m_currMoveX:Number, m_currMoveY:Number, m_maxMoveX:Number, m_maxMoveY:Number
 }
 }

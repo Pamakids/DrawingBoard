@@ -185,6 +185,8 @@ public class ScrollFusionUIState extends UIState
 		{
 			mScrollFusion.stopScroll()
 		})
+			
+		TouchManager.getInstance().isMoveByFrame = true
 	}
 	
 
@@ -197,6 +199,8 @@ public class ScrollFusionUIState extends UIState
 		KeyboardManager.getInstance().getState().press.removeEventAllListeners('L')
 		KeyboardManager.getInstance().getState().press.removeEventAllListeners('S')
 		TweenLite.killTweensOf(mScrollFusion.content)
+			
+		TouchManager.getInstance().isMoveByFrame = false
 	}
 	
 	private var mScrollFusion:GridScrollFusion

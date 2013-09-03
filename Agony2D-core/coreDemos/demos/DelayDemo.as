@@ -7,6 +7,7 @@ package demos
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import flash.utils.Timer;
+	import org.agony2d.debug.Logger;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.Agony;
 	import org.agony2d.timer.DelayManager;
@@ -33,7 +34,7 @@ public class DelayDemo extends Sprite
 		//})
 		//timer.start()
 		
-		l = 20000
+		l = 10
 		while (--l > 0)
 		{
 			//DelayManager.getInstance().delayedCall(l, function():void
@@ -41,7 +42,7 @@ public class DelayDemo extends Sprite
 				//trace(getTimer())
 			//})
 			id = DelayManager.getInstance().delayedCall(l, trace, l)
-			if (l > 10 && l < 15)
+			if (l > 5 && l < 7)
 			{
 				removeList.push(id)
 			}
@@ -74,7 +75,7 @@ public class DelayDemo extends Sprite
 			{
 				DelayManager.getInstance().removeDelayedCall(removeList[i])
 			}
-			trace(DelayManager.getInstance().numDelay)
+			Logger.reportMessage("DelayDemo", "numDelay: "+DelayManager.getInstance().numDelay)
 		})
 		
 		// 暂停
