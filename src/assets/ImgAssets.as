@@ -6,13 +6,20 @@ package assets
 		{
 		}
 		
+		// game top
 		[Embed(source="data/images/top_bg.png")] public static const img_top_bg:Class
 		[Embed(source="data/buttons/btn_back.png")] public static const btn_back:Class
 		[Embed(source="data/buttons/btn_reset.png")] public static const btn_reset:Class
 		[Embed(source="data/buttons/btn_complete.png")] public static const btn_complete:Class
 		
+		[Embed(source="data/images/game_top_reset_bg.png")] public static const img_game_top_reset_bg:Class
+		[Embed(source="data/buttons/game_top_reset_no.png")] public static const img_game_top_reset_no:Class
+		[Embed(source="data/buttons/game_top_reset_yes.png")] public static const img_game_top_reset_yes:Class
+		
+		// game scene
 		[Embed(source="data/images/drawing_bg.jpg")] public static const img_drawing_bg:Class
 		
+		// game bottom 
 		[Embed(source="data/buttons/btn_game_bottom_up.png")] public static const btn_game_bottom_up:Class
 		[Embed(source="data/buttons/btn_game_bottom_down.png")] public static const btn_game_bottom_down:Class
 		[Embed(source="data/buttons/btn_brush.png")] public static const btn_brush:Class

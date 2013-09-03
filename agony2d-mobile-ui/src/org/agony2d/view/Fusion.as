@@ -23,8 +23,6 @@ package org.agony2d.view {
 	 * 		4.  setElementLayer
 	 * 		5.  getElementAt
 	 * 		6.  removeAllElement
-	 *  [★]
-			a.  布局方式 × 8 :
 												Top
 		   ------------------------------------------------------------------↓-------
 		   |                                                    paddingTop ← ↓	    |

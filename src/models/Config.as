@@ -13,6 +13,7 @@ package models
 		public static const BRUSH_SCALE_MAX:Number = 2
 			
 		public static const TOP_AND_BOTTOM_HIDE_TIME:Number = 0.33
+		public static const TOP_AND_BOTTOM_AUTO_BACK_TIME:Number = 4
 			
 			
 		public static function get colorDataList():Array{ 

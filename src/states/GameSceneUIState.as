@@ -14,6 +14,7 @@ package states
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.timer.DelayManager;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.GridScrollFusion;
 	import org.agony2d.view.UIState;
@@ -23,13 +24,34 @@ package states
 
 	public class GameSceneUIState extends UIState
 	{
+		
+		public static const START_DRAW:String = "startDraw"
+		
+		public static const TOP_AND_BOTTOM_AUTO_BACK:String = "topAndBottomAutoBack"
+			
+			
 		override public function enter():void{
 			this.doAddPaper()
 			this.doAddDrawingControl()
+			Agony.process.addEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
+		}
+		
+		override public function exit():void{
+			if(mDelayID >= 0){
+				DelayManager.getInstance().removeDelayedCall(mDelayID)
+			}
+			Agony.process.removeEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
 		}
 		
 		
-		public static const START_DRAW:String = "startDraw"
+		
+		private var mBoard:GridScrollFusion
+		private var mPaper:CommonPaper
+		private var mImg:ImagePuppet
+		private var mPixelRatio:Number, mContentRatio:Number
+		private var mEraser:SpritePuppet
+		private var mDelayID:int = -1
+		
 		
 		
 		private function doAddPaper():void
@@ -39,14 +61,14 @@ package states
 			mPixelRatio = AgonyUI.pixelRatio
 			mPaper = DrawingManager.getInstance().paper
 			mContentRatio = mPaper.contentRatio
-				
+			
 			// board...
 			{
 				mBoard = new GridScrollFusion(AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 4000, 4000, false, 4,4,1,4)
 				mBoard.delayTimeForDisable = 0.5
 				mBoard.singleTouchForMovement = false
 				mBoard.limitLeft = mBoard.limitRight = mBoard.limitTop = mBoard.limitBottom = true
-					
+				
 				// bg...
 				{
 					img = new ImagePuppet
@@ -54,7 +76,7 @@ package states
 					img.interactive = false
 					mBoard.content.addElement(img)	
 				}
-					
+				
 				// content...
 				{
 					mImg = new ImagePuppet
@@ -75,14 +97,6 @@ package states
 			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
 			
 		}
-		
-		
-		private var mBoard:GridScrollFusion
-		private var mPaper:CommonPaper
-		private var mImg:ImagePuppet
-		private var mPixelRatio:Number, mContentRatio:Number
-		private var mEraser:SpritePuppet
-		
 		
 		private function getEraser() : IComponent {
 			if(!mEraser){
@@ -121,9 +135,9 @@ package states
 					mBoard.content.addElement(this.getEraser(), point.x* 1 / mContentRatio, point.y* 1 / mContentRatio)
 				}
 				//Logger.reportMessage(this, "new touch...")
+				this.onCancelAutoHide(null)
+				Agony.process.dispatchDirectEvent(START_DRAW)
 			}
-			
-			Agony.process.dispatchDirectEvent(START_DRAW)
 		}
 		
 		private function __onMove(e:AEvent):void
@@ -159,6 +173,20 @@ package states
 				mEraser.kill()
 				mEraser = null
 			}
+			mDelayID = DelayManager.getInstance().delayedCall(Config.TOP_AND_BOTTOM_AUTO_BACK_TIME, onAutoBack)
+		}
+		
+		private function onAutoBack():void{
+			Agony.process.dispatchDirectEvent(TOP_AND_BOTTOM_AUTO_BACK)
+			mDelayID = -1
+		}
+		
+		private function onCancelAutoHide(e:AEvent):void{
+			if(mDelayID >= 0){
+				DelayManager.getInstance().removeDelayedCall(mDelayID)
+				mDelayID = -1
+			}
+			trace("cancel auto hide...")
 		}
 	}
 }

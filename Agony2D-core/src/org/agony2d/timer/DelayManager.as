@@ -69,6 +69,7 @@ final public class DelayManager implements IProcess {
 		Logger.reportMessage(this, (!b ? '▲' : '▼') + 'pause [ ' + b + ' ] : ' + m_numDelay + '...')
 	}
 	
+	/** delay Id by returned is more than zero... */
 	public function delayedCall( delay:Number, callback:Function, ...args ) : uint {
 		var dp:DelayProp
 		

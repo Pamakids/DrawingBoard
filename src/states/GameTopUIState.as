@@ -65,7 +65,6 @@ package states
 			// back
 			{
 				imgBtn = new ImageButton("btn_back", 5)
-//				img.embed(ImgAssets.btn_back)
 				this.fusion.addElement(imgBtn, 17 + imgBtn.width / 2, 6 + imgBtn.height / 2)
 				imgBtn.addEventListener(AEvent.CLICK, onTopBack)
 				mImgList.push(imgBtn)
@@ -74,13 +73,13 @@ package states
 			// reset
 			{
 				imgBtn = new ImageButton("btn_reset", 5)
-				//img.embed(ImgAssets.btn_reset)
 				this.fusion.addElement(imgBtn, 862 + imgBtn.width / 2, 6 + imgBtn.height / 2)
 				imgBtn.addEventListener(AEvent.CLICK, onTopReset)
 				mImgList.push(imgBtn)
+				mPositonA = this.fusion.position
 			}
 			
-			// reset
+			// complete
 			{
 				imgBtn = new ImageButton("btn_complete", 5)
 				this.fusion.addElement(imgBtn, 967 + imgBtn.width / 2, 6 + imgBtn.height / 2)
@@ -112,6 +111,9 @@ package states
 		private var mPaper:CommonPaper
 		private var mImgList:Array
 		private var mHeight:Number
+		private var mPositonA:int
+		private var mResetFusion:Fusion
+		private var mResetBg:SpritePuppet
 		
 		
 		private function onTopBack(e:AEvent):void{
@@ -119,7 +121,56 @@ package states
 		}
 		
 		private function onTopReset(e:AEvent):void{
+			var img:ImagePuppet
+			
+			{
+				mResetBg = new SpritePuppet
+				mResetBg.graphics.beginFill(0x0, 0.44)
+				mResetBg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
+				mResetBg.cacheAsBitmap = true
+				this.fusion.addElement(mResetBg)
+			}
+			
+			{
+				mResetFusion = new Fusion
+			
+				{
+					img = new ImagePuppet
+					img.embed(ImgAssets.img_game_top_reset_bg)
+					mResetFusion.addElement(img)
+				}
+				
+				{
+					img = new ImagePuppet
+					img.embed(ImgAssets.img_game_top_reset_yes)
+					mResetFusion.addElement(img, 17, 54)
+					img.addEventListener(AEvent.CLICK, onResetYes)
+				}
+				
+				{
+					img = new ImagePuppet
+					img.embed(ImgAssets.img_game_top_reset_no)
+					mResetFusion.addElement(img, 87, 54)
+					img.addEventListener(AEvent.CLICK, onResetNo)
+				}
+				this.fusion.position = mPositonA
+				this.fusion.addElement(mResetFusion, -11, -18, LayoutType.BA, LayoutType.B__A)
+			}
+		}
+		
+		private function onResetYes(e:AEvent):void{
+			mResetFusion.kill()
+			mResetFusion = null
+			mResetBg.kill()
+			mResetBg = null
 			DrawingManager.getInstance().paper.reset()
+		}
+		
+		private function onResetNo(e:AEvent):void{
+			mResetFusion.kill()
+			mResetFusion = null
+			mResetBg.kill()
+			mResetBg = null
 		}
 		
 		private function onTopComplete(e:AEvent):void{

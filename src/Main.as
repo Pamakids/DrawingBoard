@@ -54,27 +54,26 @@ package
 		private function doInitView() : void {
 			
 			AgonyUI.addModule("GameScene", GameSceneUIState).init()
-			AgonyUI.addModule("GameTop", GameTopUIState).init()
-			
 			if(!Agony.isMoblieDevice){
 				AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, -100, 1, LayoutType.F__AF)
 			}
 			else{
 				AgonyUI.addModule("GameBottom", GameBottomUIState).init(-1, null, true, true, 0, 0, 1, LayoutType.F__AF)
 			}
+			AgonyUI.addModule("GameTop", GameTopUIState).init()
 		}
 		
 		private function doDebugController() : void{
 			KeyboardManager.getInstance().initialize()
 			KeyboardManager.getInstance().getState().press.addEventListener("A", function(e:AEvent):void{
 				AgonyUI.getModule("GameScene").init()
-				AgonyUI.getModule("GameTop").init()
 				AgonyUI.getModule("GameBottom").init(-1, null, true, true, 0, -110, 1, LayoutType.F__AF)
+				AgonyUI.getModule("GameTop").init()
 			})
 			KeyboardManager.getInstance().getState().press.addEventListener("K", function(e:AEvent):void{
 				AgonyUI.getModule("GameScene").exit()
-				AgonyUI.getModule("GameTop").exit()
 				AgonyUI.getModule("GameBottom").exit()
+				AgonyUI.getModule("GameTop").exit()
 				DrawingManager.getInstance().paper.reset(true)
 			})
 		}

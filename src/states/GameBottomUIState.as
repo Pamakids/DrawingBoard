@@ -28,6 +28,8 @@ package states
 		
 		public static const SCENE_BOTTOM_VISIBLE_CHANGE:String = "sceneBottomVisibleChange"
 		
+		public static const CANCEL_AUTO_HIDE:String = "cancelAutoHide"
+		
 		
 		override public function enter():void
 		{
@@ -83,6 +85,7 @@ package states
 			
 			AgonyUI.getModule("GameBottom").addEventListener(AEvent.ENTER_STAGE, onEnterStage)
 			Agony.process.addEventListener(GameSceneUIState.START_DRAW, onStartDraw)
+			Agony.process.addEventListener(GameSceneUIState.TOP_AND_BOTTOM_AUTO_BACK, onAutoBack)
 		}
 
 		override public function exit():void{
@@ -90,6 +93,7 @@ package states
 			AgonyUI.removeImageButtonData("btn_paster")
 			AgonyUI.getModule("GameBottom").removeEventListener(AEvent.ENTER_STAGE, onEnterStage)
 			Agony.process.removeEventListener(GameSceneUIState.START_DRAW, onStartDraw)
+			Agony.process.removeEventListener(GameSceneUIState.TOP_AND_BOTTOM_AUTO_BACK, onAutoBack)
 			TweenLite.killTweensOf(this.fusion)
 		}
 		
@@ -138,6 +142,7 @@ package states
 		private function onDragBottom(e:AEvent):void{
 			this.fusion.drag(null, new Rectangle(mStartX, mStartY, 0, mHeight))
 			this.fusion.addEventListener(AEvent.STOP_DRAG, onStopDrag)
+			Agony.process.dispatchDirectEvent(CANCEL_AUTO_HIDE)
 		}
 		
 		private function onStopDrag(e:AEvent):void{
@@ -170,6 +175,10 @@ package states
 		
 		private function onStartDraw(e:AEvent):void{
 			this.hideBottom(true)
+		}
+		
+		private function onAutoBack(e:AEvent):void{
+			this.hideBottom(false)
 		}
 	}
 }
