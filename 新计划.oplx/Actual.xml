@@ -66,18 +66,20 @@
     <child-task idref="t7"/>
     <child-task idref="t2"/>
     <child-task idref="t3"/>
+    <child-task idref="t8"/>
     <child-task idref="t4"/>
     <child-task idref="t6"/>
   </task>
   <task id="t2">
     <title>滚动条组件</title>
     <effort>86400</effort>
-    <effort-done>28511.9985580444</effort-done>
+    <effort-done>86400</effort-done>
     <prerequisite-task idref="t7"/>
   </task>
   <task id="t3">
     <title>底部控制栏</title>
     <effort>57600</effort>
+    <effort-done>57600</effort-done>
     <prerequisite-task idref="t2"/>
   </task>
   <task id="t4">
@@ -94,6 +96,12 @@
     <title>画画功能</title>
     <effort>28800</effort>
     <effort-done>28800</effort-done>
+  </task>
+  <task id="t8">
+    <title>滚动延时</title>
+    <effort>28800</effort>
+    <effort-done>28800</effort-done>
+    <start-constraint-date>2013-09-02T00:00:00.000Z</start-constraint-date>
   </task>
   <critical-path root="-1" enabled="false" resources="false">
     <color r="1" g="0.5" b="0.5"/>

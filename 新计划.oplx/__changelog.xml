@@ -57,6 +57,24 @@
   <task-change-set user="mani" date="2013-08-28T10:44:44.571Z" timestamp="2013-08-28T10:44:44.571Z">
     <change idref="t2" attribute="internalEffortDone" type="real" from="43200" to="28511.99855804443" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-08-29T11:06:53.631Z" timestamp="2013-08-29T11:06:53.631Z">
+    <change idref="t2" attribute="internalEffortDone" type="real" from="28511.998046875" to="57023.99711608887" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-08-30T11:02:26.532Z" timestamp="2013-08-30T11:02:26.532Z">
+    <change idref="t2" attribute="internalEffortDone" type="real" from="57023.99609375" to="86400" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-02T02:52:48.404Z" timestamp="2013-09-02T02:52:48.404Z">
+    <change idref="t3" attribute="internalEffortDone" type="real" from="0" to="57600" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-02T02:54:43.831Z" timestamp="2013-09-02T02:54:43.831Z">
+    <change idref="t8" to="t1" to-position="3" resolved="yes">
+      <change idref="t8" attribute="startConstraintDate" type="date" to="2013-09-02T00:00:00.000Z"/>
+      <change idref="t8" attribute="title" type="string" to="滚动延时"/>
+    </change>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-02T11:01:01.956Z" timestamp="2013-09-02T11:01:01.956Z">
+    <change idref="t8" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
+  </task-change-set>
   <metadata-change-set user="mani" date="2013-08-27T03:59:29.202Z" timestamp="2013-08-27T03:59:29.202Z">
     <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-27T00:00:00.000Z" resolved="yes"/>
   </metadata-change-set>
