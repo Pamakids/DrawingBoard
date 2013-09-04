@@ -18,7 +18,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		m_fitRatio = fitRatio
 		m_content = content
 		this.density = m_rawDensity = density
-		m_color = 0xFFFFFF
+		m_color = 0x0
 		m_scale = m_alpha = 1
 	}
 	
@@ -74,7 +74,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 	}
 	
 	agony_internal function reset() : void{
-		m_color = 0xFFFFFF
+		m_color = 0x0
 		m_scale = m_alpha = 1
 		this.density = m_rawDensity
 	}

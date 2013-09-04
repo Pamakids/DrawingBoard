@@ -32,7 +32,7 @@ package states
 			
 		override public function enter():void{
 			this.doAddPaper()
-			this.doAddDrawingControl()
+			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
 			Agony.process.addEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
 		}
 		
@@ -40,6 +40,8 @@ package states
 			if(mDelayID >= 0){
 				DelayManager.getInstance().removeDelayedCall(mDelayID)
 			}
+			mPaper.isStarted = false
+			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
 			Agony.process.removeEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
 		}
 		
@@ -60,6 +62,7 @@ package states
 			
 			mPixelRatio = AgonyUI.pixelRatio
 			mPaper = DrawingManager.getInstance().paper
+			mPaper.isStarted = true
 			mContentRatio = mPaper.contentRatio
 			
 			// board...
@@ -72,7 +75,7 @@ package states
 				// bg...
 				{
 					img = new ImagePuppet
-					img.embed(ImgAssets.img_drawing_bg, false)
+					img.embed(ImgAssets.img_drawing_bg, true)
 					img.interactive = false
 					mBoard.content.addElement(img)	
 				}
@@ -92,11 +95,6 @@ package states
 			}
 		}
 		
-		private function doAddDrawingControl():void
-		{
-			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
-			
-		}
 		
 		private function getEraser() : IComponent {
 			if(!mEraser){
@@ -186,7 +184,7 @@ package states
 				DelayManager.getInstance().removeDelayedCall(mDelayID)
 				mDelayID = -1
 			}
-			trace("cancel auto hide...")
+			//trace("cancel auto hide...")
 		}
 	}
 }

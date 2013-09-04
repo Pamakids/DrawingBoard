@@ -26,14 +26,6 @@ public class PaperBase extends DrawingBase {
 		return m_fitRatio
 	}
 	
-	public function get bytes() : ByteArray {
-		return m_bytesB
-	}
-	
-	public function set bytes( v:ByteArray ) : void {
-		m_bytesB = v
-	}
-
 	/** override... */
 //	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
 //		return null

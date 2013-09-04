@@ -11,9 +11,9 @@ package org.agony2d.timer {
 	 *  	1.  getInstance
 	 *  [◆]
 	 * 		1.  numDelay
-	 *  	2.  totalTime
-	 *  	3.  timeScale
-	 * 		4.  paused
+	 *  	2.  timeScale
+	 *  	3.  paused
+	 * 		4.  internalTime
 	 *  [◆◆]
 	 *		1.  delayedCall
 	 * 		2.  removeDelayedCall
@@ -31,19 +31,18 @@ final public class DelayManager implements IProcess {
 		return m_numDelay 
 	}
 	
-	public function get totalTime() : Number {
-		return m_oldTime
-	}
-	
 	public function get timeScale() : Number { 
 		return m_timeScale 
 	}
 	
 	public function set timeScale( v:Number ) : void {
 		if (isNaN(v) || v < 0) {
-			Logger.reportError(this, 'set timeScale', 'the value is not available...!!')
+			Logger.reportWarning(this, 'set timeScale', 'the value is not available...!!')
+			m_timeScale = 0
 		}
-		m_timeScale = v
+		else{
+			m_timeScale = v
+		}
 		Logger.reportMessage(this, 'timeScale: [ ' + v + ' ]...')
 	}
 	
@@ -69,6 +68,11 @@ final public class DelayManager implements IProcess {
 		Logger.reportMessage(this, (!b ? '▲' : '▼') + 'pause [ ' + b + ' ] : ' + m_numDelay + '...')
 	}
 	
+	/** unit(second...) */
+	public function get internalTime() : Number {
+		return m_oldTime * .001
+	}
+	
 	/** delay Id by returned is more than zero... */
 	public function delayedCall( delay:Number, callback:Function, ...args ) : uint {
 		var dp:DelayProp
@@ -81,13 +85,13 @@ final public class DelayManager implements IProcess {
 			m_existed = true
 		}
 		m_delayProps[++m_numDelay] = dp = new DelayProp
-		m_masterList[++m_count] = dp
+		m_masterList[++m_idCount] = dp
 		dp.goalTime  =  (delay * 1000.0 + m_oldTime + 0.5) >> 0
 		dp.callback  =  callback
 		dp.params    =  args
-		dp.delayID   =  m_count
+		dp.delayID   =  m_idCount
 		this.doInsert(m_numDelay)
-		return m_count
+		return m_idCount
 	}
 	
 	public function removeDelayedCall( delayID:uint, complete:Boolean = false ) : void {
@@ -142,14 +146,14 @@ final public class DelayManager implements IProcess {
 				}
 			}
 			m_delayProps.length = 1
-			m_numDelay = m_count = 0
+			m_numDelay = m_idCount = 0
 			this.doComplete()
 		}
 	}
 	
 	/** @see  1.  parent ---- prev = (N-1 / 2) >> 0
 	 *        2.  child  ---- next = N*2+1 / N*2+2
-	 *        3.  Execute the callback after remove from register map.
+	 *        3.  Execute the callback after removed from register map.
 	 *            To prevent occur an error when remove delay in the executing process.
 	 */
 	public function update( deltaTime:Number ) : void {
@@ -160,10 +164,13 @@ final public class DelayManager implements IProcess {
 		while (m_oldTime >= dp.goalTime) {	
 			if (--m_numDelay == 0) {
 				m_delayProps.pop()
-				this.doComplete()
 				delete m_masterList[dp.delayID]
 				dp.callback.apply(null, dp.params)
 				recycleDelay(dp)
+				// a new delay is maybe added while the tail callback is executed...
+				if(m_numDelay == 0){
+					this.doComplete()
+				}
 				return
 			}
 			else {
@@ -247,7 +254,7 @@ final public class DelayManager implements IProcess {
 	private var m_masterList:Object = {}  //  delayID : DelayProp
 	private var m_numDelay:int
 	private var m_existed:Boolean, m_paused:Boolean
-	private var m_count:uint
+	private var m_idCount:uint
 	private var m_oldTime:Number = 0, m_timeScale:Number = 1
 }
 }

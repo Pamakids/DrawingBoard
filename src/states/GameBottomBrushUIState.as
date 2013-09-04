@@ -56,7 +56,7 @@ package states
 				l = brushIcons.length
 				while(i < l){
 					img = new ImagePuppet
-					img.embed(brushIcons[i], false)
+					img.embed(brushIcons[i])
 					img.userData = i
 					this.fusion.addElement(img, mBrushCoordsA[i].x, mRawBrushY )//,1, LayoutType.F__AF)
 					img.addEventListener(AEvent.PRESS, onSelectBrush)
@@ -75,7 +75,7 @@ package states
 			// color picker
 			{
 				img = new ImagePuppet
-				img.embed(ImgAssets.img_bigCircleB, false)
+				img.embed(ImgAssets.img_bigCircleB)
 				this.fusion.addElement(img, 605, 19)
 				
 				img = new ImagePuppet
@@ -93,7 +93,7 @@ package states
 				colorImgList = ImgAssets.colorImgList
 				while(i<l){
 					img = new ImagePuppet
-					img.embed(colorImgList[i], false)
+					img.embed(colorImgList[i])
 					img.userData = colorDataList[i]
 					if(i==0){
 						this.fusion.addElement(img, 712, 15)

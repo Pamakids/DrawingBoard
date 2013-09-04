@@ -71,7 +71,23 @@ public class CommonPaper extends PaperBase implements IProcess {
 		}
 		Logger.reportMessage(this, "width: " + width + "...height: " + height + "...contentRatio: " + m_contentRatio + "...fitRatio: " + m_fitRatio + "...")
 		m_bytesA = new ByteArray
-		ProcessManager.addFrameProcess(this, 80000)
+	}
+	
+	public function get isStarted() : Boolean {
+		return m_isStarted
+	}
+	
+	public function set isStarted( b:Boolean ) : void{
+		if(m_isStarted == b){
+			return
+		}
+		m_isStarted = b
+		if(b){
+			ProcessManager.addFrameProcess(this, 80000)
+		}
+		else{
+			ProcessManager.removeFrameProcess(this)
+		}
 	}
 	
 	public function get isEraseState() : Boolean{
@@ -99,6 +115,14 @@ public class CommonPaper extends PaperBase implements IProcess {
 		m_isEraseState = (m_currBrush is EraseBrush)
 	}
 	
+	public function get bytes() : ByteArray {
+		return m_bytesB
+	}
+	
+	public function set bytes( v:ByteArray ) : void {
+		m_bytesB = v
+	}
+	
 	public function createCopyPixelsBrush( source:IBitmapDrawable, index:int, density:Number ) : IBrush {
 		var brush:IBrush
 		
@@ -120,48 +144,85 @@ public class CommonPaper extends PaperBase implements IProcess {
 	}
 	
 	public function startDraw( destX:Number, destY:Number ) : Boolean {
+		var brushType:int
+		
 		if(m_isDrawing){
 			return false
 		}
 		m_isDrawing = true
 		m_bytesA.writeByte(0) // type
 		m_bytesA.writeShort(m_brushIndex) // brush index
-		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
-		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
-		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
-		m_bytesA.writeShort(int(destX * 10.0))
-		m_bytesA.writeShort(int(destY * 10.0))
-		if (m_currBrush is TransformationBrush) {
-			cachedAngle = Math.random() * cachedTwoPI
-			m_bytesA.writeShort(int(cachedAngle * 1000.0))
+		if(m_currBrush is EraseBrush){
+			brushType = 1
 		}
-		m_bytesA.writeInt(m_currTime)
-		m_currBrush.drawPoint(destX * m_contentRatio, destY * m_contentRatio)
+		else if(m_currBrush is CopyPixelsBrush){
+			brushType = 2
+		}
+		else if(m_currBrush is TransformationBrush){
+			brushType = 3
+		}
+		m_bytesA.writeByte(brushType)
+		m_bytesA.writeShort(int(m_currBrush.m_density * 100.0))
+		m_bytesA.writeShort(int(m_currBrush.m_scale * 100.0))
+		if(brushType > 1){
+			m_bytesA.writeUnsignedInt(m_currBrush.m_color)
+			m_bytesA.writeShort(int(m_currBrush.m_alpha * 100.0))
+			if (brushType == 3) {
+				cachedAngle = Math.random() * cachedTwoPI
+				m_bytesA.writeShort(int(cachedAngle * 1000.0))
+			}
+		}
+		destX = int(destX * 10.0)
+		destY = int(destY * 10.0)
+		m_bytesA.writeShort(destX)
+		m_bytesA.writeShort(destY)
+		m_bytesA.writeInt(m_currTime + (++m_count))
+		m_currBrush.drawPoint(destX * m_contentRatio * .1, destY * m_contentRatio * .1)
 		return true
 	}
 	
 	public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
+		var brushType:int
+		
 		m_bytesA.writeByte(1) // type
 		m_bytesA.writeShort(brushIndex) // brush index
-		m_bytesA.writeShort(int(m_currBrush.m_density * 10.0))
-		m_bytesA.writeShort(int(m_currBrush.m_scale * 10.0))
-		m_bytesA.writeUnsignedInt(m_currBrush.m_color)
-		m_bytesA.writeShort(int(currX * 10.0))
-		m_bytesA.writeShort(int(currY * 10.0))
-		if (m_currBrush is TransformationBrush) {
-			cachedAngle = Math.random() * cachedTwoPI
-			m_bytesA.writeShort(int(cachedAngle * 1000.0))
+		if(m_currBrush is EraseBrush){
+			brushType = 1
 		}
-		m_bytesA.writeShort(int(prevX * 10.0))
-		m_bytesA.writeShort(int(prevY * 10.0))
-		m_bytesA.writeInt(m_currTime)
-		m_currBrush.drawLine(currX * m_contentRatio, currY * m_contentRatio, prevX * m_contentRatio, prevY * m_contentRatio)
+		else if(m_currBrush is CopyPixelsBrush){
+			brushType = 2
+		}
+		else if(m_currBrush is TransformationBrush){
+			brushType = 3
+		}
+		m_bytesA.writeByte(brushType)
+		m_bytesA.writeShort(int(m_currBrush.m_density * 100.0))
+		m_bytesA.writeShort(int(m_currBrush.m_scale * 100.0))
+		if(brushType > 1){
+			m_bytesA.writeUnsignedInt(m_currBrush.m_color)
+			m_bytesA.writeShort(int(m_currBrush.m_alpha * 100.0))
+			if (brushType == 3) {
+				cachedAngle = Math.random() * cachedTwoPI
+				m_bytesA.writeShort(int(cachedAngle * 1000.0))
+			}
+		}
+		currX = int(currX * 10.0)
+		currY = int(currY * 10.0)
+		prevX = int(prevX * 10.0)
+		prevY = int(prevY * 10.0)
+		m_bytesA.writeShort(currX)
+		m_bytesA.writeShort(currY)
+		m_bytesA.writeShort(prevX)
+		m_bytesA.writeShort(prevY)
+		m_bytesA.writeInt(m_currTime + (++m_count))
+		m_currBrush.drawLine(currX * m_contentRatio * .1, currY * m_contentRatio * .1, prevX * m_contentRatio * .1, prevY * m_contentRatio * .1)
 	}
 	
 	/** -1[ none ]...0[ position ]...1[ position ]...2[ position ]...3[ position ]... */
 	public function endDraw() : void {
 		var position:int
 		
+		trace("end draw...")
 		// check and clear...
 		if (m_commandIndex == -1) {
 			m_commandList.length = m_bytesB.length = 0
@@ -177,7 +238,7 @@ public class CommonPaper extends PaperBase implements IProcess {
 		m_bytesA.length = 0
 		m_commandList[++m_commandIndex] = m_bytesB.length - 1
 		m_commandLength++
-			m_isDrawing = false
+		m_isDrawing = false
 	}
 	
 	public function undo() : void {
@@ -204,25 +265,28 @@ public class CommonPaper extends PaperBase implements IProcess {
 		var l:int
 		
 		m_content.fillRect(m_content.rect, 0x0)
-		m_commandList.length = m_commandLength = m_bytesB.length = 0
+		m_commandList.length = m_commandLength = m_bytesB.length = m_currTime = 0
 		m_commandIndex = -1
-		if(containsbrush){
-			l = m_brushList.length
-			while(--l>-1){
-				brush = m_brushList[l]
-				if(brush){
-					brush.reset()
-				}
-			}
-		}
+//		if(containsbrush){
+//			l = m_brushList.length
+//			while(--l>-1){
+//				brush = m_brushList[l]
+//				if(brush){
+//					brush.reset()
+//				}
+//			}
+//		}
 	}
 	
 	override public function dispose() : void {
-		ProcessManager.removeFrameProcess(this)
+		this.isStarted = false
 	}
 	
 	public function update( deltaTime:Number ) : void {
 		m_currTime += deltaTime
+		
+		//Logger.reportMessage(this, "count: " + m_count)
+		m_count = 0
 		if (m_currTime) {
 			
 		}
@@ -232,8 +296,9 @@ public class CommonPaper extends PaperBase implements IProcess {
 	agony_internal var m_commandList:Vector.<int> = new <int>[] // command index:bytes position
 	agony_internal var m_cachedList:Vector.<int> = new <int>[] // cached image index:bytes position
 	agony_internal var m_commandLength:int, m_commandIndex:int = -1 // 命令所在指针位置表示该命令刚刚完成...
-	agony_internal var m_isDrawing:Boolean, m_isEraseState:Boolean
-	agony_internal var m_currTime:int
+	agony_internal var m_isDrawing:Boolean, m_isEraseState:Boolean, m_isStarted:Boolean
+	
+	agony_internal var m_currTime:int, m_count:int
 	agony_internal var m_bytesA:ByteArray // action buffer bytes...
 }
 }

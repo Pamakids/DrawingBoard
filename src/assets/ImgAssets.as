@@ -6,6 +6,9 @@ package assets
 		{
 		}
 		
+		// global
+		[Embed(source="data/buttons/2013-08-23-b.png")] public static const btn_global:Class
+		
 		// game top
 		[Embed(source="data/images/top_bg.png")] public static const img_top_bg:Class
 		[Embed(source="data/buttons/btn_back.png")] public static const btn_back:Class
@@ -37,7 +40,6 @@ package assets
 		[Embed(source="data/images/brush/pink.png")] public static const img_brush_pink:Class
 		[Embed(source="data/images/brush/waterColor.png")] public static const img_brush_waterColor:Class
 		
-		
 		[Embed(source="data/images/color/white.png")] public static const img_color_white:Class
 		[Embed(source="data/images/color/yellow.png")] public static const img_color_yellow:Class
 		[Embed(source="data/images/color/orange.png")] public static const img_color_orange:Class
@@ -67,5 +69,8 @@ package assets
 				img_color_black,
 			]
 		}
+		
+		// player top
+		
 	}
 }

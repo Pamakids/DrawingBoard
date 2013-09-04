@@ -38,7 +38,7 @@ public class CopyPixelsBrush extends BrushBase{
 	}
 	
 	protected var m_data:BitmapData, cachedData:BitmapData
-	protected var cachedWidth:Number, cachedHeight:Number, m_prevScale:Number = 1, m_prevAlpha:Number = 1
+	protected var cachedWidth:Number, cachedHeight:Number, m_prevScale:Number, m_prevAlpha:Number
 	protected var m_prevColor:uint = 0xFFFFFF
 }
 }

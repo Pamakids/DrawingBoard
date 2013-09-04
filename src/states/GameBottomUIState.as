@@ -42,7 +42,7 @@ package states
 			// bg
 			{
 				mBg = new ImagePuppet
-				mBg.embed(ImgAssets.img_bottom_bg, false)
+				mBg.embed(ImgAssets.img_bottom_bg)
 				this.fusion.addElement(mBg)
 				this.fusion.spaceWidth = mBg.width
 				this.fusion.spaceHeight = mBg.height
@@ -74,13 +74,12 @@ package states
 			
 			// drag btn
 			{
-				img = new ImagePuppet
-				img.embed(ImgAssets.btn_game_bottom_down)
-				this.fusion.addElement(img, -28, 5, LayoutType.F__AF, LayoutType.A_F_F)
-				img.graphics.quickDrawRect(69, 40, 0x0, 0, 0, -4)
-				img.cacheAsBitmap = true
-				img.addEventListener(AEvent.PRESS, onDragBottom)
-//				img.addEventListener(AEvent.CLICK, on
+				mDragImg = new ImagePuppet
+				mDragImg.embed(ImgAssets.btn_game_bottom_down)
+				this.fusion.addElement(mDragImg, -28, 5, LayoutType.F__AF, LayoutType.A_F_F)
+				mDragImg.graphics.quickDrawRect(69, 40, 0x0, 0, 0, -4)
+				mDragImg.cacheAsBitmap = true
+				mDragImg.addEventListener(AEvent.PRESS, onDragBottom)
 			}
 			
 			AgonyUI.getModule("GameBottom").addEventListener(AEvent.ENTER_STAGE, onEnterStage)
@@ -104,6 +103,7 @@ package states
 		private var mStartX:Number, mStartY:Number, mHeight:Number
 		private var mBg:ImagePuppet
 		private var mClosed:Boolean
+		private var mDragImg:ImagePuppet
 		
 		
 		private function onStateChange(e:AEvent):void{
@@ -161,10 +161,12 @@ package states
 			//trace("stop drag...")
 			
 			if(mClosed){
+				mDragImg.embed(ImgAssets.btn_game_bottom_up)
 				hideTime = (1 - ratio) * Config.TOP_AND_BOTTOM_HIDE_TIME
 				TweenLite.to(this.fusion, hideTime, {y:mStartY+mHeight, ease:Cubic.easeOut, overwrite:1})
 			}
 			else{
+				mDragImg.embed(ImgAssets.btn_game_bottom_down)
 				hideTime = ratio * Config.TOP_AND_BOTTOM_HIDE_TIME
 				TweenLite.to(this.fusion, hideTime, {y:mStartY, ease:Cubic.easeOut,overwrite:1})
 			}
