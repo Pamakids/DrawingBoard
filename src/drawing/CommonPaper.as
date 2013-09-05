@@ -287,9 +287,9 @@ public class CommonPaper extends PaperBase implements IProcess {
 		
 		//Logger.reportMessage(this, "count: " + m_count)
 		m_count = 0
-		if (m_currTime) {
-			
-		}
+//		if (m_currTime) {
+//			
+//		}
 	}
 	
 	agony_internal var m_currBrush:BrushBase

@@ -20,18 +20,30 @@ public class CopyPixelsBrush extends BrushBase{
 	override public function drawPoint( destX:Number, destY:Number ) : void {
 		var tScale:Number
 		
-		if (m_prevScale != m_scale || m_prevColor != m_color || m_prevAlpha != m_alpha) {
+		if (m_prevScale != m_scale) {
+			//if(m_prevColor != m_color || m_prevAlpha != m_alpha){
+				tScale = m_scale * m_fitRatio
+				cachedWidth = m_data.width * tScale
+				cachedHeight = m_data.height * tScale
+				cachedMatrix.identity()
+				cachedMatrix.scale(tScale, tScale)
+				cachedData = new BitmapData(cachedWidth, cachedHeight, true, 0x0)
+				cachedData.draw(m_data, cachedMatrix, this.getColorTransform(), null, null, true)
+				m_prevScale = m_scale
+				m_prevColor = m_color
+				m_prevAlpha = m_alpha
+			//}
+		}
+		else if(m_prevColor != m_color || m_prevAlpha != m_alpha){
 			tScale = m_scale * m_fitRatio
-			cachedWidth = m_data.width * tScale
-			cachedHeight = m_data.height * tScale
-			cachedData = new BitmapData(cachedWidth, cachedHeight, true, 0x0)
 			cachedMatrix.identity()
 			cachedMatrix.scale(tScale, tScale)
+			cachedData.fillRect(cachedData.rect, 0x0)
 			cachedData.draw(m_data, cachedMatrix, this.getColorTransform(), null, null, true)
-			m_prevScale = m_scale
 			m_prevColor = m_color
 			m_prevAlpha = m_alpha
 		}
+		
 		cachedPoint.x = destX - cachedWidth  * .5
 		cachedPoint.y = destY - cachedHeight * .5
 		m_content.copyPixels(cachedData, cachedData.rect, cachedPoint, null, null, true)
