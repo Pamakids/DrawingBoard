@@ -85,6 +85,7 @@
   <task id="t4">
     <title>顶部栏+保存</title>
     <effort>57600</effort>
+    <effort-done>57600</effort-done>
     <prerequisite-task idref="t3"/>
   </task>
   <task id="t6">

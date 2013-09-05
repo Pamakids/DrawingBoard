@@ -75,6 +75,12 @@
   <task-change-set user="mani" date="2013-09-02T11:01:01.956Z" timestamp="2013-09-02T11:01:01.956Z">
     <change idref="t8" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-09-03T10:57:22.766Z" timestamp="2013-09-03T10:57:22.766Z">
+    <change idref="t4" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-04T10:50:49.213Z" timestamp="2013-09-04T10:50:49.213Z">
+    <change idref="t4" attribute="internalEffortDone" type="real" from="28800" to="57600" resolved="yes"/>
+  </task-change-set>
   <metadata-change-set user="mani" date="2013-08-27T03:59:29.202Z" timestamp="2013-08-27T03:59:29.202Z">
     <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-27T00:00:00.000Z" resolved="yes"/>
   </metadata-change-set>
