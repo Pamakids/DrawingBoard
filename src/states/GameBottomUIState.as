@@ -25,11 +25,15 @@ package states
 	public class GameBottomUIState extends UIState
 	{
 		
-		
 		public static const SCENE_BOTTOM_VISIBLE_CHANGE:String = "sceneBottomVisibleChange"
 		
 		public static const CANCEL_AUTO_HIDE:String = "cancelAutoHide"
 		
+		public static const STATE_TO_PASTER:String = "stateToPaster"
+		
+		public static const STATE_TO_BRUSH:String = "stateToBrush"
+			
+			
 		
 		override public function enter():void
 		{
@@ -119,11 +123,13 @@ package states
 				case 0:
 				{
 					mStateFusion.setState(GameBottomBrushUIState)
+					Agony.process.dispatchDirectEvent(STATE_TO_BRUSH)
 					break;
 				}
 				case 1:
 				{
 					mStateFusion.setState(GameBottomPasterUIState)
+					Agony.process.dispatchDirectEvent(STATE_TO_PASTER)
 				}
 				default:
 				{

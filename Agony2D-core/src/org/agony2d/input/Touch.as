@@ -134,18 +134,18 @@ public class Touch extends Notifier {
 		return touch.reset(touchID, stageX, stageY)
 	}
 	
-	internal static var cachedTouchLength:int
-	internal static var cachedTouchList:Array = []
-	internal static var m_invalidCount:int = 7
-	internal static var m_maxVelocity:int = 44
-	internal static var m_stage:Stage
-	internal static var m_velocityEnabled:Boolean, m_isMoveByFrame:Boolean
-	internal static const m_mouseFriction:Number = .55
+	agony_internal static var cachedTouchLength:int
+	agony_internal static var cachedTouchList:Array = []
+	agony_internal static var m_invalidCount:int = 7
+	agony_internal static var m_maxVelocity:int = 44
+	agony_internal static var m_stage:Stage
+	agony_internal static var m_velocityEnabled:Boolean, m_isMoveByFrame:Boolean
+	agony_internal static const m_mouseFriction:Number = .55
 	
-	internal var m_touchID:int
-	internal var m_stageX:Number, m_stageY:Number
-	internal var m_currCount:int
-	internal var m_moveStateA:Boolean
-	internal var m_prevStageX:Number, m_prevStageY:Number, m_oldAMouseX:Number, m_oldAMouseY:Number, m_currMoveX:Number, m_currMoveY:Number, m_maxMoveX:Number, m_maxMoveY:Number
+	agony_internal var m_touchID:int
+	agony_internal var m_stageX:Number, m_stageY:Number
+	agony_internal var m_currCount:int
+	agony_internal var m_moveStateA:Boolean
+	agony_internal var m_prevStageX:Number, m_prevStageY:Number, m_oldAMouseX:Number, m_oldAMouseY:Number, m_currMoveX:Number, m_currMoveY:Number, m_maxMoveX:Number, m_maxMoveY:Number
 }
 }

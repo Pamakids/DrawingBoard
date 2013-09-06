@@ -10,11 +10,13 @@ package states {
 	import org.agony2d.view.*;
 	import org.agony2d.view.core.*;
 	import org.agony2d.view.enum.*;
+	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
 public class ButtonState extends UIState {
 	
 	private var boo:BooleanProperty
+	private var mImgA:ImageButton
 	
 	override public function enter() : void {
 		var img:ImageButton, img2:ImageButton, img3:ImageButton
@@ -61,16 +63,20 @@ public class ButtonState extends UIState {
 		/////////////////////////////////
 		// ImageButton !!
 		/////////////////////////////////
-		img = new ImageButton('AT_btn_yellow')
-		img.spaceWidth = img.width
-		img.spaceHeight = img.height
-		img.image.graphics.beginFill(0x4444dd, 0.5)
-		img.image.graphics.drawRect(0, -25, img.width, img.height + 50)
-		img.image.cacheAsBitmap = true
-		content.addElement(img, 50, 70)
-		img.addEventListener(AEvent.CLICK, function(e:AEvent):void
+		mImgA = new ImageButton('AT_btn_yellow')
+		mImgA.spaceWidth = mImgA.width
+		mImgA.spaceHeight = mImgA.height
+		mImgA.image.graphics.beginFill(0x4444dd, 0.5)
+		mImgA.image.graphics.drawRect(0, -25, mImgA.width, mImgA.height + 50)
+		mImgA.image.cacheAsBitmap = true
+		content.addElement(mImgA, 50, 70)
+		mImgA.addEventListener(AEvent.CLICK, function(e:AEvent):void
 		{
 			trace('[ImageButton1]')
+		})
+		AgonyUI.addDoubleClickEvent(mImgA, function(e:AEvent) : void
+		{
+			trace("double click...")
 		})
 		
 		img = new ImageButton('AT_btn_yellow')
@@ -210,6 +216,8 @@ public class ButtonState extends UIState {
 		AgonyUI.removeImageButtonData('AT_btn_yellow')
 		AgonyUI.removeImageButtonData('AT_checkbox')
 		//AgonyUI.multiTouchEnabled = false
+		
+		AgonyUI.removeAllDoubleClickEvent(mImgA)
 	}
 
 }

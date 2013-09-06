@@ -8,6 +8,8 @@ package org.agony2d.view.core {
 	import flash.geom.Rectangle;
 	import flash.system.Capabilities;
 	import flash.ui.Multitouch;
+	import flash.utils.Dictionary;
+	import org.agony2d.timer.DelayManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.core.agony_internal;
@@ -179,6 +181,62 @@ final public class UIManager {
 		}
 	}
 	
+	agony_internal static function addDoubleClickEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
+		if (!m_doubleClickMap[target]) {
+			m_doubleClickMap[target] = -1
+			target.addEventListener(AEvent.CLICK, ____onCheckDoubleClick, -8000)
+		}
+		target.addEventListener(AEvent.DOUBLE_CLICK, listener, priority)
+	}
+	
+	agony_internal static function removeDoubleClickEvent( target:IComponent, listener:Function ) : void {
+		var delayID:int
+		
+		target.removeEventListener(AEvent.DOUBLE_CLICK, listener)
+		if (!target.hasEventListener(AEvent.DOUBLE_CLICK)) {
+			target.removeEventListener(AEvent.CLICK, ____onCheckDoubleClick)
+			delayID = m_doubleClickMap[target]
+			if (delayID >= 0) {
+				DelayManager.getInstance().removeDelayedCall(delayID)
+			}
+			delete m_doubleClickMap[target]
+		}
+	}
+	
+	agony_internal static function removeAllDoubleClickEvent( target:IComponent ) : void {
+		var delayID:int
+		
+		target.removeEventAllListeners(AEvent.DOUBLE_CLICK)
+		target.removeEventListener(AEvent.CLICK, ____onCheckDoubleClick)
+		delayID = m_doubleClickMap[target]
+		if (delayID >= 0) {
+			DelayManager.getInstance().removeDelayedCall(delayID)
+		}
+		delete m_doubleClickMap[target]
+	}
+	
+	agony_internal static function ____onCheckDoubleClick( e:AEvent ) : void {
+		var target:ComponentProxy
+		var delayID:int
+		
+		target = e.target as ComponentProxy
+		delayID = m_doubleClickMap[target]
+		if (delayID == -1) {
+			m_doubleClickMap[target] = DelayManager.getInstance().delayedCall(m_doublieClickInterval, doDoubleClickInvalid, target)
+		}
+		else {
+			DelayManager.getInstance().removeDelayedCall(delayID)
+			m_doubleClickMap[target] = -1
+			target.view.m_notifier.dispatchDirectEvent(AEvent.DOUBLE_CLICK)
+		}
+	}
+	
+	agony_internal static function doDoubleClickInvalid( target:IComponent ) : void {
+		m_doubleClickMap[target] = -1
+		//trace("doDoubleClickInvalid")
+	}
+	
+	
 	
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
@@ -194,7 +252,10 @@ final public class UIManager {
 	agony_internal static var m_currTouch:Touch
 	agony_internal static var m_invalidWhenLeave:Boolean, m_autoStopPropagation:Boolean = true
 	agony_internal static var m_touchMap:Object = {} // tid  : pcid
-	agony_internal static var m_moduleList:Object = {} // name : uimodule
+	agony_internal static var m_moduleList:Object = { } // name : uimodule
+	agony_internal static var m_doubleClickMap:Dictionary = new Dictionary // comp : bool
+	agony_internal static var m_doublieClickInterval:Number = 0.2
+	
 	
 	
 	////////////////////////////////////////////////////////////////////////////////////
@@ -227,7 +288,7 @@ final public class UIManager {
 			return
 		}
 		m_currTouch  =  (event is ATouchEvent) ? (event as ATouchEvent).touch : (event.target as Touch)
-		touchID      =  m_currTouch.touchID
+		touchID      =  m_currTouch.m_touchID
 		type         =  event.type
 		PB           =  (touchID in m_touchMap) ? m_registeredPuppets[m_touchMap[touchID]] : null
 		// 只有[ 绑定傀儡存在 ]或[ 生成新触碰 ]情况下，才遍历显示对象...!!
@@ -249,9 +310,10 @@ final public class UIManager {
 					PA = parent as PuppetComp
 				}
 				if (PA && PA.interactiveZ) {
-					if(m_autoStopPropagation){
+					//if(m_autoStopPropagation){
 						event.stopImmediatePropagation()
-					}
+					//}
+					//trace(PA)
 					switch(type) {
 						case ATouchEvent.NEW_TOUCH:
 							if (PA.cachedTid < 0) {

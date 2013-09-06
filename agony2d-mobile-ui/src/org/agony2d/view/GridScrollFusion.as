@@ -63,6 +63,8 @@ public class GridScrollFusion extends PivotFusion {
 		m_scaleRatioHigh = scaleRatioHigh
 		m_locked = true
 		this.locked = locked
+			
+		m_content.addEventListener(AEvent.X_Y_CHANGE, doResetViewport)
 	}
 	
 	/** 滚屏界限限制，四方向 */
@@ -71,12 +73,16 @@ public class GridScrollFusion extends PivotFusion {
 	public var limitTop:Boolean
 	public var limitBottom:Boolean
 	
-	public function get content() : Fusion { 
+	public function get content() : PivotFusion { 
 		return m_content
 	}
 	
 	public function get scaleRatio() : Number {
 		return m_scaleRatio
+	}
+	
+	public function set scaleRatio( v:Number ) : void {
+		m_scaleRatio = m_content.scaleX = m_content.scaleY = v
 	}
 	
 	public function get locked() : Boolean { 
@@ -407,7 +413,7 @@ public class GridScrollFusion extends PivotFusion {
 		}
 		this.updateAllThumbs()
 		e.stopImmediatePropagation()
-		this.doResetViewport()
+		//this.doResetViewport()
 		//Logger.reportMessage(this, this.horizRatio + " | " + this.vertiRatio)
 	}
 	
@@ -416,12 +422,15 @@ public class GridScrollFusion extends PivotFusion {
 		
 		index = m_touchList.indexOf(e.target)
 		m_touchList[index] = m_touchList[--m_numTouchs]
-		m_touchList.pop()
+//		m_touchList.pop()
 		if (m_numTouchs == 0) {
 			view.interactive = true
+			UIManager.m_currTouch = m_touchList.pop()
 			this.view.m_notifier.dispatchDirectEvent(AEvent.COMPLETE)
+			UIManager.m_currTouch = null
 		}
 		else {
+			m_touchList.pop()
 			this.resetTouchs()
 		}
 		e.stopImmediatePropagation()
@@ -448,7 +457,7 @@ public class GridScrollFusion extends PivotFusion {
 		}
 	}
 	
-	protected function doResetViewport() : void {
+	protected function doResetViewport(e:AEvent = null) : void {
 		var point:Point
 		
 		point = this.transformCoord(0, 0, false)

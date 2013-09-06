@@ -43,11 +43,14 @@ public class GestureFusion extends PivotFusion {
 			EA = hasGesture(m_gestureType)
 			EB = hasGesture(v)
 			if (!EA && EB) {
-				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
+				this.addEventListener(AEvent.PRESS, ____onPress)
+//				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
 			}
 			else if(EA && !EB) {
-				TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch)
+				this.removeEventListener(AEvent.PRESS, ____onPress)
+//				TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch)
 				if (m_numTouchs > 0) {
+					TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch)
 					for each(touch in m_touchList) {
 						touch.removeEventListener(AEvent.MOVE,    ____onMove)
 						touch.removeEventListener(AEvent.RELEASE, ____onRelease)
@@ -59,9 +62,25 @@ public class GestureFusion extends PivotFusion {
 		}
 	}
 	
+	public function get oldPivotX() : Number{
+		return m_oldPivotX
+	}
+	
+	public function get oldPivotY() : Number{
+		return m_oldPivotY
+	}
+	
 	private static function hasGesture( v:int ) : Boolean {
 		return (v & MOVEMENT) || (v & SCALE) || (v & ROTATE)
 	}
+	
+	private function ____onPress( e:AEvent ) : void {
+		this.fusion.setElementLayer(this, this.fusion.numElement - 1)
+		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
+		this.insertTouch(AgonyUI.currTouch)
+			
+		trace("gesture press...")
+	}						  
 	
 	private function ____onNewTouch( e:ATouchEvent ) : void {
 		var touch:Touch
@@ -85,7 +104,7 @@ public class GestureFusion extends PivotFusion {
 	private var m_gestureType:int
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
-	private var cachedAngle:Number, cachedScale:Number, cachedRotation:Number, cachedDist:Number
+	private var cachedAngle:Number, cachedScale:Number, cachedRotation:Number, cachedDist:Number, m_oldPivotX:Number, m_oldPivotY:Number
 	private var m_gestureHappened:Boolean
 	
 	
@@ -151,13 +170,15 @@ public class GestureFusion extends PivotFusion {
 		m_touchList[index] = m_touchList[--m_numTouchs]
 		m_touchList.pop()
 		if (m_numTouchs == 0) {
+			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch)
 			this.view.m_notifier.dispatchDirectEvent(AEvent.STOP_DRAG)
 			m_gestureHappened = false
+			trace("gesture finish...")
 		}
 		else {
 			this.resetTouchs()
 		}
-		e.stopImmediatePropagation()
+//		e.stopImmediatePropagation()
 	}
 	
 	private function insertTouch( touch:Touch ) : void {
@@ -171,6 +192,8 @@ public class GestureFusion extends PivotFusion {
 		var touchA:Touch, touchB:Touch
 		
 		//trace(m_numTouchs)
+		m_oldPivotX = this.pivotX
+		m_oldPivotY = this.pivotY
 		if (m_numTouchs >= 2) {
 			touchA = m_touchList[m_numTouchs - 2]
 			touchB = m_touchList[m_numTouchs - 1]
@@ -185,7 +208,7 @@ public class GestureFusion extends PivotFusion {
 			else{
 				this.setPivot(this.width * .5, this.height * .5)
 			}
-			trace("[ pivot ]", touchA, touchB)
+			//trace("[ pivot ]", touchA, touchB)
 		}
 		else {
 			touchA = m_touchList[0]

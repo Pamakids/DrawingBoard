@@ -71,13 +71,13 @@ public class AgonyUI {
 		return ComponentProxy.m_pixelRatio
 	}
 	
-	public static function get autoStopPropagation() : Boolean {
-		return UIManager.m_autoStopPropagation
-	}
+	//public static function get autoStopPropagation() : Boolean {
+		//return UIManager.m_autoStopPropagation
+	//}
 	
-	public static function set autoStopPropagation( b:Boolean ) : void {
-		UIManager.m_autoStopPropagation = b
-	}
+	//public static function set autoStopPropagation( b:Boolean ) : void {
+		//UIManager.m_autoStopPropagation = b
+	//}
 	
 	public static function get currTouch() : Touch {
 		return UIManager.m_currTouch
@@ -151,6 +151,23 @@ public class AgonyUI {
 		return UIManager.getTouchIn(c)
 	}
 	
+	public static function addDoubleClickEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
+		UIManager.addDoubleClickEvent(target, listener, priority)
+	}
+	
+	public static function removeDoubleClickEvent( target:IComponent, listener:Function ) : void {
+		UIManager.removeDoubleClickEvent(target, listener)
+	}
+	
+	public static function removeAllDoubleClickEvent( target:IComponent ) : void {
+		UIManager.removeAllDoubleClickEvent(target)
+	}
+	
+	/** optional[ 0.2 ] */
+	public static function setDoublieClickInterval( v:Number ) : void {
+		UIManager.m_doublieClickInterval = v
+	}
+		
 	agony_internal static var m_uiManager:UIManager
 }
 }

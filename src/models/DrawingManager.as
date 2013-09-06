@@ -1,9 +1,15 @@
 package models
 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Shape;
+	import flash.display.Sprite;
+	import flash.geom.ColorTransform;
+	import flash.geom.Matrix;
 	import flash.utils.ByteArray;
 	
 	import assets.BrushAssets;
+	import assets.ImgAssets;
 	
 	import drawing.CommonPaper;
 	import drawing.IBrush;
@@ -61,23 +67,32 @@ package models
 		
 		private function doAddBrush():void
 		{
-			var shape:Shape
+			var eraser:Shape
 			var brush:IBrush
 			
 			// 加入画笔
-			shape = new Shape()
-			shape.graphics.beginFill(0x44dd44, 1)
-			shape.graphics.drawCircle(0, 0, Config.ERASER_SIZE)
+			eraser = new Shape()
+			eraser.graphics.beginFill(0x44dd44, 1)
+			eraser.graphics.drawCircle(0, 0, Config.ERASER_SIZE)
+			eraser.cacheAsBitmap = true	
 			
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.brush1)).bitmapData, 0, 10)//, 0xdddd44)
+//			var sp:Sprite = new Sprite
+//			var bp:Bitmap = new	(ImgAssets.btn_global)
+//			var BA:BitmapData = new BitmapData(20 ,20,true,0x0)
+//			var MA:Matrix = new Matrix(Config.ERASER_SIZE *2 / bp.width, 0,0,Config.ERASER_SIZE *2/bp.height, 0,0)
+//			BA.draw(bp.bitmapData,MA)
+//			var eraser:Bitmap = new (BrushAssets.eraser)
+//			eraser.bitmapData.colorTransform(eraser.bitmapData.rect, new ColorTransform(0,0,0,1,0,0,0,0))
+//			sp.addChild(eraser)
+//			bp.x = -bp.width / 2
+//			bp.y = -bp.height / 2
+			
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.brush1)).bitmapData, 0, 10)
 			brush = mPaper.createTransformationBrush([(new (BrushAssets.brush2)).bitmapData], 1, 10,0,0,true)
 			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 12)
-			//brush.color = 0xdd4444
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 3, 12)//, 0xdddd44)
-			//brush.color = 0xd44dd44
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 4, 12)//, 0xdddd44)
-			//brush.color = 0x4444dd
-			brush = mPaper.createEraseBrush(shape, 5, 5)
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 3, 12)
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 4, 12)
+			brush = mPaper.createEraseBrush(eraser, 5, 5)
 			
 			mPaper.brushIndex = 0
 			

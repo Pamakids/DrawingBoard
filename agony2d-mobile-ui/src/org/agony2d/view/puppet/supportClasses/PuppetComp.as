@@ -58,7 +58,7 @@ public class PuppetComp extends Component {
 		super.dispose()
 	}
 	
-	agony_internal var cachedTid:int = -1
+	agony_internal var cachedTid:int = -1 // 绑定触碰id
 	agony_internal var cachedHcid:int  // 绑定触碰滑至的组件
 }
 }

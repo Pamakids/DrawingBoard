@@ -46,5 +46,7 @@ public interface IView {
 	function removeEventListener( type:String, listener:Function ) : void
 	
 	function removeEventAllListeners( type:String ) : void
+	
+	function hasEventListener( type:String ) : Boolean
 }
 }

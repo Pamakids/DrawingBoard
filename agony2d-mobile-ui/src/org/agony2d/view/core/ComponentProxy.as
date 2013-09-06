@@ -259,6 +259,10 @@ public class ComponentProxy implements IComponent, INextUpdater {
 		view.m_notifier.removeEventAllListeners(type)
 	}
 	
+	public function hasEventListener( type:String ) : Boolean {
+		return view.m_notifier.hasEventListener(type)
+	}
+	
 	public function drag( touch:Touch = null, bounds:Rectangle = null ) : void {
 		var global:Point
 		

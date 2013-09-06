@@ -70,6 +70,9 @@ package assets
 			]
 		}
 		
+		[Embed(source="data/images/paster_bg.png")] public static const img_paster_bg:Class
+		[Embed(source="data/images/paster_item_bg.png")] public static const img_paster_item_bg:Class
+		
 		// player top
 		
 	}

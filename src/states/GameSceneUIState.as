@@ -1,8 +1,14 @@
 package states
 {
+	import com.greensock.TweenLite;
+	import com.greensock.easing.Back;
+	import com.greensock.easing.Bounce;
+	import com.greensock.easing.Cubic;
+	
 	import flash.geom.Point;
 	
 	import assets.ImgAssets;
+	import assets.PasterAssets;
 	
 	import drawing.CommonPaper;
 	
@@ -16,7 +22,10 @@ package states
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.timer.DelayManager;
 	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.Fusion;
+	import org.agony2d.view.GestureFusion;
 	import org.agony2d.view.GridScrollFusion;
+	import org.agony2d.view.PivotFusion;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.puppet.ImagePuppet;
@@ -28,24 +37,45 @@ package states
 		public static const START_DRAW:String = "startDraw"
 		
 		public static const TOP_AND_BOTTOM_AUTO_BACK:String = "topAndBottomAutoBack"
-			
+		
 			
 		override public function enter():void{
 			this.doAddPaper()
+			this.doAddListeners()
 			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
+		}
+		
+		private function doAddListeners(): void{
 			Agony.process.addEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
+			Agony.process.addEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
+			Agony.process.addEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
 		}
 		
 		override public function exit():void{
 			if(mDelayID >= 0){
 				DelayManager.getInstance().removeDelayedCall(mDelayID)
 			}
+			if(mEraser){
+				mEraser.kill()
+			}
+			if(mIsPaperState){
+				TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
+			}
 			mPaper.isStarted = false
-			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
+			TweenLite.killTweensOf(mContent)
+			TweenLite.killTweensOf(mBoard)
 			Agony.process.removeEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
+			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
+			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
 		}
 		
 		
+		
+		
+		
+		//////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////
 		
 		private var mBoard:GridScrollFusion
 		private var mPaper:CommonPaper
@@ -53,6 +83,11 @@ package states
 		private var mPixelRatio:Number, mContentRatio:Number
 		private var mEraser:SpritePuppet
 		private var mDelayID:int = -1
+		private var mPasterFusion:Fusion
+		private var mIsPaperState:Boolean = true
+		private var mPasterList:Array = []
+		private var mNumPaster:int
+		private var mContent:PivotFusion
 		
 		
 		
@@ -71,7 +106,8 @@ package states
 				mBoard.delayTimeForDisable = 0.5
 				mBoard.singleTouchForMovement = false
 				mBoard.limitLeft = mBoard.limitRight = mBoard.limitTop = mBoard.limitBottom = true
-				
+				mContent = mBoard.content
+					
 				// bg...
 				{
 					img = new ImagePuppet
@@ -94,7 +130,6 @@ package states
 				this.fusion.addElement(mBoard)	
 			}
 		}
-		
 		
 		private function getEraser() : IComponent {
 			if(!mEraser){
@@ -186,5 +221,110 @@ package states
 			}
 			//trace("cancel auto hide...")
 		}
+		
+		private function onStateToBrush(e:AEvent):void{
+			mIsPaperState = true
+			mPasterFusion.alpha = Config.PASTER_INVALID_ALPHA
+			mPasterFusion.interactive = false
+			mBoard.locked = false
+			this.doSetPasterEnabled(false)
+			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
+		}
+		
+		private function onStateToPaster(e:AEvent):void{
+			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
+			mIsPaperState = false
+			if(!mPasterFusion){
+				mPasterFusion = new Fusion
+				//mPasterFusion.interactive = false
+				mContent.addElement(mPasterFusion)
+				this.doAddPaster()
+			}
+			else{
+				mPasterFusion.alpha = 1.0
+				mPasterFusion.interactive = true
+				this.doSetPasterEnabled(true)
+			}
+			mBoard.locked = true
+//			if(mBoard.horizRatio != 0 || mBoard.vertiRatio != 0 || mBoard.scaleRatio != 1){
+			TweenLite.to(mBoard, 0.3, {scaleRatio:1})
+//			}
+			TweenLite.to(mContent, 0.3, {x:mContent.pivotX,y:mContent.pivotY})
+//			mBoard.scaleRatio = 1
+//			mBoard.horizRatio = 0
+//			mBoard.vertiRatio = 0
+		}
+		
+		private function doSetPasterEnabled(b:Boolean):void{
+			var ges:GestureFusion
+			var l:int, type:int
+			
+			type = b ? 7 : 0
+			l = mNumPaster
+			while(--l > -1){
+				ges = mPasterList[l]
+				ges.gestureType = type
+			}
+		}
+		
+		private function doAddPaster() : void{
+			var ges:GestureFusion
+			var img:ImagePuppet
+			var l:int
+			
+			mNumPaster = l = 15
+			
+			while(--l > -1){
+				mPasterList[l] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
+				ges.x = 80 + 850 * Math.random()
+				ges.y = 50 + 600 * Math.random()
+				mPasterFusion.addElement(ges)
+				
+				img = new ImagePuppet
+				img.embed(PasterAssets.gesture)
+				ges.addElement(img)
+					
+				ges.addEventListener(AEvent.START_DRAG, onStartDrag)
+				ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
+				AgonyUI.addDoubleClickEvent(ges, onPasterKilled)
+			}
+			//AgonyUI.setDoublieClickInterval(0.2)
+		}
+		
+		private function onPasterKilled(e:AEvent):void{
+			var img:GestureFusion
+			
+			img = e.target as GestureFusion
+			img.interactive = false
+			TweenLite.to(img, 0.8, {alpha:0.1, scaleX:0.1,scaleY:0.1,ease:Cubic.easeOut,onComplete:function():void{
+				img.kill()
+			}})
+			
+			
+		}
+
+		private function onStopDrag(e:AEvent):void{
+			var target:GestureFusion
+				
+			target = e.target as GestureFusion
+			if(target.scaleX < Config.PASTER_SCALE_MINIMUM){
+				target.pivotX = target.oldPivotX
+				target.pivotY = target.oldPivotY
+				TweenLite.to(target, 0.44, {scaleX:Config.PASTER_SCALE_MINIMUM, scaleY:Config.PASTER_SCALE_MINIMUM,ease:Back.easeOut})
+			}
+			else if(target.scaleX > Config.PASTER_SCALE_MAXIMUM){
+				target.pivotX = target.oldPivotX
+				target.pivotY = target.oldPivotY
+				TweenLite.to(target, 0.44, {scaleX:Config.PASTER_SCALE_MAXIMUM, scaleY:Config.PASTER_SCALE_MAXIMUM,ease:Back.easeOut})
+			}
+		}
+		
+		private function onStartDrag(e:AEvent):void{
+			var target:IComponent
+			
+			target = e.target as IComponent
+			TweenLite.killTweensOf(target)
+		}
+								
 	}
 }

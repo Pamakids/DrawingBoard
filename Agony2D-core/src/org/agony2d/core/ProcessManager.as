@@ -73,26 +73,30 @@ public class ProcessManager extends Notifier {
 		if (!m_frameProcessor) {
 			m_frameProcessor = new FrameProcessor()
 		}
-		Logger.reportMessage('FrameProcessor', '▲加入进程: [ ' + getClassName(process) +
-						' ]...total: '+m_frameProcessor.addProcess(process, priority))
+		//Logger.reportMessage('FrameProcessor', '▲加入进程: [ ' + getClassName(process) +
+						//' ]...total: ' + m_frameProcessor.addProcess(process, priority))
+		m_frameProcessor.addProcess(process, priority)
 	}
 	
 	agony_internal static function removeFrameProcess( process:IProcess ) : void {
-		Logger.reportMessage('FrameProcessor', '▼削除进程: [ ' + getClassName(process) +
-						' ]...total: ' + m_frameProcessor.removeProcess(process))
+		m_frameProcessor.removeProcess(process)
+		//Logger.reportMessage('FrameProcessor', '▼削除进程: [ ' + getClassName(process) +
+						//' ]...total: ' + m_frameProcessor.removeProcess(process))
 	}
 	
 	agony_internal static function addTickProcess( process:IProcess, priority:int = 0 ) : void {
 		if (!m_tickProcessor) {
 			m_tickProcessor = new TickProcessor()
 		}
-		Logger.reportMessage('TickProcessor', '▲加入进程: [ ' + getClassName(process) +
-						' ]...total: ' + m_tickProcessor.addProcess(process, priority))
+		m_tickProcessor.addProcess(process, priority)
+		//Logger.reportMessage('TickProcessor', '▲加入进程: [ ' + getClassName(process) +
+						//' ]...total: ' + m_tickProcessor.addProcess(process, priority))
 	}
 	
 	agony_internal static function removeTickProcess( process:IProcess ) : void {
-		Logger.reportMessage('TickProcessor', '▼削除进程: [ ' + getClassName(process) +
-						' ]...total: ' + m_tickProcessor.removeProcess(process))
+		m_tickProcessor.removeProcess(process)
+		//Logger.reportMessage('TickProcessor', '▼削除进程: [ ' + getClassName(process) +
+						//' ]...total: ' + m_tickProcessor.removeProcess(process))
 	}
 	
 	agony_internal function updateAll( e:Event = null ) : void {
