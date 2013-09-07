@@ -79,7 +79,7 @@ final public class DelayManager implements IProcess {
 		
 		if (!m_existed) {
 			if (!m_paused) {
-				Logger.reportMessage(this, '[ startup ]...')
+				//Logger.reportMessage(this, '[ startup ]...')
 				ProcessManager.addFrameProcess(this, ProcessManager.DELAY)
 			}
 			m_existed = true
@@ -235,7 +235,7 @@ final public class DelayManager implements IProcess {
 		if (m_existed && !m_paused) {
 			ProcessManager.removeFrameProcess(this)
 		}
-		Logger.reportMessage(this, '[ all complete ]...')
+		//Logger.reportMessage(this, '[ all complete ]...')
 		m_existed = false
 		m_oldTime = 0
 	}

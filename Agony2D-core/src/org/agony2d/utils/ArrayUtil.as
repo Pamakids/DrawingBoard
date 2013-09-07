@@ -2,6 +2,17 @@ package org.agony2d.utils {
 
 public class ArrayUtil {
 	
+	/** 移除数组内指定元素(完成后会影响内部排序...) */
+	public static function removeFrom( item:*, AY:Array ) : void {
+		var index:int
+		
+		index = AY.indexOf(item)
+		if(index > -1){
+			AY[index] = AY[AY.length - 1]
+			AY.pop()
+		}
+	}
+	
 	/** 产生一个洗牌后的新数组 */
 	public static function shuffle( AY:Array ) : Array {
 		var index:int, i:int, l:int

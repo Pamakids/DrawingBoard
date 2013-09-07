@@ -31,6 +31,10 @@ package states
 	public class GameTopUIState extends UIState
 	{
 		
+		
+		public static const GAME_RESET:String = "gameReset"
+		
+		
 		override public function enter():void{
 			var imgBtn:ImageButton
 			var stats:Fusion
@@ -165,6 +169,7 @@ package states
 			mResetBg.kill()
 			mResetBg = null
 			DrawingManager.getInstance().paper.reset()
+			Agony.process.dispatchDirectEvent(GAME_RESET)
 		}
 		
 		private function onResetNo(e:AEvent):void{

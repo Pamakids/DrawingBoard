@@ -151,21 +151,21 @@ public class AgonyUI {
 		return UIManager.getTouchIn(c)
 	}
 	
-	public static function addDoubleClickEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
-		UIManager.addDoubleClickEvent(target, listener, priority)
+	public static function addDoublePressEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
+		UIManager.addDoublePressEvent(target, listener, priority)
 	}
 	
-	public static function removeDoubleClickEvent( target:IComponent, listener:Function ) : void {
-		UIManager.removeDoubleClickEvent(target, listener)
+	public static function removeDoublePressEvent( target:IComponent, listener:Function ) : void {
+		UIManager.removeDoublePressEvent(target, listener)
 	}
 	
-	public static function removeAllDoubleClickEvent( target:IComponent ) : void {
-		UIManager.removeAllDoubleClickEvent(target)
+	public static function removeAllDoublePressEvent( target:IComponent ) : void {
+		UIManager.removeAllDoublePressEvent(target)
 	}
 	
 	/** optional[ 0.2 ] */
-	public static function setDoublieClickInterval( v:Number ) : void {
-		UIManager.m_doublieClickInterval = v
+	public static function setDoubliePressInterval( v:Number ) : void {
+		UIManager.m_doubliePressInterval = v
 	}
 		
 	agony_internal static var m_uiManager:UIManager

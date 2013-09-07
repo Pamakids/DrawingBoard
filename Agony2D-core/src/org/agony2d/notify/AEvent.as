@@ -1,5 +1,5 @@
 package org.agony2d.notify {
-	import org.agony2d.utils.getClassName
+	import org.agony2d.utils.getClassName;
 	
 	/** [ AEvent ]
 	 *  [◆]
@@ -47,6 +47,7 @@ public class AEvent {
     public static const FLUSH:String               =  "flush"
 	public static const PENDING:String             =  "pending"
 	public static const SUCCESS:String             =  "success"
+	public static const FAIL:String                =  "fail"
 	
 	
 	public static const PRESS:String         =  "press"
@@ -55,7 +56,7 @@ public class AEvent {
 	public static const OVER:String          =  "over"
 	public static const LEAVE:String         =  "leave"
 	public static const CLICK:String         =  "click"
-	public static const DOUBLE_CLICK:String  =  "doubleClick"
+	public static const DOUBLE_PRESS:String  =  "doublePress"
 	
 	public static const X_Y_CHANGE:String    =  "xYChange"
 	public static const ENTER_STAGE:String   =  "enterStage"

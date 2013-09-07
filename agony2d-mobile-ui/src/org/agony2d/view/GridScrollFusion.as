@@ -15,9 +15,11 @@ package org.agony2d.view {
 
 	use namespace agony_internal;
 	
+	[Event(name = "fail", type = "org.agony2d.notify.AEvent")]
+	
 	[Event(name = "beginning", type = "org.agony2d.notify.AEvent")]
 	
-	[Event(name = "break", type = "org.agony2d.notify.AEvent")]
+	[Event(name = "break", type = "org.agony2d.notify.AEvent")] // 延迟失效派发
 	
 	[Event(name = "complete", type = "org.agony2d.notify.AEvent")]
 	
@@ -112,6 +114,14 @@ public class GridScrollFusion extends PivotFusion {
 	
 	public function set singleTouchForMovement( b:Boolean ) : void {
 		m_singleTouchForMovement = b
+	}
+	
+	public function get multiTouchEnabled() : Boolean {
+		return m_multiTouchEnabled
+	}
+	
+	public function set multiTouchEnabled( b:Boolean ) : void {
+		m_multiTouchEnabled = b
 	}
 	
 	public function get delayTimeForDisable() : Number {
@@ -261,6 +271,7 @@ public class GridScrollFusion extends PivotFusion {
 			DelayManager.getInstance().removeDelayedCall(m_delayID)
 			m_delayID = -1
 		}
+		view.interactive = true
 	}
 	
 	public function updateAllThumbs() : void {
@@ -295,6 +306,8 @@ public class GridScrollFusion extends PivotFusion {
 	agony_internal var m_maskWidth:Number, m_maskHeight:Number, m_contentWidth:Number, m_contentHeight:Number, m_startX:Number, m_startY:Number, cachedScale:Number, cachedDist:Number, m_scaleRatioLow:Number, m_scaleRatioHigh:Number, m_scaleRatio:Number = 1
 	agony_internal var m_horizDisableOffset:int, m_vertiDisableOffset:int
 	agony_internal var m_locked:Boolean, m_allStopped:Boolean, m_singleTouchForMovement:Boolean = true
+	agony_internal var m_multiTouchEnabled:Boolean = true
+	
 	private var m_firstTouch:Touch
 	private var m_touchList:Array = []
 	private var m_numTouchs:int
@@ -316,6 +329,7 @@ public class GridScrollFusion extends PivotFusion {
 		if (m_startX < globalX || m_startX > globalX + m_maskWidth || m_startY < globalY || m_startY > globalY + m_maskHeight || m_allStopped) {
 			return
 		}
+		
 		// premove...
 		if (m_numTouchs == 0 && !m_firstTouch) {
 			m_firstTouch = e.touch
@@ -325,13 +339,17 @@ public class GridScrollFusion extends PivotFusion {
 			if (m_delayTimeForDisable > 0) {
 				m_delayID = DelayManager.getInstance().delayedCall(m_delayTimeForDisable, doDelayForDisable)
 			}
+			this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
 		}
 		// scrolling...
 		else {
-			if (m_firstTouch) {
-				this.disableFirstTouch()
+			if(m_multiTouchEnabled){
+				if (m_firstTouch) {
+					this.disableFirstTouch()
+				}
+				this.insertTouch(e.touch)
 			}
-			this.insertTouch(e.touch)
+			
 			//trace("insert touch...")
 			e.stopImmediatePropagation()
 		}
@@ -345,6 +363,7 @@ public class GridScrollFusion extends PivotFusion {
 			DelayManager.getInstance().removeDelayedCall(m_delayID)
 			m_delayID = -1
 		}
+		this.view.m_notifier.dispatchDirectEvent(AEvent.FAIL)
 	}
 	
 	protected function ____onPreMove( e:AEvent ) : void {
@@ -478,7 +497,7 @@ public class GridScrollFusion extends PivotFusion {
 			DelayManager.getInstance().removeDelayedCall(m_delayID)
 			m_delayID = -1
 		}
-		this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
+		this.m_view.m_notifier.dispatchDirectEvent(AEvent.START_DRAG)
 	}
 	
 	protected function doDelayForDisable() : void {

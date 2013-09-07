@@ -70,13 +70,17 @@ public class ButtonState extends UIState {
 		mImgA.image.graphics.drawRect(0, -25, mImgA.width, mImgA.height + 50)
 		mImgA.image.cacheAsBitmap = true
 		content.addElement(mImgA, 50, 70)
+		mImgA.addEventListener(AEvent.PRESS, function(e:AEvent):void
+		{
+			trace("press...")
+		})
 		mImgA.addEventListener(AEvent.CLICK, function(e:AEvent):void
 		{
-			trace('[ImageButton1]')
+			trace("click...")
 		})
-		AgonyUI.addDoubleClickEvent(mImgA, function(e:AEvent) : void
+		AgonyUI.addDoublePressEvent(mImgA, function(e:AEvent) : void
 		{
-			trace("double click...")
+			trace("double press...")
 		})
 		
 		img = new ImageButton('AT_btn_yellow')
@@ -217,7 +221,7 @@ public class ButtonState extends UIState {
 		AgonyUI.removeImageButtonData('AT_checkbox')
 		//AgonyUI.multiTouchEnabled = false
 		
-		AgonyUI.removeAllDoubleClickEvent(mImgA)
+		AgonyUI.removeAllDoublePressEvent(mImgA)
 	}
 
 }

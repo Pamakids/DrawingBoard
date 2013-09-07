@@ -31,6 +31,7 @@ package org.agony2d.view.core {
 	
 	/**
 	 * 	[★]
+	 *  	■[ AA ] -> ◆priority: 400...(Accelerated App)
 	 *  	■[ UI ] -> ◆priority: 8000...
 	 *  	■[ scroll ] -> ◆priority: 22000...
 	 *  	■[ drag ] -> ◆priority: 90000...
@@ -181,59 +182,61 @@ final public class UIManager {
 		}
 	}
 	
-	agony_internal static function addDoubleClickEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
-		if (!m_doubleClickMap[target]) {
-			m_doubleClickMap[target] = -1
-			target.addEventListener(AEvent.CLICK, ____onCheckDoubleClick, -8000)
+	agony_internal static function addDoublePressEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
+		if (!m_doublePressMap[target]) {
+			m_doublePressMap[target] = -1
+			target.addEventListener(AEvent.PRESS, ____onCheckDoublePress, -8000)
 		}
-		target.addEventListener(AEvent.DOUBLE_CLICK, listener, priority)
+		target.addEventListener(AEvent.DOUBLE_PRESS, listener, priority)
 	}
 	
-	agony_internal static function removeDoubleClickEvent( target:IComponent, listener:Function ) : void {
+	agony_internal static function removeDoublePressEvent( target:IComponent, listener:Function ) : void {
 		var delayID:int
 		
-		target.removeEventListener(AEvent.DOUBLE_CLICK, listener)
-		if (!target.hasEventListener(AEvent.DOUBLE_CLICK)) {
-			target.removeEventListener(AEvent.CLICK, ____onCheckDoubleClick)
-			delayID = m_doubleClickMap[target]
+		target.removeEventListener(AEvent.DOUBLE_PRESS, listener)
+		if (!target.hasEventListener(AEvent.DOUBLE_PRESS)) {
+			target.removeEventListener(AEvent.PRESS, ____onCheckDoublePress)
+			delayID = m_doublePressMap[target]
 			if (delayID >= 0) {
 				DelayManager.getInstance().removeDelayedCall(delayID)
 			}
-			delete m_doubleClickMap[target]
+			delete m_doublePressMap[target]
 		}
 	}
 	
-	agony_internal static function removeAllDoubleClickEvent( target:IComponent ) : void {
+	agony_internal static function removeAllDoublePressEvent( target:IComponent ) : void {
 		var delayID:int
 		
-		target.removeEventAllListeners(AEvent.DOUBLE_CLICK)
-		target.removeEventListener(AEvent.CLICK, ____onCheckDoubleClick)
-		delayID = m_doubleClickMap[target]
-		if (delayID >= 0) {
-			DelayManager.getInstance().removeDelayedCall(delayID)
+		if (m_doublePressMap[target]) {
+			target.removeEventAllListeners(AEvent.DOUBLE_PRESS)
+			target.removeEventListener(AEvent.PRESS, ____onCheckDoublePress)
+			delayID = m_doublePressMap[target]
+			if (delayID >= 0) {
+				DelayManager.getInstance().removeDelayedCall(delayID)
+			}
+			delete m_doublePressMap[target]
 		}
-		delete m_doubleClickMap[target]
 	}
 	
-	agony_internal static function ____onCheckDoubleClick( e:AEvent ) : void {
+	agony_internal static function ____onCheckDoublePress( e:AEvent ) : void {
 		var target:ComponentProxy
 		var delayID:int
 		
 		target = e.target as ComponentProxy
-		delayID = m_doubleClickMap[target]
+		delayID = m_doublePressMap[target]
 		if (delayID == -1) {
-			m_doubleClickMap[target] = DelayManager.getInstance().delayedCall(m_doublieClickInterval, doDoubleClickInvalid, target)
+			m_doublePressMap[target] = DelayManager.getInstance().delayedCall(m_doubliePressInterval, doDoublePressInvalid, target)
 		}
 		else {
 			DelayManager.getInstance().removeDelayedCall(delayID)
-			m_doubleClickMap[target] = -1
-			target.view.m_notifier.dispatchDirectEvent(AEvent.DOUBLE_CLICK)
+			m_doublePressMap[target] = -1
+			target.view.m_notifier.dispatchDirectEvent(AEvent.DOUBLE_PRESS)
 		}
 	}
 	
-	agony_internal static function doDoubleClickInvalid( target:IComponent ) : void {
-		m_doubleClickMap[target] = -1
-		//trace("doDoubleClickInvalid")
+	agony_internal static function doDoublePressInvalid( target:IComponent ) : void {
+		m_doublePressMap[target] = -1
+		//trace("dodoublePressInvalid")
 	}
 	
 	
@@ -253,8 +256,8 @@ final public class UIManager {
 	agony_internal static var m_invalidWhenLeave:Boolean, m_autoStopPropagation:Boolean = true
 	agony_internal static var m_touchMap:Object = {} // tid  : pcid
 	agony_internal static var m_moduleList:Object = { } // name : uimodule
-	agony_internal static var m_doubleClickMap:Dictionary = new Dictionary // comp : bool
-	agony_internal static var m_doublieClickInterval:Number = 0.2
+	agony_internal static var m_doublePressMap:Dictionary = new Dictionary // comp : bool
+	agony_internal static var m_doubliePressInterval:Number = 0.2
 	
 	
 	

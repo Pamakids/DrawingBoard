@@ -133,7 +133,7 @@ public class MobileUITest extends Sprite {
 		}
 		type = mStateList[mStateIndex.value] as Class
 		mModuleName = getClassName(type)
-		AgonyUI.getModule(mModuleName).init(0, null, true, true)
+		AgonyUI.getModule(mModuleName).init(-1, null, true, true)
 	}
 	
 	private function initUI():void {

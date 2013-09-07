@@ -20,7 +20,9 @@ package states
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.timer.DelayManager;
+	import org.agony2d.utils.ArrayUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.GestureFusion;
@@ -49,9 +51,13 @@ package states
 			Agony.process.addEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
 			Agony.process.addEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
 			Agony.process.addEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
+			Agony.process.addEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
+			Agony.process.addEventListener(GameTopUIState.GAME_RESET, onGameReset)
 		}
 		
 		override public function exit():void{
+			var ges:GestureFusion
+			
 			if(mDelayID >= 0){
 				DelayManager.getInstance().removeDelayedCall(mDelayID)
 			}
@@ -64,9 +70,21 @@ package states
 			mPaper.isStarted = false
 			TweenLite.killTweensOf(mContent)
 			TweenLite.killTweensOf(mBoard)
+				
+			if(mPasterFusion){
+				while(--mNumPaster >-1){
+					ges = mPasterList[mNumPaster]
+					if(!ges.userData){
+						TweenLite.killTweensOf(ges)
+					}
+				}
+			}
+				
 			Agony.process.removeEventListener(GameBottomUIState.CANCEL_AUTO_HIDE, onCancelAutoHide)
 			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
 			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
+			Agony.process.removeEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
+			Agony.process.removeEventListener(GameTopUIState.GAME_RESET, onGameReset)
 		}
 		
 		
@@ -85,7 +103,7 @@ package states
 		private var mDelayID:int = -1
 		private var mPasterFusion:Fusion
 		private var mIsPaperState:Boolean = true
-		private var mPasterList:Array = []
+		private var mPasterList:Array
 		private var mNumPaster:int
 		private var mContent:PivotFusion
 		
@@ -236,9 +254,10 @@ package states
 			mIsPaperState = false
 			if(!mPasterFusion){
 				mPasterFusion = new Fusion
+				mPasterList = []
 				//mPasterFusion.interactive = false
 				mContent.addElement(mPasterFusion)
-				this.doAddPaster()
+				//this.doAddPaster()
 			}
 			else{
 				mPasterFusion.alpha = 1.0
@@ -286,21 +305,8 @@ package states
 					
 				ges.addEventListener(AEvent.START_DRAG, onStartDrag)
 				ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
-				AgonyUI.addDoubleClickEvent(ges, onPasterKilled)
+				AgonyUI.addDoublePressEvent(ges, onPasterKilled)
 			}
-			//AgonyUI.setDoublieClickInterval(0.2)
-		}
-		
-		private function onPasterKilled(e:AEvent):void{
-			var img:GestureFusion
-			
-			img = e.target as GestureFusion
-			img.interactive = false
-			TweenLite.to(img, 0.8, {alpha:0.1, scaleX:0.1,scaleY:0.1,ease:Cubic.easeOut,onComplete:function():void{
-				img.kill()
-			}})
-			
-			
 		}
 
 		private function onStopDrag(e:AEvent):void{
@@ -326,5 +332,63 @@ package states
 			TweenLite.killTweensOf(target)
 		}
 								
+		private function onRandomCreatePaster(e:DataEvent):void{
+			var ges:GestureFusion
+			var img:ImagePuppet
+			var data:Array
+			
+			data = e.data as Array
+			mPasterList[mNumPaster++] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
+			ges.x = 100 + 800 * Math.random()
+			ges.y = 100 + 500 * Math.random()
+			mPasterFusion.addElement(ges)
+			
+			img = new ImagePuppet(5)
+			img.embed(data[2])
+			ges.addElement(img)
+			
+			ges.addEventListener(AEvent.START_DRAG, onStartDrag)
+			ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
+			AgonyUI.addDoublePressEvent(ges, onPasterKilled)
+				
+			TweenLite.from(ges, 0.4, {x:data[0],
+										y:data[1],
+										scaleX:Config.PASTER_LIST_ITEM_SCALE, 
+										scaleY:Config.PASTER_LIST_ITEM_SCALE,
+										onComplete:function():void{
+											ges.userData = true
+										}})
+		}
+		
+		private function onPasterKilled(e:AEvent):void{
+			var ges:GestureFusion
+			
+			ges = e.target as GestureFusion
+			ges.gestureType = 0
+			ges.interactive = false
+			TweenLite.to(ges, 0.8, {alpha:0.1, scaleX:0.1,scaleY:0.1,ease:Cubic.easeOut,onComplete:function():void{
+				ArrayUtil.removeFrom(ges, mPasterList)
+				mNumPaster--
+				ges.userData = false
+				ges.kill()
+			}})
+		}
+
+		private function onGameReset(e:AEvent):void{
+			var l:int
+			var ges:GestureFusion
+			
+			if(mPasterFusion){
+				l = mNumPaster
+				while(--mNumPaster >-1){
+					ges = mPasterList[mNumPaster]
+					if(!ges.userData){
+						TweenLite.killTweensOf(ges)
+					}
+					ges.kill()
+				}
+				mNumPaster = mPasterList.length = 0
+			}
+		}
 	}
 }

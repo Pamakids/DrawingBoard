@@ -3,11 +3,18 @@ package states
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
 	
+	import flash.geom.Point;
+	
 	import assets.ImgAssets;
 	import assets.PasterAssets;
 	
+	import models.Config;
+	
+	import org.agony2d.Agony;
+	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.GridScrollFusion;
 	import org.agony2d.view.PivotFusion;
@@ -18,6 +25,10 @@ package states
 	
 	public class GameBottomPasterUIState extends UIState
 	{
+		
+		
+		public static const RANDOM_CREATE_PASTER:String = "randomCreatePaster"
+		
 		
 		override public function enter():void
 		{
@@ -38,7 +49,7 @@ package states
 			
 			// scroll list
 			{
-				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false)
+				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, 2,8000)
 				mContent = mPasterArea.content
 				this.fusion.addElement(mPasterArea, 86, 12)
 				mContent.spaceWidth = bgWidth
@@ -47,6 +58,7 @@ package states
 //				mPasterArea.limitRight = true
 				mPasterArea.limitTop = true
 				mPasterArea.limitBottom = true
+				mPasterArea.multiTouchEnabled = false
 					
 				// paster item
 				{
@@ -69,24 +81,30 @@ package states
 						// item png
 						img = new ImagePuppet(5)
 						img.embed(PasterAssets.gesture)
-						img.scaleX = img.scaleY = 0.36
+						img.scaleX = img.scaleY = Config.PASTER_LIST_ITEM_SCALE
 						mContent.addElement(img,0,0,LayoutType.AB, LayoutType.AB)
 						i++
 						img.addEventListener(AEvent.PRESS, onCreatePaster)
 						img.userData = i
+						img.addEventListener(AEvent.CLICK, onRandomCreatePaster)
 					}
 				}
 				
 				mPasterArea.contentWidth = (90+ITEM_GAP) * l + ITEM_GAP
+//				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, onScrollBeginning, false, 4000000)
 				mPasterArea.addEventListener(AEvent.BEGINNING, onScrollBeginning)
+				mPasterArea.addEventListener(AEvent.FAIL, onScrollComplete)
 				mPasterArea.addEventListener(AEvent.COMPLETE, onScrollComplete)
 			}
 			
 			TouchManager.getInstance().velocityEnabled = true
+			TouchManager.getInstance().setVelocityLimit(4)
 		}
 		
 		override public function exit():void{
 			TouchManager.getInstance().velocityEnabled = false
+			TweenLite.killTweensOf(mContent)
+//			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, onScrollBeginning)
 		}
 		
 		
@@ -105,8 +123,14 @@ package states
 		
 		private function onScrollBeginning(e:AEvent):void{
 			TweenLite.killTweensOf(mContent)
-//			trace("onScrollBeginning")
 		}
+		
+//		private function onScrollFail(e:AEvent):void{
+//			var correctionX:Number
+//			
+////			trace("onScrollBeginning")
+////			mContent.interactive = true
+//		}
 		
 		private function onScrollComplete(e:AEvent):void{
 			var correctionX:Number, correctionY:Number, velocityX:Number, velocityY:Number
@@ -139,10 +163,24 @@ package states
 											},
 											onComplete:onTweenBack})
 			}
+			else{
+				onTweenBack()
+			}
 		}
 		
 		private function onTweenBack():void{
 			mContent.interactive = true
+			mPasterArea.stopScroll()
+		}
+		
+		private function onRandomCreatePaster(e:AEvent):void{
+			var img:ImagePuppet
+			var global:Point
+			
+			img = e.target as ImagePuppet
+			global = img.transformCoord(0,0,false)
+			Agony.process.dispatchEvent(new DataEvent(RANDOM_CREATE_PASTER, [global.x,global.y,img.key]))
+			//trace(global)
 		}
 	}
 }
