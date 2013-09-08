@@ -70,6 +70,16 @@ public class GestureFusion extends PivotFusion {
 		return m_oldPivotY
 	}
 	
+	public function addTouch( touch:Touch ) : void{
+		if(!touch){
+			Logger.reportError(this,"addTouch","null touch...")
+		}
+		if(m_numTouchs==0){
+			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
+		}
+		this.insertTouch(touch)	
+	}
+	
 	private static function hasGesture( v:int ) : Boolean {
 		return (v & MOVEMENT) || (v & SCALE) || (v & ROTATE)
 	}
@@ -79,7 +89,7 @@ public class GestureFusion extends PivotFusion {
 		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
 		this.insertTouch(AgonyUI.currTouch)
 			
-		trace("gesture press...")
+		//trace("gesture press...")
 	}						  
 	
 	private function ____onNewTouch( e:ATouchEvent ) : void {
@@ -173,7 +183,7 @@ public class GestureFusion extends PivotFusion {
 			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch)
 			this.view.m_notifier.dispatchDirectEvent(AEvent.STOP_DRAG)
 			m_gestureHappened = false
-			trace("gesture finish...")
+			//trace("gesture finish...")
 		}
 		else {
 			this.resetTouchs()

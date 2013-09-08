@@ -15,13 +15,13 @@ package org.agony2d.view {
 
 	use namespace agony_internal;
 	
-	[Event(name = "fail", type = "org.agony2d.notify.AEvent")]
+	[Event(name = "beginning", type = "org.agony2d.notify.AEvent")] // 开始滚动派发
 	
-	[Event(name = "beginning", type = "org.agony2d.notify.AEvent")]
+	[Event(name = "unsuccess", type = "org.agony2d.notify.AEvent")] // 预滚动时结束派发
 	
 	[Event(name = "break", type = "org.agony2d.notify.AEvent")] // 延迟失效派发
 	
-	[Event(name = "complete", type = "org.agony2d.notify.AEvent")]
+	[Event(name = "complete", type = "org.agony2d.notify.AEvent")] // 完成派发
 	
 	[Event(name = "left", type = "org.agony2d.notify.AEvent")]
 	
@@ -356,14 +356,20 @@ public class GridScrollFusion extends PivotFusion {
 	}
 	
 	protected function ____onBreak( e:AEvent ) : void {
+		var touch:Touch
+		
 		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
 		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
-		m_firstTouch = null
+		
 		if (m_delayID >= 0) {
 			DelayManager.getInstance().removeDelayedCall(m_delayID)
 			m_delayID = -1
 		}
-		this.view.m_notifier.dispatchDirectEvent(AEvent.FAIL)
+		touch = UIManager.m_currTouch
+		UIManager.m_currTouch = m_firstTouch
+		this.view.m_notifier.dispatchDirectEvent(AEvent.UNSUCCESS)
+		UIManager.m_currTouch = touch
+		m_firstTouch = null
 	}
 	
 	protected function ____onPreMove( e:AEvent ) : void {

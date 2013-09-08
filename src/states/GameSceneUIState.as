@@ -5,6 +5,7 @@ package states
 	import com.greensock.easing.Bounce;
 	import com.greensock.easing.Cubic;
 	
+	import flash.display.BitmapData;
 	import flash.geom.Point;
 	
 	import assets.ImgAssets;
@@ -52,6 +53,7 @@ package states
 			Agony.process.addEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
 			Agony.process.addEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
 			Agony.process.addEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
+			Agony.process.addEventListener(GameBottomPasterUIState.PRESS_DELAY_CREATE_PASTER, onPressDelayCreatePaster)
 			Agony.process.addEventListener(GameTopUIState.GAME_RESET, onGameReset)
 		}
 		
@@ -286,28 +288,28 @@ package states
 			}
 		}
 		
-		private function doAddPaster() : void{
-			var ges:GestureFusion
-			var img:ImagePuppet
-			var l:int
-			
-			mNumPaster = l = 15
-			
-			while(--l > -1){
-				mPasterList[l] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
-				ges.x = 80 + 850 * Math.random()
-				ges.y = 50 + 600 * Math.random()
-				mPasterFusion.addElement(ges)
-				
-				img = new ImagePuppet
-				img.embed(PasterAssets.gesture)
-				ges.addElement(img)
-					
-				ges.addEventListener(AEvent.START_DRAG, onStartDrag)
-				ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
-				AgonyUI.addDoublePressEvent(ges, onPasterKilled)
-			}
-		}
+//		private function doAddPaster() : void{
+//			var ges:GestureFusion
+//			var img:ImagePuppet
+//			var l:int
+//			
+//			mNumPaster = l = 15
+//			
+//			while(--l > -1){
+//				mPasterList[l] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
+//				ges.x = 80 + 850 * Math.random()
+//				ges.y = 50 + 600 * Math.random()
+//				mPasterFusion.addElement(ges)
+//				
+//				img = new ImagePuppet
+//				img.embed(PasterAssets.gesture)
+//				ges.addElement(img)
+//					
+//				ges.addEventListener(AEvent.START_DRAG, onStartDrag)
+//				ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
+//				AgonyUI.addDoublePressEvent(ges, onPasterKilled)
+//			}
+//		}
 
 		private function onStopDrag(e:AEvent):void{
 			var target:GestureFusion
@@ -338,19 +340,7 @@ package states
 			var data:Array
 			
 			data = e.data as Array
-			mPasterList[mNumPaster++] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
-			ges.x = 100 + 800 * Math.random()
-			ges.y = 100 + 500 * Math.random()
-			mPasterFusion.addElement(ges)
-			
-			img = new ImagePuppet(5)
-			img.embed(data[2])
-			ges.addElement(img)
-			
-			ges.addEventListener(AEvent.START_DRAG, onStartDrag)
-			ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
-			AgonyUI.addDoublePressEvent(ges, onPasterKilled)
-				
+			ges = this.doCreatePaster(100 + (AgonyUI.fusion.spaceWidth - 100) * Math.random(),100 + (AgonyUI.fusion.spaceHeight - 270) * Math.random(),data[2])
 			TweenLite.from(ges, 0.4, {x:data[0],
 										y:data[1],
 										scaleX:Config.PASTER_LIST_ITEM_SCALE, 
@@ -358,6 +348,15 @@ package states
 										onComplete:function():void{
 											ges.userData = true
 										}})
+		}
+		
+		private function onPressDelayCreatePaster(e:DataEvent):void{
+			var touch:Touch
+			var ges:GestureFusion
+			
+			touch = e.data[0]
+			ges = this.doCreatePaster(touch.stageX / AgonyUI.pixelRatio,touch.stageY / AgonyUI.pixelRatio,e.data[1])
+			ges.addTouch(touch)
 		}
 		
 		private function onPasterKilled(e:AEvent):void{
@@ -372,6 +371,26 @@ package states
 				ges.userData = false
 				ges.kill()
 			}})
+		}
+		
+		private function doCreatePaster(x:Number, y:Number,key:*):GestureFusion{
+			var ges:GestureFusion
+			var img:ImagePuppet
+			
+			mPasterList[mNumPaster++] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
+//			ges.x = x
+//			ges.y = y
+			mPasterFusion.addElement(ges)
+			ges.setGlobalCoord(x,y)
+			
+			img = new ImagePuppet(5)
+			img.embed(key)
+			ges.addElement(img)
+			
+			ges.addEventListener(AEvent.START_DRAG, onStartDrag)
+			ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
+			AgonyUI.addDoublePressEvent(ges, onPasterKilled)
+			return ges
 		}
 
 		private function onGameReset(e:AEvent):void{

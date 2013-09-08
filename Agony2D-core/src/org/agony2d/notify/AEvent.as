@@ -47,7 +47,7 @@ public class AEvent {
     public static const FLUSH:String               =  "flush"
 	public static const PENDING:String             =  "pending"
 	public static const SUCCESS:String             =  "success"
-	public static const FAIL:String                =  "fail"
+	public static const UNSUCCESS:String           =  "unsuccess"
 	
 	
 	public static const PRESS:String         =  "press"
