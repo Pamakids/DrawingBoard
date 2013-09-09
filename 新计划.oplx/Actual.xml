@@ -49,6 +49,13 @@
   <top-resource idref="r-1"/>
   <resource id="r-1">
     <type>Group</type>
+    <schedule>
+      <calendar name="Overtime" editable="yes" overtime="yes">
+        <event start="2013-09-07T01:00:00.000Z" end="2013-09-08T09:00:00.000Z"/>
+        <event start="2013-09-14T00:00:00.000Z" end="2013-09-15T08:00:00.000Z"/>
+      </calendar>
+      <calendar name="Time Off" editable="yes" overtime="no"/>
+    </schedule>
     <child-resource idref="r1"/>
   </resource>
   <resource id="r1">
@@ -68,6 +75,7 @@
     <child-task idref="t3"/>
     <child-task idref="t8"/>
     <child-task idref="t4"/>
+    <child-task idref="t9"/>
     <child-task idref="t6"/>
   </task>
   <task id="t2">
@@ -86,12 +94,13 @@
     <title>顶部栏+保存</title>
     <effort>57600</effort>
     <effort-done>57600</effort-done>
-    <prerequisite-task idref="t3"/>
+    <prerequisite-task idref="t8"/>
   </task>
   <task id="t6">
     <title>播放</title>
     <effort>86400</effort>
-    <prerequisite-task idref="t4"/>
+    <effort-done>25919.9984550476</effort-done>
+    <prerequisite-task idref="t9"/>
   </task>
   <task id="t7">
     <title>画画功能</title>
@@ -103,6 +112,14 @@
     <effort>28800</effort>
     <effort-done>28800</effort-done>
     <start-constraint-date>2013-09-02T00:00:00.000Z</start-constraint-date>
+    <prerequisite-task idref="t3"/>
+  </task>
+  <task id="t9">
+    <title>画画优化和贴纸</title>
+    <effort>86400</effort>
+    <effort-done>86400</effort-done>
+    <start-constraint-date>2013-09-05T00:00:00.000Z</start-constraint-date>
+    <prerequisite-task idref="t4"/>
   </task>
   <critical-path root="-1" enabled="false" resources="false">
     <color r="1" g="0.5" b="0.5"/>

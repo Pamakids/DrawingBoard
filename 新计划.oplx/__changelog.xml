@@ -81,6 +81,36 @@
   <task-change-set user="mani" date="2013-09-04T10:50:49.213Z" timestamp="2013-09-04T10:50:49.213Z">
     <change idref="t4" attribute="internalEffortDone" type="real" from="28800" to="57600" resolved="yes"/>
   </task-change-set>
+  <task-change-set user="mani" date="2013-09-05T10:59:12.999Z" timestamp="2013-09-05T10:59:12.999Z">
+    <change idref="t9" to="t1" to-position="5" resolved="yes">
+      <change idref="t9" attribute="effort" type="real" from="28800" to="86400"/>
+      <change idref="t9" attribute="internalEffortDone" type="real" from="0" to="25919.99845504761"/>
+      <change idref="t9" attribute="internalPrerequisitesString" type="string" to="6FS"/>
+      <change idref="t9" attribute="startConstraintDate" type="date" to="2013-09-05T00:00:00.000Z"/>
+      <change idref="t9" attribute="title" type="string" to="画画优化和贴纸"/>
+    </change>
+    <change idref="t4" attribute="internalPrerequisitesString" type="string" from="3FS" to="3FS, 9FS" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-05T10:59:37.002Z" timestamp="2013-09-05T10:59:37.002Z">
+    <change idref="t6" attribute="internalPrerequisitesString" type="string" from="4FS" resolved="yes"/>
+    <change idref="t8" attribute="internalPrerequisitesString" type="string" to="4FS" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-06T10:04:30.542Z" timestamp="2013-09-06T10:04:30.542Z">
+    <change idref="t9" attribute="internalEffortDone" type="real" from="25919.998046875" to="51839.99691009521" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-09T10:02:16.236Z" timestamp="2013-09-09T10:02:16.236Z">
+    <change idref="t4" attribute="internalPrerequisitesString" type="string" from="3FS, 9FS" to="8FS" resolved="yes"/>
+    <change idref="t6" attribute="internalPrerequisitesString" type="string" to="9FS" resolved="yes"/>
+    <change idref="t8" attribute="internalPrerequisitesString" type="string" from="4FS" to="3FS" resolved="yes"/>
+    <change idref="t9" attribute="internalPrerequisitesString" type="string" from="6FS" to="4FS" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-09T10:46:52.188Z" timestamp="2013-09-09T10:46:52.188Z">
+    <change idref="t6" attribute="internalEffortDone" type="real" from="0" to="25919.99845504761" resolved="yes"/>
+    <change idref="t9" attribute="internalEffortDone" type="real" from="51839.99609375" to="86400" resolved="yes"/>
+  </task-change-set>
+  <resource-change-set user="mani" date="2013-09-09T10:02:16.236Z" timestamp="2013-09-09T10:02:16.236Z">
+    <change idref="r-1" attribute="overtimeString" type="string" from="" to="4632,32400,4633,61200,,;4639,28800,4640,57600,," resolved="yes"/>
+  </resource-change-set>
   <metadata-change-set user="mani" date="2013-08-27T03:59:29.202Z" timestamp="2013-08-27T03:59:29.202Z">
     <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-27T00:00:00.000Z" resolved="yes"/>
   </metadata-change-set>
