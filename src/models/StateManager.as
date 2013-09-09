@@ -33,6 +33,7 @@ package models
 					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, 0, 1, LayoutType.F__AF)
 				}
 				AgonyUI.getModule("GameTop").init(-1, null, false,false)
+				Agony.stage.frameRate = 30
 			}
 			else{
 				AgonyUI.getModule("GameScene").exit()
@@ -40,6 +41,7 @@ package models
 				AgonyUI.getModule("GameTop").exit()
 				DrawingManager.getInstance().copy()
 				DrawingManager.getInstance().paper.reset(true)
+				Agony.stage.frameRate = 60
 			}
 		}
 		

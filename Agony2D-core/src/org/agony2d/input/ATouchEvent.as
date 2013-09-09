@@ -5,7 +5,7 @@ package org.agony2d.input {
 public class ATouchEvent extends AEvent {
 	
 	public function ATouchEvent( type:String, touch:Touch ) {
-		super(type);
+		super(type)
 		this.touch = touch
 	}
 	

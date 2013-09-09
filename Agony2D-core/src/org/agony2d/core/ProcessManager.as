@@ -1,9 +1,6 @@
 package org.agony2d.core {
 	import flash.display.Stage
 	import flash.events.Event
-	import flash.ui.Mouse
-	import flash.ui.Multitouch
-	import flash.ui.MultitouchInputMode
 	import flash.utils.getTimer
 	import org.agony2d.debug.Logger
 	import org.agony2d.notify.AEvent
@@ -106,13 +103,13 @@ public class ProcessManager extends Notifier {
 		m_elapsed  =  (t - m_oldTime) * m_timeScale
 		// Next Frame Update
 		NextUpdaterManager.updateAllNextUpdaters()
-		// Frame Action
-		if (m_frameProcessor) {
-			m_frameProcessor.advance(m_elapsed)
-		}
 		// Tick Action
 		if (m_tickProcessor) {
 			m_tickProcessor.advance(m_elapsed)
+		}
+		// Frame Action
+		if (m_frameProcessor) {
+			m_frameProcessor.advance(m_elapsed)
 		}
 		// User Action
 		this.dispatchDirectEvent(AEvent.ENTER_FRAME)
@@ -120,12 +117,12 @@ public class ProcessManager extends Notifier {
 		//Logger.reportMessage(this, '==============PROCESS==============: ' + m_elapsed)
 	}
 	
-	agony_internal static const KEYBOARD:int   =  90000
-	agony_internal static const INTERACT:int   =  22000
-	agony_internal static const TWEEN:int      =  8000
-	agony_internal static const DELAY:int      =  4000
-	agony_internal static const TIMER:int      =  2000
-	agony_internal static const ANIMATION:int  =  1000
+	agony_internal static const KEYBOARD:int   =  180000
+	agony_internal static const INTERACT:int   =  90000
+	agony_internal static const DELAY:int      =  22000
+	agony_internal static const TIMER:int      =  8000
+	agony_internal static const TWEEN:int      =  1200
+	agony_internal static const ANIMATION:int  =  400
 	//agony_internal static const MOTION:int   =  50
 	
 	agony_internal static var m_frameProcessor:ProcessorCore, m_tickProcessor:ProcessorCore

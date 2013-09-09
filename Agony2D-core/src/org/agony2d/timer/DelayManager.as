@@ -7,8 +7,6 @@ package org.agony2d.timer {
 	use namespace agony_internal;
 	
 	/** [ DelayManager ]
-	 *  [◆◆◇]
-	 *  	1.  getInstance
 	 *  [◆]
 	 * 		1.  numDelay
 	 *  	2.  timeScale
@@ -19,7 +17,8 @@ package org.agony2d.timer {
 	 * 		2.  removeDelayedCall
 	 * 		3.  killAll
 	 *  [★]
-	 *  	[ arithmetic ]...binary heap × timing wheel
+	 *  	a.  singleton...!!
+	 *  	b.  [ arithmetic ]...binary heap × timing wheel
 	 */
 final public class DelayManager implements IProcess {
 	

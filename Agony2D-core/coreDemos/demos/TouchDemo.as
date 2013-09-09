@@ -20,17 +20,23 @@ public class TouchDemo extends Sprite
 		this.addChild(new TheMiner)
 		Agony.startup(stage)
 		
-//		TouchManager.getInstance().multiTouchEnabled = true
-		TouchManager.getInstance().velocityEnabled = true
 		TouchManager.getInstance().setVelocityLimit(5, 20)
 		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
-		TouchManager.getInstance().addEventListener(AEvent.COMPLETE,       __onTouchComplete)
+		TouchManager.getInstance().addEventListener(AEvent.CLEAR,       __onTouchComplete)
 		
 		KeyboardManager.getInstance().initialize()
-		//Agony.process.addEventListener(AEvent.ENTER_FRAME, function(e:AEvent):void
-		//{
-			//trace('UPDATE')
-		//})
+		KeyboardManager.getInstance().getState().press.addEventListener("M", function(e:AEvent):void {
+			TouchManager.getInstance().multiTouchEnabled = !TouchManager.getInstance().multiTouchEnabled
+		})
+		KeyboardManager.getInstance().getState().press.addEventListener("V", function(e:AEvent):void {
+			TouchManager.getInstance().velocityEnabled = !TouchManager.getInstance().velocityEnabled
+		})
+		KeyboardManager.getInstance().getState().press.addEventListener("F", function(e:AEvent):void {
+			TouchManager.getInstance().isMoveByFrame = !TouchManager.getInstance().isMoveByFrame
+		})
+		KeyboardManager.getInstance().getState().press.addEventListener("L", function(e:AEvent):void {
+			TouchManager.getInstance().isLocked = !TouchManager.getInstance().isLocked
+		})
 	}
 	
 	private	function __onNewTouch(e:ATouchEvent):void
@@ -42,14 +48,11 @@ public class TouchDemo extends Sprite
 	
 	private function __onMove(e:AEvent):void
 	{
-		var touch:Touch = e.target as Touch
-		
 		trace(e.type + ': ' + e.target)
 	}
 	
 	private function __onRelease(e:AEvent):void
 	{
-		var touch:Touch = e.target as Touch
 		trace(e.type + ': ' + e.target + '...' + TouchManager.getInstance().numTouchs)
 	}
 	

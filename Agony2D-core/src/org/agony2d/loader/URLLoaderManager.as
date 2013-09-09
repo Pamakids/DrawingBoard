@@ -1,16 +1,16 @@
 package org.agony2d.loader {
-	import flash.events.Event
-	import flash.events.IOErrorEvent
-	import flash.events.ProgressEvent
-	import flash.net.URLLoaderDataFormat
-	import flash.net.URLRequest
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
+	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
 	
-	import org.agony2d.core.agony_internal
-	import org.agony2d.debug.Logger
-	import org.agony2d.loader.supportClasses.LoaderManagerBase
-	import org.agony2d.loader.supportClasses.LoaderProp
-	import org.agony2d.notify.AEvent
-	import org.agony2d.notify.ErrorEvent
+	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
+	import org.agony2d.loader.supportClasses.LoaderManagerBase;
+	import org.agony2d.loader.supportClasses.LoaderProp;
+	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.ErrorEvent;
 	import org.agony2d.notify.RangeEvent;
 	use namespace agony_internal
 	
@@ -128,7 +128,9 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		var prop:LoaderProp
 		
 		prop = (e.target as URLLoaderAdvance).prop
-		prop.dispatchEvent(new RangeEvent(RangeEvent.PROGRESS, e.bytesLoaded, e.bytesTotal))
+		if(prop.hasEventListener(RangeEvent.PROGRESS)){
+			prop.dispatchEvent(new RangeEvent(RangeEvent.PROGRESS, e.bytesLoaded, e.bytesTotal))
+		}
 	}
 	
 	agony_internal function ____onIoError( e:IOErrorEvent ) : void {

@@ -31,7 +31,6 @@ public class SoundDemo extends Sprite
 	
 	public function SoundDemo() 
 	{
-		Logger.reportWarning(this,'AAA', 'BCD')
 		Agony.startup(stage)
 		LoaderManager.getInstance().getBytesLoader(new soundAssets()).addEventListener(AEvent.COMPLETE, onLoadSound)
 	}

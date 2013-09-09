@@ -1,8 +1,9 @@
 package org.agony2d.core {
 	import org.agony2d.debug.Logger
+	
 	use namespace agony_internal;
 	
-	/** 次帧执行管理器
+	/** [ NextUpdaterManager ]
 	 *  [■]
 	 *  	a.  unity notifier
 	 *  	b.  loader
@@ -20,7 +21,7 @@ public class NextUpdaterManager {
 	agony_internal static function removeNextUpdater( updater:INextUpdater ) : void {
 		var index:int
 		
-		if (m_execList) {
+		if (m_execLength > 0) {
 			index = m_execList.indexOf(updater)
 			if (index > m_execIndex) {
 				m_execList[index] = m_execList[--m_execLength]
@@ -37,19 +38,18 @@ public class NextUpdaterManager {
 	agony_internal static function updateAllNextUpdaters() : void {
 		if (m_nextUpdaterLength > 0) {
 			//Logger.reportMessage(NextUpdaterManager, 'Length(' + m_nextUpdaterLength + '):' + m_nextUpdaterList)
-			m_execList = m_nextUpdaterList.concat()
+			m_execList.push.apply(null, m_nextUpdaterList)
 			m_execLength = m_nextUpdaterLength
 			m_execIndex = m_nextUpdaterList.length = m_nextUpdaterLength = 0
 			while (m_execIndex < m_execLength) {
 				m_execList[m_execIndex++].modify()
 			}
-			m_execList = null
+			m_execLength = m_execList.length = 0
 		}
 	}
 	
-	agony_internal static var m_nextUpdaterList:Vector.<INextUpdater> = new <INextUpdater>[]
-	agony_internal static var m_nextUpdaterLength:int;
-	agony_internal static var m_execList:Vector.<INextUpdater>
-	agony_internal static var m_execLength:int, m_execIndex:int
+	agony_internal static var m_nextUpdaterList:Array = []
+	agony_internal static var m_execList:Array = []
+	agony_internal static var m_nextUpdaterLength:int, m_execLength:int, m_execIndex:int
 }
 }

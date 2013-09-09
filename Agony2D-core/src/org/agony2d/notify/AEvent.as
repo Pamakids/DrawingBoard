@@ -35,6 +35,7 @@ public class AEvent {
 	public static const ROUND:String               =  "round"
 	public static const BREAK:String               =  "break"
     public static const COMPLETE:String            =  "complete"
+	public static const CLEAR:String               =  "clear"
 	
 	public static const ENTER_FRAME:String         =  "enterFrame"
 	public static const CHANGE:String              =  "change"

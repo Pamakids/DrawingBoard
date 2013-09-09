@@ -11,7 +11,7 @@ public class DataEvent extends AEvent {
 		return m_data
 	}
 	
-	public static const RECEIVE_DATA:String = "receiveData" /** 接收数据 */
+	public static const RECEIVE_DATA:String = "receiveData"
 	
 	private var m_data:Object
 }

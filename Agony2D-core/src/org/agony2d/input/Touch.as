@@ -11,14 +11,16 @@ package org.agony2d.input {
 	
 	[Event( name = "release", type = "org.agony2d.notify.AEvent" )]
 	
-	/** 触摸
+	/** [ Touch ]
 	 *  [◆]
 	 * 		1.  touchID
 	 * 		2.  stageX × stageY
 	 * 		3.  prevStageX × prevStageY
 	 * 		4.  velocityX × velocityy
+	 *  [◆◆]
+	 *  	1.  toString
 	 *  [★]
-	 * 		a.  不可手动实例化!! ■TouchManager侦听[ NEW_TOUCH ]事件获取...!!
+	 * 		a.  不可手动实例化...!! ■TouchManager侦听[ NEW_TOUCH ]事件获取...!!
 	 */
 public class Touch extends Notifier {
 	

@@ -512,7 +512,7 @@ public class GridScrollFusion extends PivotFusion {
 		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
 		m_firstTouch = null
 		m_allStopped = true
-		TouchManager.getInstance().addEventListener(AEvent.COMPLETE, onTouchClear)
+		TouchManager.getInstance().addEventListener(AEvent.CLEAR, onTouchClear)
 		this.view.m_notifier.dispatchDirectEvent(AEvent.BREAK)
 	}
 	

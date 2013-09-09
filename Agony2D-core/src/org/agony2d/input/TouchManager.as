@@ -16,21 +16,22 @@ package org.agony2d.input {
 	
 	[Event( name = "newTouch", type = "org.agony2d.input.ATouchEvent" )]
 	
-	[Event( name = "complete", type = "org.agony2d.notify.AEvent" )]
+	[Event( name = "clear", type = "org.agony2d.notify.AEvent" )]
 	
 	/** [ TouchManager ]
-	 *  [◆◆◇]
-	 *  	1.  getInstance
 	 *  [◆]
 	 *  	1.  numTouchs
 	 * 		2.  multiTouchEnabled
 	 * 		3.  velocityEnabled
+	 *  	4.  isMoveByFrame
+	 *  	5.  isLocked
 	 *  [◆◆]
 	 * 		1.  setVelocityLimit
 	 *  [★]
-	 * 		a.  每次触摸生成一个Touch对象，仅需要对其加入侦听，触摸结束自动dispose...
-	 *  	b.  当移动设备程序跳出时，当前存在的全部触摸会自动派送弹起事件...!!
-	 *  	c.  当两个触摸距离小于一定量(根据设备不同决定)时，会发生[ 触摸跳跃 ]...
+	 *  	a.  singleton...!!
+	 * 		b.  每次触摸生成一个Touch对象，仅需要对其加入侦听，触摸结束自动dispose...
+	 *  	c.  当移动设备程序跳出时，当前存在的全部触摸会自动派送弹起事件...!!
+	 *  	d.  当两个触摸距离小于一定量(根据设备不同决定)时，会发生[ 触摸跳跃 ]...
 	 *  		其中的一个触摸会自动销毁[ release ]，并与另一触摸发生"融合"...!!
 	 */
 public class TouchManager extends Notifier implements IProcess {
@@ -43,7 +44,7 @@ public class TouchManager extends Notifier implements IProcess {
 		super(null)
 		stage = Touch.m_stage = ProcessManager.m_stage;
 		if (!stage) {
-			Logger.reportError(this, "constructor", "AgonyCore hasn't started up...!!");
+			Logger.reportError(this, "constructor", "Agony core hasn't started up...!!");
 		}
 		m_touchList = {}
 		eventList = (Multitouch.maxTouchPoints > 0) ? 
@@ -53,11 +54,6 @@ public class TouchManager extends Notifier implements IProcess {
 		while (--l > -1) {
 			stage.addEventListener(eventList[l], ____onTouchStateUpdate, false, -8000)
 		}
-		ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
-	}
-	
-	public static function getInstance() : TouchManager {
-		return m_instance ||= new TouchManager
 	}
 	
 	public function get numTouchs() : int {
@@ -92,7 +88,11 @@ public class TouchManager extends Notifier implements IProcess {
 	}
 	
 	public function set velocityEnabled( b:Boolean ) : void {
-		Touch.m_velocityEnabled = b
+		if (Touch.m_velocityEnabled != b) {
+			Touch.m_velocityEnabled = b
+			this.checkAddUpdateList()
+			//Logger.reportMessage(this, "[ velocityEnabled ]..." + b)
+		}
 	}
 	
 	public function get isMoveByFrame() : Boolean {
@@ -100,21 +100,45 @@ public class TouchManager extends Notifier implements IProcess {
 	}
 	
 	public function set isMoveByFrame( b:Boolean ) : void {
-		Touch.m_isMoveByFrame = b
+		if (Touch.m_isMoveByFrame != b) {
+			Touch.m_isMoveByFrame = b
+			this.checkAddUpdateList()
+			//Logger.reportMessage(this, "[ isMoveByFrame ]..." + b)
+		}
 	}
 	
-	public function lock() : void {
-		m_locked = true
+	public function get isLocked() : Boolean {
+		return m_isLocked
 	}
 	
-	public function unlock() : void {
-		m_locked = false
+	public function set isLocked( b:Boolean ) : void {
+		m_isLocked = b
 	}
 	
-	/** 速率失效程度限制... */
 	public function setVelocityLimit( invalidCount:int = 7, maxVelocity:int = 44 ) : void {
 		Touch.m_invalidCount = invalidCount
 		Touch.m_maxVelocity = maxVelocity
+	}
+	
+	public static function getInstance() : TouchManager {
+		return m_instance ||= new TouchManager
+	}
+	
+	private function checkAddUpdateList() : void {
+		if (Touch.m_isMoveByFrame || Touch.m_velocityEnabled) {
+			if (!m_updating) {
+				ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
+				m_updating = true
+				//Logger.reportMessage(this, "added to update list...")
+			}
+		}
+		else {
+			if (m_updating) {
+				ProcessManager.removeFrameProcess(this)
+				m_updating = false
+				//Logger.reportMessage(this, "removed from update list...")
+			}
+		}
 	}
 	
 	final public function update( deltaTime:Number ) : void {
@@ -132,7 +156,7 @@ public class TouchManager extends Notifier implements IProcess {
 		var touchID:int
 		var touch:Touch
 		
-		if (m_locked) {
+		if (m_isLocked) {
 			return
 		}
 		type     =  e.type
@@ -162,7 +186,7 @@ public class TouchManager extends Notifier implements IProcess {
 			}
 			delete m_touchList[touchID]
 			if (m_numTouchs == 0) {
-				this.dispatchDirectEvent(AEvent.COMPLETE)
+				this.dispatchDirectEvent(AEvent.CLEAR)
 				if (m_allInvalid) {
 					m_allInvalid = false
 				}
@@ -179,6 +203,9 @@ public class TouchManager extends Notifier implements IProcess {
 	agony_internal static var m_instance:TouchManager
 	agony_internal static var m_touchList:Object // touchID:Touch
 	agony_internal static var m_numTouchs:int
-	agony_internal static var m_multiTouchEnabled:Boolean, m_allInvalid:Boolean, m_locked:Boolean
+	agony_internal static var m_multiTouchEnabled:Boolean
+	agony_internal static var m_allInvalid:Boolean // used in single touch state...
+	agony_internal static var m_isLocked:Boolean
+	agony_internal static var m_updating:Boolean
 }
 }
