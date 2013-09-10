@@ -17,14 +17,10 @@ package org.agony2d.timer {
 	 * 		2.  removeDelayedCall
 	 * 		3.  killAll
 	 *  [★]
-	 *  	a.  singleton...!!
+	 *  	a.  multiton...!!
 	 *  	b.  [ arithmetic ]...binary heap × timing wheel
 	 */
 final public class DelayManager implements IProcess {
-	
-	public static function getInstance() : DelayManager { 
-		return m_instance ||= new DelayManager 
-	}
 	
 	public function get numDelay():int { 
 		return m_numDelay 
@@ -148,6 +144,10 @@ final public class DelayManager implements IProcess {
 			m_numDelay = m_idCount = 0
 			this.doComplete()
 		}
+	}
+	
+	public static function getInstance() : DelayManager { 
+		return m_instance ||= new DelayManager 
 	}
 	
 	/** @see  1.  parent ---- prev = (N-1 / 2) >> 0

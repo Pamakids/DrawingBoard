@@ -20,7 +20,7 @@ package org.agony2d.core {
 	 *  [★]
 	 *  	a.  default system notifier...
 	 */
-public class ProcessManager extends Notifier {
+final public class ProcessManager extends Notifier {
 	
 	public function get timeScale() : Number {
 		return m_timeScale 

@@ -2,7 +2,6 @@ package org.agony2d.view.core {
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.Notifier;
-	import org.agony2d.renderer.IView;
 	import org.agony2d.view.Fusion;
 	
 	use namespace agony_internal;
@@ -56,7 +55,7 @@ public class Component extends AgonySprite {
 	}
 	
 	agony_internal var m_notifier:Notifier
-	agony_internal var m_proxy:IView
+	agony_internal var m_proxy:ComponentProxy
 	agony_internal var m_cid:uint
 	agony_internal var m_interactive:Boolean, m_visible:Boolean
 }

@@ -34,17 +34,21 @@ package
 		private function doInit(e:Event):void{
 			this.doInitAgony()
 			this.doInitModel()
-			StateManager.setGameScene(true)
-//			AgonyUI.fusion.addElement(new StatsMobileUI)
-			this.addChild(new TheMiner)
+				
 				
 			if(!Agony.isMoblieDevice){
 				this.doDebugController()
 			}
+			
+			StateManager.setGameScene(true)
+//			AgonyUI.fusion.addElement(new StatsMobileUI)
+			this.addChild(new TheMiner)
+				
+
 		}
 		
 		private function doInitAgony() : void {
-			Agony.startup(stage, null, StageQuality.LOW)	
+			Agony.startup(stage, StageQuality.LOW)	
 			AgonyUI.startup(false, 1024, 768, true)
 			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true

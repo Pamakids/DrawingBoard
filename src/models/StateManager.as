@@ -25,6 +25,7 @@ package models
 			}
 			
 			if(enabled){
+				Agony.stage.frameRate = 30
 				AgonyUI.getModule("GameScene").init(-1, null, false,false)
 				if(!Agony.isMoblieDevice){
 					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, -100, 1, LayoutType.F__AF)
@@ -33,15 +34,16 @@ package models
 					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, 0, 1, LayoutType.F__AF)
 				}
 				AgonyUI.getModule("GameTop").init(-1, null, false,false)
-				Agony.stage.frameRate = 30
+				
 			}
 			else{
+				Agony.stage.frameRate = 60
 				AgonyUI.getModule("GameScene").exit()
 				AgonyUI.getModule("GameBottom").exit()
 				AgonyUI.getModule("GameTop").exit()
-				DrawingManager.getInstance().copy()
+				//DrawingManager.getInstance().copy()
 				DrawingManager.getInstance().paper.reset(true)
-				Agony.stage.frameRate = 60
+				
 			}
 		}
 		
@@ -53,10 +55,13 @@ package models
 				AgonyUI.addModule("PlayerTopUIState", PlayerTopUIState)
 			}
 			if(enabled){
+				Agony.stage.frameRate = 30
 				AgonyUI.getModule("PlayerScene").init(-1, null, false,false)
 				AgonyUI.getModule("PlayerTopUIState").init(-1, null, false,false)
+					
 			}
 			else{
+				Agony.stage.frameRate = 60
 				AgonyUI.getModule("PlayerScene").exit()
 				AgonyUI.getModule("PlayerTopUIState").exit()
 			}

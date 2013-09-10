@@ -54,7 +54,7 @@ package states
 			
 			// scroll list
 			{
-				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, 12,8000)
+				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, Config.PASTER_HORIZ_DISABLE_OFFSET,8000)
 				mContent = mPasterArea.content
 				this.fusion.addElement(mPasterArea, 86, 12)
 				mContent.spaceWidth = bgWidth

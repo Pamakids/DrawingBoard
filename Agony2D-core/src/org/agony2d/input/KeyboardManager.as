@@ -1,5 +1,4 @@
-package org.agony2d.input
-{
+package org.agony2d.input {
 	import flash.events.KeyboardEvent;
 	import org.agony2d.notify.Notifier;
 	

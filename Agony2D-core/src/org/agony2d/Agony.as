@@ -1,15 +1,3 @@
-/** [ 記号 ]
- * 		■    	: module
- * 		◆◇ 	: property (static)
- * 		◆◆◇	: method (static)
- *  	◆   	: property
- * 		◆◆ 	: method
- * 		▲/▼  	: toggle
- * 
- *  	◎   	: message
- * 		★		: feature
- * 		[ * ]	: element
- */
 package org.agony2d {
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -27,11 +15,11 @@ package org.agony2d {
 	
 	use namespace agony_internal;
 	
-	/** Agony
-	 *  [◆]
+	/** [ Agony ]
+	 *  [◆◇]
 	 * 		1.  stage
-	 * 		2.  root
-	 * 		3.  process
+	 * 		2.  process
+	 *  	3.  isMoblieDevice
 	 *  [◆◆◇]
 	 *		1.  startup
 	 *  [■]
@@ -51,25 +39,19 @@ public class Agony {
 		return m_stage
 	}
 	
-	public static function get root() : DisplayObjectContainer {
-		return m_root 
+	public static function get process() : ProcessManager { 
+		return m_process 
 	}
 	
 	public static function get isMoblieDevice() : Boolean {
 		return Multitouch.maxTouchPoints > 0
 	}
 	
-	public static function get process() : ProcessManager { 
-		return m_process 
-	}
-	
-	public static function startup( stage:Stage, root:Sprite = null, quality:String = 'high' ) : void {
-		m_stage                 =  stage
-		m_root                  =  root
+	public static function startup( stage:Stage, quality:String = 'high' ) : void {
+		ProcessManager.m_stage  =  m_stage  =  stage
 		stage.quality           =  quality
 		stage.scaleMode         =  'noScale'
 		stage.align             =  'leftTop'
-		ProcessManager.m_stage  = stage
 		m_process               =  new ProcessManager
 		trace('================================== [ Agony2D ] ==================================')
 		Logger.reportMessage("Agony", "★[ startup ]..." +
@@ -84,14 +66,7 @@ public class Agony {
 		m_process.running = true
 	}
 	
-	// @#$%^&*()
-	public static function registerSections( sectionXmlConfig:XML ) : void
-	{
-		SectionManager.registerSections(sectionXmlConfig);
-	}
-	
 	private static var m_process:ProcessManager
-	private static var m_root:DisplayObjectContainer
 	private static var m_stage:Stage
 }
 }

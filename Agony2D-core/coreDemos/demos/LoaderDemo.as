@@ -21,7 +21,7 @@ public class LoaderDemo extends Sprite
 	
 	public function LoaderDemo() 
 	{
-		Agony.startup(this.stage)
+		Agony.startup(stage)
 		
 		this.addChild(new TheMiner)
 		

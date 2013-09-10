@@ -25,7 +25,7 @@ public class URLLoaderDemo extends Sprite
 	
 	public function URLLoaderDemo() 
 	{
-		Agony.startup(this.stage)
+		Agony.startup(stage)
 		
 		var btnA:PushButton
 		var numLoading:Label

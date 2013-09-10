@@ -31,9 +31,12 @@ package states
 	public class GameTopUIState extends UIState
 	{
 		
-		
+
 		public static const GAME_RESET:String = "gameReset"
 		
+		public static const CREATE_DRAW_AND_PASTER_FILE:String = "createDrawAndPasterFile"
+			
+			
 		
 		override public function enter():void{
 			var imgBtn:ImageButton
@@ -86,10 +89,11 @@ package states
 			
 			// complete
 			{
-				imgBtn = new ImageButton("btn_complete", 5)
-				this.fusion.addElement(imgBtn, 967 + imgBtn.width / 2, 6 + imgBtn.height / 2)
-				imgBtn.addEventListener(AEvent.CLICK, onTopComplete)
-				mImgList.push(imgBtn)
+				mFinishBtn = new ImageButton("btn_complete", 5)
+				this.fusion.addElement(mFinishBtn, 967 + mFinishBtn.width / 2, 6 + mFinishBtn.height / 2)
+				mFinishBtn.addEventListener(AEvent.CLICK, onTopComplete)
+				mImgList.push(mFinishBtn)
+				this.onPaperClear(null)
 			}
 			
 			var l:int = mImgList.length
@@ -101,6 +105,7 @@ package states
 			}
 			
 			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
+			Agony.process.addEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
 		}
 		
 		override public function exit():void{
@@ -109,6 +114,7 @@ package states
 //				TweenLite.killTweensOf(mImgList[l])
 //			}
 			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
+			Agony.process.removeEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
 			TweenLite.killTweensOf(this.fusion)
 		}
 		
@@ -119,6 +125,7 @@ package states
 		private var mPositonA:int
 		private var mResetFusion:Fusion
 		private var mResetBg:SpritePuppet
+		private var mFinishBtn:ImageButton
 		
 		
 		private function onTopBack(e:AEvent):void{
@@ -169,6 +176,7 @@ package states
 			mResetBg.kill()
 			mResetBg = null
 			DrawingManager.getInstance().paper.reset()
+			this.onPaperClear(null)
 			Agony.process.dispatchDirectEvent(GAME_RESET)
 		}
 		
@@ -180,6 +188,7 @@ package states
 		}
 		
 		private function onTopComplete(e:AEvent):void{
+			Agony.process.dispatchDirectEvent(CREATE_DRAW_AND_PASTER_FILE)
 			StateManager.setGameScene(false)
 			StateManager.setPlayer(true)
 		}
@@ -215,6 +224,17 @@ package states
 			else{
 				TweenLite.to(this.fusion, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:0,overwrite:1})
 			}
+		}
+		
+		private function onPaperClear(e:AEvent):void{
+			mFinishBtn.alpha = 0.44
+			mFinishBtn.interactive = false
+			DrawingManager.getInstance().isPaperDirty = false
+		}
+		
+		private function onPaperDirty(e:AEvent):void{
+			mFinishBtn.alpha = 1
+			mFinishBtn.interactive = true
 		}
 	}
 }

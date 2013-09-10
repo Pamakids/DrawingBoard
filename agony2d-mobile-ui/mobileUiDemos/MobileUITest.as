@@ -47,7 +47,7 @@ public class MobileUITest extends Sprite {
 	
 	private function init(e:Event) : void {
 		// Engine !!
-		Agony.startup(this.stage, null, 'low')
+		Agony.startup(this.stage, 'low')
 		
 		// keyboard...
 		KeyboardManager.getInstance().initialize()
@@ -85,9 +85,9 @@ public class MobileUITest extends Sprite {
 		var name:String
 		var module:IModule
 		
-		while (i < l) {
-			Agony.registerSections(XML(sections[i++]))
-		}
+		//while (i < l) {
+			//Agony.registerSections(XML(sections[i++]))
+		//}
 		
 		l = mStateList.length
 		while(--l>-1) {

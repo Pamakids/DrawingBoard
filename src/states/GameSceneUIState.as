@@ -7,6 +7,7 @@ package states
 	
 	import flash.display.BitmapData;
 	import flash.geom.Point;
+	import flash.utils.ByteArray;
 	
 	import assets.ImgAssets;
 	import assets.PasterAssets;
@@ -18,6 +19,7 @@ package states
 	
 	import org.agony2d.Agony;
 	import org.agony2d.input.ATouchEvent;
+	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
@@ -34,18 +36,28 @@ package states
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
 
+	// [ bytes ] paster - draw
 	public class GameSceneUIState extends UIState
 	{
 		
 		public static const START_DRAW:String = "startDraw"
 		
 		public static const TOP_AND_BOTTOM_AUTO_BACK:String = "topAndBottomAutoBack"
-		
+			
+		public static const PAPER_DIRTY:String = "paperDirty"
+			
 			
 		override public function enter():void{
 			this.doAddPaper()
 			this.doAddListeners()
 			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
+				
+//			if(!Agony.isMoblieDevice){
+//				
+//				KeyboardManager.getInstance().getState().press.addEventListener("P", function(e:AEvent):void{
+//					createPasterData()
+//				})
+//			}
 		}
 		
 		private function doAddListeners(): void{
@@ -55,6 +67,7 @@ package states
 			Agony.process.addEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
 			Agony.process.addEventListener(GameBottomPasterUIState.PRESS_DELAY_CREATE_PASTER, onPressDelayCreatePaster)
 			Agony.process.addEventListener(GameTopUIState.GAME_RESET, onGameReset)
+			Agony.process.addEventListener(GameTopUIState.CREATE_DRAW_AND_PASTER_FILE, onCreateFile)
 		}
 		
 		override public function exit():void{
@@ -86,7 +99,9 @@ package states
 			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
 			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
 			Agony.process.removeEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
+			Agony.process.removeEventListener(GameBottomPasterUIState.PRESS_DELAY_CREATE_PASTER, onPressDelayCreatePaster)
 			Agony.process.removeEventListener(GameTopUIState.GAME_RESET, onGameReset)
+			Agony.process.removeEventListener(GameTopUIState.CREATE_DRAW_AND_PASTER_FILE, onCreateFile)
 		}
 		
 		
@@ -108,6 +123,7 @@ package states
 		private var mPasterList:Array
 		private var mNumPaster:int
 		private var mContent:PivotFusion
+		
 		
 		
 		
@@ -188,6 +204,10 @@ package states
 					mBoard.content.addElement(this.getEraser(), point.x* 1 / mContentRatio, point.y* 1 / mContentRatio)
 				}
 				//Logger.reportMessage(this, "new touch...")
+				if(!DrawingManager.getInstance().isPaperDirty){
+					Agony.process.dispatchDirectEvent(PAPER_DIRTY)
+					DrawingManager.getInstance().isPaperDirty = true
+				}
 				this.onCancelAutoHide(null)
 				Agony.process.dispatchDirectEvent(START_DRAW)
 			}
@@ -377,6 +397,7 @@ package states
 			var ges:GestureFusion
 			var img:ImagePuppet
 			
+			//trace("create paster...")
 			mPasterList[mNumPaster++] = ges = new GestureFusion(GestureFusion.MOVEMENT | GestureFusion.SCALE | GestureFusion.ROTATE)
 //			ges.x = x
 //			ges.y = y
@@ -408,6 +429,41 @@ package states
 				}
 				mNumPaster = mPasterList.length = 0
 			}
+		}
+		
+		private function onCreateFile(e:AEvent) : void {
+			var bytes:ByteArray
+			
+			bytes = this.createPasterData()
+			bytes.writeBytes(DrawingManager.getInstance().paper.bytes)
+			DrawingManager.getInstance().setBytes(bytes)
+		}
+		
+		private static var cachedBytesA:ByteArray = new ByteArray
+		private function createPasterData() : ByteArray {
+			var i:int, l:int
+			var ges:GestureFusion
+			var bytes:ByteArray
+			
+			l = mNumPaster
+			cachedBytesA.writeShort(mNumPaster)
+			while(i<l){
+				ges = mPasterFusion.getElementByLayer(i++) as GestureFusion
+				cachedBytesA.writeUTF((ges.getElementByLayer(0) as ImagePuppet).key)
+				cachedBytesA.writeShort(int(ges.pivotX * 10))
+				cachedBytesA.writeShort(int(ges.pivotY * 10))
+				cachedBytesA.writeShort(int(ges.x * 10))
+				cachedBytesA.writeShort(int(ges.y * 10))
+				cachedBytesA.writeShort(int(ges.rotation * 100))
+				cachedBytesA.writeShort(int(ges.scaleX * 1000))
+				
+//				trace(ges.pivotX, ges.pivotY, ges.x, ges.y, ges.rotation, ges.scaleX)
+			}
+			bytes = new ByteArray
+			bytes.writeUnsignedInt(cachedBytesA.length + 4)
+			bytes.writeBytes(cachedBytesA)
+			cachedBytesA.length = 0
+			return bytes
 		}
 	}
 }

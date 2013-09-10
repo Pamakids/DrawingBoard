@@ -17,7 +17,7 @@ public class MouseDemo extends Sprite
 	
 	public function MouseDemo() 
 	{
-		Agony.startup(this.stage)
+		Agony.startup(stage)
 		//trace(MathUtil.adverse( -5, 1))
 		//trace(MathUtil.adverse( -5, 0))
 		//trace(MathUtil.adverse(0,1))

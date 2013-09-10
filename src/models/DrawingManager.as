@@ -14,6 +14,7 @@ package models
 	import drawing.CommonPaper;
 	import drawing.IBrush;
 	
+	import org.agony2d.Agony;
 	import org.agony2d.view.AgonyUI;
 
 	/** singleton... */
@@ -27,17 +28,21 @@ package models
 			return mBytes
 		}
 		
+		public var isPaperDirty:Boolean
+		
 		public function initialize() : void{
 			this.doInitPaper()
 			this.doAddBrush()
 		}
 		
-		public function copy() : void {
-			mBytes = new ByteArray
-			mBytes.writeBytes(mPaper.bytes)
+//		public function copy() : void {
+//			mBytes = new ByteArray
+//			mBytes.writeBytes(mPaper.bytes)
+//		}
+//		
+		public function setBytes( v:ByteArray ) : void{
+			mBytes = v
 		}
-		
-
 		
 		
 		
@@ -62,7 +67,6 @@ package models
 		{
 			mPaper = new CommonPaper( AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 1 / AgonyUI.pixelRatio, null, 850)
 			mPaper.bytes = new ByteArray
-			
 		}
 		
 		private function doAddBrush():void

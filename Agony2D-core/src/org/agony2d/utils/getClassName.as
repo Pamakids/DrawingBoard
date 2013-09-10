@@ -1,11 +1,10 @@
-package org.agony2d.utils 
-{
+package org.agony2d.utils {
 	import flash.utils.getQualifiedClassName;
 
-	public function getClassName( object:Object, simple:Boolean = true ) : String
-	{
-		var type:String = getQualifiedClassName(object).replace("::",".");
-
-		return simple ? type.substr(type.lastIndexOf(".") + 1) : type;
+	public function getClassName( obj:Object, simple:Boolean = true ) : String {
+		var type:String
+		
+		type = getQualifiedClassName(obj).replace("::", ".")
+		return simple ? type.substr(type.lastIndexOf(".") + 1) : type
 	}
 }

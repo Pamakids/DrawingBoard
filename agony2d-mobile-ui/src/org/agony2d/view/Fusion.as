@@ -6,6 +6,7 @@ package org.agony2d.view {
 	import org.agony2d.view.core.ComponentProxy;
 	import org.agony2d.view.core.FusionComp;
 	import org.agony2d.view.core.IComponent;
+	import org.agony2d.view.core.PivotSprite;
 	import org.agony2d.view.core.SmoothProxy;
 	import org.agony2d.view.enum.LayoutType;
 	
@@ -96,6 +97,13 @@ public class Fusion extends SmoothProxy {
 	
 	public function setElementLayer( c:IComponent, layer:int ) : void {
 		m_view.setChildIndex((c as ComponentProxy).shell, layer)
+	}
+	
+	public function getElementByLayer( layer:int ) : IComponent {
+		var obj:AgonySprite
+		
+		obj = m_view.getChildAt(layer) as AgonySprite
+		return (obj is PivotSprite) ? (obj.getChildAt(0) as Component).m_proxy as IComponent : (obj as Component).m_proxy as IComponent
 	}
 	
 	public function getElementAt( index:int ) : IComponent {
