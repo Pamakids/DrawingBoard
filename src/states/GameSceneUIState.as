@@ -6,6 +6,8 @@ package states
 	import com.greensock.easing.Cubic;
 	
 	import flash.display.BitmapData;
+	import flash.display.PNGEncoderOptions;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
@@ -433,20 +435,37 @@ package states
 		
 		private function onCreateFile(e:AEvent) : void {
 			var bytes:ByteArray
+			var BA:BitmapData
+			var scale:Number
+			var matrix:Matrix
 			
-			bytes = this.createPasterData()
+			bytes = new ByteArray
+				
+			//  thumbnail
+			BA = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)
+			scale = Config.FILE_THUMBNAIL_WIDTH / mPaper.content.width * mContentRatio
+			matrix = new Matrix(scale,0,0,scale,0,0)
+			BA.draw(mContent.displayObject, matrix, null, null, null, true)
+			cachedBytesA = BA.getPixels(BA.rect)
+			bytes.writeUnsignedInt(cachedBytesA.length)
+			bytes.writeBytes(cachedBytesA)
+			cachedBytesA.length = 0
+			
+			// paster
+			this.doAddPasterData(bytes)
+
+			// draw
 			bytes.writeBytes(DrawingManager.getInstance().paper.bytes)
 			DrawingManager.getInstance().setBytes(bytes)
 		}
 		
 		private static var cachedBytesA:ByteArray = new ByteArray
-		private function createPasterData() : ByteArray {
+		private function doAddPasterData( bytes:ByteArray ) : void {
 			var i:int, l:int
 			var ges:GestureFusion
-			var bytes:ByteArray
 			
 			l = mNumPaster
-			cachedBytesA.writeShort(mNumPaster)
+			
 			while(i<l){
 				ges = mPasterFusion.getElementByLayer(i++) as GestureFusion
 				cachedBytesA.writeUTF((ges.getElementByLayer(0) as ImagePuppet).key)
@@ -459,11 +478,10 @@ package states
 				
 //				trace(ges.pivotX, ges.pivotY, ges.x, ges.y, ges.rotation, ges.scaleX)
 			}
-			bytes = new ByteArray
-			bytes.writeUnsignedInt(cachedBytesA.length + 4)
+			bytes.writeUnsignedInt(cachedBytesA.length)
+			bytes.writeShort(mNumPaster)
 			bytes.writeBytes(cachedBytesA)
 			cachedBytesA.length = 0
-			return bytes
 		}
 	}
 }

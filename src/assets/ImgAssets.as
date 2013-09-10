@@ -75,5 +75,9 @@ package assets
 		
 		// player top
 		
+		
+		// player bottom
+		[Embed(source="data/buttons/btn_player_play.png")] public static const btn_player_play:Class
+		
 	}
 }

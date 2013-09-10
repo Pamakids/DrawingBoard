@@ -36,11 +36,12 @@ package
 			this.doInitModel()
 				
 				
-			if(!Agony.isMoblieDevice){
-				this.doDebugController()
-			}
+//			if(!Agony.isMoblieDevice){
+//				this.doDebugController()
+//			}
 			
 			StateManager.setGameScene(true)
+				
 //			AgonyUI.fusion.addElement(new StatsMobileUI)
 			this.addChild(new TheMiner)
 				
@@ -61,14 +62,14 @@ package
 		}
 		
 		
-		private function doDebugController() : void{
-			KeyboardManager.getInstance().initialize()
-			KeyboardManager.getInstance().getState().press.addEventListener("A", function(e:AEvent):void{
-				StateManager.setGameScene(true)
-			})
-			KeyboardManager.getInstance().getState().press.addEventListener("K", function(e:AEvent):void{
-				StateManager.setGameScene(false)
-			})
-		}
+//		private function doDebugController() : void{
+//			KeyboardManager.getInstance().initialize()
+//			KeyboardManager.getInstance().getState().press.addEventListener("A", function(e:AEvent):void{
+//				StateManager.setGameScene(true)
+//			})
+//			KeyboardManager.getInstance().getState().press.addEventListener("K", function(e:AEvent):void{
+//				StateManager.setGameScene(false)
+//			})
+//		}
 	}
 }

@@ -265,7 +265,10 @@ public class GridScrollFusion extends PivotFusion {
 		}
 		if(m_allStopped){
 			m_allStopped = false
-			TouchManager.getInstance().removeEventListener(AEvent.COMPLETE, onTouchClear)
+			if(TouchManager.getInstance().hasEventListener(AEvent.CLEAR))
+			{
+				TouchManager.getInstance().removeEventListener(AEvent.CLEAR, onTouchClear)
+			}
 		}
 		if (m_delayID >= 0) {
 			DelayManager.getInstance().removeDelayedCall(m_delayID)
@@ -518,7 +521,10 @@ public class GridScrollFusion extends PivotFusion {
 	
 	private function onTouchClear( e:AEvent ) : void {
 		m_allStopped = false
-		TouchManager.getInstance().removeEventListener(AEvent.COMPLETE, onTouchClear)
+		if(TouchManager.getInstance().hasEventListener(AEvent.CLEAR))
+		{
+			TouchManager.getInstance().removeEventListener(AEvent.CLEAR, onTouchClear)
+		}
 	}
 	
 	private function get orginX() : Number {

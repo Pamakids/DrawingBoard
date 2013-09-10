@@ -48,7 +48,7 @@ final internal class Observer {
 		
 		LA = m_listenerList[listener]
 		if (!LA) {
-			Logger.reportWarning(this, 'removeListener', 'listener has not been registered...!!')
+			//Logger.reportWarning(this, 'removeListener', 'listener has not been registered...!!')
 		}
 		else {
 			// executing...update queue...

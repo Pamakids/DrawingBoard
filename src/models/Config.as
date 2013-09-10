@@ -2,10 +2,6 @@ package models
 {
 	public class Config
 	{
-		public function Config()
-		{
-		}
-		
 		
 		public static const ERASER_SIZE:int = 10
 			
@@ -21,6 +17,9 @@ package models
 		public static const PASTER_LIST_ITEM_SCALE:Number = 0.36
 		public static const PASTER_PRESS_CREATE_TIME:Number = 0.27
 		public static const PASTER_HORIZ_DISABLE_OFFSET:Number = 20
+			
+		public static const FILE_THUMBNAIL_WIDTH:int = 240
+		public static const FILE_THUMBNAIL_HEIGHT:int = 180
 			
 			
 		public static function get colorDataList():Array{ 

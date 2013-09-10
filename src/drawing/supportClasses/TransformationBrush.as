@@ -41,9 +41,25 @@ public class TransformationBrush extends BrushBase {
 
 	}
 	
+	final override public function drawLine( currX:Number, currY:Number, prevX:Number, prevY:Number ) : void {
+		var distA:Number, tmpX:Number, tmpY:Number
+		var i:int, l:int
+		
+		tmpX = currX - prevX
+		tmpY = currY - prevY
+		distA = Math.sqrt(tmpX * tmpX + tmpY * tmpY)
+		l = Math.ceil(distA / m_density / m_fitRatio / m_scale)
+		while (++i <= l) {
+			this.drawPoint(prevX + tmpX * i / l, prevY + tmpY * i / l)
+			cachedAngle += 0.444
+		}	
+		//m_rotateSeed = 0
+	}
+	
 	internal var m_dataList:Vector.<BitmapData>
 	internal var m_length:int
 	internal var m_appendScaleLow:Number, m_appendScaleHigh:Number
 	internal var m_rotatable:Boolean
+	//internal var m_rotateSeed:Number = 0
 }
 }
