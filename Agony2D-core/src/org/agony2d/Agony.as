@@ -53,7 +53,7 @@ public class Agony {
 		stage.scaleMode         =  'noScale'
 		stage.align             =  'leftTop'
 		m_process               =  new ProcessManager
-		trace('================================== [ Agony2D ] ==================================')
+		trace('================================== [ Agony2d - core ] ==================================')
 		Logger.reportMessage("Agony", "★[ startup ]..." +
 							"cursor [ " + Mouse.supportsCursor + " ]..." + 
 							"maxTouch [ " + Multitouch.maxTouchPoints + " ]..." +

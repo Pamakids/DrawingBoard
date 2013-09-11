@@ -25,7 +25,7 @@ package{
 	import org.agony2d.view.StatsMobileUI;
 	import states.*;
 	
-	[SWF(width = '900' ,height = '600', frameRate = '60')]
+	[SWF(width = '900' ,height = '600', frameRate = '60', backgroundColor="0xdddddd")]
 public class MobileUITest extends Sprite {
 	
 	public function MobileUITest() {
@@ -48,16 +48,16 @@ public class MobileUITest extends Sprite {
 	private function init(e:Event) : void {
 		// Engine !!
 		Agony.startup(this.stage, 'low')
-		
-		// keyboard...
-		KeyboardManager.getInstance().initialize()
-		//TouchManager.getInstance().multiTouchEnabled = true
-		
+
 		// UI...
-		AgonyUI.startup(false, 900, 600, true)//, 0.8)
+		AgonyUI.startup(false, 900, 600, true, true)//, 0.8)
 		AgonyUI.setDragOutFollowed(true)
 		AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 		
+		// keyboard...
+		KeyboardManager.getInstance().initialize()
+			//TouchManager.getInstance().multiTouchEnabled = true
+			
 		// Assets...
 		var assetsList:Array
 		var i:int, l:int

@@ -12,6 +12,7 @@ package models
 	import assets.ImgAssets;
 	
 	import drawing.CommonPaper;
+	import drawing.DrawingPlayer;
 	import drawing.IBrush;
 	
 	import org.agony2d.Agony;
@@ -22,6 +23,10 @@ package models
 	{
 		public function get paper() : CommonPaper{
 			return mPaper
+		}
+		
+		public function get player() : DrawingPlayer {
+			return mPlayer
 		}
 		
 		public function get bytes() : ByteArray{
@@ -44,11 +49,16 @@ package models
 			mBytes = v
 		}
 		
+		public function setPlayer( v:DrawingPlayer ) : void{
+			mPlayer = v
+		}
 		
 		
 		
 		private var mBytes:ByteArray
 		private var mPaper:CommonPaper
+		private var mPlayer:DrawingPlayer
+		
 		
 		///////////////////////////////////////////////////////
 		
@@ -92,10 +102,10 @@ package models
 //			bp.y = -bp.height / 2
 			
 			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.brush1)).bitmapData, 0, 10)
-			brush = mPaper.createTransformationBrush([(new (BrushAssets.brush2)).bitmapData], 1, 10,0,0,true)
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 12)
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 3, 12)
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 4, 12)
+			brush = mPaper.createTransformationBrush([(new (BrushAssets.brush2)).bitmapData], 1, 15,0,0,true)
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 15)
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 3, 15)
+			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 4, 15)
 			brush = mPaper.createEraseBrush(eraser, 5, 5)
 			
 			mPaper.brushIndex = 0

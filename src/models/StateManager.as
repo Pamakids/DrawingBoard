@@ -10,7 +10,7 @@ package models
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
 	import states.PlayerSceneUIState;
-	import states.PlayerTopUIState;
+	import states.PlayerTopAndBottomUIState;
 
 	public class StateManager
 	{
@@ -37,7 +37,7 @@ package models
 				
 			}
 			else{
-				Agony.stage.frameRate = 60
+				Agony.stage.frameRate = 45
 				AgonyUI.getModule("GameScene").exit()
 				AgonyUI.getModule("GameBottom").exit()
 				AgonyUI.getModule("GameTop").exit()
@@ -52,18 +52,18 @@ package models
 			if(!mPlayerExists){
 				mPlayerExists = true
 				AgonyUI.addModule("PlayerScene", PlayerSceneUIState)
-				AgonyUI.addModule("PlayerTopUIState", PlayerTopUIState)
+				AgonyUI.addModule("PlayerTopAndBottom", PlayerTopAndBottomUIState)
 			}
 			if(enabled){
 				Agony.stage.frameRate = 30
 				AgonyUI.getModule("PlayerScene").init(-1, null, false,false)
-				AgonyUI.getModule("PlayerTopUIState").init(-1, null, false,false)
+				AgonyUI.getModule("PlayerTopAndBottom").init(-1, null, false,false)
 					
 			}
 			else{
-				Agony.stage.frameRate = 60
+				//Agony.stage.frameRate = 60
 				AgonyUI.getModule("PlayerScene").exit()
-				AgonyUI.getModule("PlayerTopUIState").exit()
+				AgonyUI.getModule("PlayerTopAndBottom").exit()
 			}
 		}
 			

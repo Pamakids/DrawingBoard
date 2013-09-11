@@ -51,11 +51,12 @@ public class TransformationBrush extends BrushBase {
 		l = Math.ceil(distA / m_density / m_fitRatio / m_scale)
 		while (++i <= l) {
 			this.drawPoint(prevX + tmpX * i / l, prevY + tmpY * i / l)
-			cachedAngle += 0.444
+			cachedAngle += ADDED_ANGLE
 		}	
 		//m_rotateSeed = 0
 	}
 	
+	internal var ADDED_ANGLE:Number = 44 * Math.PI / 180
 	internal var m_dataList:Vector.<BitmapData>
 	internal var m_length:int
 	internal var m_appendScaleLow:Number, m_appendScaleHigh:Number

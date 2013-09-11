@@ -1,9 +1,15 @@
 package states
 {
+	import com.greensock.TweenLite;
+	
+	import flash.display.BitmapData;
+	import flash.utils.ByteArray;
+	
 	import assets.ImgAssets;
 	
 	import drawing.DrawingPlayer;
 	
+	import models.Config;
 	import models.DrawingManager;
 	import models.StateManager;
 	
@@ -13,6 +19,9 @@ package states
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.Fusion;
+	import org.agony2d.view.GestureFusion;
+	import org.agony2d.view.PivotFusion;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.puppet.ImagePuppet;
 	
@@ -28,11 +37,12 @@ public class PlayerSceneUIState extends UIState
 	
 	override public function exit():void{
 		mPlayer.dispose()
-		Agony.process.removeEventListener(PlayerTopUIState.PLAYER_PLAY, onPlay)
-		Agony.process.removeEventListener(PlayerTopUIState.PLAYER_PAUSE, onPause)
-		Agony.process.removeEventListener(PlayerTopUIState.PLAYER_STOP, onStop)
-		Agony.process.removeEventListener(PlayerTopUIState.PLAYER_SPEED_CHANGE, onSpeedChange)
-		Agony.process.removeEventListener(PlayerTopUIState.PLAYER_BACK, onBack)
+		DrawingManager.getInstance().setPlayer(null)
+		Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
+		Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
+		if(mPaster){
+			TweenLite.killTweensOf(mPaster)
+		}
 	}
 	
 	
@@ -44,12 +54,54 @@ public class PlayerSceneUIState extends UIState
 	/////////////////////////////////////////////////////
 	
 	private var mPlayer:DrawingPlayer
-	
-	
+	private var mPasterData:ByteArray
+	private var mPasterLength:int
+	private var mPasterLayer:Fusion
+	private var mPaster:PivotFusion
+	private var mPasterTweenedIndex:int = -1
 	
 	
 	private function doAddPlayer() : void{
-		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, DrawingManager.getInstance().bytes)
+		var bytes:ByteArray
+		var BA:ByteArray
+		var offsetA:int, offsetB:int
+		var img:ImagePuppet
+		var data:BitmapData
+		
+		BA = new ByteArray()
+		bytes = DrawingManager.getInstance().bytes
+		bytes.position = 0
+			
+		// pic
+		offsetA = bytes.readUnsignedInt() + 4
+		bytes.position = offsetA
+			
+//		{
+//			
+//			BA.writeBytes(bytes, 4, offsetA - 4)
+//			BA.position = 0
+//			img = new ImagePuppet
+//			data = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)
+//			data.setPixels(data.rect, BA)
+//			img.bitmapData = data
+//			this.fusion.addElement(img, 200, 200)
+//			BA.length = 0
+//		}
+			
+			
+			
+		// paster
+		offsetB = bytes.readUnsignedInt()
+		mPasterLength = bytes.readShort()
+		mPasterData = new ByteArray
+		offsetA += 6
+		mPasterData.writeBytes(bytes, offsetA, offsetB)
+		offsetA += offsetB
+		
+		// draw
+		BA.writeBytes(bytes, offsetA)
+		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, doStartAddPaster)
+		DrawingManager.getInstance().setPlayer(mPlayer)
 		Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)
 		
 	}
@@ -65,29 +117,8 @@ public class PlayerSceneUIState extends UIState
 	}
 	
 	private function doAddListeners():void{
-		Agony.process.addEventListener(PlayerTopUIState.PLAYER_PLAY, onPlay)
-		Agony.process.addEventListener(PlayerTopUIState.PLAYER_PAUSE, onPause)
-		Agony.process.addEventListener(PlayerTopUIState.PLAYER_STOP, onStop)
-		Agony.process.addEventListener(PlayerTopUIState.PLAYER_SPEED_CHANGE, onSpeedChange)
-		Agony.process.addEventListener(PlayerTopUIState.PLAYER_BACK, onBack)
-	}
-	
-	private function onPlay(e:AEvent):void{
-		mPlayer.play()
-	}
-	
-	private function onPause(e:AEvent):void{
-		mPlayer.paused = !mPlayer.paused
-	}
-	
-	private function onStop(e:AEvent):void{
-		mPlayer.stop()
-	}
-	
-	private function onSpeedChange(e:DataEvent):void{
-		var value:Number = e.data as Number
-			
-		mPlayer.timeScale += value
+		Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
+		Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
 	}
 	
 	private function onBack(e:AEvent):void{
@@ -95,5 +126,62 @@ public class PlayerSceneUIState extends UIState
 		StateManager.setGameScene(true)
 	}
 	
+	private function doStartAddPaster():void{
+//		trace("$##@$@#$#(*()*(&(")
+		var i:int
+		var ges:PivotFusion
+		var img:ImagePuppet
+		
+		if(mPasterLength > 0){
+			mPasterData.position = 0
+			
+			// paster layer
+			{
+				mPasterLayer = new Fusion
+				this.fusion.addElement(mPasterLayer)	
+			}
+			
+			this.doTweenAddPaster()
+		}
+	}
+	
+	private function doTweenAddPaster():void{
+		var img:ImagePuppet
+		
+		if(++mPasterTweenedIndex < mPasterLength){
+			mPaster = new GestureFusion(0)
+			{
+				img = new ImagePuppet(5)
+				img.embed(mPasterData.readUTF())
+				mPaster.addElement(img)
+			}
+			
+			mPaster.pivotX = mPasterData.readShort() * .1
+			mPaster.pivotY = mPasterData.readShort() * .1
+			mPaster.x = mPasterData.readShort() * .1
+			mPaster.y = mPasterData.readShort() * .1
+			mPaster.rotation = mPasterData.readShort() * .01
+			mPaster.scaleX = mPaster.scaleY = mPasterData.readShort() * .001
+			mPasterLayer.addElement(mPaster)
+			//ges = mPasterList[mPasterTweenedIndex]
+			TweenLite.from(mPaster, 0.5,{alpha:0.05,onComplete:doTweenAddPaster})
+		}
+		else{
+			mPaster = null
+			mPasterTweenedIndex = -1
+			Logger.reportMessage(this, "All paster completed...!!")
+		}
+	}
+	
+	private function onPlay(e:AEvent):void{
+		if(mPaster){
+			TweenLite.killTweensOf(mPaster)
+		}
+		if(mPasterLayer){
+			mPasterLayer.kill()
+			mPasterLayer = null
+		}
+		mPlayer.play()
+	}
 }
 }

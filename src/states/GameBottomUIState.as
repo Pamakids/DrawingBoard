@@ -131,7 +131,7 @@ package states
 				{
 					mStateFusion.setState(GameBottomPasterUIState)
 					Agony.process.dispatchDirectEvent(STATE_TO_PASTER)
-					Agony.stage.frameRate = 60
+					Agony.stage.frameRate = 45
 				}
 				default:
 				{

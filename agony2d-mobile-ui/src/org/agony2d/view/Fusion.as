@@ -255,6 +255,9 @@ public class Fusion extends SmoothProxy {
 					Logger.reportError(this, "layoutElement", "horiz layout error : [ " + horizLayout + " ]...!!")
 			}
 		}
+		else if(paddingLeft != 0){
+			AX = aa.x + paddingLeft
+		}
 		if (!isNaN(gapY)) {
 			switch(vertiLayout) {
 				case LayoutType.FA__F:
@@ -325,6 +328,9 @@ public class Fusion extends SmoothProxy {
 				default:
 					Logger.reportError(this, "layoutElement", "verti layout error : [ " + vertiLayout + " ]...!!")
 			}
+		}
+		else if(paddingTop != 0){
+			AY = aa.y + paddingTop
 		}
 		shellA = aa.shell
 		if (!isNaN(AX)) {

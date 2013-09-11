@@ -12,7 +12,7 @@ final public class ImageCheckBox extends AbstractImageButton {
 	
 	public function ImageCheckBox( imageData:*, selected:Boolean = false, alignCode:int = 7, checkBoxState:int = 2 ) {
 		super(imageData, alignCode)
-		this.selected = selected
+		this.setSelected(selected, true)
 		if (checkBoxState == 1)
 		{
 			this.addEventListener(AEvent.PRESS, ____onChange)
@@ -27,11 +27,15 @@ final public class ImageCheckBox extends AbstractImageButton {
 		return m_selected
 	}
 	
-	public function set selected( b:Boolean ) : void {
+	public function setSelected( b:Boolean, fireEvent:Boolean = false ) : void {
 		if (m_selected != b) {
 			m_selected = b
 			this.____onInteractiveChange(null)
-			this.view.m_notifier.dispatchDirectEvent(AEvent.CHANGE)
+			if(fireEvent){
+				this.view.m_notifier.dispatchDirectEvent(AEvent.CHANGE)
+			}
+			
+			//trace("image check box change...")
 		}
 	}
 	
@@ -40,7 +44,7 @@ final public class ImageCheckBox extends AbstractImageButton {
 	}
 	
 	protected function ____onChange( e:AEvent ) : void {
-		this.selected = !this.selected
+		this.setSelected(!m_selected, true)
 	}
 	
 	override protected function ____onRelease( e:AEvent ) : void {

@@ -13,10 +13,15 @@ package states
 			
 			this.fusion.spaceHeight = 100
 			
+			// play btn
 			{
 				img = new ImagePuppet(5)
 				img.embed(ImgAssets.btn_player_play)
 				this.fusion.addElement(img)
+			}
+			
+			{
+				
 			}
 		}
 	}

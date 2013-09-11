@@ -1,6 +1,7 @@
 package org.agony2d.view.core {
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.geom.Matrix;
@@ -9,7 +10,6 @@ package org.agony2d.view.core {
 	import flash.system.Capabilities;
 	import flash.ui.Multitouch;
 	import flash.utils.Dictionary;
-	import org.agony2d.timer.DelayManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.core.agony_internal;
@@ -18,6 +18,7 @@ package org.agony2d.view.core {
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.timer.DelayManager;
 	import org.agony2d.utils.getClassName;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.core.AgonySprite;
@@ -31,21 +32,29 @@ package org.agony2d.view.core {
 	
 	/**
 	 * 	[★]
-	 *  	■[ AA ] -> ◆priority: 400...(Accelerated App)
-	 *  	■[ UI ] -> ◆priority: 8000...
-	 *  	■[ scroll ] -> ◆priority: 22000...
-	 *  	■[ drag ] -> ◆priority: 90000...
-	 *  	■[ gesture ] -> ◆priority: 180000...
+	 *  	a.  [ priority ranking ]
+	 *  			■[ AA ] -> ◆priority: 400...(Accelerated App)
+	 *  			■[ UI ] -> ◆priority: 8000...
+	 *  			■[ scroll ] -> ◆priority: 22000...
+	 *  			■[ drag ] -> ◆priority: 90000...
+	 *  			■[ gesture ] -> ◆priority: 180000...
+	 *  	b.  [ 设备适配方式 ]
+	 *  			◆全屏
+	 * 				◆居中，四周黑边
 	 */
 final public class UIManager {
 
-	public function UIManager( debugWidth:int, debugHeight:int, landscape:Boolean, debugPixelRatio:Number ) {
-		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number
+	public function UIManager( debugWidth:int, debugHeight:int, landscape:Boolean, hasMaskForAspectRatio:Boolean, debugPixelRatio:Number ) {
+		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number, moduleOffsetX:Number, moduleOffsetY:Number
+		var mask:Shape
 		
+		m_rootFusion  =  new RootFusion
+		m_monitor     =  m_rootFusion.m_view
 		if (Multitouch.maxTouchPoints == 0) {
-			pixelRatio  =  isNaN(debugPixelRatio) ? 1.0 : debugPixelRatio 
-			width       =  debugWidth
-			height      =  debugHeight
+			pixelRatio             =  isNaN(debugPixelRatio) ? 1.0 : debugPixelRatio 
+			width                  =  debugWidth
+			height                 =  debugHeight
+			hasMaskForAspectRatio  =  false
 		}
 		else {
 			if (landscape) {
@@ -59,13 +68,33 @@ final public class UIManager {
 			ratioHoriz  =  width  / debugWidth
 			ratioVerti  =  height / debugHeight
 			pixelRatio  =  Number(Math.min(ratioVerti, ratioHoriz).toFixed(3)) 
-			width      /=  pixelRatio
-			height     /=  pixelRatio
+			if (hasMaskForAspectRatio) {
+				if(ratioHoriz == ratioVerti){
+					hasMaskForAspectRatio = false
+				}
+				else{
+					mask = new Shape
+					mask.graphics.beginFill(0x0, 0)
+					if (ratioHoriz > ratioVerti) {
+						m_rootFusion.paddingLeft = m_rootFusion.paddingRight = moduleOffsetX = (width - height * (debugWidth / debugHeight)) * .5 / pixelRatio
+						width -= moduleOffsetX * 2 * pixelRatio
+						mask.graphics.drawRect(moduleOffsetX * pixelRatio, 0, width, height)
+						
+					}
+					else {
+						m_rootFusion.paddingTop = m_rootFusion.paddingBottom = moduleOffsetY = (height - width * (debugHeight / debugWidth)) * .5 / pixelRatio
+						height -= moduleOffsetY * 2 * pixelRatio
+						mask.graphics.drawRect(0, moduleOffsetY * pixelRatio, width, height)
+					}
+					m_stage.addChild(mask)
+					m_monitor.mask = mask
+				}
+			}
+			width   /=  pixelRatio
+			height  /=  pixelRatio
 		}
-		m_rootFusion              =  new RootFusion
 		m_rootFusion.spaceWidth   =  width
 		m_rootFusion.spaceHeight  =  height
-		m_monitor                 =  m_rootFusion.m_view
 		AgonySprite.cachedPoint = ComponentProxy.cachedPoint = cachedPoint = new Point
 		m_monitor.mouseEnabled = m_monitor.mouseChildren = m_monitor.tabEnabled = m_monitor.tabChildren = false
 		m_stage.addChild(m_monitor)
@@ -73,12 +102,13 @@ final public class UIManager {
 		if(pixelRatio != 1) {
 			ImagePuppet.m_matrix = new Matrix(pixelRatio, 0, 0, pixelRatio, 0, 0)
 		}
-		trace("\n================================== [ Agony2D - mobileUI ] ==================================")
+		trace("\n================================== [ Agony2d - mobileUI ] ==================================")
 		Logger.reportMessage("AgonyUI", "★[ startup ]..." +
 							"gpu [ " + Agony.stage.wmodeGPU + " ]..." + 
 							"方向 [ " + (landscape ? "landscape" : "portrait") + " ]..." + 
 							"像素比率 [ " + pixelRatio + " ]..." + 
-							"设备相对尺寸 [ " + width + " | " + height + " ]...", 2)
+							"设备相对尺寸 [ " + width + " | " + height + " ]..." +
+							"黑边遮罩 [ " + hasMaskForAspectRatio + " ]...", 2)
 		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, PRIORITY)
 	}
 	
@@ -412,16 +442,15 @@ final public class UIManager {
 	}
 }
 }
+import org.agony2d.core.INextUpdater;
+import org.agony2d.core.NextUpdaterManager;
+import org.agony2d.core.agony_internal;
 import org.agony2d.debug.Logger;
 import org.agony2d.input.Touch;
 import org.agony2d.notify.AEvent;
 import org.agony2d.notify.Notifier;
 import org.agony2d.utils.getClassName;
 import org.agony2d.view.Fusion;
-import org.agony2d.view.StateFusion;
-import org.agony2d.core.INextUpdater;
-import org.agony2d.core.NextUpdaterManager;
-import org.agony2d.core.agony_internal;
 import org.agony2d.view.StateFusion;
 import org.agony2d.view.core.IModule;
 import org.agony2d.view.core.UIManager;

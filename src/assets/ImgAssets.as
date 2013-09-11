@@ -73,11 +73,12 @@ package assets
 		[Embed(source="data/images/paster_bg.png")] public static const img_paster_bg:Class
 		[Embed(source="data/images/paster_item_bg.png")] public static const img_paster_item_bg:Class
 		
-		// player top
 		
-		
-		// player bottom
+		// player top & bottom
 		[Embed(source="data/buttons/btn_player_play.png")] public static const btn_player_play:Class
+		[Embed(source="data/buttons/player_checkbox_play.png")] public static const player_checkbox_play:Class
 		
+		[Embed(source="data/images/player_progress_bg.png")] public static const player_progress_bg:Class
+		[Embed(source="data/images/player_progress_bar.png")] public static const player_progress_bar:Class
 	}
 }
