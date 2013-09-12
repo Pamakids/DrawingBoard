@@ -68,9 +68,9 @@ package models
 			return mInstance ||= new DrawingManager
 		}
 		
-		
-		
-		
+		public function getDrawingBg( index:int ) : Class {
+			return ImgAssets.drawingBgList[index]
+		}
 		
 		
 		private function doInitPaper():void

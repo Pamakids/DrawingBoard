@@ -101,12 +101,21 @@ package states
 			// speed
 			{
 				
-				// slow
+				// very slow
 				{
 					img = new ImagePuppet
 					img.embed(ImgAssets.btn_global)
 					this.fusion.addElement(img, 50, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
-					img.userData = 0.4
+					img.userData = 0.2
+					img.addEventListener(AEvent.CLICK, onPlaySpeedChange)
+				}
+				
+				// slow
+				{
+					img = new ImagePuppet
+					img.embed(ImgAssets.btn_global)
+					this.fusion.addElement(img, 22, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+					img.userData = 0.5
 					img.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 				}
 				
@@ -128,6 +137,14 @@ package states
 					img.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 				}
 				
+				// very fast
+				{
+					img = new ImagePuppet
+					img.embed(ImgAssets.btn_global)
+					img.userData = 3
+					this.fusion.addElement(img, 22, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+					img.addEventListener(AEvent.CLICK, onPlaySpeedChange)
+				}
 			}
 		}
 

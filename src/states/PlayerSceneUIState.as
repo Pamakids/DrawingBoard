@@ -67,13 +67,15 @@ public class PlayerSceneUIState extends UIState
 		var offsetA:int, offsetB:int
 		var img:ImagePuppet
 		var data:BitmapData
+		var drawingBgIndex:int
 		
 		BA = new ByteArray()
 		bytes = DrawingManager.getInstance().bytes
 		bytes.position = 0
+		drawingBgIndex = bytes.readByte()	
 			
 		// pic
-		offsetA = bytes.readUnsignedInt() + 4
+		offsetA = bytes.readUnsignedInt() + 5
 		bytes.position = offsetA
 			
 //		{
@@ -104,16 +106,25 @@ public class PlayerSceneUIState extends UIState
 		DrawingManager.getInstance().setPlayer(mPlayer)
 		Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)
 		
+		// drawing bg...
+		{
+			img = new ImagePuppet
+			img.embed(DrawingManager.getInstance().getDrawingBg(drawingBgIndex), false)
+			img.interactive = false
+			this.fusion.addElement(img)	
+		}
 	}
 	
 	private function doAddView():void{
 		var img:ImagePuppet
 		
-		img = new ImagePuppet
-		img.bitmapData = mPlayer.content
-		img.interactive = false
-		img.scaleX = img.scaleY = 1 / mPlayer.contentRatio
-		this.fusion.addElement(img)	
+		{
+			img = new ImagePuppet
+			img.bitmapData = mPlayer.content
+			img.interactive = false
+			img.scaleX = img.scaleY = 1 / mPlayer.contentRatio
+			this.fusion.addElement(img)	
+		}
 	}
 	
 	private function doAddListeners():void{

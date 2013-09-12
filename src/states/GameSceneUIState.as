@@ -125,7 +125,7 @@ package states
 		private var mPasterList:Array
 		private var mNumPaster:int
 		private var mContent:PivotFusion
-		
+		private var mDrawingBgIndex:int
 		
 		
 		
@@ -149,7 +149,8 @@ package states
 				// bg...
 				{
 					img = new ImagePuppet
-					img.embed(ImgAssets.img_drawing_bg, true)
+					mDrawingBgIndex = this.stateArgs[0]
+					img.embed(DrawingManager.getInstance().getDrawingBg(mDrawingBgIndex), false)
 					img.interactive = false
 					mBoard.content.addElement(img)	
 				}
@@ -447,6 +448,7 @@ package states
 			matrix = new Matrix(scale,0,0,scale,0,0)
 			BA.draw(mContent.displayObject, matrix, null, null, null, true)
 			cachedBytesA = BA.getPixels(BA.rect)
+			bytes.writeByte(mDrawingBgIndex)
 			bytes.writeUnsignedInt(cachedBytesA.length)
 			bytes.writeBytes(cachedBytesA)
 			cachedBytesA.length = 0

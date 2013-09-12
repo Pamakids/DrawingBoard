@@ -42,9 +42,9 @@ package org.agony2d.view.core {
 	 *  			◆全屏
 	 * 				◆居中，四周黑边
 	 */
-final public class UIManager {
+public class UIManager {
 
-	public function UIManager( debugWidth:int, debugHeight:int, landscape:Boolean, hasMaskForAspectRatio:Boolean, debugPixelRatio:Number ) {
+	public static function initialize( debugWidth:int, debugHeight:int, landscape:Boolean, hasMaskForAspectRatio:Boolean, debugPixelRatio:Number ) : void {
 		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number, moduleOffsetX:Number, moduleOffsetY:Number
 		var mask:Shape
 		
@@ -113,7 +113,7 @@ final public class UIManager {
 	}
 	
 	/** moduleTypeName or moduleType... */
-	agony_internal function addModule( module:*, stateType:Class ) : IModule {
+	agony_internal static function addModule( module:*, stateType:Class ) : IModule {
 		var moduleName:String
 		
 		moduleName = module is String ? module : getClassName(module)
@@ -124,11 +124,11 @@ final public class UIManager {
 	}
 	
 	/** moduleTypeName or moduleType... */
-	agony_internal function getModule( module:* ) : IModule {
+	agony_internal static function getModule( module:* ) : IModule {
 		return m_moduleList[module is String ? module : getClassName(module)]
 	}
 	
-	agony_internal function exitAllModules( exceptModuleNames:Array = null ) : void {
+	agony_internal static function exitAllModules( exceptModuleNames:Array = null ) : void {
 		var key:*
 		var module:Module
 		
@@ -295,17 +295,17 @@ final public class UIManager {
 	////////////////////////////////////////////////////////////////////////////////////
 	
 	
-	private function ____onNewTouch( event:ATouchEvent ) : void {
+	private static function ____onNewTouch( event:ATouchEvent ) : void {
 		var touch:Touch
 		
 		touch = event.touch
-		this.____updateTouchState(event)
-		touch.addEventListener(AEvent.MOVE,    ____updateTouchState, false, PRIORITY)
-		touch.addEventListener(AEvent.RELEASE, ____updateTouchState, false, PRIORITY)
+		____onUpdateTouchState(event)
+		touch.addEventListener(AEvent.MOVE,    ____onUpdateTouchState, false, PRIORITY)
+		touch.addEventListener(AEvent.RELEASE, ____onUpdateTouchState, false, PRIORITY)
 	}
 	
 	/** 每一个触碰绑定一个傀儡或未绑定任何傀儡 */
-	private function ____updateTouchState( event:AEvent ) : void {
+	private static function ____onUpdateTouchState( event:AEvent ) : void {
 		// [ 实际傀儡 ]...[ 绑定傀儡 ]...[ 滑上傀儡 ]...
 		var PA:PuppetComp, PB:PuppetComp, PC:PuppetComp
 		var l:int, touchID:int

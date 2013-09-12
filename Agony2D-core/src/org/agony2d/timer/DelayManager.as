@@ -1,9 +1,9 @@
 package org.agony2d.timer {
+	import org.agony2d.core.agony_internal;
 	import org.agony2d.core.IProcess
 	import org.agony2d.core.ProcessManager
 	import org.agony2d.debug.Logger
 	
-	import org.agony2d.core.agony_internal;
 	use namespace agony_internal;
 	
 	/** [ DelayManager ]

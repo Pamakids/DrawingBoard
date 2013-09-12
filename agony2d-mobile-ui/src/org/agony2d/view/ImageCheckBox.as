@@ -12,7 +12,7 @@ final public class ImageCheckBox extends AbstractImageButton {
 	
 	public function ImageCheckBox( imageData:*, selected:Boolean = false, alignCode:int = 7, checkBoxState:int = 2 ) {
 		super(imageData, alignCode)
-		this.setSelected(selected, true)
+		this.setSelected(selected)
 		if (checkBoxState == 1)
 		{
 			this.addEventListener(AEvent.PRESS, ____onChange)

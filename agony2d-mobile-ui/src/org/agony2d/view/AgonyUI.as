@@ -94,12 +94,12 @@ public class AgonyUI {
 		if (!ProcessManager.m_stage) {
 			Logger.reportError("AgonyUI", "startup", "AgonyCore has not started up...!!");
 		}
-		else if (m_uiManager) {
+		else if (fusion) {
 			Logger.reportError("AgonyUI", "startup", "AgonyUI has been started up...!!")
 		}
 		UIManager.m_invalidWhenLeave = invalidWhenLeave
 		UIManager.m_stage = ComponentProxy.m_stage = ProcessManager.m_stage
-		m_uiManager = new UIManager(debugWidth, debugHeight, landscape, hasMaskForAspectRatio, debugPixelRatio)
+		UIManager.initialize(debugWidth, debugHeight, landscape, hasMaskForAspectRatio, debugPixelRatio)
 	}
 	
 	/** 拖拽超过边界，是否进行方向跟随...optional[ false ] */
@@ -129,15 +129,15 @@ public class AgonyUI {
 	}
 	
 	public static function addModule( module:*, stateType:Class ) : IModule {
-		return m_uiManager.addModule(module, stateType)
+		return UIManager.addModule(module, stateType)
 	}
 	
 	public static function getModule( module:* ) : IModule {
-		return m_uiManager.getModule(module)
+		return UIManager.getModule(module)
 	}
 	
 	public static function exitAllModules( exceptModuleNames:Array = null ) : void {
-		m_uiManager.exitAllModules(exceptModuleNames)
+		UIManager.exitAllModules(exceptModuleNames)
 	}
 	
 	public static function contains ( element:IComponent, fusion:IComponent ) : Boolean {
@@ -168,7 +168,5 @@ public class AgonyUI {
 	public static function setDoubliePressInterval( v:Number ) : void {
 		UIManager.m_doubliePressInterval = v
 	}
-		
-	agony_internal static var m_uiManager:UIManager
 }
 }

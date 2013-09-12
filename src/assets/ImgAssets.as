@@ -21,6 +21,12 @@ package assets
 		
 		// game scene
 		[Embed(source="data/images/drawing_bg.jpg")] public static const img_drawing_bg:Class
+		public static var drawingBgList:Array = 
+		[
+			img_drawing_bg
+		]
+		
+		
 		
 		// game bottom 
 		[Embed(source="data/buttons/btn_game_bottom_up.png")] public static const btn_game_bottom_up:Class

@@ -206,9 +206,12 @@ public class ButtonState extends UIState {
 		boo = new BooleanProperty()
 		boo.addEventListener(AEvent.CHANGE,function(e:AEvent):void
 		{
-			icb.selected = icb2.selected = icb3.selected = cb.selected = boo.value
+			icb.setSelected( boo.value)
+			icb2.setSelected( boo.value)
+			icb3.setSelected( boo.value)
+			cb.setSelected( boo.value)
 			
-		}, false)
+		})
 	}
 	
 	override public function exit():void

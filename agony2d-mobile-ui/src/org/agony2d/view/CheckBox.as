@@ -11,7 +11,7 @@ public class CheckBox extends AbstractMovieClipButton {
 	
 	public function CheckBox( movieClipData:*, selected:Boolean = false, checkBoxState:int = 2 ) {
 		super(movieClipData)
-		this.selected = selected
+		this.setSelected(selected)
 		if (checkBoxState == 1) {
 			this.addEventListener(AEvent.PRESS, ____onChange)
 		}
@@ -24,16 +24,18 @@ public class CheckBox extends AbstractMovieClipButton {
 		return m_selected
 	}
 	
-	public function set selected( b:Boolean ) : void {
+	public function setSelected( b:Boolean, fireEvent:Boolean = false ) : void {
 		if (m_selected != b) {
 			m_selected = b
 			this.____onInteractiveChange(null)
-			this.view.m_notifier.dispatchDirectEvent(AEvent.CHANGE)
+			if(fireEvent){
+				this.view.m_notifier.dispatchDirectEvent(AEvent.CHANGE)
+			}
 		}
 	}
 	
 	protected function ____onChange( e:AEvent ) : void {
-		this.selected = !this.selected
+		this.setSelected(!m_selected, true)
 	}
 	
 	override protected function ____onRelease( e:AEvent ):void {
