@@ -93,8 +93,8 @@ public class UIManager {
 			width   /=  pixelRatio
 			height  /=  pixelRatio
 		}
-		m_rootFusion.spaceWidth   =  width
-		m_rootFusion.spaceHeight  =  height
+		m_rootFusion.m_spaceWidth   =  width
+		m_rootFusion.m_spaceHeight  =  height
 		AgonySprite.cachedPoint = ComponentProxy.cachedPoint = cachedPoint = new Point
 		m_monitor.mouseEnabled = m_monitor.mouseChildren = m_monitor.tabEnabled = m_monitor.tabChildren = false
 		m_stage.addChild(m_monitor)
@@ -436,7 +436,7 @@ public class UIManager {
 				type = AEvent.PRESS
 				break
 		}
-		// [ 直接触至顶级合体 ]...
+		// [ 直接触至顶级合体 ]...(作用: 比如...判断组件是否未被按到...!!)
 		m_rootFusion.view.m_notifier.dispatchDirectEvent(type)
 		m_currTouch = null
 	}
@@ -567,11 +567,6 @@ import flash.display.DisplayObject
 import flash.geom.Rectangle
 import org.agony2d.debug.Logger;
 
-/** [ RootFusion ]
- *  [★]
- *  	a.  即使未触及任何puppet，RootFusion仍会触发事件.
- *  	b.  RootFusion的spaceWidth，spaceHeight属性即是当前屏幕宽高.
- */
 final class RootFusion extends Fusion {
 	
 	override public function set x ( v:Number ) : void { 
@@ -597,6 +592,14 @@ final class RootFusion extends Fusion {
 	override public function get displayObject() : DisplayObject { 
 		Logger.reportError(this, "displayObject", "不可使用...!!") 
 		return null
+	}
+	
+	override public function set spaceWidth( v:Number ) : void {
+		Logger.reportError(this, "setGlobalCoord", "不可使用...!!")
+	}
+	
+	override public function set spaceHeight( v:Number ) : void { 
+		Logger.reportError(this, "setGlobalCoord", "不可使用...!!")
 	}
 	
 	override public function setGlobalCoord( gx:Number, gy:Number ) : void {

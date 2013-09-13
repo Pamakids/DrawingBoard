@@ -176,7 +176,7 @@ public class ComponentProxy implements IComponent, INextUpdater {
 		return (m_spaceWidth <= 0 || isNaN(m_spaceWidth)) ? view.width / m_pixelRatio : m_spaceWidth
 	}
 	
-	final public function set spaceWidth( v:Number ) : void {
+	public function set spaceWidth( v:Number ) : void {
 		m_spaceWidth = v
 	}
 	
@@ -185,7 +185,7 @@ public class ComponentProxy implements IComponent, INextUpdater {
 		return (m_spaceHeight <= 0 || isNaN(m_spaceHeight)) ? view.height / m_pixelRatio : m_spaceHeight
 	}
 	
-	final public function set spaceHeight( v:Number ) : void { 
+	public function set spaceHeight( v:Number ) : void { 
 		m_spaceHeight = v 
 	}
 	

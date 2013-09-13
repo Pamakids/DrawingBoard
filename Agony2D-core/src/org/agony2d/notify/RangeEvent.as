@@ -8,7 +8,7 @@ public class RangeEvent extends AEvent {
 		this.totalValue = totalValue
 	}
 	
-	public static const PROGRESS : String = "progress"
+	public static const PROGRESS:String = "progress"
 	
 	public var currValue:Number, totalValue:Number
 }

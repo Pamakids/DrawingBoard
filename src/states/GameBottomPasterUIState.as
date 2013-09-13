@@ -169,14 +169,14 @@ package states
 			if (correctionX != 0)
 			{
 				mContent.interactive = false
-				TweenLite.to(mContent, 0.8, { x:mContent.x + correctionX, 
+				TweenLite.to(mContent, 0.5, { x:mContent.x + correctionX, 
 												//y:mContent.y + correctionY,
 												ease:Cubic.easeOut, onComplete:onTweenBack } )
 			}
 			else if (velocityX != 0)
 			{
 				mContent.interactive = false
-				TweenLite.to(mContent, 1, { x:mContent.x + velocityX * 15,
+				TweenLite.to(mContent, 0.65, { x:mContent.x + velocityX * 10,
 											ease:Cubic.easeOut,
 											onUpdate:function():void
 											{

@@ -20,10 +20,11 @@ package org.agony2d.view {
 	 *  [◆◆]
 	 *  	1.  addElement
 	 *		2.  addElementAt
-	 *  	3.  getElementLayer
-	 * 		4.  setElementLayer
-	 * 		5.  getElementAt
-	 * 		6.  removeAllElement
+	 * 		3.  setElementLayer
+	 * 		4.  getElementByLayer
+	 * 		5.  removeAllElement
+	 *  [★]
+	 *  	a.  Fusion应该继承自[ AbstractFusion ]，以区别与[ List ]之间的矛盾关系...!!
 												Top
 		   ------------------------------------------------------------------↓-------
 		   |                                                    paddingTop ← ↓	    |
@@ -91,10 +92,6 @@ public class Fusion extends SmoothProxy {
 		this.doRender(cc, layer)
 	}
 	
-	public function getElementLayer( c:IComponent ) : int {
-		return m_view.getChildIndex((c as ComponentProxy).shell)
-	}
-	
 	public function setElementLayer( c:IComponent, layer:int ) : void {
 		m_view.setChildIndex((c as ComponentProxy).shell, layer)
 	}
@@ -104,10 +101,6 @@ public class Fusion extends SmoothProxy {
 		
 		obj = m_view.getChildAt(layer) as AgonySprite
 		return (obj is PivotSprite) ? (obj.getChildAt(0) as Component).m_proxy as IComponent : (obj as Component).m_proxy as IComponent
-	}
-	
-	public function getElementAt( index:int ) : IComponent {
-		return m_elementList[index]
 	}
 	
 	public function removeAllElement() : void {
