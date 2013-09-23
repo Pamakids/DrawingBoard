@@ -169,21 +169,7 @@ public class PropertyDemo extends Sprite
 		KeyboardManager.getInstance().getState().release.addEventListener('D', __onRelease )
 		KeyboardManager.getInstance().getState().release.addEventListener('W', __onRelease )
 		KeyboardManager.getInstance().getState().release.addEventListener('S', __onRelease )
-		
-		var item:MapProperty
-		var list:ListProperty
-		
-		list = new ListProperty
-		list.addItem( {'random':Math.random() } )
-		list.addEventListener(AEvent.CHANGE, function(e:AEvent):void
-		{
-			list.itemArray.sortOn('random', Array.NUMERIC)
-			trace(list.itemArray)
-		})
-		KeyboardManager.getInstance().getState().press.addEventListener('PLUS', function(e:AEvent):void 
-		{ 
-			list.addItem({'random':Math.random() } )
-		})
+
 	}
 	
 	private function __onRelease(e:AEvent):void

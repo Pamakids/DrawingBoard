@@ -17,7 +17,7 @@ package org.agony2d.view.core {
 	
 	use namespace agony_internal;
 	
-	[Event(name = "xYChange", type = "org.agony2d.notify.AEvent")] 
+	//[Event(name = "xYChange", type = "org.agony2d.notify.AEvent")] 
 	
 	[Event(name = "press", type = "org.agony2d.notify.AEvent")] 
 	[Event(name = "release", type = "org.agony2d.notify.AEvent")] 
@@ -63,7 +63,7 @@ package org.agony2d.view.core {
 	 * 		8.  drag
 	 *  	9.  dragLockCenter
 	 */
-public class ComponentProxy implements IComponent, INextUpdater {
+public class ComponentProxy implements IComponent {//, INextUpdater {
 	
 	public function get x () : Number { 
 		return shell.x / m_pixelRatio
@@ -71,10 +71,10 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	
 	public function set x ( v:Number ) : void {
 		shell.x = v * m_pixelRatio
-		if (!m_xyDirty && m_parent) {
-			NextUpdaterManager.addNextUpdater(this)
-			m_xyDirty = true
-		}
+		//if (!m_xyDirty && m_parent) {
+			//NextUpdaterManager.addNextUpdater(this)
+			//m_xyDirty = true
+		//}
 	}
 	
 	public function get y () : Number {
@@ -83,10 +83,10 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	
 	public function set y ( v:Number ) : void { 
 		shell.y = v * m_pixelRatio
-		if (!m_xyDirty && m_parent) {
-			NextUpdaterManager.addNextUpdater(this)
-			m_xyDirty = true
-		}
+		//if (!m_xyDirty && m_parent) {
+			//NextUpdaterManager.addNextUpdater(this)
+			//m_xyDirty = true
+		//}
 	}
 
 	public function get width() : Number { 
@@ -218,10 +218,10 @@ public class ComponentProxy implements IComponent, INextUpdater {
 		local          =  c.parent.globalToLocal(cachedPoint)
 		c.x            =  local.x
 		c.y            =  local.y
-		if (!m_xyDirty) {
-			NextUpdaterManager.addNextUpdater(this)
-			m_xyDirty = true
-		}
+		//if (!m_xyDirty) {
+			//NextUpdaterManager.addNextUpdater(this)
+			//m_xyDirty = true
+		//}
 	}
 	
 	public function transformCoord( x:Number, y:Number, toLocal:Boolean = true ) : Point {
@@ -293,18 +293,18 @@ public class ComponentProxy implements IComponent, INextUpdater {
 		
 	}
 	
-	public function modify() : void {
-		this.view.m_notifier.dispatchDirectEvent(AEvent.X_Y_CHANGE)
-		m_xyDirty = false
-	}
+	//public function modify() : void {
+		//this.view.m_notifier.dispatchDirectEvent(AEvent.X_Y_CHANGE)
+		//m_xyDirty = false
+	//}
 	
 	agony_internal function dispose() : void {
 		if (m_dragging) {
 			this.____onDragComplete(null)
 		}
-		if (m_xyDirty) {
-			NextUpdaterManager.removeNextUpdater(this)
-		}
+		//if (m_xyDirty) {
+			//NextUpdaterManager.removeNextUpdater(this)
+		//}
 		view.dispose()
 	}
 	
@@ -316,7 +316,7 @@ public class ComponentProxy implements IComponent, INextUpdater {
 	agony_internal static const DRAG_PRIORITY:int = 90000 // 触碰优先级[ drag ]...
 	
 	agony_internal var m_parent:FusionComp
-	agony_internal var m_dragging:Boolean, m_dragged:Boolean, m_draggingInBounds:Boolean, cachedInteractive:Boolean, m_xyDirty:Boolean
+	agony_internal var m_dragging:Boolean, m_dragged:Boolean, m_draggingInBounds:Boolean, cachedInteractive:Boolean//, m_xyDirty:Boolean
 	agony_internal var m_spaceWidth:Number, m_spaceHeight:Number, m_boundsX:Number, m_boundsY:Number, m_boundsWidth:Number, m_boundsHeight:Number, m_draggingOffsetX:Number, m_draggingOffsetY:Number
 	agony_internal var m_touchForDrag:Touch
 	agony_internal var m_userData:Object

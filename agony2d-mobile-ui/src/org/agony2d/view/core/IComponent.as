@@ -6,8 +6,6 @@ package org.agony2d.view.core {
 	import org.agony2d.notify.INotifier;
 	import org.agony2d.view.Fusion;
 	
-	[Event(name = "xYChange", type = "org.agony2d.notify.AEvent")] 
-	
 	[Event(name = "press", type = "org.agony2d.notify.AEvent")] 
 	[Event(name = "release", type = "org.agony2d.notify.AEvent")] 
 	[Event(name = "over", type = "org.agony2d.notify.AEvent")] 

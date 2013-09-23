@@ -38,9 +38,6 @@ public class NineScaleUIState extends UIState
 		
 		nineScale = new NineScalePuppet('nineScaleA', 300, 200)
 		this.fusion.addElement(nineScale, 250, 100)
-		nineScale.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
-			trace(nineScale.x, nineScale.y)
-		})
 		TweenLite.from(nineScale, 2, {x : 600, y:50})
 		nineScale.addEventListener(AEvent.PRESS, __onStartDrag, 80)
 		//TweenLite.to(nineScale, 2, { width:300 , height:200 })

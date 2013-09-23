@@ -42,7 +42,8 @@ public class MobileUITest extends Sprite {
 		//AnimeState,
 		NineScaleUIState,
 		TextUIState,
-		GestureUIState
+		GestureUIState,
+		ListUIState
 	]
 	
 	private function init(e:Event) : void {

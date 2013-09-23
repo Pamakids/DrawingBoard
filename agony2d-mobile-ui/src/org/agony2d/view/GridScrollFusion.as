@@ -1,6 +1,8 @@
 package org.agony2d.view {
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import org.agony2d.core.INextUpdater;
+	import org.agony2d.core.NextUpdaterManager;
 	
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
@@ -301,7 +303,7 @@ public class GridScrollFusion extends PivotFusion {
 		m_shell.scrollRect = null
 		super.dispose()
 	}
-	
+
 	
 	agony_internal var m_content:GridFusion
 	agony_internal var m_horizThumb:Fusion, m_vertiThumb:Fusion
@@ -310,6 +312,7 @@ public class GridScrollFusion extends PivotFusion {
 	agony_internal var m_horizDisableOffset:int, m_vertiDisableOffset:int
 	agony_internal var m_locked:Boolean, m_allStopped:Boolean, m_singleTouchForMovement:Boolean = true
 	agony_internal var m_multiTouchEnabled:Boolean = true
+
 	
 	private var m_firstTouch:Touch
 	private var m_touchList:Array = []

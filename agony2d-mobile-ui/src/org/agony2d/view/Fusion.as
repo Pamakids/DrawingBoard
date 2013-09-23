@@ -114,66 +114,8 @@ public class Fusion extends SmoothProxy {
 		m_elementList.length = m_numElement = 0
 	}
 	
-	agony_internal function removeElement( c:IComponent ) : void {
-		var index:int
-		
-		index                 =  m_elementList.indexOf(c)
-		m_elementList[index]  =  m_elementList[--m_numElement]
-		m_elementList.pop()
-	}
-	
-	override agony_internal function dispose() : void {
-		this.removeAllElement()
-		super.dispose()
-	}
-	
-	final override agony_internal function get view() : Component { 
-		return m_view 
-	}
-	
-	override agony_internal function get shell() : AgonySprite { 
-		return m_view
-	}
-	
-	override agony_internal function makeTransform( smoothing:Boolean, external:Boolean ) : void {
-		var l:int
-		var elementList:Array
-		
-		if (external) {
-			m_externalTransform = smoothing
-		}
-		else {
-			m_internalTransform = smoothing
-		}
-		l = m_numElement
-		if (!m_externalTransform && !m_internalTransform) {
-			while (--l > -1) {
-				m_elementList[l].makeTransform(false, true)
-			}
-		}
-		else {
-			while (--l > -1) {
-				m_elementList[l].makeTransform(true, true);
-			}
-		}
-	}
-	
-	agony_internal function doValidate( cc:ComponentProxy ) : void {
-		if (cc == this) {
-			Logger.reportError(this, "addElementAt", "a comp cann't insert to self...!!")
-		}
-		if(cc.m_parent) {
-			Logger.reportError(this, "addElementAt", "a comp has added to fusion...!!")
-		}
-		cc.m_parent = m_view
-		m_elementList[m_numElement++] = cc
-		if (m_externalTransform || m_internalTransform) {
-			cc.makeTransform(true, true)
-		}
-	}
-	
 	/** [ A ] 本体，[ B ] 前体，[ F ] 父合体 */
-	agony_internal function layoutElement( aa:ComponentProxy, gapX:Number, gapY:Number, horizLayout:int, vertiLayout:int ) : void {
+	public function layoutElement( aa:ComponentProxy, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
 		var shellA:AgonySprite
 		var AX:Number, AY:Number
 		
@@ -333,6 +275,64 @@ public class Fusion extends SmoothProxy {
 			shellA.y = AY * m_pixelRatio
 		}
 		m_bb = aa
+	}
+	
+	agony_internal function removeElement( c:IComponent ) : void {
+		var index:int
+		
+		index                 =  m_elementList.indexOf(c)
+		m_elementList[index]  =  m_elementList[--m_numElement]
+		m_elementList.pop()
+	}
+	
+	override agony_internal function dispose() : void {
+		this.removeAllElement()
+		super.dispose()
+	}
+	
+	final override agony_internal function get view() : Component { 
+		return m_view 
+	}
+	
+	override agony_internal function get shell() : AgonySprite { 
+		return m_view
+	}
+	
+	override agony_internal function makeTransform( smoothing:Boolean, external:Boolean ) : void {
+		var l:int
+		var elementList:Array
+		
+		if (external) {
+			m_externalTransform = smoothing
+		}
+		else {
+			m_internalTransform = smoothing
+		}
+		l = m_numElement
+		if (!m_externalTransform && !m_internalTransform) {
+			while (--l > -1) {
+				m_elementList[l].makeTransform(false, true)
+			}
+		}
+		else {
+			while (--l > -1) {
+				m_elementList[l].makeTransform(true, true);
+			}
+		}
+	}
+	
+	agony_internal function doValidate( cc:ComponentProxy ) : void {
+		if (cc == this) {
+			Logger.reportError(this, "addElementAt", "a comp cann't insert to self...!!")
+		}
+		if(cc.m_parent) {
+			Logger.reportError(this, "addElementAt", "a comp has added to fusion...!!")
+		}
+		cc.m_parent = m_view
+		m_elementList[m_numElement++] = cc
+		if (m_externalTransform || m_internalTransform) {
+			cc.makeTransform(true, true)
+		}
 	}
 	
 	agony_internal function doRender( cc:ComponentProxy, index:int ) : void {

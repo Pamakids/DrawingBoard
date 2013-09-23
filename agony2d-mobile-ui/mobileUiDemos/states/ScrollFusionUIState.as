@@ -97,9 +97,6 @@ public class ScrollFusionUIState extends UIState
 		{
 			//Logger.reportMessage(mScrollFusion, AEvent.COMPLETE)
 		})
-		mScrollFusion.content.addEventListener(AEvent.X_Y_CHANGE, function(e:AEvent):void {
-			//Logger.reportMessage(mScrollFusion, AEvent.X_Y_CHANGE)
-		})
 /*		mScrollFusion.addEventListener(AEvent.COMPLETE, function(e:AEvent):void
 		{
 			correctionX = mScrollFusion.correctionX

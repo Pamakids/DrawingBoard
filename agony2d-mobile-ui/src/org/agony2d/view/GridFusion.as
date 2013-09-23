@@ -1,12 +1,17 @@
 package org.agony2d.view {
+	import org.agony2d.core.INextUpdater;
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.core.NextUpdaterManager;
 	import org.agony2d.debug.Logger;
+	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.core.ComponentProxy;
 	import org.agony2d.view.core.IComponent;
 	
 	use namespace agony_internal;
 	
-public class GridFusion extends PivotFusion {
+	[Event(name = "xYChange", type = "org.agony2d.notify.AEvent")] 
+	
+public class GridFusion extends PivotFusion implements INextUpdater {
 	
 	public function GridFusion( viewX:Number, viewY:Number, viewWidth:Number, viewHeight:Number, gridWidth:int, gridHeight:int ) {
 		if (viewWidth <= 0 && viewWidth <= 0) {
@@ -52,9 +57,41 @@ public class GridFusion extends PivotFusion {
 		grid.removeElement(c)
 	}
 	
+	override public function set x ( v:Number ) : void {
+		super.x = v
+		if (!m_xyDirty && m_parent) {
+			NextUpdaterManager.addNextUpdater(this)
+			m_xyDirty = true
+		}
+	}
+	
+	override public function set y ( v:Number ) : void { 
+		super.y = v
+		if (!m_xyDirty && m_parent) {
+			NextUpdaterManager.addNextUpdater(this)
+			m_xyDirty = true
+		}
+	}
+	
+	override public function setGlobalCoord( globalX:Number, globalY:Number ) : void {
+		super.setGlobalCoord(globalX, globalY)
+		if (!m_xyDirty) {
+			NextUpdaterManager.addNextUpdater(this)
+			m_xyDirty = true
+		}
+	}
+	
+	public function modify() : void {
+		this.view.m_notifier.dispatchDirectEvent(AEvent.X_Y_CHANGE)
+		m_xyDirty = false
+	}
+	
 	override agony_internal function dispose() : void {
 		var grid:Grid
 		
+		if (m_xyDirty) {
+			NextUpdaterManager.removeNextUpdater(this)
+		}
 		for each(grid in m_gridMap) {
 			grid.dispose()
 		}
@@ -377,5 +414,6 @@ public class GridFusion extends PivotFusion {
 	agony_internal var m_compMap:Object = {} // comp:grid
 	agony_internal var m_viewX:Number, m_viewY:Number, m_viewWidth:Number, m_viewHeight:Number
 	agony_internal var m_gridWidth:int, m_gridHeight:int, m_index:int
+	agony_internal var m_xyDirty:Boolean
 }
 }
