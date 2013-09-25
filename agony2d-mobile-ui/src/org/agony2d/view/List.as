@@ -1,10 +1,12 @@
 package org.agony2d.view {
 	import flash.events.Event;
+	
 	import org.agony2d.Agony;
+	import org.agony2d.core.agony_internal;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ItemRenderer;
-	import org.agony2d.core.agony_internal;
 	import org.agony2d.view.layouts.IListLayout;
+	import org.agony2d.view.puppet.SpritePuppet;
 	
 	use namespace agony_internal;
 	
@@ -20,7 +22,7 @@ package org.agony2d.view {
 	 *  		3.  多选
 	 *  	c.  布局行为 :
 	 *  		1.  出现方式...
-	 *  		2.  新加入/削除时布局动态变化...
+	 *  		2.  新加入/削除时布局动态变化(重布局)...
 	 *  		3.  退出方式...
 	 */
 public class List extends Fusion {
@@ -29,7 +31,17 @@ public class List extends Fusion {
 		m_listLayout = layout
 		m_scrollFusion = new GridScrollFusion(maskWidth, maskHeight, gridWidth, gridHeight, false, horizDisableOffset, vertiDisableOffset)
 		this.addElement(m_scrollFusion)
-		m_content = m_scrollFusion.content
+		m_content = m_scrollFusion.content as GridFusion
+		
+		m_scrollFusion.limitLeft = m_scrollFusion.limitRight = m_scrollFusion.limitTop = true
+		m_scrollFusion.limitBottom = true
+		
+//		var sp:SpritePuppet
+//		sp = new SpritePuppet
+//		sp.graphics.beginFill(0x444444, 0.4)
+//		sp.graphics.drawRect(0,0,maskWidth,maskHeight)
+//		m_content.addElement(sp)
+		
 	}
 	
 	public function get sortData() : Array { 
@@ -41,8 +53,6 @@ public class List extends Fusion {
 	}
 	
 	public function addItem( item:ItemRenderer, id:int = -1 ) : void {
-		m_content.addElement(item)
-		m_items[m_length++] = item
 		if (id > 0) {
 			m_itemMap[id] = item
 		}
@@ -54,6 +64,8 @@ public class List extends Fusion {
 				}
 			}
 		}
+		m_content.addElement(item)
+		m_items[m_length++] = item
 		this.doInvalidateList()
 	}
 	
@@ -87,7 +99,7 @@ public class List extends Fusion {
 	protected var m_length:int
 	protected var m_sortData:Array
 	protected var m_scrollFusion:GridScrollFusion
-	protected var m_content:Fusion
+	protected var m_content:GridFusion
 	protected var m_invalidated:Boolean
 	protected var m_count:int
 	protected var m_itemMap:Object = {}
@@ -120,8 +132,10 @@ public class List extends Fusion {
 			item = m_items[i]
 			item.m_index = i
 			m_listLayout.doLayout(m_content, item, i++)
+			m_content.relocate(item)
 		}
-		
+		m_scrollFusion.contentWidth = m_content.spaceWidth
+		m_scrollFusion.contentHeight = 10000//zm_content.spaceHeight
 	}
 }
 }

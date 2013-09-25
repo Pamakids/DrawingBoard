@@ -91,7 +91,6 @@ public class TouchManager extends Notifier implements IProcess {
 		if (Touch.m_velocityEnabled != b) {
 			Touch.m_velocityEnabled = b
 			this.checkAddUpdateList()
-			//Logger.reportMessage(this, "[ velocityEnabled ]..." + b)
 		}
 	}
 	
@@ -103,7 +102,6 @@ public class TouchManager extends Notifier implements IProcess {
 		if (Touch.m_isMoveByFrame != b) {
 			Touch.m_isMoveByFrame = b
 			this.checkAddUpdateList()
-			//Logger.reportMessage(this, "[ isMoveByFrame ]..." + b)
 		}
 	}
 	
@@ -129,14 +127,14 @@ public class TouchManager extends Notifier implements IProcess {
 			if (!m_updating) {
 				ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
 				m_updating = true
-				//Logger.reportMessage(this, "added to update list...")
+				Logger.reportMessage(this, "added to update list...")
 			}
 		}
 		else {
 			if (m_updating) {
 				ProcessManager.removeFrameProcess(this)
 				m_updating = false
-				//Logger.reportMessage(this, "removed from update list...")
+				Logger.reportMessage(this, "removed from update list...")
 			}
 		}
 	}
@@ -161,8 +159,12 @@ public class TouchManager extends Notifier implements IProcess {
 		}
 		type     =  e.type
 		touchID  =  (e is TouchEvent) ? (e as TouchEvent).touchPointID : 0
-		if (type == TouchEvent.TOUCH_BEGIN || type == MouseEvent.MOUSE_DOWN) {
-			m_touchList[touchID] = touch = Touch.getTouch(touchID, e.stageX, e.stageY)
+		
+		if (type == TouchEvent.TOUCH_MOVE && !m_allInvalid) {
+			m_touchList[touchID].setCoords(e.stageX, e.stageY)
+		}
+		else if (type == TouchEvent.TOUCH_BEGIN || type == MouseEvent.MOUSE_DOWN) {
+			m_touchList[touchID] = touch = Touch.NewTouch(touchID, e.stageX, e.stageY)
 			if (m_numTouchs++ == 0 || m_multiTouchEnabled) {
 				this.dispatchEvent(new ATouchEvent(ATouchEvent.NEW_TOUCH, touch))
 			}
@@ -173,9 +175,6 @@ public class TouchManager extends Notifier implements IProcess {
 					touch.dispatchDirectEvent(AEvent.RELEASE)
 				}
 			}
-		}
-		else if (type == TouchEvent.TOUCH_MOVE && !m_allInvalid) {
-			m_touchList[touchID].setCoords(e.stageX, e.stageY)
 		}
 		else if (type == TouchEvent.TOUCH_END || type == MouseEvent.MOUSE_UP) {
 			--m_numTouchs
@@ -203,9 +202,6 @@ public class TouchManager extends Notifier implements IProcess {
 	agony_internal static var m_instance:TouchManager
 	agony_internal static var m_touchList:Object // touchID:Touch
 	agony_internal static var m_numTouchs:int
-	agony_internal static var m_multiTouchEnabled:Boolean
-	agony_internal static var m_allInvalid:Boolean // used in single touch state...
-	agony_internal static var m_isLocked:Boolean
-	agony_internal static var m_updating:Boolean
+	agony_internal static var m_multiTouchEnabled:Boolean, m_isLocked:Boolean, m_updating:Boolean, m_allInvalid:Boolean // used in single touch state...
 }
 }

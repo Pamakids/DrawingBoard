@@ -3,7 +3,11 @@ package states {
 	import com.greensock.TweenLite;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.view.ItemRenderer;
+	import org.agony2d.view.layouts.HorizLayout;
+	import org.agony2d.view.List;
 	import org.agony2d.view.puppet.ImagePuppet;
+	import org.agony2d.view.puppet.SpritePuppet;
 	import org.agony2d.view.StateRenderer;
 	import org.agony2d.view.UIState;
 	
@@ -12,7 +16,8 @@ public class ListUIState extends UIState
 	
 	override public function enter() : void
 	{
-		testA()
+		//testA()
+		testB()
 	}
 	
 	
@@ -20,7 +25,35 @@ public class ListUIState extends UIState
 	private var item:StateRenderer
 	
 	
+	private function createRenderer( data:Object ):ItemRenderer {
+		var item:ItemRenderer
+		
+		item = new ItemRenderer(data)
+		img = new ImagePuppet
+		img.embed(data.source)
+		item.addElement(img)
+		return item
+	}
 	
+	private function testB():void {
+		var list:List
+		var l:int
+		
+		
+		list = new List(new HorizLayout(150, 250, 5), 600, 500, 140, 220)
+		var sp:SpritePuppet
+		sp = new SpritePuppet
+		sp.graphics.beginFill(0xff4444, 0.4)
+		sp.graphics.drawRect(0,0,600,500)
+		list.addElement(sp)
+		
+		l = 120
+		while (--l > -1) {
+			list.addItem(this.createRenderer({source:AssetsUI.AT_defaultImg}))
+		}
+		
+		this.fusion.addElement(list, 200, 50)
+	}
 	
 	
 	

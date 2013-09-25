@@ -24,8 +24,7 @@ final public class ImagePuppetComp extends GraphicsComp {
 	agony_internal static function getImagePuppetComp( proxy:ComponentProxy ) : ImagePuppetComp {
 		var img:ImagePuppetComp
 		img = (cachedImageLength > 0 ? cachedImageLength-- : 0) ? cachedImageList.pop() : new ImagePuppetComp
-		img.m_proxy = proxy
-		img.m_notifier.setTarget(proxy)
+		img.m_notifier.m_target = img.m_proxy = proxy
 		return img
 	}
 	

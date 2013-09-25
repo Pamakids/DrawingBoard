@@ -257,8 +257,8 @@ final public class ViewportFusion extends PivotFusion {
 		var point:Point
 		
 		point = this.transformCoord(0, 0, false)
-		m_oldX = m_startX = TouchManager.getInstance().primaryTouch.stageX / m_pixelRatio
-		m_oldY = m_startY = TouchManager.getInstance().primaryTouch.stageY / m_pixelRatio
+		//m_oldX = m_startX = TouchManager.getInstance().primaryTouch.stageX / m_pixelRatio
+		//m_oldY = m_startY = TouchManager.getInstance().primaryTouch.stageY / m_pixelRatio
 		if (m_startX >= point.x && m_startX <= point.x + m_maskWidth && m_startY >= point.y && m_startY <= point.y + m_maskHeight) {
 			AgonyUI.fusion.addEventListener(AEvent.RELEASE, ____onBreak, 8000)
 			AgonyUI.fusion.addEventListener(AEvent.MOVE,    ____onMove,  8000)
@@ -277,8 +277,8 @@ final public class ViewportFusion extends PivotFusion {
 	protected function ____onMove( e:AEvent ) : void {
 		var mouseX:Number, mouseY:Number
 		
-		mouseX = TouchManager.getInstance().primaryTouch.stageX / m_pixelRatio
-		mouseY = TouchManager.getInstance().primaryTouch.stageY / m_pixelRatio
+		//mouseX = TouchManager.getInstance().primaryTouch.stageX / m_pixelRatio
+		//mouseY = TouchManager.getInstance().primaryTouch.stageY / m_pixelRatio
 		// 当发生触摸位移差达到一定条件时，滚屏开始
 		if (Math.abs(m_oldX - m_startX) > m_horizDisableOffset || Math.abs(m_oldY - m_startY) > m_vertiDisableOffset) {
 			AgonyUI.fusion.removeEventListener(AEvent.RELEASE, ____onBreak)

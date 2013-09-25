@@ -14,7 +14,6 @@ package states
 public class GridUIState extends UIState 
 {
 	
-	private const SCALE:Number = 1.2
 	private var sprite:SpritePuppet
 	private var mGridFusion:GridFusion
 	private const GRID_SIZE:int = 30
@@ -40,7 +39,7 @@ public class GridUIState extends UIState
 		this.fusion.addElement(sprite, 100, 50)
 		
 		mGridFusion = new GridFusion(40, 40, 100, 100, GRID_SIZE, GRID_SIZE)
-		l = 100
+		l = 400
 		while (--l > -1) {
 			img = new ImagePuppet(5)
 			img.embed(AssetsUI.two)
@@ -52,7 +51,7 @@ public class GridUIState extends UIState
 		this.fusion.addElement(sprite, 100, 50)
 		this.fusion.addElement(mGridFusion, 100, 50)
 		
-		mGridFusion.pivotX = mGridFusion.pivotY = 400
+		//mGridFusion.pivotX = mGridFusion.pivotY = 400
 		//mGridFusion.scaleX = mGridFusion.scaleY = 1.2
 		
 		KeyboardManager.getInstance().getState().press.addEventListener('A', function(e:AEvent):void {
@@ -91,6 +90,7 @@ public class GridUIState extends UIState
 		sprite.x = (x - 40)
 		sprite.y = (y - 40)
 		mGridFusion.setViewport(point.x , point.y)
+		//trace(point)
 	}
 }
 

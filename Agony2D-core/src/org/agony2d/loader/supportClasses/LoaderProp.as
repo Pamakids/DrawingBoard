@@ -28,7 +28,7 @@ final public class LoaderProp extends Notifier implements ILoader {
 	}
 
 	final agony_internal function get autoRemoved() : Boolean {
-		return Boolean(m_totalTypes == 0) && !m_forced 
+		return !this.hasAnyEventListener() && !m_forced 
 	}
 	
 	final agony_internal function pause() : IUnload {

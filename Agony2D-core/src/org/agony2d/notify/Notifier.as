@@ -1,104 +1,85 @@
 //////////////////////////////////
 // performance test result :
 //////////////////////////////////
-/*	No. 01
+/*	
+	No. 01
 	=================================================
-	[ Message ] : ■[ notifier add ] ...◎ 359
-	[ Message ] : ■[ event add ] ...◎ 244
-	
-	[ Message ] : ■[ notifier dispatch ] ...◎ 661
-	[ Message ] : ■[ notifier dispatch(direct) ] ...◎ 594
-	[ Message ] : ■[ event dispatch ] ...◎ 941
-	
+	[ Message ] : ■[ notifier add ] ...◎ 312
+	[ Message ] : ■[ event add ] ...◎ 228
+
+	[ Message ] : ■[ notifier dispatch ] ...◎ 652
+	[ Message ] : ■[ notifier dispatch(direct) ] ...◎ 603
+	[ Message ] : ■[ event dispatch ] ...◎ 937
+
 	[ Message ] : ■[ NUM ] ...◎ 2400000
-	
-	[ Message ] : ■[ notifier remove ] ...◎ 296
-	[ Message ] : ■[ event remove ] ...◎ 4191
-	
-	[ Message ] : ■[ notifier dispatch : void ] ...◎ 101
-	[ Message ] : ■[ notifier dispatch(direct) : void ] ...◎ 55
-	[ Message ] : ■[ event dispatch : void ] ...◎ 130
-	
+
+	[ Message ] : ■[ notifier remove ] ...◎ 276
+	[ Message ] : ■[ event remove ] ...◎ 4067
+
+	[ Message ] : ■[ notifier dispatch : void ] ...◎ 105
+	[ Message ] : ■[ notifier dispatch(direct) : void ] ...◎ 52
+	[ Message ] : ■[ event dispatch : void ] ...◎ 145
+
 	No. 02
 	=================================================
-	[ Message ] : ■[ notifier add ] ...◎ 327
-	[ Message ] : ■[ event add ] ...◎ 241
-	
-	[ Message ] : ■[ notifier dispatch ] ...◎ 634
-	[ Message ] : ■[ notifier dispatch(direct) ] ...◎ 600
-	[ Message ] : ■[ event dispatch ] ...◎ 909
-	
+	[ Message ] : ■[ notifier add ] ...◎ 298
+	[ Message ] : ■[ event add ] ...◎ 229
+
+	[ Message ] : ■[ notifier dispatch ] ...◎ 621
+	[ Message ] : ■[ notifier dispatch(direct) ] ...◎ 594
+	[ Message ] : ■[ event dispatch ] ...◎ 945
+
 	[ Message ] : ■[ NUM ] ...◎ 2400000
-	
-	[ Message ] : ■[ notifier remove ] ...◎ 296
-	[ Message ] : ■[ event remove ] ...◎ 4150
-	
+
+	[ Message ] : ■[ notifier remove ] ...◎ 281
+	[ Message ] : ■[ event remove ] ...◎ 4111
+
 	[ Message ] : ■[ notifier dispatch : void ] ...◎ 103
-	[ Message ] : ■[ notifier dispatch(direct) : void ] ...◎ 57
-	[ Message ] : ■[ event dispatch : void ] ...◎ 135
+	[ Message ] : ■[ notifier dispatch(direct) : void ] ...◎ 53
+	[ Message ] : ■[ event dispatch : void ] ...◎ 147
 */
 package org.agony2d.notify {
 	import org.agony2d.debug.Logger
+	import org.agony2d.core.agony_internal
+	
+	use namespace agony_internal;
 	
 	/** [ Notifier ]
-	 *  [◆]
-	 * 		1.  totalTypes
 	 *  [◆◆]
 	 *		1.  addEventListener
 	 * 		2.  removeEventListener
 	 * 		3.  removeEventAllListeners
 	 * 		4.  removeAll
 	 * 		5.  hasEventListener
-	 * 		6.  dispatchEvent
-	 * 		7.  dispatchDirectEvent
-	 * 		8.  setTarget
+	 *  	6.  hasAnyEventListener
+	 * 		7.  dispatchEvent
+	 * 		8.  dispatchDirectEvent
 	 * 		9.  dispose
 	 *  [★]
-	 *  	a. [ addEventListener ]...slower than native 30~50%
-	 *  	b. [ removeEventListener / removeEventAllListeners(more) / removeAll(more) ]...faster than native 100%++++
+	 *  	a. [ addEventListener ]...slower than native 30~40%
+	 *  	b. [ removeEventListener / removeEventAllListeners(more) / removeAll(more) ]...faster than native 400%+
 	 *  	c. [ dispatchEvent / dispatchDirectEvent(faster when ob type doesn't exist) ]...faster than native 20~50%
 	 */
 public class Notifier implements INotifier {
 	
 	public function Notifier( target:Object = null ) {
-		this.setTarget(target)
+		m_target = target ? target : this
 	}
 	
-	/** total of ob types */
-	final public function get totalTypes() : int { 
-		return m_totalTypes 
-	}
-	
-	/** [ immediately is true ] when just only use ■AEvent... */
-	final public function addEventListener( type:String, listener:Function, immediately:Boolean = false, priority:int = 0 ) : void {
+	final public function addEventListener( type:String, listener:Function, priority:int = 0 ) : void {
 		var ob:Observer
-		var event:AEvent
 		
 		if (!m_obList) {
 			m_obList = {}
+			m_obList[type] = ob = Observer.NewObserver()
 		}
 		else {
 			ob = m_obList[type]
-		}
-		if (!ob) {
-			m_obList[type] = ob = Observer.getObserver()
-			++m_totalTypes
+			if (!ob) {
+				m_obList[type] = ob = Observer.NewObserver()
+			}
 		}
 		ob.addListener(listener, priority)
-		if (immediately) {
-			if (cachedEventIndex < cachedEventLength) {
-				event = cachedEventList[cachedEventIndex++]
-			}
-			else {
-				cachedEventIndex++
-				event = cachedEventList[cachedEventLength++] = new AEvent(null)
-			}
-			event.m_type      =  type
-			event.m_target    =  m_target
-			event.m_observer  =  ob
-			listener(event)
-			--cachedEventIndex
-		}
 	}
 	
 	final public function removeEventListener( type:String, listener:Function ) : void {
@@ -110,11 +91,9 @@ public class Notifier implements INotifier {
 		}
 		else {
 			ob.removeListener(listener)
-			if (ob.m_length == 0)
-			{
+			if (ob.m_length == 0) {
 				ob.recycle()
 				delete m_obList[type]
-				--m_totalTypes
 			}
 		}
 	}
@@ -122,11 +101,10 @@ public class Notifier implements INotifier {
 	final public function removeEventAllListeners( type:String ) : void {
 		var ob:Observer
 		
-		ob = m_totalTypes ? m_obList[type] : null
+		ob = m_obList ? m_obList[type] : null
 		if (ob) {
 			ob.recycle()
 			delete m_obList[type]
-			--m_totalTypes
 		}
 	}
 	
@@ -137,13 +115,24 @@ public class Notifier implements INotifier {
 			for each(ob in m_obList) {
 				(ob as Observer).recycle()
 			}
-			m_obList      =  null
-			m_totalTypes  =  0
+			m_obList = null
 		}
 	}
 	
 	final public function hasEventListener( type:String ) : Boolean {
 		return m_obList ? m_obList[type] : false
+	}
+	
+	final public function hasAnyEventListener() : Boolean {
+		var ob:*
+		
+		if(m_obList) {
+			for each(ob in m_obList) {
+				return true
+			}
+			return false
+		}
+		return false
 	}
 	
 	final public function dispatchEvent( event:AEvent ) : Boolean {
@@ -159,7 +148,7 @@ public class Notifier implements INotifier {
 		return false
 	}
 	
-	/** when just only use ■AEvent... */
+	/** just be only used by ■AEvent... */
 	final public function dispatchDirectEvent( type:String ) : Boolean {
 		var ob:Observer
 		var event:AEvent
@@ -183,19 +172,14 @@ public class Notifier implements INotifier {
 		return false
 	}
 	
-	final public function setTarget( v:Object ) : void {
-		m_target = v ? v : this
-	}
-	
 	public function dispose() : void {
 		this.removeAll()
 		m_target = null
 	}
 	
-	protected static var cachedEventList:Array = []
-	protected static var cachedEventLength:int, cachedEventIndex:int
+	agony_internal static var cachedEventList:Array = []
+	agony_internal static var cachedEventLength:int, cachedEventIndex:int
 	
-	protected var m_target:Object, m_obList:Object // type:Observer
-	protected var m_totalTypes:int
+	agony_internal var m_target:Object, m_obList:Object // type:Observer
 }
 }

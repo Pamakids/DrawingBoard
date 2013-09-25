@@ -23,9 +23,9 @@ public class KeyboardDemo extends Sprite
 		KeyboardManager.getInstance().initialize()
 		var state:IKeyboardState = KeyboardManager.getInstance().getState()
 		state.press.addEventListener('ONE', _one);
-		state.press.addEventListener('A', t1,false)
-		state.press.addEventListener('A', t2,false,5)
-		state.release.addEventListener('A', t3,false, 10)
+		state.press.addEventListener('A', t1)
+		state.press.addEventListener('A', t2)
+		state.release.addEventListener('A', t3)
 		state.press.addEventListener('ZERO', _removeAll);
 		
 		//Agony.addUpdateListener(function():void

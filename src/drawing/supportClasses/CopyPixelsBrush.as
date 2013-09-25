@@ -2,11 +2,9 @@ package drawing.supportClasses {
 	import flash.display.BitmapData;
 	import flash.display.IBitmapDrawable;
 	
+	//import org.agony2d.debug.Logger;
 	import org.agony2d.core.agony_internal;
-	import org.agony2d.debug.Logger;
-	
 	use namespace agony_internal;
-	
 public class CopyPixelsBrush extends BrushBase{
 	
 	public function CopyPixelsBrush( contentRatio:Number, fitRatio:Number, content:BitmapData, source:IBitmapDrawable, density:Number ) {
@@ -49,8 +47,8 @@ public class CopyPixelsBrush extends BrushBase{
 		m_content.copyPixels(cachedData, cachedData.rect, cachedPoint, null, null, true)
 	}
 	
-	protected var m_data:BitmapData, cachedData:BitmapData
-	protected var cachedWidth:Number, cachedHeight:Number, m_prevScale:Number, m_prevAlpha:Number
-	protected var m_prevColor:uint = 0xFFFFFF
+	agony_internal var m_data:BitmapData, cachedData:BitmapData
+	agony_internal var cachedWidth:Number, cachedHeight:Number, m_prevScale:Number, m_prevAlpha:Number
+	agony_internal var m_prevColor:uint = 0xFFFFFF
 }
 }

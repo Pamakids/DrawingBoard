@@ -5,18 +5,17 @@ package org.agony2d.notify {
 final internal class Observer {
 	
 	/** equal priority，earlier exec for last added listener... */
-	internal function addListener( listener:Function, priority:int = 0 ) : void {
+	final internal function addListener( listener:Function, priority:int ) : void {
 		var LA:ListenerProp, LB:ListenerProp
 		
 		if (m_listenerList[listener]) {
 			//Logger.reportWarning(this, 'addListener', 'update priority...')
 			this.removeListener(listener)
 		}
-		LA                        =  (cachedListenerLength > 0 ? cachedListenerLength-- : 0) ? cachedListenerList.pop() : new ListenerProp
+		m_listenerList[listener]  =  LA  =  (cachedPropLength > 0 ? cachedPropLength-- : 0) ? cachedPropList.pop() : new ListenerProp
 		LA.listener               =  listener
 		LA.priority               =  priority
 		LA.delayed                =  m_curr && (m_curr == m_head || m_curr.priority > priority)
-		m_listenerList[listener]  =  LA
 		if (m_length++ == 0) {
 			LA.prev = m_head
 			m_head.next = LA
@@ -43,7 +42,7 @@ final internal class Observer {
 		}
 	}
 	
-	internal function removeListener( listener:Function ) : void {
+	final internal function removeListener( listener:Function ) : void {
 		var LA:ListenerProp
 		
 		LA = m_listenerList[listener]
@@ -62,12 +61,12 @@ final internal class Observer {
 			delete m_listenerList[listener]
 			LA.prev = LA.next = null
 			LA.listener = null
-			cachedListenerList[cachedListenerLength++] = LA
+			cachedPropList[cachedPropLength++] = LA
 			--m_length
 		}
 	}
 	
-	internal function execute( ...args ) : void {
+	final internal function execute( ...args ) : void {
 		m_curr = m_head.next
 		while (m_curr) {
 			// to prevent a lower priority listener for just be added，doesn't be directly called during the current ob is being executed...
@@ -81,14 +80,14 @@ final internal class Observer {
 		}
 	}
 	
-	internal function breakExecute() : void {
+	final internal function breakExecute() : void {
 		while (m_curr) {
 			m_curr.delayed = false
 			m_curr = m_curr.next
 		}
 	}
 	
-	internal function recycle() : void {
+	final internal function recycle() : void {
 		var listener:*
 		var LA:ListenerProp
 		
@@ -98,28 +97,28 @@ final internal class Observer {
 				LA.prev = LA.next = null
 				LA.listener = null
 				delete m_listenerList[listener]
-				cachedListenerList[cachedListenerLength++] = LA
+				cachedPropList[cachedPropLength++] = LA
 			}
 			m_length = 0
 			m_head.next = null
 		}
-		cachedListenerList[cachedListenerLength++] = m_head
+		cachedPropList[cachedPropLength++] = m_head
 		m_head = m_curr = null
-		cachedObserverList[cachedObserverLength++] = this
+		cachedObList[cachedObLength++] = this
 	}
 	
-	internal static function getObserver() : Observer {
+	internal static function NewObserver() : Observer {
 		var ob:Observer
 		
-		ob = (cachedObserverLength > 0 ? cachedObserverLength-- : 0) ? cachedObserverList.pop() : new Observer
-		ob.m_head = (cachedListenerLength > 0 ? cachedListenerLength-- : 0) ? cachedListenerList.pop() : new ListenerProp
+		ob = (cachedObLength > 0 ? cachedObLength-- : 0) ? cachedObList.pop() : new Observer
+		ob.m_head = (cachedPropLength > 0 ? cachedPropLength-- : 0) ? cachedPropList.pop() : new ListenerProp
 		return ob
 	}
 	
-	private static var cachedObserverList:Array = []
-	private static var cachedObserverLength:int
-	private static var cachedListenerList:Array = []
-	private static var cachedListenerLength:int
+	private static var cachedObList:Array = []
+	private static var cachedObLength:int
+	private static var cachedPropList:Array = []
+	private static var cachedPropLength:int
 	
 	internal var m_listenerList:Dictionary = new Dictionary  // listener : ListenerProp
 	internal var m_head:ListenerProp, m_curr:ListenerProp

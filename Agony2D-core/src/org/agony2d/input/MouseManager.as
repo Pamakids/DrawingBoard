@@ -151,7 +151,7 @@ final public class MouseManager extends Notifier implements IProcess
 		m_stage.addEventListener(MouseEvent.MOUSE_MOVE,   ____onMouseStateUpdate, false, PRIORITY)
 		m_stage.addEventListener(MouseEvent.DOUBLE_CLICK, ____onMouseStateUpdate, false, PRIORITY)
 		m_stage.addEventListener(Event.MOUSE_LEAVE,       ____onMouseStateUpdate, false, PRIORITY)
-		ProcessManager.addFrameProcess(this, ProcessManager.MOUSE)
+		//ProcessManager.addFrameProcess(this, ProcessManager.MOUSE)
 	}
 	
 	/** 更新
@@ -257,7 +257,7 @@ final public class MouseManager extends Notifier implements IProcess
 				break
 				
 			case MouseEvent.DOUBLE_CLICK:
-				this.dispatchDirectEvent(AEvent.DOUBLE_CLICK)
+				//this.dispatchDirectEvent(AEvent.DOUBLE_CLICK)
 				m_forceUpdate = true
 				break
 				

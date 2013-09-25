@@ -248,7 +248,7 @@ public class ComponentProxy implements IComponent {//, INextUpdater {
 	}	
 	
 	public function addEventListener( type:String, listener:Function, priority:int = 0 ) : void {
-		view.m_notifier.addEventListener(type, listener, false, priority)
+		view.m_notifier.addEventListener(type, listener, priority)
 	}
 	
 	public function removeEventListener( type:String, listener:Function ) : void {
@@ -339,7 +339,7 @@ public class ComponentProxy implements IComponent {//, INextUpdater {
 			m_boundsWidth   =   Infinity
 			m_boundsHeight  =   Infinity
 		}
-		m_touchForDrag.addEventListener(AEvent.MOVE,    ____onDragging, false, DRAG_PRIORITY)
+		m_touchForDrag.addEventListener(AEvent.MOVE,    ____onDragging, DRAG_PRIORITY)
 		AgonyUI.fusion.addEventListener(AEvent.RELEASE, ____onDragComplete)
 		m_dragging = true
 	}

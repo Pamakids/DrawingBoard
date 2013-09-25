@@ -47,6 +47,7 @@ public class MobileUITest extends Sprite {
 	]
 	
 	private function init(e:Event) : void {
+		
 		// Engine !!
 		Agony.startup(this.stage, 'low')
 
@@ -100,7 +101,8 @@ public class MobileUITest extends Sprite {
 		mStateIndex = new IntLoopProperty(0, 0, mStateList.length - 1)
 		mStateIndex.addEventListener(AEvent.CHANGE, function(e:AEvent):void {
 			changeState()
-		}, true)
+		})
+		this.changeState()
 
 		// Keyboard !!
 		KeyboardManager.getInstance().getState().press.addEventListener('T', function(e:AEvent):void

@@ -3,11 +3,8 @@ package drawing.supportClasses {
 	import flash.display.BlendMode;
 	import flash.display.DisplayObject;
 	import flash.geom.Rectangle;
-	
 	import org.agony2d.core.agony_internal;
-	
 	use namespace agony_internal;
-	
 final public class EraseBrush extends BrushBase {
 	
 	public function EraseBrush(contentRatio:Number, fitRatio:Number,  density:Number, content:BitmapData, source:DisplayObject) {
@@ -31,7 +28,7 @@ final public class EraseBrush extends BrushBase {
 		//m_content.fillRect(new Rectangle(destX - 30, destY - 30, 60,60),0x0)
 	}
 	
-	protected var m_data:DisplayObject
-	protected var m_offsetX:Number, m_offsetY:Number
+	agony_internal var m_data:DisplayObject
+	agony_internal var m_offsetX:Number, m_offsetY:Number
 }
 }

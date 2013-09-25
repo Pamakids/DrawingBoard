@@ -109,7 +109,7 @@ public class UIManager {
 							"像素比率 [ " + pixelRatio + " ]..." + 
 							"设备相对尺寸 [ " + width + " | " + height + " ]..." +
 							"黑边遮罩 [ " + hasMaskForAspectRatio + " ]...", 2)
-		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, PRIORITY)
+		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, PRIORITY)
 	}
 	
 	/** moduleTypeName or moduleType... */
@@ -300,8 +300,8 @@ public class UIManager {
 		
 		touch = event.touch
 		____onUpdateTouchState(event)
-		touch.addEventListener(AEvent.MOVE,    ____onUpdateTouchState, false, PRIORITY)
-		touch.addEventListener(AEvent.RELEASE, ____onUpdateTouchState, false, PRIORITY)
+		touch.addEventListener(AEvent.MOVE,    ____onUpdateTouchState, PRIORITY)
+		touch.addEventListener(AEvent.RELEASE, ____onUpdateTouchState, PRIORITY)
 	}
 	
 	/** 每一个触碰绑定一个傀儡或未绑定任何傀儡 */

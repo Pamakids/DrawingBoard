@@ -1,6 +1,8 @@
 package org.agony2d.view {
 	import flash.utils.getTimer;
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
+	import org.agony2d.utils.getClassName;
 	
 	use namespace agony_internal;
 	
@@ -64,5 +66,7 @@ dynamic public class ItemRenderer extends StateRenderer {
 	agony_internal var m_bornTime:int
 	agony_internal var m_index:int
 	agony_internal var m_id:int
+	agony_internal var m_length:int
+	
 }
 }

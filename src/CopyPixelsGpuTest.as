@@ -1,24 +1,15 @@
 package
 {
-	import com.google.analytics.debug._Style;
-	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Shape;
 	import flash.display.Sprite;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
+	import flash.events.MouseEvent;
+	
+	import drawing.CommonPaper;
+	import drawing.IBrush;
 	
 	import org.agony2d.Agony;
-	import org.agony2d.input.ATouchEvent;
-	import org.agony2d.input.Touch;
-	import org.agony2d.input.TouchManager;
-	import org.agony2d.notify.AEvent;
-	import org.agony2d.timer.FrameTimerManager;
-	import org.agony2d.timer.ITimer;
-	import org.agony2d.view.AgonyUI;
-	import org.agony2d.view.Fusion;
-	import org.agony2d.view.StatsMobileUI;
 	
 	public class CopyPixelsGpuTest extends Sprite
 	{
@@ -26,58 +17,72 @@ package
 		{
 			super();
 			doInit()
+			doAddPaper()
+			doAddListeners()
 		}
 		
-//		[Embed(source = "assets/02.png")]
-//		private var asset_brush:Class
+		[Embed(source="assets/data/brush/light.png")]
+		public static const light:Class
+		
+		
+		[Embed(source="assets/data/brush/02.png")]
+		public static const brushA:Class
 		
 		private function doInit():void{
 			Agony.startup(stage)
-			AgonyUI.startup(false, 800, 480)
-			var stats:Fusion = new StatsMobileUI
-			AgonyUI.fusion.addElement(stats)
-			
-			//mData = (new asset_brush).bitmapData
-//			mBA = new BitmapData(800, 480,true,0x0)
-//			var bp:Bitmap=new Bitmap(mBA)
-//			this.addChild(bp)
-			shape = new Shape
-			this.addChild(shape)
-			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
 		}
 		
+		private function doAddPaper(): void{
+			var brush:IBrush
+			
+			mPaper = new CommonPaper(1024, 768)
+			mBp = new Bitmap(mPaper.content)	
+			this.addChild(mBp)	
+				
+			brush = mPaper.createTransformationBrush([(new light).bitmapData], 0, 10)
+			brush.color = 0x0
+			brush.scale = 0.6
+				
+			brush = mPaper.createCopyPixelsBrush((new brushA).bitmapData, 1, 10)
+			brush.color = 0x0
+			brush.scale = 0.6
+				
+			mPaper.brushIndex = 1
+			
+		}
+		
+		
+		private function doAddListeners():void{
+			Agony.stage.addEventListener(MouseEvent.MOUSE_DOWN, __onNewTouch)
+		}
+		
+		private var mPaper:CommonPaper
 		private var mCount:int
 		private var mBA:BitmapData, mData:BitmapData
 		private var shape:Shape
+		private var mBp:Bitmap
+		private var mPrevX:Number, mPrevY:Number
 		
-		private function __onNewTouch(e:ATouchEvent):void
+		private function __onNewTouch(e:MouseEvent):void
 		{
-			var touch:Touch
-			
-			touch = e.touch
-//			var m:Matrix = new Matrix(1,0,0,1,touch.stageX, touch.stageY)
-//			shape.graphics.lineBitmapStyle(mData, m, false)
-			touch.addEventListener(AEvent.MOVE, __onMove)
-			touch.addEventListener(AEvent.RELEASE, __onRelease)
+			mPaper.startDraw(e.stageX, e.stageY)
+			Agony.stage.addEventListener(MouseEvent.MOUSE_MOVE, __onMove)
+			Agony.stage.addEventListener(MouseEvent.MOUSE_UP, __onRelease)
+			mPrevX = e.stageX
+			mPrevY = e.stageY
 		}
 		
-		private function __onMove(e:AEvent):void
+		private function __onMove(e:MouseEvent):void
 		{
-			var touch:Touch
-			touch = e.target as Touch
-			var m:Matrix = new Matrix()
-			//m.translate(-mData.width / 2, -mData.height/2)
-			shape.graphics.lineStyle(20)
-			m.scale(Math.random() + 0.5, Math.random() + 0.5)
-			shape.graphics.lineBitmapStyle(mData,m)
-			
-//			shape.graphics.drawPath(
-			shape.graphics.moveTo(touch.prevStageX, touch.prevStageY)
-			shape.graphics.lineTo(touch.stageX, touch.stageY)
+			mPaper.drawLine(e.stageX,e.stageY,mPrevX,mPrevY)
+			mPrevX = e.stageX
+			mPrevY = e.stageY
 		}
 		
-		private function __onRelease(e:AEvent):void {
-//			m_paper.addCommand()
+		private function __onRelease(e:MouseEvent):void {
+			Agony.stage.removeEventListener(MouseEvent.MOUSE_MOVE, __onMove)
+			Agony.stage.removeEventListener(MouseEvent.MOUSE_UP, __onRelease)
+			mPaper.endDraw()
 		}
 	}
 }

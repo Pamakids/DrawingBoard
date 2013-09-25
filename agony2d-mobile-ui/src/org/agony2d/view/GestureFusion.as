@@ -75,7 +75,7 @@ public class GestureFusion extends PivotFusion {
 			Logger.reportError(this,"addTouch","null touch...")
 		}
 		if(m_numTouchs==0){
-			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
+			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, GESTURE_PRIORITY)
 		}
 		this.insertTouch(touch)	
 	}
@@ -86,7 +86,7 @@ public class GestureFusion extends PivotFusion {
 	
 	private function ____onPress( e:AEvent ) : void {
 		this.fusion.setElementLayer(this, this.fusion.numElement - 1)
-		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
+		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, GESTURE_PRIORITY)
 		this.insertTouch(AgonyUI.currTouch)
 			
 		//trace("gesture press...")
@@ -97,7 +97,7 @@ public class GestureFusion extends PivotFusion {
 		
 		touch = e.touch
 		if (this.hitTestPoint(touch.stageX / m_pixelRatio, touch.stageY / m_pixelRatio)) {
-			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, GESTURE_PRIORITY)
+			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, GESTURE_PRIORITY)
 			this.fusion.setElementLayer(this, this.fusion.numElement - 1)
 			e.stopImmediatePropagation()
 			this.insertTouch(touch)	
@@ -193,8 +193,8 @@ public class GestureFusion extends PivotFusion {
 	
 	private function insertTouch( touch:Touch ) : void {
 		m_touchList[m_numTouchs++] = touch
-		touch.addEventListener(AEvent.MOVE,    ____onMove,    false, GESTURE_PRIORITY)
-		touch.addEventListener(AEvent.RELEASE, ____onRelease, false, GESTURE_PRIORITY)
+		touch.addEventListener(AEvent.MOVE,    ____onMove,    GESTURE_PRIORITY)
+		touch.addEventListener(AEvent.RELEASE, ____onRelease, GESTURE_PRIORITY)
 		this.resetTouchs()
 	}
 	

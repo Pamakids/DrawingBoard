@@ -79,9 +79,9 @@ public class Touch extends Notifier {
 			}
 			else {
 				this.dispatchDirectEvent(AEvent.MOVE)
+				m_prevStageX = m_stageX
+				m_prevStageY = m_stageY
 			}
-			m_prevStageX = m_stageX
-			m_prevStageY = m_stageY
 			if (m_velocityEnabled) {
 				m_oldAMouseX = m_currMoveX
 				m_oldAMouseY = m_currMoveY
@@ -129,7 +129,7 @@ public class Touch extends Notifier {
 		return this
 	}
 	
-	internal static function getTouch( touchID:int, stageX:Number, stageY:Number ) : Touch {
+	internal static function NewTouch( touchID:int, stageX:Number, stageY:Number ) : Touch {
 		var touch:Touch
 		
 		touch = (cachedTouchLength > 0 ? cachedTouchLength-- : 0) ? cachedTouchList.pop() : new Touch
@@ -144,10 +144,8 @@ public class Touch extends Notifier {
 	agony_internal static var m_velocityEnabled:Boolean, m_isMoveByFrame:Boolean
 	agony_internal static const m_mouseFriction:Number = .55
 	
-	agony_internal var m_touchID:int
-	agony_internal var m_stageX:Number, m_stageY:Number
-	agony_internal var m_currCount:int
+	agony_internal var m_touchID:int, m_currCount:int
 	agony_internal var m_moveStateA:Boolean
-	agony_internal var m_prevStageX:Number, m_prevStageY:Number, m_oldAMouseX:Number, m_oldAMouseY:Number, m_currMoveX:Number, m_currMoveY:Number, m_maxMoveX:Number, m_maxMoveY:Number
+	agony_internal var m_stageX:Number, m_stageY:Number, m_prevStageX:Number, m_prevStageY:Number, m_oldAMouseX:Number, m_oldAMouseY:Number, m_currMoveX:Number, m_currMoveY:Number, m_maxMoveX:Number, m_maxMoveY:Number
 }
 }

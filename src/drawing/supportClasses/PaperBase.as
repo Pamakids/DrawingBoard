@@ -2,11 +2,9 @@ package drawing.supportClasses {
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	
+	//import org.agony2d.debug.Logger;
 	import org.agony2d.core.agony_internal;
-	import org.agony2d.debug.Logger;
-	
 	use namespace agony_internal;
-	
 public class PaperBase extends DrawingBase {
 	
 	public function PaperBase( contentRatio:Number ) {

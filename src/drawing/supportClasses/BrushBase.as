@@ -73,7 +73,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		}	
 	}
 	
-	agony_internal function reset() : void{
+	public function reset() : void{
 		m_color = 0x0
 		m_scale = m_alpha = 1
 		this.density = m_rawDensity
@@ -110,7 +110,7 @@ public class BrushBase extends DrawingBase implements IBrush{
 		return cachedColorTransform
 	}
 	
-	agony_internal var m_scale:Number, m_alpha:Number, m_density:Number, m_rawDensity:Number
-	agony_internal var m_color:uint
+	public var m_scale:Number, m_alpha:Number, m_density:Number, m_rawDensity:Number
+	public var m_color:uint
 }
 }

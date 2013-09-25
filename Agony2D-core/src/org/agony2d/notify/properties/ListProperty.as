@@ -15,13 +15,10 @@ package org.agony2d.notify.properties {
 	 */
 public class ListProperty extends PropertyBase {
 	
-	public function get itemArray() : void {
-		m_itemArray.sortOn(
-	}
+//	public function get itemArray() : void {
+//		//m_itemArray.sortOn(
+//	}
 	
-	public function get sortOptions() : * {
-		re
-	}
 	
 	public function get length() : int {
 		return m_numItems
@@ -50,10 +47,10 @@ public class ListProperty extends PropertyBase {
 	public function setItemAt( itemData:Object, index:int ) : void {
 		m_itemArray[index] = itemData
 	}
-	
-	public function removeAll() : void {
-		m_itemArray.length = m_numItems = 0
-	}
+//	
+//	public function removeAll() : void {
+//		m_itemArray.length = m_numItems = 0
+//	}
 	
 	override public function modify() : void {
 		this.dispatchDirectEvent(AEvent.CHANGE)

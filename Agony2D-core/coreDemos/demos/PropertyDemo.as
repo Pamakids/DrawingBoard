@@ -33,7 +33,7 @@ public class PropertyDemo extends Sprite
 		I.addEventListener(AEvent.CHANGE, function(e:AEvent):void
 		{
 			Logger.reportMessage(I, I.value)
-		}, true)
+		})
 		KeyboardManager.getInstance().getState().press.addEventListener('I', function():void { I.value += 1 } )
 		
 		// loop
@@ -52,14 +52,14 @@ public class PropertyDemo extends Sprite
 			{
 				S.value += String(N.value)
 			}
-		}, true)
+		})
 		
 		// bool
 		var B:BooleanProperty = new BooleanProperty()
 		B.addEventListener(AEvent.CHANGE, function(e:AEvent):void
 		{
 			trace(B.value)
-		}, true)
+		})
 		
 		txtA = new TextField()
 		addChild(txtA)
@@ -73,11 +73,11 @@ public class PropertyDemo extends Sprite
 		S.addEventListener(AEvent.CHANGE, function(e:AEvent):void
 		{
 			txtA.text = S.value
-		}, true)
+		})
 		S.addEventListener(AEvent.KILL, function(e:AEvent):void
 		{
 			txtA.text = "お前はもう死んでいる ！！"
-		}, false)
+		})
 		
 		txtB = new TextField()
 		addChild(txtB)
@@ -92,7 +92,7 @@ public class PropertyDemo extends Sprite
 		R.addEventListener(AEvent.CHANGE, function(e:AEvent):void
 		{
 			trace(R.value, R.low, R.high, R.ratio)
-		}, true)
+		})
 		KeyboardManager.getInstance().getState().press.addEventListener('LEFT', function():void { R.value -= 1 } )
 		KeyboardManager.getInstance().getState().press.addEventListener('RIGHT', function():void { R.value += 1 } )
 		// input change !!

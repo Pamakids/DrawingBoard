@@ -77,7 +77,7 @@ public class AbstractList extends Fusion {
 	
 	public function setItemAt( itemData:Object, index:int ) : void {
 		if (index > m_numItems) {
-			Logger.reportError(this, "index can't be more than length...")
+			//Logger.reportError(this, "index can't be more than length...")
 		}
 		m_itemArray[index] = itemData
 		this.doMakeListDirty()
@@ -89,15 +89,15 @@ public class AbstractList extends Fusion {
 	}
 	
 	override public function addElement( c:IComponent, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
-		Logger.reportError(this, "不可使用...!!")
+		//Logger.reportError(this, "不可使用...!!")
 	}
 	
 	override public function addElementAt( c:IComponent, layer:int = -1, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
-		Logger.reportError(this, "不可使用...!!")
+		//Logger.reportError(this, "不可使用...!!")
 	}
 	
 	override agony_internal function dispose() : void {
-		this.displayObject.removeEventListener(Event.RENDER, ____onReadyToRender)
+		//this.displayObject.removeEventListener(Event.RENDER, ____onReadyToRender)
 		super.dispose()
 	}
 	

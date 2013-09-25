@@ -18,8 +18,7 @@ public class SpritePuppetComp extends GraphicsComp {
 		var PA:SpritePuppetComp
 		
 		PA = (cachedSpriteLength > 0 ? cachedSpriteLength-- : 0) ? cachedSpriteList.pop() : new SpritePuppetComp
-		PA.m_proxy = proxy
-		PA.m_notifier.setTarget(proxy)
+		PA.m_notifier.m_target = PA.m_proxy = proxy
 		return PA
 	}
 	

@@ -55,8 +55,9 @@ public class ScrollFusionUIState extends UIState
 		mScrollFusion = new GridScrollFusion(maskW, maskH, 80, 100, false, 6, 6, 1, 2)
 		this.fusion.addElement(mScrollFusion, 50, 30)
 		content = mScrollFusion.content
-		mScrollFusion.singleTouchForMovement = false
-		mScrollFusion.delayTimeForDisable = 0.5
+		//TouchManager.getInstance().isMoveByFrame = false
+		//mScrollFusion.singleTouchForMovement = true
+		//mScrollFusion.delayTimeForDisable = 0.5
 		mScrollFusion.addEventListener(AEvent.BREAK, function(e:AEvent):void {
 			trace("break")
 		})
@@ -197,7 +198,7 @@ public class ScrollFusionUIState extends UIState
 		KeyboardManager.getInstance().getState().press.removeEventAllListeners('S')
 		TweenLite.killTweensOf(mScrollFusion.content)
 			
-		TouchManager.getInstance().isMoveByFrame = false
+		//TouchManager.getInstance().isMoveByFrame = false
 	}
 	
 	private var mScrollFusion:GridScrollFusion

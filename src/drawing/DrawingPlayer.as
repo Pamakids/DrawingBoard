@@ -5,10 +5,10 @@ package drawing {
 	import drawing.supportClasses.BrushBase;
 	import drawing.supportClasses.PaperBase;
 	
-	import org.agony2d.core.agony_internal;
+	
 	import org.agony2d.debug.Logger;
 	import org.agony2d.timer.DelayManager;
-	
+	import org.agony2d.core.agony_internal;
 	use namespace agony_internal;
 	
 	/** [ DrawingPlayer ]

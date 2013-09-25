@@ -284,8 +284,7 @@ final class NineScalePuppetComp extends PuppetComp {
 		var NS:NineScalePuppetComp
 		
 		NS = (cachedNSLength > 0 ? cachedNSLength-- : 0) ? cachedNSList.pop() : new NineScalePuppetComp
-		NS.m_proxy = proxy
-		NS.m_notifier.setTarget(proxy)
+		NS.m_notifier.m_target = NS.m_proxy = proxy
 		NS.m_smoothing = smoothing
 		return NS
 	}

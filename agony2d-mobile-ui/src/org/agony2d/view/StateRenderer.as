@@ -28,11 +28,11 @@ public class StateRenderer extends Fusion {
 	}
 	
 	public function addStateInListener( index:uint, listener:Function, priority:int = 0 ) : void {
-		this.view.m_notifier.addEventListener(STATE_IN + index, listener, false, priority)
+		this.view.m_notifier.addEventListener(STATE_IN + index, listener, priority)
 	}
 	
 	public function addStateOutListener( index:uint, listener:Function, priority:int = 0 ) : void {
-		this.view.m_notifier.addEventListener(STATE_OUT + index, listener, false, priority)
+		this.view.m_notifier.addEventListener(STATE_OUT + index, listener, priority)
 	}
 	
 	override agony_internal function dispose() : void {

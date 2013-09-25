@@ -16,7 +16,8 @@ public class ProgressBar extends AbstractRange {
 		this.addElementAt(m_sprite)
 		m_movieClip = getInstance(movieClipData) as MovieClip
 		m_sprite.addChild(m_movieClip)
-		m_range.addEventListener(AEvent.CHANGE, ____onRangeChange, true)
+		this.updateValue()
+		m_range.addEventListener(AEvent.CHANGE, ____onRangeChange)
 	}
 	
 	final public function get sprite() : SpritePuppet {

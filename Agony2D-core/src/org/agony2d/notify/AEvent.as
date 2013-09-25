@@ -73,7 +73,6 @@ public class AEvent {
 	public static const DRAGGING:String      =  "dragging"
 	public static const STOP_DRAG:String     =  "stopDrag"
 	
-	
 	public static const FOCUS_IN : String    =  "focusIn"
 	public static const FOCUS_OUT : String   =  "focusOut"
 	

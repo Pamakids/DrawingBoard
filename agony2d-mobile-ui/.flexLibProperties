@@ -1,7 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="false" useMultiPlatformConfig="false" version="3">
   <includeClasses>
+    <classEntry path="org.agony2d.view.AgonyUI"/>
+    <classEntry path="org.agony2d.view.Button"/>
+    <classEntry path="org.agony2d.view.CheckBox"/>
+    <classEntry path="org.agony2d.view.Fusion"/>
+    <classEntry path="org.agony2d.view.GestureFusion"/>
+    <classEntry path="org.agony2d.view.Grid"/>
+    <classEntry path="org.agony2d.view.GridFusion"/>
+    <classEntry path="org.agony2d.view.GridScrollFusion"/>
+    <classEntry path="org.agony2d.view.ImageButton"/>
+    <classEntry path="org.agony2d.view.ImageCheckBox"/>
+    <classEntry path="org.agony2d.view.ItemRenderer"/>
+    <classEntry path="org.agony2d.view.LabelButton"/>
+    <classEntry path="org.agony2d.view.List"/>
+    <classEntry path="org.agony2d.view.PivotFusion"/>
+    <classEntry path="org.agony2d.view.ProgressBar"/>
+    <classEntry path="org.agony2d.view.ScrollFusion"/>
+    <classEntry path="org.agony2d.view.ScrollThumbFusion"/>
+    <classEntry path="org.agony2d.view.Slider"/>
+    <classEntry path="org.agony2d.view.StateFusion"/>
+    <classEntry path="org.agony2d.view.StateRenderer"/>
+    <classEntry path="org.agony2d.view.StatsMobileUI"/>
+    <classEntry path="org.agony2d.view.UIState"/>
+    <classEntry path="org.agony2d.view.ViewportFusion"/>
+    <classEntry path="org.agony2d.view.core.AgonySprite"/>
+    <classEntry path="org.agony2d.view.core.Component"/>
+    <classEntry path="org.agony2d.view.core.ComponentProxy"/>
+    <classEntry path="org.agony2d.view.core.FusionComp"/>
+    <classEntry path="org.agony2d.view.core.IComponent"/>
+    <classEntry path="org.agony2d.view.core.IItemRenderer"/>
+    <classEntry path="org.agony2d.view.core.IModule"/>
+    <classEntry path="org.agony2d.view.core.PivotSprite"/>
+    <classEntry path="org.agony2d.view.core.SmoothProxy"/>
+    <classEntry path="org.agony2d.view.core.UIManager"/>
+    <classEntry path="org.agony2d.view.enum.ButtonEffectType"/>
+    <classEntry path="org.agony2d.view.enum.CheckBoxState"/>
+    <classEntry path="org.agony2d.view.enum.ImageButtonType"/>
+    <classEntry path="org.agony2d.view.enum.LayoutType"/>
     <classEntry path="org.agony2d.view.enum.ScrollTouchType"/>
+    <classEntry path="org.agony2d.view.layouts.HorizLayout"/>
+    <classEntry path="org.agony2d.view.layouts.IListLayout"/>
+    <classEntry path="org.agony2d.view.layouts.VertiLayout"/>
+    <classEntry path="org.agony2d.view.puppet.AnimatorPuppet"/>
+    <classEntry path="org.agony2d.view.puppet.IGraphics"/>
+    <classEntry path="org.agony2d.view.puppet.ImagePuppet"/>
+    <classEntry path="org.agony2d.view.puppet.InputTextPuppet"/>
+    <classEntry path="org.agony2d.view.puppet.LabelPuppet"/>
+    <classEntry path="org.agony2d.view.puppet.NineScalePuppet"/>
+    <classEntry path="org.agony2d.view.puppet.SpritePuppet"/>
+    <classEntry path="org.agony2d.view.puppet.supportClasses.AutoSmoothingBitmap"/>
+    <classEntry path="org.agony2d.view.puppet.supportClasses.GraphicsComp"/>
+    <classEntry path="org.agony2d.view.puppet.supportClasses.GraphicsProxy"/>
+    <classEntry path="org.agony2d.view.puppet.supportClasses.ImagePuppetComp"/>
+    <classEntry path="org.agony2d.view.puppet.supportClasses.PuppetComp"/>
+    <classEntry path="org.agony2d.view.puppet.supportClasses.SpritePuppetComp"/>
+    <classEntry path="org.agony2d.view.supportClasses.AbstractButton"/>
+    <classEntry path="org.agony2d.view.supportClasses.AbstractImageButton"/>
+    <classEntry path="org.agony2d.view.supportClasses.AbstractList"/>
+    <classEntry path="org.agony2d.view.supportClasses.AbstractMovieClipButton"/>
+    <classEntry path="org.agony2d.view.supportClasses.AbstractRange"/>
+    <classEntry path="org.agony2d.view.supportClasses.ImageButtonProp"/>
+    <classEntry path="org.agony2d.view.supportClasses.ImageCheckBoxProp"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

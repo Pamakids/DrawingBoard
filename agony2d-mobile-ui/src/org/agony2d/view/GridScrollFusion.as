@@ -104,7 +104,7 @@ public class GridScrollFusion extends PivotFusion {
 				this.stopScroll()
 			}
 			else {
-				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, SCROLL_PRIORITY)
+				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, SCROLL_PRIORITY)
 				//AgonyUI.fusion.addEventListener(AEvent.PRESS, ____onStart, SCROLL_PRIORITY)
 			}
 		}
@@ -339,8 +339,8 @@ public class GridScrollFusion extends PivotFusion {
 		// premove...
 		if (m_numTouchs == 0 && !m_firstTouch) {
 			m_firstTouch = e.touch
-			m_firstTouch.addEventListener(AEvent.RELEASE, ____onBreak,   false, SCROLL_PRIORITY)
-			m_firstTouch.addEventListener(AEvent.MOVE,    ____onPreMove, false, SCROLL_PRIORITY)
+			m_firstTouch.addEventListener(AEvent.RELEASE, ____onBreak,   SCROLL_PRIORITY)
+			m_firstTouch.addEventListener(AEvent.MOVE,    ____onPreMove, SCROLL_PRIORITY)
 			//trace("first touch...")
 			if (m_delayTimeForDisable > 0) {
 				m_delayID = DelayManager.getInstance().delayedCall(m_delayTimeForDisable, doDelayForDisable)
@@ -383,6 +383,7 @@ public class GridScrollFusion extends PivotFusion {
 		
 		if(!m_singleTouchForMovement){
 			return
+			//trace("not singleTouchForMovement")
 		}
 		touchX = m_firstTouch.stageX / m_pixelRatio
 		touchY = m_firstTouch.stageY / m_pixelRatio
@@ -404,6 +405,7 @@ public class GridScrollFusion extends PivotFusion {
 			m_content.x += (touchA.stageX - touchA.prevStageX) / m_pixelRatio
 			m_content.y += (touchA.stageY - touchA.prevStageY) / m_pixelRatio
 			this.view.m_notifier.dispatchDirectEvent(AEvent.DRAGGING)
+			//trace(touchA)
 		}
 		else {
 			touchA = m_touchList[m_numTouchs - 2]
@@ -441,6 +443,7 @@ public class GridScrollFusion extends PivotFusion {
 		else if (orgin < length && (limitBottom || m_scaleRatio != 1)) {
 			m_content.y = length + m_content.pivotY * m_scaleRatio
 			this.m_view.m_notifier.dispatchDirectEvent(AEvent.BOTTOM)
+			//trace("bottom...")
 		}
 		this.updateAllThumbs()
 		e.stopImmediatePropagation()
@@ -469,8 +472,8 @@ public class GridScrollFusion extends PivotFusion {
 	
 	protected function insertTouch( touch:Touch ) : void {
 		m_touchList[m_numTouchs++] = touch
-		touch.addEventListener(AEvent.MOVE,    ____onMove,    false, SCROLL_PRIORITY)
-		touch.addEventListener(AEvent.RELEASE, ____onRelease, false, SCROLL_PRIORITY)
+		touch.addEventListener(AEvent.MOVE,    ____onMove,    SCROLL_PRIORITY)
+		touch.addEventListener(AEvent.RELEASE, ____onRelease, SCROLL_PRIORITY)
 		this.resetTouchs()
 		//Logger.reportMessage(this, "numTouchs: " + m_numTouchs)
 	}
