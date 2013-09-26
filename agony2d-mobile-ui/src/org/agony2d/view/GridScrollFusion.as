@@ -504,7 +504,7 @@ public class GridScrollFusion extends PivotFusion {
 		m_firstTouch.removeEventListener(AEvent.RELEASE, ____onBreak)
 		m_firstTouch.removeEventListener(AEvent.MOVE,    ____onPreMove)
 		m_firstTouch.dispatchDirectEvent(AEvent.RELEASE)
-		m_firstTouch.removeAll()
+		m_firstTouch.removeAllListeners()
 		this.insertTouch(m_firstTouch)
 		m_firstTouch = null
 		view.interactive = false

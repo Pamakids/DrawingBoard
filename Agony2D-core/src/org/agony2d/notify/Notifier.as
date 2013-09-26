@@ -49,16 +49,16 @@ package org.agony2d.notify {
 	 *		1.  addEventListener
 	 * 		2.  removeEventListener
 	 * 		3.  removeEventAllListeners
-	 * 		4.  removeAll
+	 * 		4.  removeAllListeners
 	 * 		5.  hasEventListener
 	 *  	6.  hasAnyEventListener
 	 * 		7.  dispatchEvent
 	 * 		8.  dispatchDirectEvent
 	 * 		9.  dispose
 	 *  [★]
-	 *  	a. [ addEventListener ]...slower than native 30~40%
-	 *  	b. [ removeEventListener / removeEventAllListeners(more) / removeAll(more) ]...faster than native 400%+
-	 *  	c. [ dispatchEvent / dispatchDirectEvent(faster when ob type doesn't exist) ]...faster than native 20~50%
+	 *  	a. [ addEventListener ]...slower than native 30~40%...
+	 *  	b. [ removeEventListener / removeEventAllListeners (more) / removeAllListeners (more) ]...faster than native 400%+...!!
+	 *  	c. [ dispatchEvent / dispatchDirectEvent(faster when ob type doesn't exist) ]...faster than native 20~50%...!!
 	 */
 public class Notifier implements INotifier {
 	
@@ -91,7 +91,7 @@ public class Notifier implements INotifier {
 		}
 		else {
 			ob.removeListener(listener)
-			if (ob.m_length == 0) {
+			if (!ob.m_head.next) {
 				ob.recycle()
 				delete m_obList[type]
 			}
@@ -108,7 +108,7 @@ public class Notifier implements INotifier {
 		}
 	}
 	
-	final public function removeAll() : void {
+	final public function removeAllListeners() : void {
 		var ob:*
 		
 		if(m_obList) {
@@ -173,7 +173,7 @@ public class Notifier implements INotifier {
 	}
 	
 	public function dispose() : void {
-		this.removeAll()
+		this.removeAllListeners()
 		m_target = null
 	}
 	

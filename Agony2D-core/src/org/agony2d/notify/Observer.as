@@ -16,7 +16,7 @@ final internal class Observer {
 		LA.listener               =  listener
 		LA.priority               =  priority
 		LA.delayed                =  m_curr && (m_curr == m_head || m_curr.priority > priority)
-		if (m_length++ == 0) {
+		if (!m_head.next) {
 			LA.prev = m_head
 			m_head.next = LA
 		}
@@ -62,7 +62,6 @@ final internal class Observer {
 			LA.prev = LA.next = null
 			LA.listener = null
 			cachedPropList[cachedPropLength++] = LA
-			--m_length
 		}
 	}
 	
@@ -91,7 +90,7 @@ final internal class Observer {
 		var listener:*
 		var LA:ListenerProp
 		
-		if (m_length) {
+		if (m_head.next) {
 			for (listener in m_listenerList) {
 				LA = m_listenerList[listener]
 				LA.prev = LA.next = null
@@ -99,7 +98,6 @@ final internal class Observer {
 				delete m_listenerList[listener]
 				cachedPropList[cachedPropLength++] = LA
 			}
-			m_length = 0
 			m_head.next = null
 		}
 		cachedPropList[cachedPropLength++] = m_head
@@ -122,14 +120,5 @@ final internal class Observer {
 	
 	internal var m_listenerList:Dictionary = new Dictionary  // listener : ListenerProp
 	internal var m_head:ListenerProp, m_curr:ListenerProp
-	internal var m_length:int
 }
-}
-
-final internal class ListenerProp {
-	
-	internal var prev:ListenerProp, next:ListenerProp
-	internal var listener:Function
-	internal var priority:int
-	internal var delayed:Boolean
 }

@@ -2,7 +2,7 @@ package org.agony2d.input {
 	import org.agony2d.input.Touch
 	import org.agony2d.notify.AEvent;
 
-public class ATouchEvent extends AEvent {
+final public class ATouchEvent extends AEvent {
 	
 	public function ATouchEvent( type:String, touch:Touch ) {
 		super(type)

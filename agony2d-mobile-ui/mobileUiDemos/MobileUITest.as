@@ -25,7 +25,7 @@ package{
 	import org.agony2d.view.StatsMobileUI;
 	import states.*;
 	
-	[SWF(width = '900' ,height = '600', frameRate = '44', backgroundColor="0xdddddd")]
+	[SWF(width = '900' ,height = '600', frameRate = '50', backgroundColor="0xdddddd")]
 public class MobileUITest extends Sprite {
 	
 	public function MobileUITest() {

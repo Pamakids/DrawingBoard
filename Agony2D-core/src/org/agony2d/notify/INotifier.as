@@ -6,7 +6,7 @@ public interface INotifier {
 	
 	function removeEventListener( type:String, listener:Function ) : void
 	function removeEventAllListeners( type:String ) : void
-	function removeAll() : void
+	function removeAllListeners() : void
 	
 	function hasEventListener( type:String ) : Boolean
 	function hasAnyEventListener() : Boolean

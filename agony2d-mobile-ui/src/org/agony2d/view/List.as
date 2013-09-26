@@ -1,11 +1,12 @@
 package org.agony2d.view {
 	import flash.events.Event;
+	import org.agony2d.debug.Logger;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ItemRenderer;
-	import org.agony2d.view.layouts.IListLayout;
+	import org.agony2d.view.layouts.ILayoutStrategy;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
 	use namespace agony_internal;
@@ -24,11 +25,19 @@ package org.agony2d.view {
 	 *  		1.  出现方式...
 	 *  		2.  新加入/削除时布局动态变化(重布局)...
 	 *  		3.  退出方式...
+	 * 
 	 */
 public class List extends Fusion {
 	
-	public function List( layout:IListLayout, maskWidth:Number, maskHeight:Number, gridWidth:int, gridHeight:int, horizDisableOffset:int = 6, vertiDisableOffset:int = 6 ) {
-		m_listLayout = layout
+	public function List( itemStrategy:IItemStrategy, 
+							layoutStrategy:ILayoutStrategy, 
+							maskWidth:Number, maskHeight:Number, 
+							gridWidth:int, gridHeight:int, 
+							horizDisableOffset:int = 6, vertiDisableOffset:int = 6, 
+							itemRendererRef:Class = null ) {
+		m_itemStrategy = itemStrategy
+		m_layoutStrategy = layoutStrategy
+		m_itemRendererRef = itemRendererRef ? itemRendererRef : ItemRenderer
 		m_scrollFusion = new GridScrollFusion(maskWidth, maskHeight, gridWidth, gridHeight, false, horizDisableOffset, vertiDisableOffset)
 		this.addElement(m_scrollFusion)
 		m_content = m_scrollFusion.content as GridFusion
@@ -52,26 +61,31 @@ public class List extends Fusion {
 		m_sortData = v 
 	}
 	
-	public function addItem( item:ItemRenderer, id:int = -1 ) : void {
-		if (id > 0) {
+	public function addItem( source:Object, id:int = -1 ) : void {
+		var item:ItemRenderer
+		
+		item = new ItemRenderer(source)
+		if (id >= 0) {
+			if (m_itemMap[id]) {
+				Logger.reportError(this, "addItem", "id error [ " + id + " ]...!!")
+			}
 			m_itemMap[id] = item
 		}
 		else {
 			while (true) {
-				if (!m_itemMap[++m_count]) {
-					m_itemMap[m_count] = item
+				if (!m_itemMap[m_count]) {
+					id = m_count
+					m_itemMap[m_count++] = item
 					break
 				}
 			}
 		}
+		item.m_id = id
+		m_itemStrategy.enter(item)
 		m_content.addElement(item)
 		m_items[m_length++] = item
 		this.doInvalidateList()
 	}
-	
-	//public function setItem( itemData:Object ) : void {
-		//
-	//}
 	
 	public function removeItemAt( index:int ) : void {
 		delete m_items[index].m_id
@@ -84,6 +98,26 @@ public class List extends Fusion {
 		this.removeItemAt(m_itemMap[id].m_index)
 	}
 	
+	public function getItemModelById( id:int ) : IItemModel {
+		return m_itemMap[id]
+	}
+	
+	public function updateItemById( key:String, v:*, id:int ) : void {
+		var item:ItemRenderer
+		
+		item = m_itemMap[id]
+		item.setValue(key, v)
+		this.doUpdateItem(item)
+	}
+	
+	public function updateItemAllById( all:Object, id:int ) : void {
+		var item:ItemRenderer
+		
+		item = m_itemMap[id]
+		item.setAll(all)
+		this.doUpdateItem(item)
+	}
+	
 	override agony_internal function dispose() : void {
 		if (m_invalidated) {
 			Agony.stage.removeEventListener(Event.RENDER, ____onListSort)
@@ -93,7 +127,7 @@ public class List extends Fusion {
 	
 	
 	
-	protected static const DEFAULT_SORT_DATA:String = "bornTime"
+	protected static const DEFAULT_SORT_DATA:String = "timestamp"
 	
 	protected var m_items:Array = []
 	protected var m_length:int
@@ -103,9 +137,16 @@ public class List extends Fusion {
 	protected var m_invalidated:Boolean
 	protected var m_count:int
 	protected var m_itemMap:Object = {}
-	protected var m_listLayout:IListLayout
+	protected var m_layoutStrategy:ILayoutStrategy
+	protected var m_itemStrategy:IItemStrategy
+	protected var m_itemRendererRef:Class
 	
 	
+	protected function doUpdateItem( item:ItemRenderer ) : void {
+		item.m_view.m_notifier.removeAllListeners()
+		item.removeAllElement()
+		m_itemStrategy.enter(item)
+	}
 	
 	protected function doInvalidateList() : void {
 		if (!m_invalidated) {
@@ -131,7 +172,7 @@ public class List extends Fusion {
 		while (i < l) {
 			item = m_items[i]
 			item.m_index = i
-			m_listLayout.doLayout(m_content, item, i++)
+			m_layoutStrategy.doLayout(m_content, item, i++)
 			m_content.relocate(item)
 		}
 		m_scrollFusion.contentWidth = m_content.spaceWidth

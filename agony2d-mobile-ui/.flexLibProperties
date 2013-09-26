@@ -40,7 +40,6 @@
     <classEntry path="org.agony2d.view.enum.LayoutType"/>
     <classEntry path="org.agony2d.view.enum.ScrollTouchType"/>
     <classEntry path="org.agony2d.view.layouts.HorizLayout"/>
-    <classEntry path="org.agony2d.view.layouts.IListLayout"/>
     <classEntry path="org.agony2d.view.layouts.VertiLayout"/>
     <classEntry path="org.agony2d.view.puppet.AnimatorPuppet"/>
     <classEntry path="org.agony2d.view.puppet.IGraphics"/>

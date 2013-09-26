@@ -2,7 +2,7 @@ package org.agony2d.view.layouts {
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ItemRenderer;
 	
-public class HorizLayout implements IListLayout {
+public class HorizLayout implements ILayoutStrategy {
 	
 	public function HorizLayout( gapX:Number, gapY:Number = -1, maxLength:int = -1 ) {
 		m_maxLength = maxLength
