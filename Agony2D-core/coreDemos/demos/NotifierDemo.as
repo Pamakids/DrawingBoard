@@ -5,6 +5,7 @@ package demos
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.FocusEvent;
+	import flash.sampler.getSize;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	import org.agony2d.debug.getRunningTime;
@@ -28,6 +29,9 @@ package demos
 			var funObj:Object = {};
 			var tmpNum:int, i:int, mNum:int
 			
+			
+			
+			
 			for (i = 0; i < EXEC; i++) 
             {
 			   funObj["onFF" + i] = function(e:*= null):void { tmpNum++ }
@@ -35,6 +39,12 @@ package demos
 			
 			
 			notifier = new Notifier(new Sprite)
+			ed = new EventDispatcher()
+			
+			Logger.reportMessage('notifier size', getSize(notifier))
+			Logger.reportMessage('event size', getSize(ed))
+			
+			trace('\n=================================================\n')
 			
 			var t:int
 			
@@ -51,8 +61,11 @@ package demos
 			Logger.reportMessage('notifier add',(getTimer() - t))
 			
 			t = getTimer()
-			tmpNum=0
-			ed = new EventDispatcher()
+			tmpNum = 0
+			
+			
+			
+			
 			for (i = 0; i < EXEC; i++) 
 			{
 				ed.addEventListener(Event.COMPLETE, funObj["onFF"+i])

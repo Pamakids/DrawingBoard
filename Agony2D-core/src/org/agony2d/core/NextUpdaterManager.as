@@ -15,41 +15,41 @@ package org.agony2d.core {
 public class NextUpdaterManager {
 	
 	agony_internal static function addNextUpdater( updater:INextUpdater ) : void {
-		m_nextUpdaterList[m_nextUpdaterLength++] = updater
+		g_nextUpdaterList[g_nextUpdaterLength++] = updater
 	}
 	
 	agony_internal static function removeNextUpdater( updater:INextUpdater ) : void {
 		var index:int
 		
-		if (m_execLength > 0) {
-			index = m_execList.indexOf(updater)
-			if (index > m_execIndex) {
-				m_execList[index] = m_execList[--m_execLength]
-				m_execList.pop()
+		if (g_execLength > 0) {
+			index = g_execList.indexOf(updater)
+			if (index > g_execIndex) {
+				g_execList[index] = g_execList[--g_execLength]
+				g_execList.pop()
 			}
 		}
 		else {
-			index = m_nextUpdaterList.indexOf(updater)
-			m_nextUpdaterList[index] = m_nextUpdaterList[--m_nextUpdaterLength]
-			m_nextUpdaterList.pop()
+			index = g_nextUpdaterList.indexOf(updater)
+			g_nextUpdaterList[index] = g_nextUpdaterList[--g_nextUpdaterLength]
+			g_nextUpdaterList.pop()
 		}
 	}
 	
 	agony_internal static function updateAllNextUpdaters() : void {
-		if (m_nextUpdaterLength > 0) {
-			//Logger.reportMessage(NextUpdaterManager, 'Length(' + m_nextUpdaterLength + '):' + m_nextUpdaterList)
-			m_execList.push.apply(null, m_nextUpdaterList)
-			m_execLength = m_nextUpdaterLength
-			m_execIndex = m_nextUpdaterList.length = m_nextUpdaterLength = 0
-			while (m_execIndex < m_execLength) {
-				m_execList[m_execIndex++].modify()
+		if (g_nextUpdaterLength > 0) {
+			//Logger.reportMessage(NextUpdaterManager, 'Length(' + g_nextUpdaterLength + '):' + g_nextUpdaterList)
+			g_execList.push.apply(null, g_nextUpdaterList)
+			g_execLength = g_nextUpdaterLength
+			g_execIndex = g_nextUpdaterList.length = g_nextUpdaterLength = 0
+			while (g_execIndex < g_execLength) {
+				g_execList[g_execIndex++].modify()
 			}
-			m_execLength = m_execList.length = 0
+			g_execLength = g_execList.length = 0
 		}
 	}
 	
-	agony_internal static var m_nextUpdaterList:Array = []
-	agony_internal static var m_execList:Array = []
-	agony_internal static var m_nextUpdaterLength:int, m_execLength:int, m_execIndex:int
+	agony_internal static var g_nextUpdaterList:Array = []
+	agony_internal static var g_execList:Array = []
+	agony_internal static var g_nextUpdaterLength:int, g_execLength:int, g_execIndex:int
 }
 }

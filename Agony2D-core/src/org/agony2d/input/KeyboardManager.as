@@ -37,7 +37,7 @@ final public class KeyboardManager implements IProcess
 	 */
 	final public function initialize( notAllKeys:Boolean = true ) : void
 	{
-		if (!ProcessManager.m_stage)
+		if (!ProcessManager.g_stage)
 		{
 			Logger.reportError('KeyboardManager', 'constructor', '主引擎(Agony)未启动 !!');
 			return
@@ -334,8 +334,8 @@ final public class KeyboardManager implements IProcess
 	private function _initializeEvents() : void
 	{
 		m_head = new KeyboardState();
-		ProcessManager.m_stage.addEventListener(KeyboardEvent.KEY_DOWN, ____onKeyDown);
-		ProcessManager.m_stage.addEventListener(KeyboardEvent.KEY_UP,   ____onKeyUp);
+		ProcessManager.g_stage.addEventListener(KeyboardEvent.KEY_DOWN, ____onKeyDown);
+		ProcessManager.g_stage.addEventListener(KeyboardEvent.KEY_UP,   ____onKeyUp);
 		ProcessManager.addFrameProcess(this, ProcessManager.KEYBOARD);
 	}
 	

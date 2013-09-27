@@ -1,15 +1,18 @@
 package org.agony2d.view.puppet {
-	import flash.display.BitmapData
-	import flash.display.DisplayObject
-	import flash.geom.Point
-	import flash.geom.Rectangle
-	import org.agony2d.core.agony_internal
+	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	
+	import org.agony2d.core.agony_internal;
+	
 	import org.agony2d.debug.Logger
 	import org.agony2d.view.core.AgonySprite
 	import org.agony2d.view.core.Component
 	import org.agony2d.view.core.ComponentProxy;
 	
 	use namespace agony_internal;
+
 	
 	/** 九宫格傀儡
 	 *  [◆◆◇]

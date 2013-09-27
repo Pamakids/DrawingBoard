@@ -2,7 +2,7 @@ package org.agony2d.view {
 	import flash.display.MovieClip;
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.utils.getInstance;
+	import org.agony2d.utils.makeInstance;
 	import org.agony2d.view.puppet.SpritePuppet;
 	import org.agony2d.view.supportClasses.AbstractRange;
 	
@@ -14,7 +14,7 @@ public class ProgressBar extends AbstractRange {
 		super(v, min, max)
 		m_sprite = new SpritePuppet()
 		this.addElementAt(m_sprite)
-		m_movieClip = getInstance(movieClipData) as MovieClip
+		m_movieClip = makeInstance(movieClipData) as MovieClip
 		m_sprite.addChild(m_movieClip)
 		this.updateValue()
 		m_range.addEventListener(AEvent.CHANGE, ____onRangeChange)

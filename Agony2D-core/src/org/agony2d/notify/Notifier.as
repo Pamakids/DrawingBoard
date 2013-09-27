@@ -2,6 +2,9 @@
 // performance test result :
 //////////////////////////////////
 /*	
+	[ Message ] : ■[ notifier size ] ...◎ 24
+	[ Message ] : ■[ event size ]    ...◎ 40
+	
 	No. 01
 	=================================================
 	[ Message ] : ■[ notifier add ] ...◎ 312
@@ -39,8 +42,8 @@
 	[ Message ] : ■[ event dispatch : void ] ...◎ 147
 */
 package org.agony2d.notify {
-	import org.agony2d.debug.Logger
-	import org.agony2d.core.agony_internal
+	import org.agony2d.core.agony_internal;
+	import org.agony2d.notify.supportClasses.Observer;
 	
 	use namespace agony_internal;
 	
@@ -58,7 +61,7 @@ package org.agony2d.notify {
 	 *  [★]
 	 *  	a. [ addEventListener ]...slower than native 30~40%...
 	 *  	b. [ removeEventListener / removeEventAllListeners (more) / removeAllListeners (more) ]...faster than native 400%+...!!
-	 *  	c. [ dispatchEvent / dispatchDirectEvent(faster when ob type doesn't exist) ]...faster than native 20~50%...!!
+	 *  	c. [ dispatchEvent / dispatchDirectEvent (faster when ob type doesn't exist) ]...faster than native 20~50%...!!
 	 */
 public class Notifier implements INotifier {
 	
@@ -87,7 +90,7 @@ public class Notifier implements INotifier {
 		
 		ob = m_obList ? m_obList[type] : null
 		if (!ob) {
-			Logger.reportWarning(this, 'removeEventListener', 'the type of ob does not exist...')
+			//trace("the type of ob does not exist...")
 		}
 		else {
 			ob.removeListener(listener)
@@ -136,13 +139,13 @@ public class Notifier implements INotifier {
 	}
 	
 	final public function dispatchEvent( event:AEvent ) : Boolean {
-		var obs:Observer
+		var ob:Observer
 		
-		obs = m_obList ? m_obList[event.m_type] : null
-		if (obs) {
+		ob = m_obList ? m_obList[event.m_type] : null
+		if (ob) {
 			event.m_target = m_target
-			event.m_observer = obs
-			obs.execute(event)
+			event.m_observer = ob
+			ob.execute(event)
 			return true
 		}
 		return false
@@ -177,8 +180,8 @@ public class Notifier implements INotifier {
 		m_target = null
 	}
 	
-	agony_internal static var cachedEventList:Array = []
-	agony_internal static var cachedEventLength:int, cachedEventIndex:int
+	private static var cachedEventList:Array = []
+	private static var cachedEventLength:int, cachedEventIndex:int
 	
 	agony_internal var m_target:Object, m_obList:Object // type:Observer
 }

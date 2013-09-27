@@ -12,7 +12,7 @@ package org.agony2d.view {
 	import org.agony2d.core.IProcess;
 	import org.agony2d.core.ProcessManager;
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.renderer.anime.Animator;
+	//import org.agony2d.renderer.anime.Animator;
 	import org.agony2d.utils.gc;
 	import org.agony2d.view.puppet.SpritePuppet;
 	import org.agony2d.core.agony_internal;
@@ -130,7 +130,7 @@ public class StatsMobileUI extends Fusion {
 			fps = 0;
 		}
 		msText.text = "MS: " + (timer - ms);
-		numAnimatorsText.text = "Animator: " + (Animator.m_manager ? Animator.m_manager.numAnimators : 0)
+		//numAnimatorsText.text = "Animator: " + (Animator.m_manager ? Animator.m_manager.numAnimators : 0)
 		ms = timer;
 	}
 }

@@ -1,6 +1,6 @@
 package org.agony2d.notify.properties {
 	
-	/** [ LoopIntProperty ]
+	/** [ IntLoopProperty ]
 	 *  [◆]
 	 * 		1.  oldValue
 	 *  	2.  value

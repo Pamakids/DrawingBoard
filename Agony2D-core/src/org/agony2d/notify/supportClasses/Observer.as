@@ -1,15 +1,17 @@
-package org.agony2d.notify {
+package org.agony2d.notify.supportClasses {
 	import flash.utils.Dictionary
-	import org.agony2d.debug.Logger
+	import org.agony2d.core.agony_internal
 	
-final internal class Observer {
+	use namespace agony_internal;
+	
+final public class Observer {
 	
 	/** equal priority，earlier exec for last added listener... */
-	final internal function addListener( listener:Function, priority:int ) : void {
+	final agony_internal function addListener( listener:Function, priority:int ) : void {
 		var LA:ListenerProp, LB:ListenerProp
 		
 		if (m_listenerList[listener]) {
-			//Logger.reportWarning(this, 'addListener', 'update priority...')
+			//trace("update priority...")
 			this.removeListener(listener)
 		}
 		m_listenerList[listener]  =  LA  =  (cachedPropLength > 0 ? cachedPropLength-- : 0) ? cachedPropList.pop() : new ListenerProp
@@ -42,12 +44,12 @@ final internal class Observer {
 		}
 	}
 	
-	final internal function removeListener( listener:Function ) : void {
+	final agony_internal function removeListener( listener:Function ) : void {
 		var LA:ListenerProp
 		
 		LA = m_listenerList[listener]
 		if (!LA) {
-			//Logger.reportWarning(this, 'removeListener', 'listener has not been registered...!!')
+			// trace("listener has not been registered...!!")
 		}
 		else {
 			// executing...update queue...
@@ -65,7 +67,7 @@ final internal class Observer {
 		}
 	}
 	
-	final internal function execute( ...args ) : void {
+	final agony_internal function execute( ...args ) : void {
 		m_curr = m_head.next
 		while (m_curr) {
 			// to prevent a lower priority listener for just be added，doesn't be directly called during the current ob is being executed...
@@ -79,14 +81,14 @@ final internal class Observer {
 		}
 	}
 	
-	final internal function breakExecute() : void {
+	final agony_internal function breakExecute() : void {
 		while (m_curr) {
 			m_curr.delayed = false
 			m_curr = m_curr.next
 		}
 	}
 	
-	final internal function recycle() : void {
+	final agony_internal function recycle() : void {
 		var listener:*
 		var LA:ListenerProp
 		
@@ -105,7 +107,7 @@ final internal class Observer {
 		cachedObList[cachedObLength++] = this
 	}
 	
-	internal static function NewObserver() : Observer {
+	agony_internal static function NewObserver() : Observer {
 		var ob:Observer
 		
 		ob = (cachedObLength > 0 ? cachedObLength-- : 0) ? cachedObList.pop() : new Observer
@@ -118,7 +120,7 @@ final internal class Observer {
 	private static var cachedPropList:Array = []
 	private static var cachedPropLength:int
 	
-	internal var m_listenerList:Dictionary = new Dictionary  // listener : ListenerProp
-	internal var m_head:ListenerProp, m_curr:ListenerProp
+	agony_internal var m_listenerList:Dictionary = new Dictionary  // listener : ListenerProp
+	agony_internal var m_head:ListenerProp, m_curr:ListenerProp
 }
 }

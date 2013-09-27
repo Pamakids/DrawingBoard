@@ -1,7 +1,7 @@
 package org.agony2d.utils {
 	import flash.utils.getDefinitionByName;
 
-	public function getInstance( data:* ) : * {
+	public function makeInstance( data:* ) : * {
 		var type:Class
 		
 		if (data is Class) {

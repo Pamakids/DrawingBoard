@@ -1,5 +1,9 @@
 package org.agony2d.notify {
+	import org.agony2d.notify.supportClasses.Observer;
 	import org.agony2d.utils.getClassName;
+	import org.agony2d.core.agony_internal
+	
+	use namespace agony_internal;
 	
 	/** [ AEvent ]
 	 *  [◆]
@@ -46,7 +50,6 @@ public class AEvent {
 	public static const INTERACTIVE_CHANGE:String  =  "interactiveChange"
 	public static const KILL:String                =  "kill"
 	
-    public static const FLUSH:String               =  "flush"
 	public static const PENDING:String             =  "pending"
 	public static const SUCCESS:String             =  "success"
 	public static const UNSUCCESS:String           =  "unsuccess"

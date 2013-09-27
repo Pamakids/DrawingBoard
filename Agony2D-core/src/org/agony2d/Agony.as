@@ -1,17 +1,12 @@
 package org.agony2d {
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.system.Capabilities;
 	import flash.ui.Mouse;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
-	
-	import org.agony2d.core.ProcessManager;
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.core.ProcessManager;
 	import org.agony2d.debug.Logger;
-	import org.agony2d.renderer.anime.Animator;
-	import org.agony2d.renderer.anime.SectionManager;
 	
 	use namespace agony_internal;
 	
@@ -24,23 +19,22 @@ package org.agony2d {
 	 *		1.  startup
 	 *  [■]
 	 * 		a.  process
-	 * 		b.  notifier
+	 * 		b.  notify    [ notifier × property × cookie ]
 	 * 		c.  loader    [ loader × url-loader ]
 	 * 		d.  timer     [ timer × delay ]
 	 * 		f.  input     [ mouse × touch，keyboard ]
 	 * 		g.  media     [ sound × record，video ]
-	 * 		h.  cookie
 	 *  [★]
 	 * 		a.  To conquer fear，you must become fear.
 	 */
 public class Agony {
 	
 	public static function get stage() : Stage {
-		return m_stage
+		return ProcessManager.g_stage
 	}
 	
 	public static function get process() : ProcessManager { 
-		return m_process 
+		return g_process 
 	}
 	
 	public static function get isMoblieDevice() : Boolean {
@@ -48,11 +42,12 @@ public class Agony {
 	}
 	
 	public static function startup( stage:Stage, quality:String = 'high' ) : void {
-		ProcessManager.m_stage  =  m_stage  =  stage
+		ProcessManager.g_stage  =  stage
 		stage.quality           =  quality
 		stage.scaleMode         =  'noScale'
 		stage.align             =  'leftTop'
-		m_process               =  new ProcessManager
+		g_process               =  new ProcessManager
+		
 		trace('================================== [ Agony2d - core ] ==================================')
 		Logger.reportMessage("Agony", "★[ startup ]..." +
 							"cursor [ " + Mouse.supportsCursor + " ]..." + 
@@ -63,10 +58,9 @@ public class Agony {
 		if (Multitouch.maxTouchPoints > 0) {
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT
 		}
-		m_process.running = true
+		g_process.running = true
 	}
 	
-	private static var m_process:ProcessManager
-	private static var m_stage:Stage
+	private static var g_process:ProcessManager
 }
 }

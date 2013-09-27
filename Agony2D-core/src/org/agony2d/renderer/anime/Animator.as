@@ -1,7 +1,7 @@
 package org.agony2d.renderer.anime 
 {
 	import flash.geom.Point;
-	import org.agony2d.notify.Observer;
+//	import org.agony2d.notify.Observer;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.core.INextUpdater;
 	import org.agony2d.core.NextUpdaterManager;
@@ -515,7 +515,7 @@ public class Animator implements INextUpdater
 	}
 }
 }
-import org.agony2d.notify.Observer;
+//import org.agony2d.notify.Observer;
 
 final internal class ActionReaction 
 {

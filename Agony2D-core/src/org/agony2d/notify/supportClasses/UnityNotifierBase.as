@@ -2,9 +2,12 @@ package org.agony2d.notify.supportClasses {
 	import org.agony2d.core.agony_internal
 	import org.agony2d.core.INextUpdater
 	import org.agony2d.core.NextUpdaterManager
+	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.Notifier;
 	
 	use namespace agony_internal;
+	
+	[Event(name = "change", type = "org.agony2d.notify.AEvent")]
 	
 public class UnityNotifierBase extends Notifier implements INextUpdater {
 	
@@ -19,9 +22,10 @@ public class UnityNotifierBase extends Notifier implements INextUpdater {
 		super.dispose()
 	}
 	
-	/** override */
+	/** overwrite... */
 	public function modify() : void {
-		
+		m_dirty = false
+		this.dispatchDirectEvent(AEvent.CHANGE)
 	}
 	
 	protected function makeStain() : void {

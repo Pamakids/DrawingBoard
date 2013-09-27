@@ -46,7 +46,7 @@ final public class MouseManager extends Notifier implements IProcess
 	
 	public function MouseManager() 
 	{
-		m_stage = ProcessManager.m_stage;
+		m_stage = ProcessManager.g_stage;
 		if (!m_stage)
 		{
 			Logger.reportError(this, 'constructor', '主引擎(Agony)未启动... !!');

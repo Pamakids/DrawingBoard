@@ -91,14 +91,14 @@ public class AgonyUI {
 	
 	public static function startup( invalidWhenLeave:Boolean, debugWidth:int, debugHeight:int, 
 									landscape:Boolean = true, hasMaskForAspectRatio:Boolean = false, debugPixelRatio:Number = NaN ) : void {
-		if (!ProcessManager.m_stage) {
+		if (!ProcessManager.g_stage) {
 			Logger.reportError("AgonyUI", "startup", "AgonyCore has not started up...!!");
 		}
 		else if (fusion) {
 			Logger.reportError("AgonyUI", "startup", "AgonyUI has been started up...!!")
 		}
 		UIManager.m_invalidWhenLeave = invalidWhenLeave
-		UIManager.m_stage = ComponentProxy.m_stage = ProcessManager.m_stage
+		UIManager.m_stage = ComponentProxy.m_stage = ProcessManager.g_stage
 		UIManager.initialize(debugWidth, debugHeight, landscape, hasMaskForAspectRatio, debugPixelRatio)
 	}
 	

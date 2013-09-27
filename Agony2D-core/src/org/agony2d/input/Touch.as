@@ -74,7 +74,7 @@ public class Touch extends Notifier {
 		if(m_stageX != stageX || m_stageY != stageY) {
 			m_stageX = stageX
 			m_stageY = stageY
-			if (m_isMoveByFrame) {
+			if (g_isMoveByFrame) {
 				m_moveStateA = true
 			}
 			else {
@@ -82,7 +82,7 @@ public class Touch extends Notifier {
 				m_prevStageX = m_stageX
 				m_prevStageY = m_stageY
 			}
-			if (m_velocityEnabled) {
+			if (g_velocityEnabled) {
 				m_oldAMouseX = m_currMoveX
 				m_oldAMouseY = m_currMoveY
 				m_currMoveX = stageX
@@ -90,25 +90,25 @@ public class Touch extends Notifier {
 				tx = m_currMoveX - m_oldAMouseX
 				ty = m_currMoveY - m_oldAMouseY
 				if (MathUtil.adverse(m_maxMoveX, tx) || Math.abs(tx) > Math.abs(m_maxMoveX)) {
-					m_maxMoveX = (tx < 0) ? Math.max(tx, -m_maxVelocity) : Math.min(tx, m_maxVelocity)
+					m_maxMoveX = (tx < 0) ? Math.max(tx, -g_maxVelocity) : Math.min(tx, g_maxVelocity)
 				}
 				if (MathUtil.adverse(m_maxMoveY, ty) || Math.abs(ty) > Math.abs(m_maxMoveY)) {
-					m_maxMoveY = (ty < 0) ? Math.max(ty, -m_maxVelocity) : Math.min(ty, m_maxVelocity)
+					m_maxMoveY = (ty < 0) ? Math.max(ty, -g_maxVelocity) : Math.min(ty, g_maxVelocity)
 				}				
-				m_currCount = Math.ceil(m_invalidCount * m_stage.frameRate / 60.0)
+				m_currCount = Math.ceil(g_invalidCount * g_stage.frameRate / 60.0)
 			}
 		}
 	}
 	
 	internal function update() : void {
-		// Move
-		if (m_isMoveByFrame && m_moveStateA) {
+		// move...
+		if (g_isMoveByFrame && m_moveStateA) {
 			m_moveStateA = false
 			this.dispatchDirectEvent(AEvent.MOVE)
 			m_prevStageX = m_stageX
 			m_prevStageY = m_stageY
 		}
-		// Velocity
+		// velocity...
 		if (m_currCount > 0) {
 			if (--m_currCount == 0) {
 				m_oldAMouseX = m_currMoveX = m_stageX
@@ -116,8 +116,8 @@ public class Touch extends Notifier {
 				m_maxMoveX = m_maxMoveY = 0
 			}
 			else {
-				m_maxMoveX *= m_mouseFriction
-				m_maxMoveY *= m_mouseFriction
+				m_maxMoveX *= MOVE_FRICTION
+				m_maxMoveY *= MOVE_FRICTION
 			}
 		}
 	}
@@ -136,13 +136,14 @@ public class Touch extends Notifier {
 		return touch.reset(touchID, stageX, stageY)
 	}
 	
+	agony_internal static const MOVE_FRICTION:Number = .55
+	
 	agony_internal static var cachedTouchLength:int
 	agony_internal static var cachedTouchList:Array = []
-	agony_internal static var m_invalidCount:int = 7
-	agony_internal static var m_maxVelocity:int = 44
-	agony_internal static var m_stage:Stage
-	agony_internal static var m_velocityEnabled:Boolean, m_isMoveByFrame:Boolean
-	agony_internal static const m_mouseFriction:Number = .55
+	agony_internal static var g_invalidCount:int = 7
+	agony_internal static var g_maxVelocity:int = 44
+	agony_internal static var g_stage:Stage
+	agony_internal static var g_velocityEnabled:Boolean, g_isMoveByFrame:Boolean
 	
 	agony_internal var m_touchID:int, m_currCount:int
 	agony_internal var m_moveStateA:Boolean

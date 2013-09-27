@@ -1,7 +1,7 @@
 package org.agony2d.notify.properties {
 	import org.agony2d.debug.Logger;
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.notify.properties.supportClasses.PropertyBase;
+	import org.agony2d.notify.supportClasses.UnityNotifierBase;
 	
 	/** [ IntProperty ]
 	 *  [◆]
@@ -10,7 +10,7 @@ package org.agony2d.notify.properties {
 	 *  	3.  low
 	 *  	4.  high
 	 */
-public class IntProperty extends PropertyBase {
+public class IntProperty extends UnityNotifierBase {
 	
 	public function IntProperty( v:int = 0, low:int = int.MIN_VALUE, high:int = int.MAX_VALUE ) {
 		if (low > high) {
@@ -68,11 +68,8 @@ public class IntProperty extends PropertyBase {
 	}
 	
 	override public function modify() : void {
-		if(m_newValue != m_oldValue) {
-			this.dispatchDirectEvent(AEvent.CHANGE)
-			m_oldValue = m_newValue
-		}
-		m_dirty = false
+		super.modify()
+		m_oldValue = m_newValue
 	}
 	
 	protected var m_newValue:int, m_oldValue:int, m_low:int, m_high:int

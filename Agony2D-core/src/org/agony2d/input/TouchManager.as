@@ -42,11 +42,11 @@ public class TouchManager extends Notifier implements IProcess {
 		var stage:Stage
 		
 		super(null)
-		stage = Touch.m_stage = ProcessManager.m_stage;
+		stage = Touch.g_stage = ProcessManager.g_stage;
 		if (!stage) {
 			Logger.reportError(this, "constructor", "Agony core hasn't started up...!!");
 		}
-		m_touchList = {}
+		g_touchList = {}
 		eventList = (Multitouch.maxTouchPoints > 0) ? 
 					[TouchEvent.TOUCH_BEGIN, TouchEvent.TOUCH_MOVE, TouchEvent.TOUCH_END] :
 					[MouseEvent.MOUSE_DOWN, MouseEvent.MOUSE_MOVE, MouseEvent.MOUSE_UP]
@@ -57,26 +57,26 @@ public class TouchManager extends Notifier implements IProcess {
 	}
 	
 	public function get numTouchs() : int {
-		return m_numTouchs
+		return g_numTouchs
 	}
 	
 	public function get multiTouchEnabled() : Boolean { 
-		return m_multiTouchEnabled
+		return g_multiTouchEnabled
 	}
 	
 	public function set multiTouchEnabled( b:Boolean ) : void {
 		var touch:Touch
 		
-		if (m_multiTouchEnabled != b) {
-			m_multiTouchEnabled = b
+		if (g_multiTouchEnabled != b) {
+			g_multiTouchEnabled = b
 			if (b) {
-				if (m_allInvalid) {
-					m_allInvalid = false
+				if (g_allInvalid) {
+					g_allInvalid = false
 				}
 			}
-			else if (m_numTouchs > 0) {
-				m_allInvalid = true
-				for each(touch in m_touchList) {
+			else if (g_numTouchs > 0) {
+				g_allInvalid = true
+				for each(touch in g_touchList) {
 					touch.dispatchDirectEvent(AEvent.RELEASE)
 				}
 			}
@@ -84,56 +84,56 @@ public class TouchManager extends Notifier implements IProcess {
 	}
 	
 	public function get velocityEnabled() : Boolean { 
-		return Touch.m_velocityEnabled
+		return Touch.g_velocityEnabled
 	}
 	
 	public function set velocityEnabled( b:Boolean ) : void {
-		if (Touch.m_velocityEnabled != b) {
-			Touch.m_velocityEnabled = b
+		if (Touch.g_velocityEnabled != b) {
+			Touch.g_velocityEnabled = b
 			this.checkAddUpdateList()
 		}
 	}
 	
 	public function get isMoveByFrame() : Boolean {
-		return Touch.m_isMoveByFrame
+		return Touch.g_isMoveByFrame
 	}
 	
 	public function set isMoveByFrame( b:Boolean ) : void {
-		if (Touch.m_isMoveByFrame != b) {
-			Touch.m_isMoveByFrame = b
+		if (Touch.g_isMoveByFrame != b) {
+			Touch.g_isMoveByFrame = b
 			this.checkAddUpdateList()
 		}
 	}
 	
 	public function get isLocked() : Boolean {
-		return m_isLocked
+		return g_isLocked
 	}
 	
 	public function set isLocked( b:Boolean ) : void {
-		m_isLocked = b
+		g_isLocked = b
 	}
 	
 	public function setVelocityLimit( invalidCount:int = 7, maxVelocity:int = 44 ) : void {
-		Touch.m_invalidCount = invalidCount
-		Touch.m_maxVelocity = maxVelocity
+		Touch.g_invalidCount = invalidCount
+		Touch.g_maxVelocity = maxVelocity
 	}
 	
 	public static function getInstance() : TouchManager {
-		return m_instance ||= new TouchManager
+		return g_instance ||= new TouchManager
 	}
 	
 	private function checkAddUpdateList() : void {
-		if (Touch.m_isMoveByFrame || Touch.m_velocityEnabled) {
-			if (!m_updating) {
+		if (Touch.g_isMoveByFrame || Touch.g_velocityEnabled) {
+			if (!g_updating) {
 				ProcessManager.addFrameProcess(this, ProcessManager.INTERACT)
-				m_updating = true
+				g_updating = true
 				Logger.reportMessage(this, "added to update list...")
 			}
 		}
 		else {
-			if (m_updating) {
+			if (g_updating) {
 				ProcessManager.removeFrameProcess(this)
-				m_updating = false
+				g_updating = false
 				Logger.reportMessage(this, "removed from update list...")
 			}
 		}
@@ -142,8 +142,8 @@ public class TouchManager extends Notifier implements IProcess {
 	final public function update( deltaTime:Number ) : void {
 		var touch:Touch
 		
-		if (m_numTouchs > 0 && !m_allInvalid) {
-			for each(touch in m_touchList) {
+		if (g_numTouchs > 0 && !g_allInvalid) {
+			for each(touch in g_touchList) {
 				touch.update()
 			}
 		}
@@ -154,54 +154,55 @@ public class TouchManager extends Notifier implements IProcess {
 		var touchID:int
 		var touch:Touch
 		
-		if (m_isLocked) {
+		if (g_isLocked) {
 			return
 		}
 		type     =  e.type
 		touchID  =  (e is TouchEvent) ? (e as TouchEvent).touchPointID : 0
 		
-		if (type == TouchEvent.TOUCH_MOVE && !m_allInvalid) {
-			m_touchList[touchID].setCoords(e.stageX, e.stageY)
+		if (type == TouchEvent.TOUCH_MOVE && !g_allInvalid) {
+			g_touchList[touchID].setCoords(e.stageX, e.stageY)
 		}
 		else if (type == TouchEvent.TOUCH_BEGIN || type == MouseEvent.MOUSE_DOWN) {
-			m_touchList[touchID] = touch = Touch.NewTouch(touchID, e.stageX, e.stageY)
-			if (m_numTouchs++ == 0 || m_multiTouchEnabled) {
+			g_touchList[touchID] = touch = Touch.NewTouch(touchID, e.stageX, e.stageY)
+			if (g_numTouchs++ == 0 || g_multiTouchEnabled) {
 				this.dispatchEvent(new ATouchEvent(ATouchEvent.NEW_TOUCH, touch))
 			}
 			// [ multitouch is false ]，if there are more than two touchs，all touch will be disabled...
-			if(m_numTouchs > 1 && !m_multiTouchEnabled && !m_allInvalid){
-				m_allInvalid = true
-				for each(touch in m_touchList) {
+			if(g_numTouchs > 1 && !g_multiTouchEnabled && !g_allInvalid){
+				g_allInvalid = true
+				for each(touch in g_touchList) {
 					touch.dispatchDirectEvent(AEvent.RELEASE)
 				}
 			}
 		}
 		else if (type == TouchEvent.TOUCH_END || type == MouseEvent.MOUSE_UP) {
-			--m_numTouchs
-			if (!m_allInvalid) {
-				touch = m_touchList[touchID]
+			--g_numTouchs
+			if (!g_allInvalid) {
+				touch = g_touchList[touchID]
 				touch.dispatchDirectEvent(AEvent.RELEASE)
 				touch.dispose()
 			}
-			delete m_touchList[touchID]
-			if (m_numTouchs == 0) {
+			delete g_touchList[touchID]
+			if (g_numTouchs == 0) {
 				this.dispatchDirectEvent(AEvent.CLEAR)
-				if (m_allInvalid) {
-					m_allInvalid = false
+				if (g_allInvalid) {
+					g_allInvalid = false
 				}
 			}
 		}
-		else if (type == MouseEvent.MOUSE_MOVE && !m_allInvalid) {
-			touch = m_touchList[touchID]
+		else if (type == MouseEvent.MOUSE_MOVE && !g_allInvalid) {
+			touch = g_touchList[touchID]
 			if (touch) {
 				touch.setCoords(e.stageX, e.stageY)
 			}
 		}
 	}
 	
-	agony_internal static var m_instance:TouchManager
-	agony_internal static var m_touchList:Object // touchID:Touch
-	agony_internal static var m_numTouchs:int
-	agony_internal static var m_multiTouchEnabled:Boolean, m_isLocked:Boolean, m_updating:Boolean, m_allInvalid:Boolean // used in single touch state...
+	agony_internal static var g_instance:TouchManager
+	
+	agony_internal static var g_touchList:Object // touchID:Touch
+	agony_internal static var g_numTouchs:int
+	agony_internal static var g_multiTouchEnabled:Boolean, g_isLocked:Boolean, g_updating:Boolean, g_allInvalid:Boolean // used in single touch state...
 }
 }

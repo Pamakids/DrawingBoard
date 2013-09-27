@@ -179,7 +179,7 @@ public class UIManager {
 		for (tid in m_touchMap) {
 			p = m_registeredPuppets[m_touchMap[tid]]
 			if (contains(p.m_proxy as IComponent, c)) {
-				return TouchManager.m_touchList[tid]
+				return TouchManager.g_touchList[tid]
 			}
 		}
 		return null
@@ -364,7 +364,7 @@ public class UIManager {
 							// 顶级合体不发生click事件...
 							if (PA == PB) {
 								// 触摸失效时，[ 绑定puppet ]不发生click事件...
-								if (!TouchManager.m_allInvalid) {
+								if (!TouchManager.g_allInvalid) {
 									PB.bubble(AEvent.CLICK, false)
 								}
 							}

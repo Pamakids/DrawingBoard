@@ -1,13 +1,13 @@
 package org.agony2d.notify.properties {
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.notify.properties.supportClasses.PropertyBase;
+	import org.agony2d.notify.supportClasses.UnityNotifierBase;
 	
 	/** [ StringProperty ]
 	 *  [◆]
 	 * 		1.  oldValue
 	 *  	2.  value
 	 */
-public class StringProperty extends PropertyBase {
+public class StringProperty extends UnityNotifierBase {
 	
 	public function StringProperty( v:String = null ) {
 		m_oldValue = m_newValue = v;
@@ -29,11 +29,8 @@ public class StringProperty extends PropertyBase {
 	}
 	
 	override public function modify() : void {
-		if(m_newValue != m_oldValue) {
-			this.dispatchDirectEvent(AEvent.CHANGE)
-			m_oldValue = m_newValue
-		}
-		m_dirty = false
+		super.modify()
+		m_oldValue = m_newValue
 	}
 	
 	private var m_newValue:String, m_oldValue:String

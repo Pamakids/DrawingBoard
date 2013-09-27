@@ -66,7 +66,7 @@ final public class LoaderManager extends LoaderManagerBase {
 	}
 	
 	public static function getInstance() : LoaderManager {
-		return m_instance ||= new LoaderManager
+		return g_instance ||= new LoaderManager
 	}
 	
 	public function getLoader( url:String, priority:int = 0, forced:Boolean = false ) : ILoader {
@@ -162,7 +162,7 @@ final public class LoaderManager extends LoaderManagerBase {
 		this.doLoadNext()
 	}
 	
-	private static var m_instance:LoaderManager
+	private static var g_instance:LoaderManager
 	
 	private var m_context:LoaderContext
 }

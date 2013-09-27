@@ -2,7 +2,7 @@ package org.agony2d.notify.properties {
 	import flash.events.Event;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.notify.properties.supportClasses.PropertyBase;
+	import org.agony2d.notify.supportClasses.UnityNotifierBase;
 	import org.agony2d.utils.MathUtil;
 	
 	/** [ RangeProperty ]
@@ -14,7 +14,7 @@ package org.agony2d.notify.properties {
 	 *  [★]
 	 *  	a.  minimum accuracy [ 0.1 ]...
 	 */
-public class RangeProperty extends PropertyBase {
+public class RangeProperty extends UnityNotifierBase {
 	
 	public function RangeProperty( v:Number, low:Number = 0, high:Number = 100, accuracy:Number = 0 ) {
 		if (low > high) {
@@ -86,11 +86,6 @@ public class RangeProperty extends PropertyBase {
 	
 	public function set ratio( v:Number ) : void { 
 		this.value = v * (m_high - m_low) + m_low 
-	}
-	
-	override public function modify() : void {
-		this.dispatchDirectEvent(AEvent.CHANGE)
-		m_dirty = false
 	}
 	
 	protected function calculateBounds( v:Number ) : Number {

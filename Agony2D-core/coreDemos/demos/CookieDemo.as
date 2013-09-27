@@ -3,9 +3,9 @@ package demos
 	import com.bit101.components.PushButton;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import org.agony2d.utils.CookieUtil;
+	import org.agony2d.notify.cookie.ACookie;
+	import org.agony2d.notify.cookie.CookieManager;
 	import org.agony2d.timer.FrameTimerManager;
-	import org.agony2d.utils.ICookie;
 	import org.agony2d.timer.ITimer;
 	import org.agony2d.Agony;
 	import org.agony2d.notify.AEvent;
@@ -24,10 +24,10 @@ public class CookieDemo extends Sprite
 		
 		var pauseBtn:PushButton
 		
-		cookie = CookieUtil.createCookie('Agony2D')
+		cookie = CookieManager.getInstance().addCookie('Agony2D')
 		cookie.addEventListener(AEvent.PENDING, onPending)
 		cookie.addEventListener(AEvent.SUCCESS, onSuccess)
-		cookie.addEventListener(AEvent.FLUSH,onFlushed)
+		cookie.addEventListener(AEvent.CHANGE,  onChange)
 		
 		// listeners
 		trace('本地记录: ' + cookie.size)
@@ -89,9 +89,9 @@ public class CookieDemo extends Sprite
 
 	}
 	
-	private var cookie:ICookie
+	private var cookie:ACookie
 	
-	private function onFlushed(e:AEvent) : void
+	private function onChange(e:AEvent) : void
 	{
 		trace('刷新成功: ' + cookie.size)
 	}

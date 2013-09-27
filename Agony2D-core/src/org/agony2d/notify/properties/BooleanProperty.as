@@ -1,15 +1,15 @@
 package org.agony2d.notify.properties {
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.notify.properties.supportClasses.PropertyBase;
+	import org.agony2d.notify.supportClasses.UnityNotifierBase;
 	
 	/** [ BooleanProperty ]
 	 *  [◆]
 	 * 		1.  value
 	 */
-public class BooleanProperty extends PropertyBase {
+public class BooleanProperty extends UnityNotifierBase {
 	
 	public function BooleanProperty( b:Boolean = false ) {
-		m_oldBool = m_newBool = b
+		m_newBool = b
 	}
 	
 	public function get value() : Boolean { 
@@ -23,14 +23,6 @@ public class BooleanProperty extends PropertyBase {
 		}
 	}
 	
-	override public function modify() : void {
-		if(m_newBool != m_oldBool) {
-			this.dispatchDirectEvent(AEvent.CHANGE)
-			m_oldBool = m_newBool
-		}
-		m_dirty = false
-	}
-	
-	private var m_newBool:Boolean, m_oldBool:Boolean
+	private var m_newBool:Boolean
 }
 }

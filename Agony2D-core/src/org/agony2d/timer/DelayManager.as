@@ -63,7 +63,7 @@ final public class DelayManager implements IProcess {
 		Logger.reportMessage(this, (!b ? '▲' : '▼') + 'pause [ ' + b + ' ] : ' + m_numDelay + '...')
 	}
 	
-	/** unit(second...) */
+	/** unit (second...) */
 	public function get internalTime() : Number {
 		return m_oldTime * .001
 	}
@@ -147,7 +147,7 @@ final public class DelayManager implements IProcess {
 	}
 	
 	public static function getInstance() : DelayManager { 
-		return m_instance ||= new DelayManager 
+		return g_instance ||= new DelayManager 
 	}
 	
 	/** @see  1.  parent ---- prev = (N-1 / 2) >> 0
@@ -245,7 +245,7 @@ final public class DelayManager implements IProcess {
 		cachedDelayList[cachedDelayLength++] = prop
 	}
 	
-	private static var m_instance:DelayManager
+	private static var g_instance:DelayManager
 	private static var cachedDelayList:Array = []
 	private static var cachedDelayLength:int
 	

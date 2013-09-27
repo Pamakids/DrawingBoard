@@ -15,6 +15,15 @@ package org.agony2d.view {
 	
 	
 	/** [ List ]
+	 *  [◆]
+	 *  	1.  sortData
+	 *  [◆◆]
+	 *  	1.  addItem
+	 *  	2.  removeItemAt
+	 *  	3.  removeItemByID
+	 *  	4.  getItemModelById
+	 *  	5.  updateItemById
+	 *  	6.  updateItemAllById
 	 *  [★]
 	 *  	a.  每个项目具有相似的属性与行为...
 	 *  	b.  分类 :
@@ -57,7 +66,7 @@ public class List extends Fusion {
 		return m_sortData 
 	}
 	
-	public function set sortData( v:Array ) : void {
+	public function set sortData( v:* ) : void {
 		m_sortData = v 
 	}
 	

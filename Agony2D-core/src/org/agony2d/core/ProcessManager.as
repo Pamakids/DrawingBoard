@@ -56,44 +56,44 @@ final public class ProcessManager extends Notifier {
 		if (m_running != b) {
 			m_running = b
 			if (b) {
-				m_stage.addEventListener(Event.ENTER_FRAME, updateAll, false, 8000, true)
+				g_stage.addEventListener(Event.ENTER_FRAME, updateAll, false, 8000, true)
 				m_oldTime = getTimer()
 			}
 			else {
-				m_stage.removeEventListener(Event.ENTER_FRAME, updateAll)
+				g_stage.removeEventListener(Event.ENTER_FRAME, updateAll)
 			}
 			Logger.reportMessage(this, (b ? '▲' : '▼') + 'running [ ' + b + ' ]...')
 		}
 	}
 	
 	agony_internal static function addFrameProcess( process:IProcess, priority:int = 0 ) : void {
-		if (!m_frameProcessor) {
-			m_frameProcessor = new FrameProcessor()
+		if (!g_frameProcessor) {
+			g_frameProcessor = new FrameProcessor()
 		}
 		//Logger.reportMessage('FrameProcessor', '▲加入进程: [ ' + getClassName(process) +
-						//' ]...total: ' + m_frameProcessor.addProcess(process, priority))
-		m_frameProcessor.addProcess(process, priority)
+						//' ]...total: ' + g_frameProcessor.addProcess(process, priority))
+		g_frameProcessor.addProcess(process, priority)
 	}
 	
 	agony_internal static function removeFrameProcess( process:IProcess ) : void {
-		m_frameProcessor.removeProcess(process)
+		g_frameProcessor.removeProcess(process)
 		//Logger.reportMessage('FrameProcessor', '▼削除进程: [ ' + getClassName(process) +
-						//' ]...total: ' + m_frameProcessor.removeProcess(process))
+						//' ]...total: ' + g_frameProcessor.removeProcess(process))
 	}
 	
 	agony_internal static function addTickProcess( process:IProcess, priority:int = 0 ) : void {
-		if (!m_tickProcessor) {
-			m_tickProcessor = new TickProcessor()
+		if (!g_tickProcessor) {
+			g_tickProcessor = new TickProcessor()
 		}
-		m_tickProcessor.addProcess(process, priority)
+		g_tickProcessor.addProcess(process, priority)
 		//Logger.reportMessage('TickProcessor', '▲加入进程: [ ' + getClassName(process) +
-						//' ]...total: ' + m_tickProcessor.addProcess(process, priority))
+						//' ]...total: ' + g_tickProcessor.addProcess(process, priority))
 	}
 	
 	agony_internal static function removeTickProcess( process:IProcess ) : void {
-		m_tickProcessor.removeProcess(process)
+		g_tickProcessor.removeProcess(process)
 		//Logger.reportMessage('TickProcessor', '▼削除进程: [ ' + getClassName(process) +
-						//' ]...total: ' + m_tickProcessor.removeProcess(process))
+						//' ]...total: ' + g_tickProcessor.removeProcess(process))
 	}
 	
 	agony_internal function updateAll( e:Event = null ) : void {
@@ -104,12 +104,12 @@ final public class ProcessManager extends Notifier {
 		// Next Frame Update
 		NextUpdaterManager.updateAllNextUpdaters()
 		// Tick Action
-		if (m_tickProcessor) {
-			m_tickProcessor.advance(m_elapsed)
+		if (g_tickProcessor) {
+			g_tickProcessor.advance(m_elapsed)
 		}
 		// Frame Action
-		if (m_frameProcessor) {
-			m_frameProcessor.advance(m_elapsed)
+		if (g_frameProcessor) {
+			g_frameProcessor.advance(m_elapsed)
 		}
 		// User Action
 		this.dispatchDirectEvent(AEvent.ENTER_FRAME)
@@ -126,8 +126,8 @@ final public class ProcessManager extends Notifier {
 	//agony_internal static const MOTION:int   =  206
 	agony_internal static const AA_GPU:int     =  139
 	
-	agony_internal static var m_frameProcessor:ProcessorCore, m_tickProcessor:ProcessorCore
-	agony_internal static var m_stage:Stage
+	agony_internal static var g_frameProcessor:ProcessorCore, g_tickProcessor:ProcessorCore
+	agony_internal static var g_stage:Stage
 	agony_internal var m_running:Boolean
 	agony_internal var m_timeScale:Number = 1
 	agony_internal var m_oldTime:int, m_elapsed:int

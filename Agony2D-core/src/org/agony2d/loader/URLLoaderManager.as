@@ -48,7 +48,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 	}
 	
 	public static function getInstance() : URLLoaderManager {
-		return m_instance ||= new URLLoaderManager
+		return g_instance ||= new URLLoaderManager
 	}
 	
 	/** @see flash.net.URLLoaderDataFormat */
@@ -148,7 +148,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 	}	
 	
 	private static const LOAD_MAX:int = 3
-	private static var m_instance:URLLoaderManager
+	private static var g_instance:URLLoaderManager
 }
 }
 import flash.display.Shape

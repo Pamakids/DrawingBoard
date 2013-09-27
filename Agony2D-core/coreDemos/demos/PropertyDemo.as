@@ -74,10 +74,6 @@ public class PropertyDemo extends Sprite
 		{
 			txtA.text = S.value
 		})
-		S.addEventListener(AEvent.KILL, function(e:AEvent):void
-		{
-			txtA.text = "お前はもう死んでいる ！！"
-		})
 		
 		txtB = new TextField()
 		addChild(txtB)
@@ -101,9 +97,6 @@ public class PropertyDemo extends Sprite
 		KeyboardManager.getInstance().getState().press.addEventListener('DOWN',    function():void { N.value++;I.value++ } )
 		KeyboardManager.getInstance().getState().press.addEventListener('UP',  function():void { N.value-- ;I.value-- } )
 		KeyboardManager.getInstance().getState().press.addEventListener('B', function():void { B.value = !B.value } )
-		
-		// kill String Property
-		KeyboardManager.getInstance().getState().press.addEventListener('K', function():void { if (S) { S.dispose(); S = null }} )
 		
 		/////////////////////////////////////////////////////////////
 		/////////////////////////////////////////////////////////////
