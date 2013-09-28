@@ -44,70 +44,50 @@ package org.agony2d.view.core {
 	 */
 public class UIManager {
 
-	public static function initialize( debugWidth:int, debugHeight:int, landscape:Boolean, hasMaskForAspectRatio:Boolean, debugPixelRatio:Number ) : void {
-		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number, moduleOffsetX:Number, moduleOffsetY:Number
+	public static function initialize( hasMaskForAspectRatio:Boolean ) : void {
+		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number, moduleOffsetX:Number, moduleOffsetY:Number, standardWidth:Number, standardHeight:Number
 		var mask:Shape
 		
+		pixelRatio    =  ComponentProxy.m_pixelRatio  =  Agony.g_pixelRatio
 		m_rootFusion  =  new RootFusion
 		m_monitor     =  m_rootFusion.m_view
-		if (Multitouch.maxTouchPoints == 0) {
-			pixelRatio             =  isNaN(debugPixelRatio) ? 1.0 : debugPixelRatio 
-			width                  =  debugWidth
-			height                 =  debugHeight
-			hasMaskForAspectRatio  =  false
+		width         =  Agony.g_width
+		height        =  Agony.g_height
+		ratioHoriz    =  Agony.g_ratioHoriz
+		ratioVerti    =  Agony.g_ratioVerti
+		if (Multitouch.maxTouchPoints == 0 || !hasMaskForAspectRatio || ratioHoriz == ratioVerti) {
+			hasMaskForAspectRatio = false
 		}
 		else {
-			if (landscape) {
-				width   =  Math.max(Capabilities.screenResolutionX, Capabilities.screenResolutionY)
-				height  =  Math.min(Capabilities.screenResolutionX, Capabilities.screenResolutionY)
+			standardWidth = Agony.g_standardWidth
+			standardHeight = Agony.g_standardHeight
+			mask = new Shape
+			mask.graphics.beginFill(0x0, 0)
+			if (ratioHoriz > ratioVerti) {
+				m_rootFusion.paddingLeft = m_rootFusion.paddingRight = moduleOffsetX = (width - height * (standardWidth / standardHeight)) * .5 / pixelRatio
+				width -= moduleOffsetX * 2 * pixelRatio
+				mask.graphics.drawRect(moduleOffsetX * pixelRatio, 0, width * pixelRatio, height * pixelRatio)
 			}
 			else {
-				width   =  Math.min(Capabilities.screenResolutionX, Capabilities.screenResolutionY)
-				height  =  Math.max(Capabilities.screenResolutionX, Capabilities.screenResolutionY)
+				m_rootFusion.paddingTop = m_rootFusion.paddingBottom = moduleOffsetY = (height - width * (standardHeight / standardWidth)) * .5 / pixelRatio
+				height -= moduleOffsetY * 2 * pixelRatio
+				mask.graphics.drawRect(0, moduleOffsetY * pixelRatio, width * pixelRatio, height * pixelRatio)
 			}
-			ratioHoriz  =  width  / debugWidth
-			ratioVerti  =  height / debugHeight
-			pixelRatio  =  Number(Math.min(ratioVerti, ratioHoriz).toFixed(3)) 
-			if (hasMaskForAspectRatio) {
-				if(ratioHoriz == ratioVerti){
-					hasMaskForAspectRatio = false
-				}
-				else{
-					mask = new Shape
-					mask.graphics.beginFill(0x0, 0)
-					if (ratioHoriz > ratioVerti) {
-						m_rootFusion.paddingLeft = m_rootFusion.paddingRight = moduleOffsetX = (width - height * (debugWidth / debugHeight)) * .5 / pixelRatio
-						width -= moduleOffsetX * 2 * pixelRatio
-						mask.graphics.drawRect(moduleOffsetX * pixelRatio, 0, width, height)
-						
-					}
-					else {
-						m_rootFusion.paddingTop = m_rootFusion.paddingBottom = moduleOffsetY = (height - width * (debugHeight / debugWidth)) * .5 / pixelRatio
-						height -= moduleOffsetY * 2 * pixelRatio
-						mask.graphics.drawRect(0, moduleOffsetY * pixelRatio, width, height)
-					}
-					m_stage.addChild(mask)
-					m_monitor.mask = mask
-				}
-			}
-			width   /=  pixelRatio
-			height  /=  pixelRatio
+			m_stage.addChild(mask)
+			m_monitor.mask = mask
 		}
-		m_rootFusion.m_spaceWidth   =  width
-		m_rootFusion.m_spaceHeight  =  height
+		m_rootFusion.m_spaceWidth = width
+		m_rootFusion.m_spaceHeight = height
 		AgonySprite.cachedPoint = ComponentProxy.cachedPoint = cachedPoint = new Point
 		m_monitor.mouseEnabled = m_monitor.mouseChildren = m_monitor.tabEnabled = m_monitor.tabChildren = false
 		m_stage.addChild(m_monitor)
-		ComponentProxy.m_pixelRatio = pixelRatio
+		
 		if(pixelRatio != 1) {
 			ImagePuppet.m_matrix = new Matrix(pixelRatio, 0, 0, pixelRatio, 0, 0)
 		}
 		trace("\n================================== [ Agony2d - mobileUI ] ==================================")
 		Logger.reportMessage("AgonyUI", "★[ startup ]..." +
 							"gpu [ " + Agony.stage.wmodeGPU + " ]..." + 
-							"方向 [ " + (landscape ? "landscape" : "portrait") + " ]..." + 
-							"像素比率 [ " + pixelRatio + " ]..." + 
-							"设备相对尺寸 [ " + width + " | " + height + " ]..." +
 							"黑边遮罩 [ " + hasMaskForAspectRatio + " ]...", 2)
 		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, PRIORITY)
 	}

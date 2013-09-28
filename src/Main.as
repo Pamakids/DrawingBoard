@@ -35,8 +35,8 @@ package
 		}
 		
 		private function doInitAgony() : void {
-			Agony.startup(stage, StageQuality.LOW)	
-			AgonyUI.startup(false, 1024, 768, true, true)
+			Agony.startup(stage, 1024, 768, "low");
+			AgonyUI.startup(false, true);
 			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true
 		}

@@ -49,10 +49,10 @@ public class MobileUITest extends Sprite {
 	private function init(e:Event) : void {
 		
 		// Engine !!
-		Agony.startup(this.stage, 'low')
+		Agony.startup(this.stage, 900, 600, 'low')
 
 		// UI...
-		AgonyUI.startup(false, 900, 600, true, true)//, 0.8)
+		AgonyUI.startup(false, true)//, 0.8)
 		AgonyUI.setDragOutFollowed(true)
 		AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
 		

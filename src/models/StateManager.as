@@ -37,7 +37,7 @@ package models
 				
 			}
 			else{
-				Agony.stage.frameRate = 45
+				Agony.stage.frameRate = 50
 				AgonyUI.getModule("GameScene").exit()
 				AgonyUI.getModule("GameBottom").exit()
 				AgonyUI.getModule("GameTop").exit()
