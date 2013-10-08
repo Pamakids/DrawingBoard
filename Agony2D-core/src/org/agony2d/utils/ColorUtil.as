@@ -58,6 +58,10 @@ public class ColorUtil
 		return (((Alpha > 1)?Alpha:(Alpha * 255)) & 0xFF) << 24 | (Red & 0xFF) << 16 | (Green & 0xFF) << 8 | (Blue & 0xFF)
 	}
 	
+	//public static function colorToString( color:uint ) : String {
+		//
+	//}
+	
 	/**
 	 * 获取分解后的颜色值
 	 * @param	Color	The color you want to break into components.

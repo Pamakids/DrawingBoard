@@ -7,7 +7,7 @@ package states {
 	import org.agony2d.view.IItemStrategy;
 	import org.agony2d.view.ItemRenderer;
 	import org.agony2d.view.layouts.HorizLayout;
-	import org.agony2d.view.layouts.ILayoutStrategy;
+	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.List;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
@@ -32,7 +32,7 @@ public class ListUIState extends UIState
 		var list:List
 		var l:int
 		var itemStrategy:IItemStrategy = new TestItemStrategy
-		var layoutStrategy:ILayoutStrategy = new HorizLayout(150, 250, 5)
+		var layoutStrategy:ILayout = new HorizLayout(150, 250, 5)
 		
 		list = new List(itemStrategy, layoutStrategy, 600, 500, 140, 220)
 		var sp:SpritePuppet

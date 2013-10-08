@@ -1,8 +1,9 @@
 package org.agony2d.view.layouts {
+	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ItemRenderer;
 	
-public class HorizLayout implements ILayoutStrategy {
+public class HorizLayout implements ILayout {
 	
 	public function HorizLayout( gapX:Number, gapY:Number = -1, maxLength:int = -1 ) {
 		m_maxLength = maxLength
@@ -10,7 +11,7 @@ public class HorizLayout implements ILayoutStrategy {
 		m_gapY = gapY
 	}
 	
-	public function doLayout( content:Fusion, item:ItemRenderer, index:int ) : void {
+	public function activate( item:Fusion, index:int ) : void {
 		if (m_maxLength <= 0) {
 			item.x = m_gapX * index
 		}

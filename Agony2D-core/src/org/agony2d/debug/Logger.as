@@ -25,7 +25,7 @@ public class Logger {
 		var moduleName:String
 		
 		moduleName = (module is String) ? module : getQualifiedClassName(module).replace("::",".")
-		return ((lineType & 0x01) ? '\n' : '') + '[ ' + type + ' ] : ■[ ' + (moduleName.substr(moduleName.lastIndexOf('.') + 1)) + ' ]'
+		return ((lineType & 0x01) ? '\n' : '') + '[ ' + type + ' ] : [ ' + (moduleName.substr(moduleName.lastIndexOf('.') + 1)) + ' ]'
 	}
 	
 	private static function makeBody( hint:*, lineType:int ) : String {

@@ -101,7 +101,7 @@ public class Agony {
 		}
 		
 		trace("================================== [ Agony2d - core ] ==================================")
-		Logger.reportMessage("Agony", "★[ startup ]..." +
+		Logger.reportMessage("■Agony", "★[ startup ]..." +
 							"cursor [ " + Mouse.supportsCursor + " ]..." + 
 							"maxTouch [ " + Multitouch.maxTouchPoints + " ]..." +
 							"quality [ " + quality + " ]..." +

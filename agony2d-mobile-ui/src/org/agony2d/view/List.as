@@ -6,7 +6,7 @@ package org.agony2d.view {
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ItemRenderer;
-	import org.agony2d.view.layouts.ILayoutStrategy;
+	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
 	use namespace agony_internal;
@@ -31,15 +31,20 @@ package org.agony2d.view {
 	 *  		2.  单选
 	 *  		3.  多选
 	 *  	c.  布局行为 :
-	 *  		1.  出现方式...
+	 *  		1.  出现方式...(获取当前被显示的对象列表，单独使用...)
 	 *  		2.  新加入/削除时布局动态变化(重布局)...
-	 *  		3.  退出方式...
-	 * 
+	 *  		3.  退出方式...(获取当前被显示的对象列表，单独使用...)
+	 *  	d.  按钮组与列表不同点 :
+	 *  		1.  按钮组与列表，按钮组不可削除项目，列表可以...
+	 *  		2.  按钮组没有整体刷新功能，列表可以有...
+	 *  		3.  按钮组没有滚屏功能，列表可以有...
+	 *  	e.  按钮组与列表相同点 :
+	 * 			1.  可使用相同的布局策略对象...
 	 */
 public class List extends Fusion {
 	
 	public function List( itemStrategy:IItemStrategy, 
-							layoutStrategy:ILayoutStrategy, 
+							layoutStrategy:ILayout, 
 							maskWidth:Number, maskHeight:Number, 
 							gridWidth:int, gridHeight:int, 
 							horizDisableOffset:int = 6, vertiDisableOffset:int = 6, 
@@ -146,7 +151,7 @@ public class List extends Fusion {
 	protected var m_invalidated:Boolean
 	protected var m_count:int
 	protected var m_itemMap:Object = {}
-	protected var m_layoutStrategy:ILayoutStrategy
+	protected var m_layoutStrategy:ILayout
 	protected var m_itemStrategy:IItemStrategy
 	protected var m_itemRendererRef:Class
 	
@@ -181,7 +186,7 @@ public class List extends Fusion {
 		while (i < l) {
 			item = m_items[i]
 			item.m_index = i
-			m_layoutStrategy.doLayout(m_content, item, i++)
+			m_layoutStrategy.activate(item, i++)
 			m_content.relocate(item)
 		}
 		m_scrollFusion.contentWidth = m_content.spaceWidth

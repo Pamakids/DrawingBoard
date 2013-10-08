@@ -3,6 +3,7 @@ package org.agony2d.view.supportClasses {
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.core.UIManager;
 	import org.agony2d.view.Fusion;
+	import org.agony2d.view.StateRenderer;
 	
 	use namespace agony_internal;
 	
@@ -10,7 +11,7 @@ package org.agony2d.view.supportClasses {
 	
 	[Event(name = "buttonRelease", type = "org.agony2d.notify.AEvent")]
 	
-public class AbstractButton extends Fusion {
+public class AbstractButton extends StateRenderer {
 
 	public function AbstractButton() {
 		this.addEventListener(AEvent.RELEASE,            ____onButtonRelease)

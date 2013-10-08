@@ -86,7 +86,7 @@ public class UIManager {
 			ImagePuppet.m_matrix = new Matrix(pixelRatio, 0, 0, pixelRatio, 0, 0)
 		}
 		trace("\n================================== [ Agony2d - mobileUI ] ==================================")
-		Logger.reportMessage("AgonyUI", "★[ startup ]..." +
+		Logger.reportMessage("■AgonyUI", "★[ startup ]..." +
 							"gpu [ " + Agony.stage.wmodeGPU + " ]..." + 
 							"黑边遮罩 [ " + hasMaskForAspectRatio + " ]...", 2)
 		TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, PRIORITY)
@@ -475,7 +475,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		else {
 			this.doEnter()
 		}
-		Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▲[ init ]...stateArgs [ " + stateArgs + " ]", 1)
+		Logger.reportMessage("UI -> ■" + getClassName(m_stateType), "▲[ init ]...stateArgs [ " + stateArgs + " ]", 1)
 	}
 	
 	public function exit() : void {
@@ -485,7 +485,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		}		
 		if (m_stateFusion) {
 			this.dispatchDirectEvent(AEvent.EXIT_STAGE)
-			Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▼[ exit ]...", 2)
+			Logger.reportMessage("UI -> ■" + getClassName(m_stateType), "▼[ exit ]...", 2)
 			m_stateFusion.kill()
 			m_stateFusion = null
 			m_stageArgs = null
@@ -521,7 +521,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		if (isAdded) {
 			UIManager.m_rootFusion.addElementAt(m_stateFusion, m_layer, m_gapX, m_gapY, m_horizLayout, m_vertiLayout)
 			this.dispatchDirectEvent(AEvent.ENTER_STAGE)
-			Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▲[ add ]...layer [ " + m_layer + " ]")
+			Logger.reportMessage("UI -> ■" + getClassName(m_stateType), "▲[ render ]...layer [ " + m_layer + " ]")
 		}
 		else {
 			if (m_delayedForRender) {
@@ -531,7 +531,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 			if (this.isPopup) {
 				UIManager.m_monitor.removeChild(m_stateFusion.displayObject)
 				this.dispatchDirectEvent(AEvent.EXIT_STAGE)
-				Logger.reportMessage("UI -> ◆" + getClassName(m_stateType), "▼[ remove ]...")
+				Logger.reportMessage("UI -> ■" + getClassName(m_stateType), "▼[ remove ]...")
 			}
 		}
 	}
