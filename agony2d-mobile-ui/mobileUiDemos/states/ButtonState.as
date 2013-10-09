@@ -212,11 +212,19 @@ public class ButtonState extends UIState {
 			cb.setSelected( boo.value)
 			
 		})
+		
+		
+		var tb:ToggleButton = new ToggleButton('AT_checkbox', true, 7, 1)
+		this.fusion.addElement(tb, 500, 500)
+		KeyboardManager.getInstance().getState().press.addEventListener("W", function(e:AEvent) : void {
+			tb.selected = !tb.selected
+		})
 	}
 	
 	override public function exit():void
 	{
 		KeyboardManager.getInstance().getState().press.removeEventAllListeners('Q')
+		KeyboardManager.getInstance().getState().press.removeEventAllListeners('W')
 		boo.dispose()
 		boo = null
 		TweenMax.killAll()

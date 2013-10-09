@@ -20,13 +20,41 @@ public class ListUIState extends UIState
 	override public function enter() : void
 	{
 		//testA()
-		testB()
+		//testB()
+		testC()
 	}
 	
 	
 	private var img:ImagePuppet
 	private var item:StateRenderer
+
 	
+	private function testC() : void {
+		var list:List
+		var l:int
+		var itemStrategy:IItemStrategy = new TestItemStrategy
+		var layoutStrategy:ILayout = new HorizLayout(150, 250, 5)
+		
+		list = new List(itemStrategy, layoutStrategy, 600, 500, 140, 220)
+		var sp:SpritePuppet
+		sp = new SpritePuppet
+		sp.graphics.beginFill(0xffff44, 0.2)
+		sp.graphics.drawRect(0,0,600,500)
+		list.addElement(sp)
+		sp.interactive = false
+		
+		l = 120
+		while (--l > -1) {
+			list.addItem({source:AssetsUI.AT_defaultImg})
+		}
+		
+		this.fusion.addElement(list, 200, 50)
+		
+		
+		KeyboardManager.getInstance().getState().press.addEventListener("ONE", function(e:AEvent):void {
+			list.updateItemById("source", AssetsUI.IMG_gesture, 2)
+		})
+	}
 	
 	private function testB():void {
 		var list:List
@@ -109,5 +137,4 @@ public class ListUIState extends UIState
 	}
 
 }
-
 }
