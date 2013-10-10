@@ -156,7 +156,7 @@ public class URLLoaderDemo extends Sprite
 	
 	private function onDispose(e:MouseEvent):void
 	{
-		mUrlMgr.dispose()
+		mUrlMgr.kill()
 		mUrlMgr = null
 		if (mLoading)
 		{

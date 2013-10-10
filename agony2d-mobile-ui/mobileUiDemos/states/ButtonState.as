@@ -225,7 +225,7 @@ public class ButtonState extends UIState {
 	{
 		KeyboardManager.getInstance().getState().press.removeEventAllListeners('Q')
 		KeyboardManager.getInstance().getState().press.removeEventAllListeners('W')
-		boo.dispose()
+		boo.kill()
 		boo = null
 		TweenMax.killAll()
 		AgonyUI.removeImageButtonData('AT_btn_yellow')

@@ -11,8 +11,10 @@ package states {
 	import org.agony2d.view.List;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
+	import org.agony2d.view.RadioList;
 	import org.agony2d.view.StateRenderer;
 	import org.agony2d.view.UIState;
+	import renderers.AListItem;
 	
 public class ListUIState extends UIState
 {
@@ -30,30 +32,23 @@ public class ListUIState extends UIState
 
 	
 	private function testC() : void {
-		var list:List
+		var list:RadioList
 		var l:int
-		var itemStrategy:IItemStrategy = new TestItemStrategy
-		var layoutStrategy:ILayout = new HorizLayout(150, 250, 5)
+		var layout:ILayout = new HorizLayout(150, 250, 5)
 		
-		list = new List(itemStrategy, layoutStrategy, 600, 500, 140, 220)
+		list = new RadioList(layout, 600, 500, 140, 220)
 		var sp:SpritePuppet
 		sp = new SpritePuppet
 		sp.graphics.beginFill(0xffff44, 0.2)
 		sp.graphics.drawRect(0,0,600,500)
-		list.addElement(sp)
 		sp.interactive = false
 		
-		l = 120
+		l = 30
 		while (--l > -1) {
-			list.addItem({source:AssetsUI.AT_defaultImg})
+			list.addItem({source:AssetsUI.AT_defaultImg}, AListItem)
 		}
 		
 		this.fusion.addElement(list, 200, 50)
-		
-		
-		KeyboardManager.getInstance().getState().press.addEventListener("ONE", function(e:AEvent):void {
-			list.updateItemById("source", AssetsUI.IMG_gesture, 2)
-		})
 	}
 	
 	private function testB():void {

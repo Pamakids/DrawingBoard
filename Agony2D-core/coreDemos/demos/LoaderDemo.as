@@ -177,7 +177,7 @@ public class LoaderDemo extends Sprite
 	
 	private function onDispose(e:MouseEvent):void
 	{
-		mLoadMgr.dispose()
+		mLoadMgr.kill()
 		mLoadMgr = null
 		if (mLoading)
 		{

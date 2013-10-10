@@ -1,10 +1,15 @@
 package org.agony2d.view {
+	import flash.utils.getTimer;
 	
 public class ListItem extends Fusion {
   
     public function ListItem() {
-		
+		m_timestamp = getTimer()
     }
+	
+	public function get timestamp() : int {
+		return m_timestamp
+	}
 	
 	public function get id() : int {
 		return m_id
@@ -14,7 +19,7 @@ public class ListItem extends Fusion {
 		return m_list
 	}
 	
-	public function get itemArgs() : Array {
+	public function get itemArgs() : Object {
 		return m_itemArgs
 	}
 	
@@ -35,13 +40,14 @@ public class ListItem extends Fusion {
 		this.resetData()
 	}
 	
-	internal function updateAll( itemArgs:Array ) : void {
+	internal function updateAll( itemArgs:Object ) : void {
 		m_itemArgs = itemArgs
 		this.resetData()
 	}
 	
-	internal var m_itemArgs:Array
+	internal var m_itemArgs:Object
 	internal var m_list:RadioList
 	internal var m_id:int
+	internal var m_timestamp:int
 }
 }

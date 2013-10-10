@@ -86,10 +86,10 @@ public class LoaderManagerBase extends Notifier implements INextUpdater {
 		}
 	}
 	
-	override public function dispose() : void {
+	override agony_internal function dispose() : void {
 		super.dispose()
 		this.killAll()
-		m_length.dispose()
+		m_length.kill()
 	}
 	
 	final public function modify() : void {

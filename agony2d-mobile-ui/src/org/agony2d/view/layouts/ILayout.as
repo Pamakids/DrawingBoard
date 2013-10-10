@@ -5,7 +5,11 @@ package org.agony2d.view.layouts {
 	
 public interface ILayout {
 	
+	function get width() : Number
+	function get height() : Number
+	
 	function activate( item:Fusion, index:int ) : void
 	
+	function reset() : void
 }
 }

@@ -1,5 +1,7 @@
 package renderers {
+	import assets.AssetsUI;
 	import org.agony2d.view.ListItem;
+	import org.agony2d.view.puppet.ImagePuppet;
 	
 public class AListItem extends ListItem {
   
@@ -8,7 +10,9 @@ public class AListItem extends ListItem {
     }
   	
 	override public function init() : void {
-		
+		var image:ImagePuppet = new ImagePuppet
+		image.embed(AssetsUI.AT_defaultImg, false)
+		this.addElement(image)
 	}
 	
 	override public function resetData() : void {

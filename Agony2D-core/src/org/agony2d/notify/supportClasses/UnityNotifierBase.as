@@ -15,7 +15,7 @@ public class UnityNotifierBase extends Notifier implements INextUpdater {
 		super(null)
 	}
 	
-	override public function dispose() : void {
+	override agony_internal function dispose() : void {
 		if (m_dirty) {
 			NextUpdaterManager.removeNextUpdater(this);
 		}

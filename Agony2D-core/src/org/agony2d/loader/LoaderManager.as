@@ -77,10 +77,10 @@ final public class LoaderManager extends LoaderManagerBase {
 		return this.getNewLoader(bytes, priority, forced)
 	}
 	
-	override public function dispose() : void {
+	override public function kill() : void {
 		var loader:LoaderAdvance
 		
-		super.dispose()
+		super.kill()
 		while (--m_maxLoaders > -1) {
 			loader = m_loaderQueue[m_maxLoaders]
 			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE,         ____onComplete)

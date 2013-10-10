@@ -71,7 +71,7 @@ public class Grid extends Notifier {
 		m_elementList.pop()
 	}
 	
-	override public function dispose() : void {
+	override agony_internal function dispose() : void {
 		super.dispose()
 		m_elementList.length = m_elementLength = 0
 		cachedGridList[cachedGridLength++] = this

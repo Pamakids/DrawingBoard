@@ -60,7 +60,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		return L
 	}
 	
-	override public function dispose() : void {
+	override agony_internal function dispose() : void {
 		var UL:URLLoaderAdvance
 		
 		super.dispose()

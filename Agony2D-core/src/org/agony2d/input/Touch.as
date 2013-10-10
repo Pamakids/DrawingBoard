@@ -61,7 +61,7 @@ public class Touch extends Notifier {
 		return "[touch] - ID [ " + m_touchID + " ]..." + m_stageX + "|" + m_stageY + " / " + m_prevStageX + "|" + m_prevStageY + " / " + m_maxMoveX + "|" + m_maxMoveY
 	}
 	
-	override public function dispose() : void {
+	override agony_internal function dispose() : void {
 		super.dispose()
 		m_moveStateA = false
 		m_maxMoveX = m_maxMoveY = 0

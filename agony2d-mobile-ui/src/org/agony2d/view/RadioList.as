@@ -1,8 +1,12 @@
 package org.agony2d.view {
 	import flash.events.Event;
+	import flash.geom.Rectangle;
 	import org.agony2d.Agony;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.view.layouts.ILayout;
+	import org.agony2d.core.agony_internal;
+	
+	use namespace agony_internal;
 	
 public class RadioList extends Fusion {
   
@@ -12,7 +16,13 @@ public class RadioList extends Fusion {
 								horizDisableOffset:int = 6, 
 								vertiDisableOffset:int = 6) {
     
+		m_layout = layout
+		m_scrollFusion = new GridScrollFusion(maskWidth, maskHeight, gridWidth, gridHeight, false, horizDisableOffset, vertiDisableOffset)
+		this.addElement(m_scrollFusion)
+		m_content = m_scrollFusion.content as GridFusion
 		
+		m_scrollFusion.limitLeft = m_scrollFusion.limitRight = m_scrollFusion.limitTop = true
+		m_scrollFusion.limitBottom = true
     }
 	
 	public function get sortData() : Array { 
@@ -152,12 +162,12 @@ public class RadioList extends Fusion {
 		l = m_length
 		while (i < l) {
 			item = m_items[i]
-			item.m_index = i
 			m_layout.activate(item, i++)
 			m_content.relocate(item)
 		}
-		m_scrollFusion.contentWidth = m_content.spaceWidth
-		m_scrollFusion.contentHeight = 10000//zm_content.spaceHeight
+		m_scrollFusion.contentWidth = m_layout.width//m_content.spaceWidth
+		m_scrollFusion.contentHeight = m_layout.height//m_content.spaceHeight
+		m_layout.reset()
 	}
 }
 }

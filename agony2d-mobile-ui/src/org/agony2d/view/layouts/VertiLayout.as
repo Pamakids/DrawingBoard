@@ -3,7 +3,7 @@ package org.agony2d.view.layouts {
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ItemRenderer;
 	
-public class VertiLayout implements ILayout {
+public class VertiLayout extends LayoutBase {
 	
 	public function VertiLayout( gapY:Number, gapX:Number = -1, maxLength:int = -1 ) {
 		m_maxLength = maxLength
@@ -11,7 +11,7 @@ public class VertiLayout implements ILayout {
 		m_gapY = gapY
 	}
 	
-	public function activate( item:Fusion, index:int ) : void {
+	override public function activate( item:Fusion, index:int ) : void {
 		if (m_maxLength <= 0) {
 			item.y = m_gapY * index
 		}
