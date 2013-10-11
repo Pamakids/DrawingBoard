@@ -18,6 +18,7 @@ package states
 	
 	import models.Config;
 	import models.DrawingManager;
+	import models.ThemeVo;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.input.ATouchEvent;
@@ -149,8 +150,9 @@ package states
 				// bg...
 				{
 					img = new ImagePuppet
-					mDrawingBgIndex = this.stateArgs[0]
-					img.embed(DrawingManager.getInstance().getDrawingBg(mDrawingBgIndex), false)
+//					mDrawingBgIndex = this.stateArgs[0]
+					var vo:ThemeVo = this.stateArgs[0]
+					img.load(vo.dataUrl, false)
 					img.interactive = false
 					mBoard.content.addElement(img)	
 				}

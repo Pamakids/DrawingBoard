@@ -45,7 +45,7 @@ public class ListUIState extends UIState
 		
 		l = 30
 		while (--l > -1) {
-			list.addItem({source:AssetsUI.AT_defaultImg}, AListItem)
+			list.addItem({source:AssetsUI.AT_img}, AListItem)
 		}
 		
 		this.fusion.addElement(list, 200, 50)

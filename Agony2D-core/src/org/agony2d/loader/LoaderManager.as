@@ -1,16 +1,3 @@
-/*
-    [Font]
-	[Embed(source="/../media/fonts/Abduction.ttf", embedAsCFF="false", fontName/fontFamily="Abduction")]
-
-	[XML]
-	[Embed(source = "colonist_32_32.xml",mimeType = "application/octet-stream")] 
-
-	[MP3 / SWF]
-	[Embed(source = "colonist_32_32.mp3")] 
-
-	[SWF(internal for get classes)]
-	[Embed(source = "colonist_32_32.swf", mimeType = "application/octet-stream")]
-*/
 package org.agony2d.loader {
 	import flash.display.LoaderInfo;
 	import flash.events.Event;

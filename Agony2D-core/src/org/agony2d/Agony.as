@@ -1,3 +1,16 @@
+/*
+    [Font]
+	[Embed(source="/../media/fonts/Abduction.ttf", embedAsCFF="false", fontName/fontFamily="Abduction")]
+
+	[XML]
+	[Embed(source = "colonist_32_32.xml",mimeType = "application/octet-stream")] 
+
+	[MP3 / SWF]
+	[Embed(source = "colonist_32_32.mp3")] 
+
+	[SWF(internal for get classes)]
+	[Embed(source = "colonist_32_32.swf", mimeType = "application/octet-stream")]
+*/
 package org.agony2d {
 	import flash.display.Stage;
 	import flash.system.Capabilities;
@@ -15,6 +28,9 @@ package org.agony2d {
 	 * 		1.  stage
 	 * 		2.  process
 	 *  	3.  isMoblieDevice
+	 *  	4.  fullWidth × fullHeight
+	 *  	5.  width × height
+	 *  	6.  pixelRatio
 	 *  [◆◆◇]
 	 *		1.  startup
 	 *  [■]
@@ -41,18 +57,22 @@ public class Agony {
 		return Multitouch.maxTouchPoints > 0
 	}
 	
+	/** absolute width... */
 	public static function get fullWidth() : int {
 		return g_fullWidth
 	}
 	
+	/** absolute height... */
 	public static function get fullHeight() : int {
 		return g_fullHeight
 	}
 	
+	/** relative width... */
 	public static function get width() : Number {
 		return g_width
 	}
 	
+	/** relative height... */
 	public static function get height() : Number {
 		return g_height
 	}

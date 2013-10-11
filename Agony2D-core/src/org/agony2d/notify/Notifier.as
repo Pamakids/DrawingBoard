@@ -57,6 +57,7 @@ package org.agony2d.notify {
 	 *  	6.  hasAnyEventListener
 	 * 		7.  dispatchEvent
 	 * 		8.  dispatchDirectEvent
+	 *  	9.  kill
 	 *  [★]
 	 *  	a. [ addEventListener ]...slower than native 30~40%...
 	 *  	b. [ removeEventListener / removeEventAllListeners (more) / removeAllListeners (more) ]...faster than native 400%+...!!
@@ -182,7 +183,6 @@ public class Notifier implements INotifier {
 	/* overwrite... */
 	agony_internal function dispose() : void {
 		this.removeAllListeners()
-		m_target = null
 	}
 	
 	private static var cachedEventList:Array = []

@@ -11,12 +11,28 @@ package models
 	import states.GameTopUIState;
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
+	import states.ThemeUIState;
 
 	public class StateManager
 	{
+		// Theme...
+		private static var mThemeExists:Boolean
+		public static function setTheme( enabled:Boolean, type:String = null) : void{
+			if(!mThemeExists){
+				mThemeExists = true
+				AgonyUI.addModule("Theme", ThemeUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("Theme").init(-1, [type], false,false)
+			}
+			else{
+				AgonyUI.getModule("Theme").exit()
+			}
+		}
 		
+		// Game...
 		private static var mGameSceneExists:Boolean
-		public static function setGameScene( enabled:Boolean ) : void{
+		public static function setGameScene( enabled:Boolean, vo:ThemeVo = null ) : void{
 			if(!mGameSceneExists){
 				mGameSceneExists = true
 				AgonyUI.addModule("GameScene", GameSceneUIState)
@@ -26,7 +42,7 @@ package models
 			
 			if(enabled){
 				Agony.stage.frameRate = 30
-				AgonyUI.getModule("GameScene").init(-1, [0], false,false)
+				AgonyUI.getModule("GameScene").init(-1, [vo], false,false)
 				if(!Agony.isMoblieDevice){
 					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, -100, 1, LayoutType.F__AF)
 				}
@@ -47,6 +63,7 @@ package models
 			}
 		}
 		
+		// Player...
 		private static var mPlayerExists:Boolean
 		public static function setPlayer( enabled:Boolean ) : void{
 			if(!mPlayerExists){

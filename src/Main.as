@@ -5,9 +5,14 @@ package
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
 	import flash.events.Event;
+	import flash.system.Capabilities;
 	
+	import assets.DataAssets;
+	
+	import models.DataManager;
 	import models.DrawingManager;
 	import models.StateManager;
+	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
@@ -29,7 +34,9 @@ package
 			
 				
 //			AgonyUI.fusion.addElement(new StatsMobileUI)
-			this.addChild(new TheMiner)
+			if(Capabilities.isDebugger){
+				this.addChild(new TheMiner)
+			}
 				
 
 		}
@@ -43,10 +50,13 @@ package
 		
 		private function doInitModel() : void {
 			DrawingManager.getInstance().initialize()
+			ThemeManager.getInstance().initialize()
 		}
 		
 		private function doInitView():void{
-			StateManager.setGameScene(true)
+			
+			StateManager.setTheme(true, "animal")
+//			StateManager.setGameScene(true)
 		}
 
 	}
