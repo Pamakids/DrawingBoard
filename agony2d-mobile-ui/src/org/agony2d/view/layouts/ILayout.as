@@ -8,6 +8,9 @@ public interface ILayout {
 	function get width() : Number
 	function get height() : Number
 	
+	function get endX() : Number 
+	function get endY() : Number 
+	
 	function activate( item:Fusion, index:int ) : void
 	
 	function reset() : void

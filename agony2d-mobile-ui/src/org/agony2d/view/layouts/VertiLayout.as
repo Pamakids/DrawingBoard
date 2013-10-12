@@ -5,10 +5,11 @@ package org.agony2d.view.layouts {
 	
 public class VertiLayout extends LayoutBase {
 	
-	public function VertiLayout( gapY:Number, gapX:Number = -1, maxLength:int = -1 ) {
+	public function VertiLayout( gapY:Number, gapX:Number = -1, maxLength:int = -1, endX:Number = 0, endY:Number = 0 ) {
 		m_maxLength = maxLength
 		m_gapX = gapX
 		m_gapY = gapY
+		super(endX, endY)
 	}
 	
 	override public function activate( item:Fusion, index:int ) : void {

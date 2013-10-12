@@ -3,6 +3,7 @@ package states
 	import assets.AssetsUI;
 	import assets.ImgAssets;
 	
+	import models.ThemeDirVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
@@ -31,20 +32,23 @@ package states
 		override public function enter():void{
 			var list:RadioList
 			var i:int, l:int
-			var layout:ILayout = new HorizLayout(290, 180, 3, 50, 50)
+			var layout:ILayout
 			var arr:Array
+			var dir:ThemeDirVo
 			var sp:SpritePuppet
 			var vo:ThemeVo
-			
-			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 220, 120)
 			
 			sp = new SpritePuppet
 			sp.graphics.beginFill(0xffff44, 0.2)
 			sp.graphics.drawRect(0,0,LIST_WIDTH,LIST_HEIGHT + 50)
 			sp.interactive = false
-			this.fusion.addElement(sp,LIST_X, LIST_Y)
-			
-			arr = ThemeManager.getInstance().getThemeList(this.stateArgs[0])
+			this.fusion.addElement(sp, LIST_X, LIST_Y)
+				
+			layout= new HorizLayout(290, 180, 3, 50, 50, 50, 50)
+			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 220, 120)
+
+			dir = ThemeManager.getInstance().getThemeDirByType(this.stateArgs[0])
+			arr = dir.themeList
 			l = arr.length
 			while (i < l) {
 				vo = arr[i]

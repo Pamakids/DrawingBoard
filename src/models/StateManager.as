@@ -9,12 +9,28 @@ package models
 	import states.GameBottomUIState;
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
+	import states.HomepageUIState;
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
 	import states.ThemeUIState;
 
 	public class StateManager
 	{
+		// Homepage...
+		private static var mHomepageExists:Boolean
+		public static function setHomepage( enabled:Boolean ) : void{
+			if(!mHomepageExists){
+				mHomepageExists = true
+				AgonyUI.addModule("Homepage", HomepageUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("Homepage").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("Homepage").exit()
+			}
+		}
+		
 		// Theme...
 		private static var mThemeExists:Boolean
 		public static function setTheme( enabled:Boolean, type:String = null) : void{

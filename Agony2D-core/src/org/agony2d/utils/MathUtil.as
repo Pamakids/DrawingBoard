@@ -47,6 +47,13 @@ public class MathUtil {
 		return 0
 	}
 	
+	public static function getNeareatValue( v:Number, A:Number, B:Number, numRegions:int = 2 ) : Number {
+		if (numRegions < 2) {
+			numRegions = 2
+		}
+		
+	}
+	
 	public static function getRadian( dx:Number, dy:Number ) : Number {
 		return Math.atan2(dy, dx);
 	}

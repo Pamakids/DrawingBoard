@@ -5,17 +5,19 @@ package org.agony2d.view.layouts {
 	
 public class HorizLayout extends LayoutBase {
 	
-	public function HorizLayout( gapX:Number, gapY:Number = -1, maxLength:int = -1, startX:Number = 0, startY:Number = 0 ) {
+	public function HorizLayout( gapX:Number, gapY:Number = -1, maxLength:int = -1, startX:Number = 0, startY:Number = 0, endX:Number = 0, endY:Number = 0 ) {
 		m_maxLength = maxLength
 		m_gapX = gapX
 		m_gapY = gapY
 		m_startX = startX
 		m_startY = startY
+		super(endX, endY)
 	}
 	
 	override public function activate( item:Fusion, index:int ) : void {
 		if (m_maxLength <= 0) {
 			item.x = m_startX + m_gapX * index
+			item.y = m_startY
 		}
 		else {
 			item.x = m_startX + m_gapX * (index % m_maxLength)

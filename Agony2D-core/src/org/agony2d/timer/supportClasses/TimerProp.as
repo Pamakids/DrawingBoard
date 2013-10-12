@@ -115,11 +115,11 @@ final internal class TimerProp extends Notifier implements ITimer
 		}
 	}
 	
-	final public function kill() : void
+	final agony_internal override function dispose() : void
 	{
 		if ( m_flags & t_gcFlag )
 		{
-			Logger.reportError(this, 'kill', '定时器已回收.');
+			Logger.reportError(this, 'dispose', '定时器已回收.');
 		}
 		
 		if (m_flags & 0x0F)

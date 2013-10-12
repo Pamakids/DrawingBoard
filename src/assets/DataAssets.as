@@ -8,5 +8,6 @@ package assets
 		
 		[Embed(source="data/theme/theme.xml",mimeType = "application/octet-stream")]
 		public static const data_theme:Class
+
 	}
 }

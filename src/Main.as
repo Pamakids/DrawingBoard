@@ -55,7 +55,7 @@ package
 		
 		private function doInitView():void{
 			
-			StateManager.setTheme(true, "animal")
+			StateManager.setHomepage(true)
 //			StateManager.setGameScene(true)
 		}
 

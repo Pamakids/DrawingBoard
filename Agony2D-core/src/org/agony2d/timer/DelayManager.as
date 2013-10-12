@@ -60,7 +60,7 @@ final public class DelayManager implements IProcess {
 				ProcessManager.addFrameProcess(this, ProcessManager.DELAY)
 			}
 		}
-		Logger.reportMessage(this, (!b ? '▲' : '▼') + 'pause [ ' + b + ' ] : ' + m_numDelay + '...')
+		Logger.reportMessage(this, (!b ? '▲' : '▼') + ' pause [ ' + b + ' ] : ' + m_numDelay + '...')
 	}
 	
 	/** unit (second...) */

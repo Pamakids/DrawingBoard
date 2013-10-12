@@ -1,12 +1,16 @@
 package org.agony2d.view {
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+	
 	import org.agony2d.Agony;
-	import org.agony2d.debug.Logger;
-	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.core.agony_internal;
+	import org.agony2d.debug.Logger;
+	import org.agony2d.notify.AEvent;
+	import org.agony2d.view.layouts.ILayout;
 	
 	use namespace agony_internal;
+	
+	[Event(name = "reset", type = "org.agony2d.notify.AEvent")] 
 	
 public class RadioList extends Fusion {
   
@@ -24,6 +28,11 @@ public class RadioList extends Fusion {
 		m_scrollFusion.limitLeft = m_scrollFusion.limitRight = m_scrollFusion.limitTop = true
 		m_scrollFusion.limitBottom = true
     }
+	
+	
+	public function get scroll() : GridScrollFusion{
+		return m_scrollFusion
+	}
 	
 	public function get sortData() : Array { 
 		return m_sortData 
@@ -53,7 +62,7 @@ public class RadioList extends Fusion {
 		}
 	}
 	
-	public function addItem( itemArgs:Object, ListItemRef:Class, id:int = -1 ) : void {
+	public function addItem( itemArgs:Object, ListItemRef:Class, id:int = -1 ) : Fusion {
 		var item:ListItem
 		
 		item = new ListItemRef
@@ -80,6 +89,7 @@ public class RadioList extends Fusion {
 		m_content.addElement(item)
 		m_items[m_length++] = item
 		this.doInvalidateList()
+		return item
 	}
 	
 	public function removeItemAt( index:int ) : void {
@@ -139,6 +149,7 @@ public class RadioList extends Fusion {
 	protected var m_selectedId:int = -1
 	
 	
+	
 	protected function doInvalidateList() : void {
 		if (!m_invalidated) {
 			Agony.stage.addEventListener(Event.RENDER, ____onListSort)
@@ -165,9 +176,10 @@ public class RadioList extends Fusion {
 			m_layout.activate(item, i++)
 			m_content.relocate(item)
 		}
-		m_scrollFusion.contentWidth = m_layout.width//m_content.spaceWidth
-		m_scrollFusion.contentHeight = m_layout.height//m_content.spaceHeight
+		m_scrollFusion.contentWidth = m_layout.width + m_layout.endX//m_content.spaceWidth
+		m_scrollFusion.contentHeight = m_layout.height + m_layout.endY//m_content.spaceHeight
 		m_layout.reset()
+		this.view.m_notifier.dispatchDirectEvent(AEvent.RESET)
 	}
 }
 }
