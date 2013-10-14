@@ -183,11 +183,13 @@ public class Notifier implements INotifier {
 	/* overwrite... */
 	agony_internal function dispose() : void {
 		this.removeAllListeners()
+		m_alive = false
 	}
 	
 	private static var cachedEventList:Array = []
 	private static var cachedEventLength:int, cachedEventIndex:int
 	
 	agony_internal var m_target:Object, m_obList:Object // type:Observer
+	agony_internal var m_alive:Boolean = true
 }
 }

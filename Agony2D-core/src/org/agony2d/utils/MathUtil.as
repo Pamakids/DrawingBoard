@@ -47,11 +47,24 @@ public class MathUtil {
 		return 0
 	}
 	
+	/** 计算某值在两个值之间的最近分界点
+	 *  @param	v  必须在A和B之间...
+	 *  @param	A
+	 *  @param	B
+	 *  @param	numRegions
+	 */
 	public static function getNeareatValue( v:Number, A:Number, B:Number, numRegions:int = 2 ) : Number {
+		var interval:Number, surplus:Number
+		
 		if (numRegions < 2) {
 			numRegions = 2
 		}
-		
+		interval = (B - A) / (numRegions - 1)
+		surplus = (v - A) % interval
+		if (surplus < interval / 2) {
+			return v - ((v - A) % interval)
+		}
+		return v - ((v - A) % interval) + interval
 	}
 	
 	public static function getRadian( dx:Number, dy:Number ) : Number {

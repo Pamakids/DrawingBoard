@@ -13,5 +13,7 @@ public interface INotifier {
 	
 	function dispatchEvent( event:AEvent ) : Boolean
 	function dispatchDirectEvent( type:String ) : Boolean
+		
+	function kill() : void
 }
 }

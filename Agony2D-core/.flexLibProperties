@@ -13,7 +13,6 @@
     <classEntry path="org.agony2d.core.agony_internal"/>
     <classEntry path="org.agony2d.debug.Logger"/>
     <classEntry path="org.agony2d.debug.getRunningTime"/>
-    <classEntry path="org.agony2d.geom.bezier.getClosestPoint"/>
     <classEntry path="org.agony2d.input.ATouchEvent"/>
     <classEntry path="org.agony2d.input.IKeyboardState"/>
     <classEntry path="org.agony2d.input.IMouseButton"/>

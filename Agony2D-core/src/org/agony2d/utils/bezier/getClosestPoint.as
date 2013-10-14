@@ -1,4 +1,4 @@
-package org.agony2d.geom.bezier 
+package org.agony2d.utils.bezier 
 {
 	import flash.geom.Point;
 	

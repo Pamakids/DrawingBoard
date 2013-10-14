@@ -1,10 +1,13 @@
 package states
 {
+	import com.greensock.TweenLite;
+	
 	import models.ThemeDirVo;
 	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.RadioList;
@@ -45,10 +48,14 @@ package states
 				}
 				this.fusion.addElement(mRadioList)
 				mRadioList.addEventListener(AEvent.RESET, onRadioListReset)
-					
+				mRadioList.scroll.addEventListener(AEvent.BEGINNING, onScrollBeginning)
 				mRadioList.scroll.addEventListener(AEvent.COMPLETE, onScrollComplete)
 			}
 
+		}
+		
+		override public function exit():void{
+			this.doCheckScrolling()
 		}
 		
 		
@@ -56,7 +63,8 @@ package states
 		private var mThemeList:Array = []
 		private var mWidth:int
 		private var mNumitems:int
-			
+		private var mScrolling:Boolean	
+		
 			
 		private function onRadioListReset(e:AEvent):void{
 //			trace("reset")
@@ -64,8 +72,27 @@ package states
 //			trace(mNumitems)
 		}
 		
+		private function doCheckScrolling():void{
+			if(mScrolling){
+				TweenLite.killTweensOf(mRadioList.scroll)
+				mScrolling = true
+			}
+		}
+		
+		private function onScrollBeginning(e:AEvent):void{
+			this.doCheckScrolling()
+		}
+		
 		private function onScrollComplete(e:AEvent):void{
 //			trace(mRadioList.scroll.horizRatio)
+			var N:Number = MathUtil.getNeareatValue(mRadioList.scroll.horizRatio, 0, 1, mNumitems)
+//			trace(N)
+			mScrolling = true	
+			var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 7
+			TweenLite.to(mRadioList.scroll, duration, {horizRatio:N,onComplete:function():void{
+				mScrolling = false
+			}})
+			
 		}
 	}
 }
