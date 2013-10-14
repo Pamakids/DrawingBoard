@@ -1,120 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <changelog xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
-  <version>2.0</version>
-  <task-change-set user="mani" date="2013-08-27T03:59:29.205Z" timestamp="2013-08-27T03:59:29.205Z">
-    <change idref="t1" attribute="isGroup" type="real" from="0" to="1" resolved="yes"/>
-    <change idref="t1" attribute="isSplittableTask" type="real" from="1" resolved="yes"/>
-    <change idref="t1" attribute="taskType" type="real" from="0" to="2" resolved="yes"/>
-    <change idref="t1" attribute="title" type="string" from="Task 1" to="画画部分" resolved="yes"/>
-    <change idref="t1" attribute="resourceAssignmentType" type="real" from="0" resolved="yes"/>
-    <change idref="t1" attribute="staticCost" type="real" from="0" resolved="yes"/>
-    <change idref="t1" attribute="effort" type="real" from="28800" resolved="yes"/>
-    <change idref="t1" attribute="isSplitChunk" type="real" from="0" resolved="yes"/>
-    <change idref="t1" attribute="scheduleType" type="real" from="0" resolved="yes"/>
-    <change idref="t1" attribute="internalAssignments" type="string" from="" resolved="yes"/>
-    <change idref="t1" attribute="isSplitTask" type="real" from="0" resolved="yes"/>
-    <change idref="t1" attribute="internalEffortDone" type="real" from="0" resolved="yes"/>
-    <change idref="t2" to="t1" to-position="0" resolved="yes">
-      <change idref="t2" attribute="effort" type="real" from="28800" to="86400"/>
-      <change idref="t2" attribute="title" type="string" to="滚动条组件"/>
+  <version>2.1</version>
+  <task-change-set user="mani" date="2013-09-11T10:42:55.070Z" timestamp="2013-09-11T10:42:55.070Z">
+    <change idref="t6" attribute="internalEffortDone" type="real" from="25919.998046875" to="86400" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-11T10:43:44.468Z" timestamp="2013-09-11T10:43:44.468Z">
+    <change idref="t6" attribute="effort" type="real" from="86400" to="144000" resolved="yes"/>
+    <change idref="t6" attribute="internalEffortDone" type="real" from="86400" to="86399.99485015869" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-23T11:02:56.869Z" timestamp="2013-09-23T11:02:56.869Z">
+    <change idref="t6" attribute="internalEffortDone" type="real" from="86399.9921875" to="144000" resolved="yes"/>
+  </task-change-set>
+  <task-change-set user="mani" date="2013-09-23T11:15:03.340Z" timestamp="2013-09-23T11:15:03.340Z">
+    <change idref="t10" to="t-1" to-position="1" resolved="yes">
+      <change idref="t10" attribute="noEarlierThanConstraintDate" type="date" to="2013-09-23T00:00:00.000Z"/>
+      <change idref="t10" attribute="title" type="string" to="列表"/>
     </change>
   </task-change-set>
-  <task-change-set user="mani" date="2013-08-27T04:23:59.876Z" timestamp="2013-08-27T04:23:59.876Z">
-    <change idref="t3" to="t1" to-position="1" resolved="yes">
-      <change idref="t3" attribute="effort" type="real" from="28800" to="57600"/>
-      <change idref="t3" attribute="title" type="string" to="底部控制栏"/>
-    </change>
+  <task-change-set user="mani" date="2013-09-23T11:16:03.489Z" timestamp="2013-09-23T11:16:03.489Z">
+    <change idref="t10" attribute="effort" type="real" from="28800" to="144000" resolved="yes"/>
   </task-change-set>
-  <task-change-set user="mani" date="2013-08-27T04:29:28.401Z" timestamp="2013-08-27T04:29:28.401Z">
-    <change idref="t4" to="t1" to-position="2" resolved="yes">
-      <change idref="t4" attribute="title" type="string" to="顶部栏+保存"/>
-    </change>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-27T04:31:28.480Z" timestamp="2013-08-27T04:31:28.480Z">
-    <change idref="t6" to="t1" to-position="3" resolved="yes">
-      <change idref="t6" attribute="title" type="string" to="播放"/>
-    </change>
-    <change idref="t4" attribute="effort" type="real" from="28800" to="57600" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-27T04:31:43.460Z" timestamp="2013-08-27T04:31:43.460Z">
-    <change idref="t6" attribute="effort" type="real" from="28800" to="86400" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-27T04:31:56.222Z" timestamp="2013-08-27T04:31:56.222Z">
-    <change idref="t3" attribute="internalPrerequisitesString" type="string" to="2FS" resolved="yes"/>
-    <change idref="t4" attribute="internalPrerequisitesString" type="string" to="3FS" resolved="yes"/>
-    <change idref="t6" attribute="internalPrerequisitesString" type="string" to="4FS" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-27T10:46:15.672Z" timestamp="2013-08-27T10:46:15.672Z">
-    <change idref="t7" to="t1" to-position="0" resolved="yes">
-      <change idref="t7" attribute="title" type="string" to="画画功能"/>
-    </change>
-    <change idref="t2" attribute="internalPrerequisitesString" type="string" to="7FS" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-28T10:44:02.250Z" timestamp="2013-08-28T10:44:02.250Z">
-    <change idref="t2" attribute="internalEffortDone" type="real" from="0" to="43200" resolved="yes"/>
-    <change idref="t7" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-28T10:44:44.571Z" timestamp="2013-08-28T10:44:44.571Z">
-    <change idref="t2" attribute="internalEffortDone" type="real" from="43200" to="28511.99855804443" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-29T11:06:53.631Z" timestamp="2013-08-29T11:06:53.631Z">
-    <change idref="t2" attribute="internalEffortDone" type="real" from="28511.998046875" to="57023.99711608887" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-08-30T11:02:26.532Z" timestamp="2013-08-30T11:02:26.532Z">
-    <change idref="t2" attribute="internalEffortDone" type="real" from="57023.99609375" to="86400" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-02T02:52:48.404Z" timestamp="2013-09-02T02:52:48.404Z">
-    <change idref="t3" attribute="internalEffortDone" type="real" from="0" to="57600" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-02T02:54:43.831Z" timestamp="2013-09-02T02:54:43.831Z">
-    <change idref="t8" to="t1" to-position="3" resolved="yes">
-      <change idref="t8" attribute="startConstraintDate" type="date" to="2013-09-02T00:00:00.000Z"/>
-      <change idref="t8" attribute="title" type="string" to="滚动延时"/>
-    </change>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-02T11:01:01.956Z" timestamp="2013-09-02T11:01:01.956Z">
-    <change idref="t8" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-03T10:57:22.766Z" timestamp="2013-09-03T10:57:22.766Z">
-    <change idref="t4" attribute="internalEffortDone" type="real" from="0" to="28800" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-04T10:50:49.213Z" timestamp="2013-09-04T10:50:49.213Z">
-    <change idref="t4" attribute="internalEffortDone" type="real" from="28800" to="57600" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-05T10:59:12.999Z" timestamp="2013-09-05T10:59:12.999Z">
-    <change idref="t9" to="t1" to-position="5" resolved="yes">
-      <change idref="t9" attribute="effort" type="real" from="28800" to="86400"/>
-      <change idref="t9" attribute="internalEffortDone" type="real" from="0" to="25919.99845504761"/>
-      <change idref="t9" attribute="internalPrerequisitesString" type="string" to="6FS"/>
-      <change idref="t9" attribute="startConstraintDate" type="date" to="2013-09-05T00:00:00.000Z"/>
-      <change idref="t9" attribute="title" type="string" to="画画优化和贴纸"/>
-    </change>
-    <change idref="t4" attribute="internalPrerequisitesString" type="string" from="3FS" to="3FS, 9FS" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-05T10:59:37.002Z" timestamp="2013-09-05T10:59:37.002Z">
-    <change idref="t6" attribute="internalPrerequisitesString" type="string" from="4FS" resolved="yes"/>
-    <change idref="t8" attribute="internalPrerequisitesString" type="string" to="4FS" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-06T10:04:30.542Z" timestamp="2013-09-06T10:04:30.542Z">
-    <change idref="t9" attribute="internalEffortDone" type="real" from="25919.998046875" to="51839.99691009521" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-09T10:02:16.236Z" timestamp="2013-09-09T10:02:16.236Z">
-    <change idref="t4" attribute="internalPrerequisitesString" type="string" from="3FS, 9FS" to="8FS" resolved="yes"/>
-    <change idref="t6" attribute="internalPrerequisitesString" type="string" to="9FS" resolved="yes"/>
-    <change idref="t8" attribute="internalPrerequisitesString" type="string" from="4FS" to="3FS" resolved="yes"/>
-    <change idref="t9" attribute="internalPrerequisitesString" type="string" from="6FS" to="4FS" resolved="yes"/>
-  </task-change-set>
-  <task-change-set user="mani" date="2013-09-09T10:46:52.188Z" timestamp="2013-09-09T10:46:52.188Z">
-    <change idref="t6" attribute="internalEffortDone" type="real" from="0" to="25919.99845504761" resolved="yes"/>
-    <change idref="t9" attribute="internalEffortDone" type="real" from="51839.99609375" to="86400" resolved="yes"/>
-  </task-change-set>
-  <resource-change-set user="mani" date="2013-09-09T10:02:16.236Z" timestamp="2013-09-09T10:02:16.236Z">
-    <change idref="r-1" attribute="overtimeString" type="string" from="" to="4632,32400,4633,61200,,;4639,28800,4640,57600,," resolved="yes"/>
-  </resource-change-set>
-  <metadata-change-set user="mani" date="2013-08-27T03:59:29.202Z" timestamp="2013-08-27T03:59:29.202Z">
-    <change idref="m1" attribute="fixedDate" type="date" from="2007-01-01T20:00:00.000Z" to="2013-08-27T00:00:00.000Z" resolved="yes"/>
-  </metadata-change-set>
-  <metadata-change-set user="mani" date="2013-08-27T10:34:31.097Z" timestamp="2013-08-27T10:34:31.097Z">
-    <change idref="m1" attribute="scheduleGranularity" type="real" from="0" to="2" resolved="yes"/>
-  </metadata-change-set>
 </changelog>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <omniplan xmlns="http://www.omnigroup.com/namespace/OmniPlan/v2">
-  <window x="7" y="248" w="899" h="630">
+  <window x="268" y="248" w="899" h="630">
     <editing-scenario>n9_SmqC435Q</editing-scenario>
     <view>task</view>
     <change-tracking/>
@@ -11,13 +11,14 @@
       <outline x="0" y="0" w="715" h="526">
         <column name="Violations" width="20"/>
         <column name="Notes" width="20"/>
-        <column name="Title" width="278"/>
+        <column name="Title" width="177"/>
         <column name="Effort" width="70"/>
         <column name="Start" width="130"/>
         <column name="%Done" width="87"/>
         <column name="Prerequisites" width="102"/>
+        <column name="End" width="100"/>
         <expanded-items idrefs="t1"/>
-        <selected-items-at-filter-time idrefs="t9 t4 t7 t2 t8 t3 t6"/>
+        <selected-items-at-filter-time idrefs="t9 t4 t10 t7 t2 t8 t3 t6"/>
       </outline>
       <gantt-view x="-29" y="0" w="183" h="526">
         <view-mode>actual</view-mode>
@@ -68,7 +69,7 @@
         <column name="IM" width="20"/>
         <column name="Notes" width="20"/>
         <column name="Type" width="49"/>
-        <column name="Resource" width="121"/>
+        <column name="Resource" width="135"/>
         <column name="#" width="75"/>
       </outline>
       <timeline x="-79" y="0" w="564" h="526">
@@ -113,7 +114,7 @@
     </resource-view>
     <calendar>
       <split-view-divider-position>290</split-view-divider-position>
-      <outline x="0" y="0" w="290" h="346">
+      <outline x="0" y="0" w="290" h="495">
         <column name="IM" width="20"/>
         <column name="Notes" width="20"/>
         <column name="Type" width="49"/>
@@ -124,7 +125,7 @@
     </calendar>
   </window>
   <project>
-    <next-task-id>10</next-task-id>
+    <next-task-id>11</next-task-id>
     <next-resource-id>2</next-resource-id>
     <scenario id="n9_SmqC435Q" name="Actual" filename="Actual.xml"/>
     <date-display dates="true" times="false" seconds="false"/>

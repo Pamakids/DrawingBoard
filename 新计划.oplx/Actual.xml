@@ -51,8 +51,8 @@
     <type>Group</type>
     <schedule>
       <calendar name="Overtime" editable="yes" overtime="yes">
-        <event start="2013-09-07T01:00:00.000Z" end="2013-09-08T09:00:00.000Z"/>
-        <event start="2013-09-14T00:00:00.000Z" end="2013-09-15T08:00:00.000Z"/>
+        <event start="2013-09-07T01:00:00.000Z" end="2013-09-08T09:00:00.000Z" sd="4632" st="32400" ed="4633" et="61200"/>
+        <event start="2013-09-14T00:00:00.000Z" end="2013-09-15T08:00:00.000Z" sd="4639" st="28800" ed="4640" et="57600"/>
       </calendar>
       <calendar name="Time Off" editable="yes" overtime="no"/>
     </schedule>
@@ -66,6 +66,7 @@
   <task id="t-1">
     <type>group</type>
     <child-task idref="t1"/>
+    <child-task idref="t10"/>
   </task>
   <task id="t1">
     <title>画画部分</title>
@@ -98,8 +99,8 @@
   </task>
   <task id="t6">
     <title>播放</title>
-    <effort>86400</effort>
-    <effort-done>25919.9984550476</effort-done>
+    <effort>144000</effort>
+    <effort-done>144000</effort-done>
     <prerequisite-task idref="t9"/>
   </task>
   <task id="t7">
@@ -113,6 +114,7 @@
     <effort-done>28800</effort-done>
     <start-constraint-date>2013-09-02T00:00:00.000Z</start-constraint-date>
     <prerequisite-task idref="t3"/>
+    <start-no-earlier-than>2013-09-02T00:00:00.000Z</start-no-earlier-than>
   </task>
   <task id="t9">
     <title>画画优化和贴纸</title>
@@ -120,6 +122,13 @@
     <effort-done>86400</effort-done>
     <start-constraint-date>2013-09-05T00:00:00.000Z</start-constraint-date>
     <prerequisite-task idref="t4"/>
+    <start-no-earlier-than>2013-09-05T00:00:00.000Z</start-no-earlier-than>
+  </task>
+  <task id="t10">
+    <title>列表</title>
+    <effort>144000</effort>
+    <start-constraint-date>2013-09-23T00:00:00.000Z</start-constraint-date>
+    <start-no-earlier-than>2013-09-23T00:00:00.000Z</start-no-earlier-than>
   </task>
   <critical-path root="-1" enabled="false" resources="false">
     <color r="1" g="0.5" b="0.5"/>
