@@ -70,7 +70,7 @@ package states
 			Agony.process.addEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
 			Agony.process.addEventListener(GameBottomPasterUIState.PRESS_DELAY_CREATE_PASTER, onPressDelayCreatePaster)
 			Agony.process.addEventListener(GameTopUIState.GAME_RESET, onGameReset)
-			Agony.process.addEventListener(GameTopUIState.CREATE_DRAW_AND_PASTER_FILE, onCreateFile)
+			Agony.process.addEventListener(GameTopUIState.FINISH_DRAW_AND_PASTER, onFinishDrawAndPaster)
 		}
 		
 		override public function exit():void{
@@ -104,7 +104,7 @@ package states
 			Agony.process.removeEventListener(GameBottomPasterUIState.RANDOM_CREATE_PASTER, onRandomCreatePaster)
 			Agony.process.removeEventListener(GameBottomPasterUIState.PRESS_DELAY_CREATE_PASTER, onPressDelayCreatePaster)
 			Agony.process.removeEventListener(GameTopUIState.GAME_RESET, onGameReset)
-			Agony.process.removeEventListener(GameTopUIState.CREATE_DRAW_AND_PASTER_FILE, onCreateFile)
+			Agony.process.removeEventListener(GameTopUIState.FINISH_DRAW_AND_PASTER, onFinishDrawAndPaster)
 		}
 		
 		
@@ -127,6 +127,7 @@ package states
 		private var mNumPaster:int
 		private var mContent:PivotFusion
 		private var mDrawingBgIndex:int
+		private var mThemeVo:ThemeVo
 		
 		
 		
@@ -151,8 +152,8 @@ package states
 				{
 					img = new ImagePuppet
 //					mDrawingBgIndex = this.stateArgs[0]
-					var vo:ThemeVo = this.stateArgs[0]
-					img.load(vo.dataUrl, false)
+					mThemeVo = this.stateArgs[0]
+					img.load(mThemeVo.dataUrl, false)
 					img.interactive = false
 					mBoard.content.addElement(img)	
 				}
@@ -436,30 +437,38 @@ package states
 			}
 		}
 		
-		private function onCreateFile(e:AEvent) : void {
+		// 
+		private function onFinishDrawAndPaster(e:AEvent) : void {
 			var bytes:ByteArray
 			var BA:BitmapData
 			var scale:Number
 			var matrix:Matrix
-			
-			bytes = new ByteArray
 				
 			//  thumbnail
 			BA = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)
 			scale = Config.FILE_THUMBNAIL_WIDTH / mPaper.content.width * mContentRatio
 			matrix = new Matrix(scale,0,0,scale,0,0)
 			BA.draw(mContent.displayObject, matrix, null, null, null, true)
-			cachedBytesA = BA.getPixels(BA.rect)
-			bytes.writeByte(mDrawingBgIndex)
-			bytes.writeUnsignedInt(cachedBytesA.length)
-			bytes.writeBytes(cachedBytesA)
-			cachedBytesA.length = 0
+			DrawingManager.getInstance().thumbnail = BA
+				
+//			cachedBytesA = BA.getPixels(BA.rect)
+//			bytes.writeByte(mDrawingBgIndex)
+//			bytes.writeUnsignedInt(cachedBytesA.length)
+//			bytes.writeBytes(cachedBytesA)
+//			cachedBytesA.length = 0
 			
+			bytes = new ByteArray
+				
+			// bg
+			bytes.writeUTF(mThemeVo.dataUrl)
+				
 			// paster
 			this.doAddPasterData(bytes)
-
+				
 			// draw
 			bytes.writeBytes(DrawingManager.getInstance().paper.bytes)
+				
+			// combine
 			DrawingManager.getInstance().setBytes(bytes)
 		}
 		

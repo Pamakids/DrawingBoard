@@ -3,6 +3,13 @@ package models
 	public class Config
 	{
 		
+		// file...
+		public static const IMAGE_BUFFERS:String    =  "buffers"
+		public static const DATA_THUMBNAILS:String  =  "thumbnails"
+		public static const DATA_FILE:String        =  "files"
+		
+		
+		// drawing...
 		public static const ERASER_SIZE:int = 10
 			
 		public static const BRUSH_SCALE_MIN:Number = 0.2

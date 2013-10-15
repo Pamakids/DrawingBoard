@@ -42,6 +42,9 @@ package states.renderers
 //			StateManager.setGameScene(true, this.userData as ThemeVo)
 			var vo:ThemeDirVo = this.userData as ThemeDirVo
 			trace(vo.type)
+			
+			StateManager.setHomepage(false)
+			StateManager.setTheme(true, vo.type)
 		}
 	}
 }

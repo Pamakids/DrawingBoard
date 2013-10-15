@@ -1,8 +1,5 @@
 package states
 {
-	import assets.AssetsUI;
-	import assets.ImgAssets;
-	
 	import models.ThemeDirVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
@@ -12,8 +9,6 @@ package states
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.SpritePuppet;
-	
-	import renderers.AListItem;
 	
 	import states.renderers.ThemeListItem;
 

@@ -34,7 +34,7 @@ package states
 
 		public static const GAME_RESET:String = "gameReset"
 		
-		public static const CREATE_DRAW_AND_PASTER_FILE:String = "createDrawAndPasterFile"
+		public static const FINISH_DRAW_AND_PASTER:String = "createDrawAndPasterFile"
 			
 			
 		
@@ -188,7 +188,7 @@ package states
 		}
 		
 		private function onTopComplete(e:AEvent):void{
-			Agony.process.dispatchDirectEvent(CREATE_DRAW_AND_PASTER_FILE)
+			Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
 			StateManager.setGameScene(false)
 			StateManager.setPlayer(true)
 		}

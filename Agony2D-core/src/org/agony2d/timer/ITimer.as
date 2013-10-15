@@ -48,9 +48,5 @@ public interface ITimer extends INotifier
 	/** ◆◆开关
 	 */
 	function toggle() : void
-	
-	/** ◆◆杀死
-	 */
-	function kill() : void
 }
 }

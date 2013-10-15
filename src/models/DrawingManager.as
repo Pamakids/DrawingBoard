@@ -19,6 +19,11 @@ package models
 	import org.agony2d.view.AgonyUI;
 
 	/** singleton... */
+	
+	/**
+	 *  保存文件数据说明 :
+	 *  thumbnail - 
+	 */
 	public class DrawingManager
 	{
 		public function get paper() : CommonPaper{
@@ -31,6 +36,14 @@ package models
 		
 		public function get bytes() : ByteArray{
 			return mBytes
+		}
+		
+		public function get thumbnail() : BitmapData {
+			return mThumbnail
+		}
+		
+		public function set thumbnail( v:BitmapData ) : void {
+			mThumbnail = v
 		}
 		
 		public var isPaperDirty:Boolean
@@ -58,6 +71,7 @@ package models
 		private var mBytes:ByteArray
 		private var mPaper:CommonPaper
 		private var mPlayer:DrawingPlayer
+		private var mThumbnail:BitmapData
 		
 		
 		///////////////////////////////////////////////////////

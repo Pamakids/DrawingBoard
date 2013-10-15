@@ -1,7 +1,7 @@
 package
 {
 	import flash.display.Sprite;
-	import flash.media.Microphone;
+	import org.as3wavsound.WavSound;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.timer.DelayManager;
@@ -16,14 +16,14 @@ package
 			super();
 			Agony.startup(stage)
 			DelayManager.getInstance().delayedCall(2, onStart)
-
+			
 		}
 		
 		private var mMR:MicRecorder
-		private var mME:WaveEncoder
+		private var mWav:WavSound
 		
 		private function onStart():void{
-			mMR = new MicRecorder(mME, new Microphone)
+			mMR = new MicRecorder(new WaveEncoder)
 			mMR.addEventListener(RecordingEvent.RECORDING, onRecording)
 			mMR.record()
 			DelayManager.getInstance().delayedCall(8, onStop)
@@ -38,14 +38,15 @@ package
 			mMR.stop()
 			trace("record stop...")
 			
-			mMR.addEventListener(RecordingEvent.RECORDING, onPlay)
+			DelayManager.getInstance().delayedCall(1, onPlay)
 		}
-
+		
 		private function onPlay():void{
-			mME = new WaveEncoder(1)
-			mME.encode(mMR.output)
+			mWav = new WavSound(mMR.output)
+			mWav.play()
+			trace("record play...")
 			
-			trace("record play...)
+			
 		}
 	}
 }

@@ -5,20 +5,18 @@ package states
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	
-	import assets.ImgAssets;
-	
 	import drawing.DrawingPlayer;
 	
-	import models.Config;
 	import models.DrawingManager;
 	import models.StateManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.air.AgonyAir;
+	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFile;
+	import org.agony2d.air.file.IFolder;
 	import org.agony2d.debug.Logger;
-	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.notify.DataEvent;
-	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.GestureFusion;
 	import org.agony2d.view.PivotFusion;
@@ -68,16 +66,15 @@ public class PlayerSceneUIState extends UIState
 		var img:ImagePuppet
 		var data:BitmapData
 		var drawingBgIndex:int
+		var bgUrl:String
 		
 		BA = new ByteArray()
 		bytes = DrawingManager.getInstance().bytes
+		
+		// bg
 		bytes.position = 0
-		drawingBgIndex = bytes.readByte()	
-			
-		// pic
-		offsetA = bytes.readUnsignedInt() + 5
-		bytes.position = offsetA
-			
+		bgUrl = bytes.readUTF()
+		
 //		{
 //			
 //			BA.writeBytes(bytes, 4, offsetA - 4)
@@ -89,8 +86,6 @@ public class PlayerSceneUIState extends UIState
 //			this.fusion.addElement(img, 200, 200)
 //			BA.length = 0
 //		}
-			
-			
 			
 		// paster
 		offsetB = bytes.readUnsignedInt()
@@ -109,7 +104,8 @@ public class PlayerSceneUIState extends UIState
 		// drawing bg...
 		{
 			img = new ImagePuppet
-			img.embed(DrawingManager.getInstance().getDrawingBg(drawingBgIndex), false)
+			img.load(bgUrl, false)
+//			img.embed(DrawingManager.getInstance().getDrawingBg(drawingBgIndex), false)
 			img.interactive = false
 			this.fusion.addElement(img)	
 		}

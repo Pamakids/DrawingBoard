@@ -49,12 +49,12 @@ package states
 			}
 			
 			// back
-			{
-				img = new ImagePuppet
-				img.embed(ImgAssets.btn_global)
-				this.fusion.addElement(img, 970, 5)
-				img.addEventListener(AEvent.CLICK, onBack)
-			}
+//			{
+//				img = new ImagePuppet
+//				img.embed(ImgAssets.btn_global)
+//				this.fusion.addElement(img, 970, 5)
+//				img.addEventListener(AEvent.CLICK, onBack)
+//			}
 			
 			// big play btn
 			{
@@ -171,9 +171,9 @@ package states
 		
 		
 
-		private function onBack(e:AEvent):void{
-			Agony.process.dispatchDirectEvent(PLAYER_BACK)
-		}
+//		private function onBack(e:AEvent):void{
+//			Agony.process.dispatchDirectEvent(PLAYER_BACK)
+//		}
 		
 		private function onStartPlay(e:AEvent):void{
 			if(mBigPlayButton){
