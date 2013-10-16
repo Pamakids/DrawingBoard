@@ -53,7 +53,7 @@ public class AEvent {
 	public static const PENDING:String             =  "pending"
 	public static const SUCCESS:String             =  "success"
 	public static const UNSUCCESS:String           =  "unsuccess"
-	
+	public static const READY_TO_RENDER:String     =  "readyToRender"
 	
 	public static const PRESS:String         =  "press"
 	public static const RELEASE:String       =  "release"

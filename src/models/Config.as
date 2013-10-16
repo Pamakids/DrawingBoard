@@ -8,6 +8,8 @@ package models
 		public static const DATA_THUMBNAILS:String  =  "thumbnails"
 		public static const DATA_FILE:String        =  "files"
 		
+		// record...	
+		public static const MAX_RECORD_TIME:int = 15
 		
 		// drawing...
 		public static const ERASER_SIZE:int = 10

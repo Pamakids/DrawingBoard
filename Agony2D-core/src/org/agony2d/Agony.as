@@ -6,7 +6,7 @@
 	[Embed(source = "colonist_32_32.xml",mimeType = "application/octet-stream")] 
 
 	[MP3 / SWF]
-	[Embed(source = "colonist_32_32.mp3")] 
+	[Embed(source = "colonist_32_32.mp3/swf")] 
 
 	[SWF(internal for get classes)]
 	[Embed(source = "colonist_32_32.swf", mimeType = "application/octet-stream")]
