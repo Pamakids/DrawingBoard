@@ -44,17 +44,28 @@
     <classEntry path="org.agony2d.notify.ErrorEvent"/>
     <classEntry path="org.agony2d.notify.INotifier"/>
     <classEntry path="org.agony2d.notify.Notifier"/>
-    <classEntry path="org.agony2d.notify.Observer"/>
     <classEntry path="org.agony2d.notify.RangeEvent"/>
+    <classEntry path="org.agony2d.notify.cookie.ACookie"/>
+    <classEntry path="org.agony2d.notify.cookie.CookieManager"/>
     <classEntry path="org.agony2d.notify.properties.BooleanProperty"/>
     <classEntry path="org.agony2d.notify.properties.IntLoopProperty"/>
     <classEntry path="org.agony2d.notify.properties.IntProperty"/>
-    <classEntry path="org.agony2d.notify.properties.MapProperty"/>
     <classEntry path="org.agony2d.notify.properties.NumberProperty"/>
     <classEntry path="org.agony2d.notify.properties.RangeProperty"/>
     <classEntry path="org.agony2d.notify.properties.StringProperty"/>
-    <classEntry path="org.agony2d.notify.properties.supportClasses.PropertyBase"/>
+    <classEntry path="org.agony2d.notify.supportClasses.ListenerProp"/>
+    <classEntry path="org.agony2d.notify.supportClasses.Observer"/>
     <classEntry path="org.agony2d.notify.supportClasses.UnityNotifierBase"/>
+    <classEntry path="org.agony2d.renderer.anime.Action"/>
+    <classEntry path="org.agony2d.renderer.anime.Animator"/>
+    <classEntry path="org.agony2d.renderer.anime.AnimeManager"/>
+    <classEntry path="org.agony2d.renderer.anime.BitmapInfo"/>
+    <classEntry path="org.agony2d.renderer.anime.ImageSection"/>
+    <classEntry path="org.agony2d.renderer.anime.MovieClipSection"/>
+    <classEntry path="org.agony2d.renderer.anime.Section"/>
+    <classEntry path="org.agony2d.renderer.anime.SectionManager"/>
+    <classEntry path="org.agony2d.renderer.bitmap.BitmapPainter"/>
+    <classEntry path="org.agony2d.renderer.bitmap.BitmapUtil"/>
     <classEntry path="org.agony2d.renderer.bitmap.RatioBrush"/>
     <classEntry path="org.agony2d.renderer.display.DisplayUtil"/>
     <classEntry path="org.agony2d.renderer.display.GraphicsController"/>
@@ -68,18 +79,17 @@
     <classEntry path="org.agony2d.timer.supportClasses.TimerProp"/>
     <classEntry path="org.agony2d.utils.ArrayUtil"/>
     <classEntry path="org.agony2d.utils.ColorUtil"/>
-    <classEntry path="org.agony2d.utils.CookieUtil"/>
-    <classEntry path="org.agony2d.utils.ICookie"/>
     <classEntry path="org.agony2d.utils.LangUtil"/>
     <classEntry path="org.agony2d.utils.MathUtil"/>
     <classEntry path="org.agony2d.utils.ValidateUtil"/>
     <classEntry path="org.agony2d.utils.XMLUtil"/>
+    <classEntry path="org.agony2d.utils.bezier.getClosestPoint"/>
     <classEntry path="org.agony2d.utils.byte.Base64"/>
     <classEntry path="org.agony2d.utils.byte.BytesType"/>
     <classEntry path="org.agony2d.utils.byte.BytesUtil"/>
     <classEntry path="org.agony2d.utils.gc"/>
     <classEntry path="org.agony2d.utils.getClassName"/>
-    <classEntry path="org.agony2d.utils.getInstance"/>
+    <classEntry path="org.agony2d.utils.makeInstance"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

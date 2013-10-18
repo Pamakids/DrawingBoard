@@ -3,6 +3,7 @@ package states
 	import assets.ImgAssets;
 	
 	import models.Config;
+	import models.RecordManager;
 	
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -10,6 +11,7 @@ package states
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.ProgressBar;
 	import org.agony2d.view.UIState;
@@ -67,69 +69,49 @@ package states
 				this.fusion.addElement(img,750,100, 1, LayoutType.F__A__F_ALIGN)
 				img.addEventListener(AEvent.CLICK, onFinish)
 			}
+			
+			RecordManager.getInstance().addEventListener(RecordManager.RECORDING, onRecording)
 		}
 		
 		
-		private var mRecord:MicRecorder
 		private var mPb:ProgressBar
-		private var mStarted:Boolean
-		private var mWav:WavSound
-		private var mWavChannel:WavSoundChannel
 		
 		
 		private function onStartRecord(e:AEvent):void{
-			this.doStartRecord()
-			
+			RecordManager.getInstance().start()
 			trace("start...")
 		}
 		
-		private function onRecording(e:RecordingEvent):void{
-			if(e.time >= Config.MAX_RECORD_TIME * 1000){
-				this.doStopRecord()
+		private function onRecording(e:DataEvent):void{
+			var time:Number
+			
+			time = e.data as Number
+			if(time >= Config.MAX_RECORD_TIME * 1000){
+				RecordManager.getInstance().stop()
 			}
 			else{
-				mPb.range.value = e.time / Config.MAX_RECORD_TIME * 0.001
+				mPb.range.value = time / Config.MAX_RECORD_TIME * 0.001
 			}
-			trace(e.time)
+			trace(time)
 		}
 		
 		private function onStopRecord(e:AEvent):void{
-			this.doStopRecord()
+			RecordManager.getInstance().stop()
 			trace("stop...")
 		}
 		
-		private function doStartRecord():void{
-			mRecord = new MicRecorder(new WaveEncoder)
-			mRecord.addEventListener(RecordingEvent.RECORDING, onRecording)
-			mRecord.record()	
-			mStarted = true
-		}
-		
-		private function doStopRecord():void{
-			if(mStarted){
-				mRecord.removeEventListener(RecordingEvent.RECORDING, onRecording)
-				mRecord.stop()
-				mStarted =false
-			}
-		}
-		
 		private function onPlayRecord(e:AEvent):void{
-			if(mWavChannel){
-				mWavChannel.stop()
-			}
-			if(mRecord){
-				mWav = new WavSound(mRecord.output)
-				mWavChannel = mWav.play()
-				
-			}
+			RecordManager.getInstance().play()
 		}
 		
 		private function onFinish(e:AEvent):void{
-			var folder:IFolder = AgonyAir.createFolder("db", FolderType.DESKTOP)
-			var file:IFile = folder.createFile("record", "wav")
-			file.bytes = mRecord.output
-			file.bytes.compress()
-			file.upload()
+//			var folder:IFolder = AgonyAir.createFolder("db", FolderType.DESKTOP)
+//			var file:IFile = folder.createFile("record", "wav")
+//			file.bytes = RecordManager.getInstance().bytes
+//			file.bytes.compress()
+//			file.upload()
+			
+			trace("finish...")
 		}
 	}
 }

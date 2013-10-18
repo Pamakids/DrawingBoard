@@ -18,6 +18,7 @@ package states
 	
 	import models.Config;
 	import models.DrawingManager;
+	import models.ThemeManager;
 	import models.ThemeVo;
 	
 	import org.agony2d.Agony;

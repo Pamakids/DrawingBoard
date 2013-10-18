@@ -93,7 +93,7 @@ public class ScrollFusion extends PivotFusion {
 				}
 			}
 			else {
-				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, false, SCROLL_PRIORITY)
+				TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, ____onNewTouch, SCROLL_PRIORITY)
 				//AgonyUI.fusion.addEventListener(AEvent.PRESS, ____onStart, SCROLL_PRIORITY)
 			}
 		}
@@ -203,8 +203,8 @@ public class ScrollFusion extends PivotFusion {
 				m_oldY = m_startY = touch.stageY / m_pixelRatio
 				if (m_startX >= point.x && m_startX <= point.x + m_maskWidth && m_startY >= point.y && m_startY <= point.y + m_maskHeight) {
 					m_readyToScroll = true
-					touch.addEventListener(AEvent.RELEASE, ____onBreak,   false, SCROLL_PRIORITY)
-					touch.addEventListener(AEvent.MOVE,    ____onPreMove, false, SCROLL_PRIORITY)
+					touch.addEventListener(AEvent.RELEASE, ____onBreak, SCROLL_PRIORITY)
+					touch.addEventListener(AEvent.MOVE,    ____onPreMove, SCROLL_PRIORITY)
 					this.m_view.m_notifier.dispatchDirectEvent(AEvent.BEGINNING)
 					//trace('NewTouch')
 				}
@@ -313,8 +313,8 @@ public class ScrollFusion extends PivotFusion {
 	
 	private function insertTouch( touch:Touch ) : void {
 		m_touchList[m_numTouchs++] = touch
-		touch.addEventListener(AEvent.MOVE,    ____onMove,    false, SCROLL_PRIORITY)
-		touch.addEventListener(AEvent.RELEASE, ____onRelease, false, SCROLL_PRIORITY)
+		touch.addEventListener(AEvent.MOVE,    ____onMove, SCROLL_PRIORITY)
+		touch.addEventListener(AEvent.RELEASE, ____onRelease, SCROLL_PRIORITY)
 		this.resetTouchs()
 	}
 	

@@ -88,15 +88,14 @@ public class PlayerSceneUIState extends UIState
 //		}
 			
 		// paster
+		offsetA = bytes.position + 6
 		offsetB = bytes.readUnsignedInt()
 		mPasterLength = bytes.readShort()
 		mPasterData = new ByteArray
-		offsetA += 6
 		mPasterData.writeBytes(bytes, offsetA, offsetB)
-		offsetA += offsetB
 		
 		// draw
-		BA.writeBytes(bytes, offsetA)
+		BA.writeBytes(bytes, offsetA + offsetB)
 		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, doStartAddPaster)
 		DrawingManager.getInstance().setPlayer(mPlayer)
 		Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)

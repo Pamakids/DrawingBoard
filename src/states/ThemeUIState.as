@@ -1,13 +1,18 @@
 package states
 {
+	import assets.ImgAssets;
+	
+	import models.StateManager;
 	import models.ThemeDirVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
+	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.RadioList;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
+	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
 	import states.renderers.ThemeListItem;
@@ -32,7 +37,18 @@ package states
 			var dir:ThemeDirVo
 			var sp:SpritePuppet
 			var vo:ThemeVo
+			var img:ImagePuppet
 			
+			// back...
+			{
+				img = new ImagePuppet
+				img.embed(ImgAssets.btn_global)
+				this.fusion.addElement(img, 40, 40)
+				img.addEventListener(AEvent.CLICK, onBackToHomepage)
+			}
+			
+			
+			// list
 			sp = new SpritePuppet
 			sp.graphics.beginFill(0xffff44, 0.2)
 			sp.graphics.drawRect(0,0,LIST_WIDTH,LIST_HEIGHT + 50)
@@ -52,6 +68,12 @@ package states
 			}
 			
 			this.fusion.addElement(list, LIST_X, LIST_Y)
+		}
+		
+		
+		private function onBackToHomepage(e:AEvent):void{
+			StateManager.setHomepage(true)
+			StateManager.setTheme(false)
 		}
 	}
 }

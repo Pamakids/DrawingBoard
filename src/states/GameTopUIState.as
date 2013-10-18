@@ -11,6 +11,7 @@ package states
 	import models.Config;
 	import models.DrawingManager;
 	import models.StateManager;
+	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.media.SfxManager;
@@ -129,7 +130,8 @@ package states
 		
 		
 		private function onTopBack(e:AEvent):void{
-
+			StateManager.setGameScene(false)
+			StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
 		}
 		
 		private function onTopReset(e:AEvent):void{

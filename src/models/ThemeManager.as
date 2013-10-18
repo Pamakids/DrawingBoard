@@ -6,6 +6,10 @@ package models
 	{
 
 		
+		public var prevTheme:ThemeVo
+		
+		public var prevThemeFolder:ThemeDirVo
+		
 		public function initialize() : void{
 			var themeData:XML
 			var i:int, l:int

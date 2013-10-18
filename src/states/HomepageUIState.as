@@ -36,7 +36,7 @@ package states
 			
 			// theme dir thumbnail...
 			{
-				layout = new HorizLayout(400, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2, 500)
+				layout = new HorizLayout(300, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2, 500)
 				mRadioList = new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400,400)
 				{
 					mNumitems = l = dirList.length

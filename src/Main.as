@@ -71,8 +71,8 @@ package
 		}
 		
 		private function doInitView():void{
-			AgonyUI.addModule(RecordUIState, RecordUIState).init()
-//			StateManager.setHomepage(true)
+//			AgonyUI.addModule(RecordUIState, RecordUIState).init()
+			StateManager.setHomepage(true)
 //			StateManager.setGameScene(true)
 		}
 

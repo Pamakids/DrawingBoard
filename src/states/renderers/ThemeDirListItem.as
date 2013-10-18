@@ -2,6 +2,7 @@ package states.renderers
 {
 	import models.StateManager;
 	import models.ThemeDirVo;
+	import models.ThemeManager;
 	import models.ThemeVo;
 	
 	import org.agony2d.notify.AEvent;
@@ -40,7 +41,7 @@ package states.renderers
 		private function onClick(e:AEvent):void{
 //			StateManager.setTheme(false)
 //			StateManager.setGameScene(true, this.userData as ThemeVo)
-			var vo:ThemeDirVo = this.userData as ThemeDirVo
+			var vo:ThemeDirVo = ThemeManager.getInstance().prevThemeFolder = this.userData as ThemeDirVo
 			trace(vo.type)
 			
 			StateManager.setHomepage(false)

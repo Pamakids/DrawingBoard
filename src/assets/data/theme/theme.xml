@@ -14,54 +14,52 @@
 	</theme>
 	
 	<theme type = "design" thumbnail = "assets/data/theme/thumbnail/optional.jpg">
-		<data>assets/data/theme/thumbnail/animal/chicken.png</data>
-		<data>assets/data/theme/thumbnail/animal/dog.png</data>
-		<data>assets/data/theme/thumbnail/animal/dogdinner.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hatched.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hiding.png</data>
-		<data>assets/data/theme/thumbnail/animal/kite.png</data>
-		<data>assets/data/theme/thumbnail/animal/konglong.png</data>
-		<data>assets/data/theme/thumbnail/animal/peacock.png</data>
-		<data>assets/data/theme/thumbnail/animal/snake.png</data>
-		<data>assets/data/theme/thumbnail/animal/watering flower.png</data>
+		<data>assets/data/theme/thumbnail/design/car1.png</data>
+		<data>assets/data/theme/thumbnail/design/car2.png</data>
+		<data>assets/data/theme/thumbnail/design/chrismas.png</data>
+		<data>assets/data/theme/thumbnail/design/drink.png</data>
+		<data>assets/data/theme/thumbnail/design/porcelain.png</data>
+		<data>assets/data/theme/thumbnail/design/room.png</data>
+		<data>assets/data/theme/thumbnail/design/sea.png</data>
+		<data>assets/data/theme/thumbnail/design/sheep.png</data>
+		<data>assets/data/theme/thumbnail/design/swim.png</data>
+		<data>assets/data/theme/thumbnail/design/windmill.png</data>
 	</theme>
 	
 	<theme type = "fantasty" thumbnail = "assets/data/theme/thumbnail/optional.jpg">
-		<data>assets/data/theme/thumbnail/animal/chicken.png</data>
-		<data>assets/data/theme/thumbnail/animal/dog.png</data>
-		<data>assets/data/theme/thumbnail/animal/dogdinner.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hatched.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hiding.png</data>
-		<data>assets/data/theme/thumbnail/animal/kite.png</data>
-		<data>assets/data/theme/thumbnail/animal/konglong.png</data>
-		<data>assets/data/theme/thumbnail/animal/peacock.png</data>
-		<data>assets/data/theme/thumbnail/animal/snake.png</data>
-		<data>assets/data/theme/thumbnail/animal/watering flower.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/bottle.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/dream.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/football.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/jiaozi.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/king.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/knight1.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/knight2.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/space.png</data>
+		<data>assets/data/theme/thumbnail/fantasty/witch.png</data>
 	</theme>
 	
-	<theme type = "lift" thumbnail = "assets/data/theme/thumbnail/optional.jpg">
-		<data>assets/data/theme/thumbnail/animal/chicken.png</data>
-		<data>assets/data/theme/thumbnail/animal/dog.png</data>
-		<data>assets/data/theme/thumbnail/animal/dogdinner.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hatched.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hiding.png</data>
-		<data>assets/data/theme/thumbnail/animal/kite.png</data>
-		<data>assets/data/theme/thumbnail/animal/konglong.png</data>
-		<data>assets/data/theme/thumbnail/animal/peacock.png</data>
-		<data>assets/data/theme/thumbnail/animal/snake.png</data>
-		<data>assets/data/theme/thumbnail/animal/watering flower.png</data>
+	<theme type = "life" thumbnail = "assets/data/theme/thumbnail/optional.jpg">
+		<data>assets/data/theme/thumbnail/life/amburance.png</data>
+		<data>assets/data/theme/thumbnail/life/archery.png</data>
+		<data>assets/data/theme/thumbnail/life/basketball.png</data>
+		<data>assets/data/theme/thumbnail/life/bathe.png</data>
+		<data>assets/data/theme/thumbnail/life/camping.png</data>
+		<data>assets/data/theme/thumbnail/life/chonglang.png</data>
+		<data>assets/data/theme/thumbnail/life/qiqiao.png</data>
+		<data>assets/data/theme/thumbnail/life/rope.png</data>
+		<data>assets/data/theme/thumbnail/life/soccer.png</data>
+		<data>assets/data/theme/thumbnail/life/xigua.png</data>
 	</theme>
 	
 	<theme type = "people" thumbnail = "assets/data/theme/thumbnail/optional.jpg">
-		<data>assets/data/theme/thumbnail/animal/chicken.png</data>
-		<data>assets/data/theme/thumbnail/animal/dog.png</data>
-		<data>assets/data/theme/thumbnail/animal/dogdinner.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hatched.png</data>
-		<data>assets/data/theme/thumbnail/animal/Hiding.png</data>
-		<data>assets/data/theme/thumbnail/animal/kite.png</data>
-		<data>assets/data/theme/thumbnail/animal/konglong.png</data>
-		<data>assets/data/theme/thumbnail/animal/peacock.png</data>
-		<data>assets/data/theme/thumbnail/animal/snake.png</data>
-		<data>assets/data/theme/thumbnail/animal/watering flower.png</data>
+		<data>assets/data/theme/thumbnail/people/cook.png</data>
+		<data>assets/data/theme/thumbnail/people/docoter.png</data>
+		<data>assets/data/theme/thumbnail/people/draw.png</data>
+		<data>assets/data/theme/thumbnail/people/father.png</data>
+		<data>assets/data/theme/thumbnail/people/film.png</data>
+		<data>assets/data/theme/thumbnail/people/fire.png</data>
+		<data>assets/data/theme/thumbnail/people/flower.png</data>
+		<data>assets/data/theme/thumbnail/people/post.png</data>
+		<data>assets/data/theme/thumbnail/people/wedding.png</data>
 	</theme>
 </drawBoard>
