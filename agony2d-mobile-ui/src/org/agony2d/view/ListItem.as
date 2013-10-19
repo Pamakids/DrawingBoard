@@ -3,10 +3,6 @@ package org.agony2d.view {
 	
 public class ListItem extends Fusion {
   
-    public function ListItem() {
-		m_timestamp = getTimer()
-    }
-	
 	public function get timestamp() : int {
 		return m_timestamp
 	}

@@ -66,6 +66,7 @@ public class RadioList extends Fusion {
 		var item:ListItem
 		
 		item = new ListItemRef
+		item.m_timestamp = m_timeCount++
 		item.m_list = this
 		item.m_itemArgs = itemArgs
 		if (id >= 0) {
@@ -147,7 +148,7 @@ public class RadioList extends Fusion {
 	protected var m_invalidated:Boolean
 	protected var m_layout:ILayout
 	protected var m_selectedId:int = -1
-	
+	protected var m_timeCount:int
 	
 	
 	protected function doInvalidateList() : void {

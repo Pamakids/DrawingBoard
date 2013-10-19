@@ -3,7 +3,7 @@ package states
 	import assets.ImgAssets;
 	
 	import models.StateManager;
-	import models.ThemeDirVo;
+	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
@@ -34,7 +34,7 @@ package states
 			var i:int, l:int
 			var layout:ILayout
 			var arr:Array
-			var dir:ThemeDirVo
+			var dir:ThemeFolderVo
 			var sp:SpritePuppet
 			var vo:ThemeVo
 			var img:ImagePuppet

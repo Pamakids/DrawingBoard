@@ -61,7 +61,7 @@ package
 		private function doInitAgony() : void {
 			Agony.startup(stage, 1024, 768, "low");
 			AgonyUI.startup(false, true);
-			AgonyUI.setButtonEffectType(ButtonEffectType.LEAVE_PRESS)
+			AgonyUI.setButtonEffectType(ButtonEffectType.PRESS_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true
 		}
 		
@@ -71,9 +71,8 @@ package
 		}
 		
 		private function doInitView():void{
-//			AgonyUI.addModule(RecordUIState, RecordUIState).init()
-			StateManager.setHomepage(true)
-//			StateManager.setGameScene(true)
+//			StateManager.setHomepage(true)
+			StateManager.setRecord(true)
 		}
 
 	}

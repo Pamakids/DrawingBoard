@@ -5,6 +5,7 @@ package states
 	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
+	import assets.game.GameAssets;
 	
 	import drawing.CommonPaper;
 	
@@ -44,9 +45,9 @@ package states
 			var stats:Fusion
 			var img:ImagePuppet
 			
-			AgonyUI.addImageButtonData(ImgAssets.btn_back, "btn_back", ImageButtonType.BUTTON_RELEASE)
-			AgonyUI.addImageButtonData(ImgAssets.btn_reset, "btn_reset", ImageButtonType.BUTTON_RELEASE)
-			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE)
+			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(GameAssets.btn_clear, "btn_clear", ImageButtonType.BUTTON_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
 			mPaper = DrawingManager.getInstance().paper
 			
@@ -73,16 +74,16 @@ package states
 			
 			// back
 			{
-				imgBtn = new ImageButton("btn_back", 5)
-				this.fusion.addElement(imgBtn, 17 + imgBtn.width / 2, 6 + imgBtn.height / 2)
+				imgBtn = new ImageButton("btn_menu")
+				this.fusion.addElement(imgBtn, 18, 9)
 				imgBtn.addEventListener(AEvent.CLICK, onTopBack)
 				mImgList.push(imgBtn)
 			}
 			
 			// reset
 			{
-				imgBtn = new ImageButton("btn_reset", 5)
-				this.fusion.addElement(imgBtn, 862 + imgBtn.width / 2, 6 + imgBtn.height / 2)
+				imgBtn = new ImageButton("btn_clear")
+				this.fusion.addElement(imgBtn, 728, 11)
 				imgBtn.addEventListener(AEvent.CLICK, onTopReset)
 				mImgList.push(imgBtn)
 				mPositonA = this.fusion.position
@@ -90,8 +91,8 @@ package states
 			
 			// complete
 			{
-				mFinishBtn = new ImageButton("btn_complete", 5)
-				this.fusion.addElement(mFinishBtn, 967 + mFinishBtn.width / 2, 6 + mFinishBtn.height / 2)
+				mFinishBtn = new ImageButton("btn_complete")
+				this.fusion.addElement(mFinishBtn, 966, 8)
 				mFinishBtn.addEventListener(AEvent.CLICK, onTopComplete)
 				mImgList.push(mFinishBtn)
 				this.onPaperClear(null)

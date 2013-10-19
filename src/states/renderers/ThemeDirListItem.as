@@ -1,7 +1,7 @@
 package states.renderers
 {
 	import models.StateManager;
-	import models.ThemeDirVo;
+	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
@@ -21,7 +21,7 @@ package states.renderers
 		override public function init() : void {
 			var image:ImagePuppet = new ImagePuppet(5)
 			this.addElement(image)
-			var vo:ThemeDirVo = this.itemArgs["data"]
+			var vo:ThemeFolderVo = this.itemArgs["data"]
 			image.load(vo.thumbnail, false)
 			this.userData = vo
 			
@@ -41,7 +41,7 @@ package states.renderers
 		private function onClick(e:AEvent):void{
 //			StateManager.setTheme(false)
 //			StateManager.setGameScene(true, this.userData as ThemeVo)
-			var vo:ThemeDirVo = ThemeManager.getInstance().prevThemeFolder = this.userData as ThemeDirVo
+			var vo:ThemeFolderVo = ThemeManager.getInstance().prevThemeFolder = this.userData as ThemeFolderVo
 			trace(vo.type)
 			
 			StateManager.setHomepage(false)

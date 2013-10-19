@@ -2,7 +2,9 @@ package states
 {
 	import com.greensock.TweenLite;
 	
-	import models.ThemeDirVo;
+	import assets.ImgAssets;
+	
+	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
@@ -25,7 +27,7 @@ package states
 			var img:ImagePuppet
 			var dirList:Array
 			var i:int, l:int
-			var dir:ThemeDirVo
+			var dir:ThemeFolderVo
 			var layout:ILayout
 			
 			// theme dir model...
@@ -52,6 +54,13 @@ package states
 				mRadioList.scroll.addEventListener(AEvent.COMPLETE, onScrollComplete)
 			}
 
+			
+			{
+				img = new ImagePuppet
+				img.embed(ImgAssets.btn_global, false)
+				this.fusion.addElement(img, 450, 640)
+				img.addEventListener(AEvent.CLICK, onAccessLocalData)
+			}
 		}
 		
 		override public function exit():void{
@@ -92,6 +101,10 @@ package states
 			TweenLite.to(mRadioList.scroll, duration, {horizRatio:N,onComplete:function():void{
 				mScrolling = false
 			}})
+			
+		}
+		
+		private function onAccessLocalData(e:AEvent):void{
 			
 		}
 	}

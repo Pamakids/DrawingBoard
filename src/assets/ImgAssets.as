@@ -11,8 +11,7 @@ package assets
 		
 		// game top
 		[Embed(source="data/images/top_bg.png")] public static const img_top_bg:Class
-		[Embed(source="data/buttons/btn_back.png")] public static const btn_back:Class
-		[Embed(source="data/buttons/btn_reset.png")] public static const btn_reset:Class
+		[Embed(source="data/buttons/btn_menu.png")] public static const btn_menu:Class
 		[Embed(source="data/buttons/btn_complete.png")] public static const btn_complete:Class
 		
 		[Embed(source="data/images/game_top_reset_bg.png")] public static const img_game_top_reset_bg:Class

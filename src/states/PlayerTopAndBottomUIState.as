@@ -1,13 +1,16 @@
 package states
 {
 	import assets.ImgAssets;
+	import assets.player.PlayerAssets;
 	
 	import models.DrawingManager;
+	import models.StateManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.ImageCheckBox;
 	import org.agony2d.view.Slider;
 	import org.agony2d.view.UIState;
@@ -26,9 +29,14 @@ package states
 		
 		override public function enter():void
 		{
+			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(PlayerAssets.btn_record, "btn_record", ImageButtonType.BUTTON_RELEASE_PRESS)
+				
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
+				
+				
 			this.doAddTop()
 			this.doAddBottom()
 		}
@@ -40,6 +48,7 @@ package states
 		
 		private function doAddTop():void{
 			var bg:ImagePuppet, img:ImagePuppet
+			var imgBtn:ImageButton
 			
 			// bg
 			{
@@ -48,13 +57,19 @@ package states
 				this.fusion.addElement(bg)
 			}
 			
-			// back
-//			{
-//				img = new ImagePuppet
-//				img.embed(ImgAssets.btn_global)
-//				this.fusion.addElement(img, 970, 5)
-//				img.addEventListener(AEvent.CLICK, onBack)
-//			}
+			// complete
+			{
+				imgBtn = new ImageButton("btn_record")
+				this.fusion.addElement(imgBtn, 950, 8)
+				imgBtn.addEventListener(AEvent.CLICK, onShowRecordUI)
+			}
+			
+			// record
+			{
+				imgBtn = new ImageButton("btn_complete")
+				this.fusion.addElement(imgBtn, 18, 9)
+				imgBtn.addEventListener(AEvent.CLICK, onComplete)
+			}
 			
 			// big play btn
 			{
@@ -227,6 +242,14 @@ package states
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 				mIsPlayed = false
 			}
+		}
+		
+		private function onComplete(e:AEvent):void{
+			
+		}
+		
+		private function onShowRecordUI(e:AEvent ) : void{
+			StateManager.setRecord(true)
 		}
 	}
 }

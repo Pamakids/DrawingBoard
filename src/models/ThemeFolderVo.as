@@ -1,8 +1,8 @@
 package models
 {
-	public class ThemeDirVo
+	public class ThemeFolderVo
 	{
-		public function ThemeDirVo()
+		public function ThemeFolderVo()
 		{
 			
 		}

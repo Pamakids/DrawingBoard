@@ -12,6 +12,7 @@ package models
 	import states.HomepageUIState;
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
+	import states.RecordUIState;
 	import states.ThemeUIState;
 
 	public class StateManager
@@ -99,6 +100,21 @@ package models
 				AgonyUI.getModule("PlayerTopAndBottom").exit()
 			}
 		}
-			
+		
+		// Record...
+		private static var mRecordExists:Boolean
+		public static function setRecord( enabled:Boolean) : void{
+			if(!mRecordExists){
+				mRecordExists = true
+				AgonyUI.addModule("Record", RecordUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("Record").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("Record").exit()
+			}
+		}
+		
 	}
 }

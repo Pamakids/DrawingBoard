@@ -8,20 +8,20 @@ package models
 		
 		public var prevTheme:ThemeVo
 		
-		public var prevThemeFolder:ThemeDirVo
+		public var prevThemeFolder:ThemeFolderVo
 		
 		public function initialize() : void{
 			var themeData:XML
 			var i:int, l:int
 			var item:XML
 			var arr:Array
-			var dir:ThemeDirVo
+			var dir:ThemeFolderVo
 			
 			themeData = XML(new (DataAssets.data_theme))
 			l = themeData.theme.length()
 			while(i<l){
 				item = themeData.theme[i]
-				dir = new ThemeDirVo
+				dir = new ThemeFolderVo
 				dir.thumbnail = item.@thumbnail
 				dir.type = item.@type
 				mThemeList.push(dir)
@@ -34,8 +34,8 @@ package models
 			return mThemeList
 		}
 		
-		public function getThemeDirByType( type:String ):ThemeDirVo{
-			var dir:ThemeDirVo
+		public function getThemeDirByType( type:String ):ThemeFolderVo{
+			var dir:ThemeFolderVo
 			
 			for each(dir in mThemeList){
 				if(dir.type == type){
@@ -45,7 +45,7 @@ package models
 			return null
 		}
 		
-		private function addThemeItems(themeData:XML, dir:ThemeDirVo) : void{
+		private function addThemeItems(themeData:XML, dir:ThemeFolderVo) : void{
 			var i:int, l:int
 			var item:String
 			var vo:ThemeVo

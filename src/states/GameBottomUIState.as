@@ -6,6 +6,7 @@ package states
 	import flash.geom.Rectangle;
 	
 	import assets.ImgAssets;
+	import assets.game.GameAssets;
 	
 	import models.Config;
 	
@@ -37,10 +38,11 @@ package states
 		
 		override public function enter():void
 		{
+			var imgBtn:ImageButton
 			var img:ImagePuppet
 			
-//			AgonyUI.addImageButtonData(ImgAssets.btn_brush, "btn_brush", ImageButtonType.BUTTON_RELEASE)
-//			AgonyUI.addImageButtonData(ImgAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE)
+			AgonyUI.addImageButtonData(GameAssets.btn_pen, "btn_pen", ImageButtonType.BUTTON_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(GameAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
 				
 			// bg
@@ -54,19 +56,17 @@ package states
 			
 			// btn bar
 			{
-				img = new ImagePuppet
-				img.embed(ImgAssets.btn_brush)
-				img.userData = 0
-				this.fusion.addElement(img, 20, 18)
-				img.addEventListener(AEvent.CLICK, onStateChange)
-				img.graphics.quickDrawRect(67,52)
+				imgBtn = new ImageButton("btn_pen")
+				imgBtn.userData = 0
+				this.fusion.addElement(imgBtn, 20, 18)
+				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+				imgBtn.image.graphics.quickDrawRect(67,52)
 					
-				img = new ImagePuppet
-				img.embed(ImgAssets.btn_paster)
-				img.userData = 1
-				this.fusion.addElement(img, 16, 72)
-				img.addEventListener(AEvent.CLICK, onStateChange)
-				img.graphics.quickDrawRect(67,52)
+				imgBtn = new ImageButton("btn_paster")
+				imgBtn.userData = 1
+				this.fusion.addElement(imgBtn, 16, 72)
+				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+				imgBtn.image.graphics.quickDrawRect(67,52)
 			}
 			
 			// state fustion

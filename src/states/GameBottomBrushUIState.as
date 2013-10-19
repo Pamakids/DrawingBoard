@@ -7,6 +7,7 @@ package states
 	import flash.geom.Point;
 	
 	import assets.ImgAssets;
+	import assets.game.GameAssets;
 	
 	import models.Config;
 	import models.DrawingManager;
@@ -75,11 +76,11 @@ package states
 			// color picker
 			{
 				img = new ImagePuppet
-				img.embed(ImgAssets.img_bigCircleB)
+				img.embed(GameAssets.img_bigCircleB)
 				this.fusion.addElement(img, 605, 19)
 				
 				img = new ImagePuppet
-				img.embed(ImgAssets.img_bigCircleA, false)
+				img.embed(GameAssets.img_bigCircleA, false)
 				this.fusion.addElement(img, 0, 0,LayoutType.B__A__B_ALIGN, LayoutType.B__A__B_ALIGN)
 				mColorPickerData = img.bitmapData
 				mColorPickerDataSource = mColorPickerData.clone()
@@ -90,7 +91,7 @@ package states
 				colorDataList = Config.colorDataList
 				i = 0
 				l = colorDataList.length
-				colorImgList = ImgAssets.colorImgList
+				colorImgList = GameAssets.colorImgList
 				while(i<l){
 					img = new ImagePuppet
 					img.embed(colorImgList[i])
