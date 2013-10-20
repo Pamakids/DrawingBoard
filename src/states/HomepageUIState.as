@@ -18,7 +18,7 @@ package states
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	
-	import states.renderers.ThemeDirListItem;
+	import states.renderers.ThemeFolderListItem;
 
 	public class HomepageUIState extends UIState
 	{
@@ -40,11 +40,13 @@ package states
 			{
 				layout = new HorizLayout(300, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2, 500)
 				mRadioList = new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400,400)
+				mRadioList.scroll.vertiReboundFactor = 1
+				mRadioList.scroll.horizReboundFactor = 0.6
 				{
 					mNumitems = l = dirList.length
 					while(i<l){
 						dir = dirList[i]
-						mRadioList.addItem({data:dir}, ThemeDirListItem)
+						mRadioList.addItem({data:dir}, ThemeFolderListItem)
 						i++
 					}
 				}

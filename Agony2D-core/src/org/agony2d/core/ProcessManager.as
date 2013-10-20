@@ -124,7 +124,7 @@ final public class ProcessManager extends Notifier {
 	agony_internal static const TWEEN:int      =  1200
 	agony_internal static const ANIMATION:int  =  420
 	//agony_internal static const MOTION:int   =  206
-	agony_internal static const AA_GPU:int     =  139
+	agony_internal static const GPU:int        =  139
 	
 	agony_internal static var g_frameProcessor:ProcessorCore, g_tickProcessor:ProcessorCore
 	agony_internal static var g_stage:Stage

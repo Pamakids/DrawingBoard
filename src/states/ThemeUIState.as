@@ -57,7 +57,8 @@ package states
 				
 			layout= new HorizLayout(290, 180, 3, 50, 50, 50, 50)
 			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 220, 120)
-
+			list.scroll.vertiReboundFactor = 0.6
+			list.scroll.horizReboundFactor = 1
 			dir = ThemeManager.getInstance().getThemeDirByType(this.stateArgs[0])
 			arr = dir.themeList
 			l = arr.length

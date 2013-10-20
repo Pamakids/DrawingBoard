@@ -10,9 +10,9 @@ package states.renderers
 	import org.agony2d.view.ListItem;
 	import org.agony2d.view.puppet.ImagePuppet;
 
-	public class ThemeDirListItem extends ListItem
+	public class ThemeFolderListItem extends ListItem
 	{
-		public function ThemeDirListItem()
+		public function ThemeFolderListItem()
 		{
 		}
 		

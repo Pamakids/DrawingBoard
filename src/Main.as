@@ -71,8 +71,8 @@ package
 		}
 		
 		private function doInitView():void{
-//			StateManager.setHomepage(true)
-			StateManager.setRecord(true)
+			StateManager.setHomepage(true)
+//			StateManager.setRecord(true)
 		}
 
 	}

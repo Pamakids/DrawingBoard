@@ -42,6 +42,8 @@ public class ListUIState extends UIState
 		sp.graphics.beginFill(0xffff44, 0.2)
 		sp.graphics.drawRect(0,0,600,500)
 		sp.interactive = false
+		list.scroll.horizReboundFactor = 1
+		list.scroll.vertiReboundFactor = 0.3
 		
 		l = 30
 		while (--l > -1) {
