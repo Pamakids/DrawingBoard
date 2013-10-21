@@ -117,14 +117,15 @@ final public class ProcessManager extends Notifier {
 		//Logger.reportMessage(this, '==============PROCESS==============: ' + m_elapsed)
 	}
 	
-	agony_internal static const KEYBOARD:int   =  180000
-	agony_internal static const INTERACT:int   =  90000
-	agony_internal static const DELAY:int      =  22000
-	agony_internal static const TIMER:int      =  8000
+	agony_internal static const KEYBOARD:int   =  90000
+	agony_internal static const INTERACT:int   =  22000
+	agony_internal static const DELAY:int      =  8000
+	agony_internal static const TIMER:int      =  5000
 	agony_internal static const TWEEN:int      =  1200
-	agony_internal static const ANIMATION:int  =  420
-	//agony_internal static const MOTION:int   =  206
-	agony_internal static const GPU:int        =  139
+	agony_internal static const GPU:int        =  420
+	
+	agony_internal static const ANIMATION:int  =  10
+	//agony_internal static const MOTION:int   =  5
 	
 	agony_internal static var g_frameProcessor:ProcessorCore, g_tickProcessor:ProcessorCore
 	agony_internal static var g_stage:Stage

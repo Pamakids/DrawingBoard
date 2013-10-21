@@ -14,6 +14,7 @@ package states
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.RadioList;
 	import org.agony2d.view.UIState;
+	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.ImagePuppet;
@@ -46,14 +47,19 @@ package states
 					mNumitems = l = dirList.length
 					while(i<l){
 						dir = dirList[i]
-						mRadioList.addItem({data:dir}, ThemeFolderListItem)
+						mThemeList[i] = mRadioList.addItem({data:dir}, ThemeFolderListItem)
 						i++
 					}
 				}
 				this.fusion.addElement(mRadioList)
+					
+				mThemeList[0].scaleX = ITEM_SCALE	
+				mThemeList[0].scaleY = ITEM_SCALE	
+					
 				mRadioList.addEventListener(AEvent.RESET, onRadioListReset)
 				mRadioList.scroll.addEventListener(AEvent.BEGINNING, onScrollBeginning)
 				mRadioList.scroll.addEventListener(AEvent.COMPLETE, onScrollComplete)
+				mRadioList.scroll.addEventListener(AEvent.UNSUCCESS, onScrollComplete)
 			}
 
 			
@@ -67,14 +73,20 @@ package states
 		
 		override public function exit():void{
 			this.doCheckScrolling()
+			if(mIsTweeningScaleItem){
+				TweenLite.killTweensOf(mThemeList[mIndex])
+			}
 		}
 		
+		
+		private const ITEM_SCALE:Number = 1.15
 		
 		private var mRadioList:RadioList
 		private var mThemeList:Array = []
 		private var mWidth:int
 		private var mNumitems:int
 		private var mScrolling:Boolean	
+		private var mIndex:int
 		
 			
 		private function onRadioListReset(e:AEvent):void{
@@ -85,27 +97,65 @@ package states
 		
 		private function doCheckScrolling():void{
 			if(mScrolling){
+				//mRadioList.scroll.stopScroll()
 				TweenLite.killTweensOf(mRadioList.scroll)
-				mScrolling = true
+				TweenLite.killTweensOf(mRadioList.scroll.content)
+				mScrolling = false
 			}
+			
 		}
 		
 		private function onScrollBeginning(e:AEvent):void{
+			//mPasterArea.stopScroll()
 			this.doCheckScrolling()
+			this.doTweenOffScaleItem()
+//			trace("onScrollBeginning")
 		}
 		
 		private function onScrollComplete(e:AEvent):void{
 //			trace(mRadioList.scroll.horizRatio)
-			var N:Number = MathUtil.getNeareatValue(mRadioList.scroll.horizRatio, 0, 1, mNumitems)
-//			trace(N)
-			mScrolling = true	
-			var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 7
-			TweenLite.to(mRadioList.scroll, duration, {horizRatio:N,onComplete:function():void{
-				mScrolling = false
+			if(mRadioList.scroll.reachLeft || mRadioList.scroll.reachRight){
+				mScrolling = true	
+				mIndex = mRadioList.scroll.reachLeft ? 0 : mNumitems - 1
+				TweenLite.to(mRadioList.scroll.content, 1, {x:mRadioList.scroll.content.x + mRadioList.scroll.correctionX,onComplete:onValidateScrollComplete})
+			}
+			else{
+				var N:Number = MathUtil.getNeareatValue(mRadioList.scroll.horizRatio, 0, 1, mNumitems)
+	//			trace(N)
+				mScrolling = true	
+				var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 7
+				TweenLite.to(mRadioList.scroll, duration, {horizRatio:N,onComplete:onValidateScrollComplete})
+				mIndex = Math.round(N * (mNumitems - 1))
+			}
+//			trace("scale index: " + N + "..." + mIndex)
+			this.doTweenOnScaleItem(mIndex)
+		}
+		
+		private function doTweenOnScaleItem( index:int ) : void{
+			var cc:IComponent
+			
+			mIsTweeningScaleItem = true
+			cc = mThemeList[index]
+			TweenLite.to(cc, 0.7, {scaleX:ITEM_SCALE,scaleY:ITEM_SCALE, onComplete:function():void{
+				mIsTweeningScaleItem = false
 			}})
 			
 		}
 		
+		private function doTweenOffScaleItem() : void{
+			mIsTweeningScaleItem = true
+			TweenLite.to(mThemeList[mIndex], 0.7, {scaleX:1,scaleY:1, overwrite:1,onComplete:function():void{
+				mIsTweeningScaleItem = false
+			}})
+		}
+		
+		private var mIsTweeningScaleItem:Boolean
+		
+		private function onValidateScrollComplete():void{
+			mScrolling = false
+		}
+		
+		// 画廊
 		private function onAccessLocalData(e:AEvent):void{
 			
 		}

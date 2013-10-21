@@ -93,9 +93,9 @@ package states
 			if(mPasterFusion){
 				while(--mNumPaster >-1){
 					ges = mPasterList[mNumPaster]
-					if(!ges.userData){
+					//if(!ges.userData){
 						TweenLite.killTweensOf(ges)
-					}
+					//}
 				}
 			}
 				

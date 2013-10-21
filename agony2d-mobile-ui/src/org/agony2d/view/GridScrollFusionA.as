@@ -399,6 +399,7 @@ package org.agony2d.view {
 			offsetX = (touchA.stageX - touchA.prevStageX) / m_pixelRatio
 			offsetY = (touchA.stageY - touchA.prevStageY) / m_pixelRatio
 			
+			trace("scroll..." + offsetX + " | " + offsetY)
 			if (m_numTouchs == 1) {
 				//			if(!m_singleTouchForMovement && m_firstTouch){
 				//				return
@@ -431,13 +432,13 @@ package org.agony2d.view {
 			if(!reachLeft && orgin > 0){
 				m_content.x = m_content.pivotX * m_scaleRatio
 				reachLeft = true
-				trace("[ reachLeft ]... true")
+//				trace("[ reachLeft ]... true")
 				
 			}
 			else if(!reachRight && orgin < length){
 				m_content.x = length + m_content.pivotX * m_scaleRatio
 				reachRight = true
-				trace("[ reachRight ]... true")
+//				trace("[ reachRight ]... true")
 			
 			}
 			else{
@@ -446,7 +447,7 @@ package org.agony2d.view {
 				}
 				else{
 					reachLeft = reachRight = false
-					trace("[ horzi ]... false")
+//					trace("[ horzi ]... false")
 				}
 			}
 //			if (orgin > 0 && (limitLeft || m_scaleRatio != 1)) {
@@ -461,13 +462,13 @@ package org.agony2d.view {
 			if(!reachTop && orgin > 0){
 				m_content.y = m_content.pivotY * m_scaleRatio
 				reachTop = true
-				trace("[ reachTop ]... true")
+//				trace("[ reachTop ]... true")
 				
 			}
 			else if(!reachBottom && orgin < length){
 				m_content.y = length + m_content.pivotY * m_scaleRatio
 				reachBottom = true
-				trace("[ reachBottom ]... true")
+//				trace("[ reachBottom ]... true")
 				
 			}
 			else{
@@ -476,7 +477,7 @@ package org.agony2d.view {
 				}
 				else{
 					reachTop = reachBottom = false
-					trace("[ verti ]... false")
+//					trace("[ verti ]... false")
 				}
 			}
 //			if (orgin > 0 && (limitTop || m_scaleRatio != 1)) {
@@ -488,7 +489,7 @@ package org.agony2d.view {
 //				this.m_view.m_notifier.dispatchDirectEvent(AEvent.BOTTOM)
 //				//trace("bottom...")
 //			}
-			this.updateAllThumbs()
+			//this.updateAllThumbs()
 			e.stopImmediatePropagation()
 			//this.doResetViewport()
 			//Logger.reportMessage(this, this.horizRatio + " | " + this.vertiRatio)
@@ -596,5 +597,3 @@ package org.agony2d.view {
 		}
 	}
 }
-import org.agony2d.view;
-
