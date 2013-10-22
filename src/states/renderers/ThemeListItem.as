@@ -1,5 +1,7 @@
 package states.renderers
 {
+	import assets.theme.ThemeAssets;
+	
 	import models.StateManager;
 	import models.ThemeVo;
 	
@@ -16,10 +18,16 @@ public class ThemeListItem extends ListItem
 	
 	
 	override public function init() : void {
-		var image:ImagePuppet = new ImagePuppet
+		var image:ImagePuppet
+		
+		image = new ImagePuppet
+		image.embed(ThemeAssets.itemBg)
+		this.addElement(image)
+		
+		image = new ImagePuppet
 		this.spaceWidth = 234
 		this.spaceHeight = 159
-		this.addElement(image)
+		this.addElement(image,43.5,43.5)
 		var vo:ThemeVo = this.itemArgs["data"]
 		image.load(vo.thumbnail,false)
 		this.userData = vo

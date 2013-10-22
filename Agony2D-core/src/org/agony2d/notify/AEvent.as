@@ -46,14 +46,12 @@ public class AEvent {
 	public static const CHANGE:String              =  "change"
 	public static const SELECT:String              =  "select"
 	
-	public static const VISIBLE_CHANGE:String      =  "visibleChange"
 	public static const INTERACTIVE_CHANGE:String  =  "interactiveChange"
 	public static const KILL:String                =  "kill"
 	
 	public static const PENDING:String             =  "pending"
 	public static const SUCCESS:String             =  "success"
 	public static const UNSUCCESS:String           =  "unsuccess"
-	public static const READY_TO_RENDER:String     =  "readyToRender"
 	
 	public static const PRESS:String         =  "press"
 	public static const RELEASE:String       =  "release"

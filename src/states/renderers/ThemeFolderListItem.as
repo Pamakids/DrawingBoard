@@ -1,5 +1,7 @@
 package states.renderers
 {
+	import assets.ImgAssets;
+	
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
@@ -19,10 +21,16 @@ package states.renderers
 		
 		
 		override public function init() : void {
-			var image:ImagePuppet = new ImagePuppet(5)
-			this.addElement(image)
+			var img:ImagePuppet
+			
+			img = new ImagePuppet(5)
+			img.embed(ImgAssets.itemBg)
+			this.addElement(img)	
+				
+			img = new ImagePuppet(5)
+			this.addElement(img)
 			var vo:ThemeFolderVo = this.itemArgs["data"]
-			image.load(vo.thumbnail, false)
+			img.load(vo.thumbnail, false)
 			this.userData = vo
 			
 			

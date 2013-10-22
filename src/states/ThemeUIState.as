@@ -8,10 +8,14 @@ package states
 	import models.ThemeVo;
 	
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.RadioList;
 	import org.agony2d.view.UIState;
+	import org.agony2d.view.enum.ImageButtonType;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
+	import org.agony2d.view.layouts.VertiLayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
@@ -24,10 +28,13 @@ package states
 			
 		}
 		
-		private const LIST_WIDTH:int = 940 
-		private const LIST_HEIGHT:int = 300
-		private const LIST_X:int = 50 
-		private const LIST_Y:int = 150
+		
+		private const LIST_X:int = -22 
+		private const LIST_Y:int = 120
+		
+		private const LIST_WIDTH:int = 1024
+		private const LIST_HEIGHT:int = 768 - LIST_Y
+
 			
 		override public function enter():void{
 			var list:RadioList
@@ -38,26 +45,29 @@ package states
 			var sp:SpritePuppet
 			var vo:ThemeVo
 			var img:ImagePuppet
+			var imgBtn:ImageButton
 			
+			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
+				
 			// back...
 			{
-				img = new ImagePuppet
-				img.embed(ImgAssets.btn_global)
-				this.fusion.addElement(img, 40, 40)
-				img.addEventListener(AEvent.CLICK, onBackToHomepage)
+				imgBtn = new ImageButton("btn_menu")
+				this.fusion.addElement(imgBtn, 40, 40)
+				imgBtn.addEventListener(AEvent.CLICK, onBackToHomepage)
 			}
 			
 			
 			// list
-			sp = new SpritePuppet
-			sp.graphics.beginFill(0xffff44, 0.2)
-			sp.graphics.drawRect(0,0,LIST_WIDTH,LIST_HEIGHT + 50)
-			sp.interactive = false
-			this.fusion.addElement(sp, LIST_X, LIST_Y)
+//			sp = new SpritePuppet
+//			sp.graphics.beginFill(0xffff44, 0.2)
+//			sp.graphics.drawRect(0,0,LIST_WIDTH,LIST_HEIGHT + 50)
+//			sp.interactive = false
+//			this.fusion.addElement(sp, LIST_X, LIST_Y)
 				
-			layout= new HorizLayout(290, 180, 3, 50, 50, 50, 50)
-			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 220, 120)
-			list.scroll.vertiReboundFactor = 0.6
+			layout= new HorizLayout(325, 245, 3, 50, 5, 50, 120)
+			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 320, 200)
+			
+			list.scroll.vertiReboundFactor = 1
 			list.scroll.horizReboundFactor = 1
 			dir = ThemeManager.getInstance().getThemeDirByType(this.stateArgs[0])
 			arr = dir.themeList

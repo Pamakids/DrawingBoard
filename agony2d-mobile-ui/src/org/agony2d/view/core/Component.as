@@ -20,7 +20,6 @@ public class Component extends AgonySprite {
 	override public function set visible( b:Boolean ) : void {
 		if (m_visible != b) {
 			super.visible = m_visible = b
-			m_notifier.dispatchDirectEvent(AEvent.VISIBLE_CHANGE)
 		}
 	}
 	

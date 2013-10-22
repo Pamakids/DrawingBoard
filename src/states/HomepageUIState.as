@@ -3,6 +3,7 @@ package states
 	import com.greensock.TweenLite;
 	
 	import assets.ImgAssets;
+	import assets.homepage.HomepageAssets;
 	
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
@@ -12,9 +13,12 @@ package states
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
+	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.RadioList;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.core.IComponent;
+	import org.agony2d.view.enum.ButtonEffectType;
+	import org.agony2d.view.enum.ImageButtonType;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.ImagePuppet;
@@ -30,6 +34,9 @@ package states
 			var i:int, l:int
 			var dir:ThemeFolderVo
 			var layout:ILayout
+			var imgBtn:ImageButton
+			
+			AgonyUI.addImageButtonData(HomepageAssets.btn_gallery, "btn_gallery", ImageButtonType.BUTTON_RELEASE_PRESS)
 			
 			// theme dir model...
 			dirList = ThemeManager.getInstance().getThemeList()
@@ -39,7 +46,7 @@ package states
 			
 			// theme dir thumbnail...
 			{
-				layout = new HorizLayout(300, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2, 500)
+				layout = new HorizLayout(300, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2 - 50, 500)
 				mRadioList = new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400,400)
 				mRadioList.scroll.vertiReboundFactor = 1
 				mRadioList.scroll.horizReboundFactor = 0.6
@@ -64,14 +71,14 @@ package states
 
 			
 			{
-				img = new ImagePuppet
-				img.embed(ImgAssets.btn_global, false)
-				this.fusion.addElement(img, 450, 640)
-				img.addEventListener(AEvent.CLICK, onAccessLocalData)
+				imgBtn = new ImageButton("btn_gallery")
+				this.fusion.addElement(imgBtn, 395, 600)
+				imgBtn.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 		}
 		
 		override public function exit():void{
+			AgonyUI.removeImageButtonData("btn_gallery")
 			this.doCheckScrolling()
 			if(mIsTweeningScaleItem){
 				TweenLite.killTweensOf(mThemeList[mIndex])
@@ -156,8 +163,8 @@ package states
 		}
 		
 		// 画廊
-		private function onAccessLocalData(e:AEvent):void{
-			
+		private function onGoIntoGallery(e:AEvent):void{
+			trace("onGoIntoGallery")
 		}
 	}
 }

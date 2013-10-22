@@ -24,7 +24,7 @@ final public class AnimatorPuppet extends ComponentProxy
 		//m_animator.section = sectionName
 		//m_animator.changeObserver.addListener(__onChange)
 		
-		this.addEventListener(AEvent.VISIBLE_CHANGE, ____onVisibleChange)
+		//this.addEventListener(AEvent.VISIBLE_CHANGE, ____onVisibleChange)
 	}
 	
 	

@@ -399,7 +399,7 @@ package org.agony2d.view {
 			offsetX = (touchA.stageX - touchA.prevStageX) / m_pixelRatio
 			offsetY = (touchA.stageY - touchA.prevStageY) / m_pixelRatio
 			
-			trace("scroll..." + offsetX + " | " + offsetY)
+//			trace("scroll..." + offsetX + " | " + offsetY)
 			if (m_numTouchs == 1) {
 				//			if(!m_singleTouchForMovement && m_firstTouch){
 				//				return

@@ -25,6 +25,8 @@ package assets.game
 		[Embed(source="img/colorBgA.png")] public static const img_bigCircleA:Class
 		[Embed(source="img/colorBgB.png")] public static const img_bigCircleB:Class
 		
+		[Embed(source="img/btnBg_pen.png")] public static const btnBg_pen:Class
+		[Embed(source="img/btnBg_paster.png")] public static const btnBg_paster:Class
 		
 		
 		

@@ -7,6 +7,7 @@ package assets
 		}
 		
 		// global
+		[Embed(source="data/images/itemBg.png")] public static const itemBg:Class
 		[Embed(source="data/buttons/2013-08-23-b.png")] public static const btn_global:Class
 		
 		// game top
@@ -44,36 +45,6 @@ package assets
 		[Embed(source="data/images/brush/pencil.png")] public static const img_brush_pencil:Class
 		[Embed(source="data/images/brush/pink.png")] public static const img_brush_pink:Class
 		[Embed(source="data/images/brush/waterColor.png")] public static const img_brush_waterColor:Class
-		
-		[Embed(source="data/images/color/white.png")] public static const img_color_white:Class
-		[Embed(source="data/images/color/yellow.png")] public static const img_color_yellow:Class
-		[Embed(source="data/images/color/orange.png")] public static const img_color_orange:Class
-		[Embed(source="data/images/color/pink.png")] public static const img_color_pink:Class
-		[Embed(source="data/images/color/purple.png")] public static const img_color_purple:Class
-		[Embed(source="data/images/color/blue.png")] public static const img_color_blue:Class
-		[Embed(source="data/images/color/darkGreen.png")] public static const img_color_darkGreen:Class
-		[Embed(source="data/images/color/green.png")] public static const img_color_green:Class
-		[Embed(source="data/images/color/brown.png")] public static const img_color_brown:Class
-		[Embed(source="data/images/color/red.png")] public static const img_color_red:Class
-		[Embed(source="data/images/color/gray.png")] public static const img_color_gray:Class
-		[Embed(source="data/images/color/black.png")] public static const img_color_black:Class
-		public static function get colorImgList():Array{
-			return [
-				img_color_white,
-				img_color_yellow,
-				img_color_orange,
-				img_color_pink,
-				img_color_purple,
-				img_color_blue,
-				
-				img_color_darkGreen,
-				img_color_green,
-				img_color_brown,
-				img_color_red,
-				img_color_gray,
-				img_color_black,
-			]
-		}
 		
 		[Embed(source="data/images/paster_bg.png")] public static const img_paster_bg:Class
 		[Embed(source="data/images/paster_item_bg.png")] public static const img_paster_item_bg:Class

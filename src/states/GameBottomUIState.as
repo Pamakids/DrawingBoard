@@ -58,15 +58,22 @@ package states
 			{
 				imgBtn = new ImageButton("btn_pen")
 				imgBtn.userData = 0
-				this.fusion.addElement(imgBtn, 20, 18)
+				img = new ImagePuppet
+				img.embed(GameAssets.btnBg_pen, false)
+				imgBtn.addElementAt(img, 0)
+				this.fusion.addElement(imgBtn, 0, 0)
+				
 				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
-				imgBtn.image.graphics.quickDrawRect(67,52)
+//				imgBtn.image.graphics.quickDrawRect(67,52)
 					
 				imgBtn = new ImageButton("btn_paster")
 				imgBtn.userData = 1
-				this.fusion.addElement(imgBtn, 16, 72)
+				img = new ImagePuppet
+				img.embed(GameAssets.btnBg_paster, false)
+				imgBtn.addElementAt(img, 0)
+				this.fusion.addElement(imgBtn, 0, 54)
 				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
-				imgBtn.image.graphics.quickDrawRect(67,52)
+//				imgBtn.image.graphics.quickDrawRect(67,52)
 			}
 			
 			// state fustion

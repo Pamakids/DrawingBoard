@@ -75,7 +75,7 @@ package states
 			// back
 			{
 				imgBtn = new ImageButton("btn_menu")
-				this.fusion.addElement(imgBtn, 18, 9)
+				this.fusion.addElement(imgBtn, 18, 11)
 				imgBtn.addEventListener(AEvent.CLICK, onTopBack)
 				mImgList.push(imgBtn)
 			}
@@ -83,7 +83,7 @@ package states
 			// reset
 			{
 				imgBtn = new ImageButton("btn_clear")
-				this.fusion.addElement(imgBtn, 728, 11)
+				this.fusion.addElement(imgBtn, 728, 13)
 				imgBtn.addEventListener(AEvent.CLICK, onTopReset)
 				mImgList.push(imgBtn)
 				mPositonA = this.fusion.position
@@ -92,7 +92,7 @@ package states
 			// complete
 			{
 				mFinishBtn = new ImageButton("btn_complete")
-				this.fusion.addElement(mFinishBtn, 966, 8)
+				this.fusion.addElement(mFinishBtn, 966, 10)
 				mFinishBtn.addEventListener(AEvent.CLICK, onTopComplete)
 				mImgList.push(mFinishBtn)
 				this.onPaperClear(null)
