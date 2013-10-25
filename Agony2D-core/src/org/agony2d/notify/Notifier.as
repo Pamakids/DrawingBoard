@@ -69,7 +69,7 @@ public class Notifier implements INotifier {
 		m_target = target ? target : this
 	}
 	
-	final public function addEventListener( type:String, listener:Function, priority:int = 0 ) : void {
+	public function addEventListener( type:String, listener:Function, priority:int = 0 ) : void {
 		var ob:Observer
 		
 		if (!m_obList) {
@@ -85,7 +85,7 @@ public class Notifier implements INotifier {
 		ob.addListener(listener, priority)
 	}
 	
-	final public function removeEventListener( type:String, listener:Function ) : void {
+	public function removeEventListener( type:String, listener:Function ) : void {
 		var ob:Observer
 		
 		ob = m_obList ? m_obList[type] : null
@@ -101,7 +101,7 @@ public class Notifier implements INotifier {
 		}
 	}
 	
-	final public function removeEventAllListeners( type:String ) : void {
+	public function removeEventAllListeners( type:String ) : void {
 		var ob:Observer
 		
 		ob = m_obList ? m_obList[type] : null
@@ -111,7 +111,7 @@ public class Notifier implements INotifier {
 		}
 	}
 	
-	final public function removeAllListeners() : void {
+	public function removeAllListeners() : void {
 		var ob:*
 		
 		if(m_obList) {
@@ -122,11 +122,11 @@ public class Notifier implements INotifier {
 		}
 	}
 	
-	final public function hasEventListener( type:String ) : Boolean {
+	public function hasEventListener( type:String ) : Boolean {
 		return m_obList ? m_obList[type] : false
 	}
 	
-	final public function hasAnyEventListener() : Boolean {
+	public function hasAnyEventListener() : Boolean {
 		var ob:*
 		
 		if(m_obList) {
@@ -138,7 +138,7 @@ public class Notifier implements INotifier {
 		return false
 	}
 	
-	final public function dispatchEvent( event:AEvent ) : Boolean {
+	public function dispatchEvent( event:AEvent ) : Boolean {
 		var ob:Observer
 		
 		ob = m_obList ? m_obList[event.m_type] : null
@@ -152,7 +152,7 @@ public class Notifier implements INotifier {
 	}
 	
 	/** just be only used by ■AEvent... */
-	final public function dispatchDirectEvent( type:String ) : Boolean {
+	public function dispatchDirectEvent( type:String ) : Boolean {
 		var ob:Observer
 		var event:AEvent
 		
@@ -183,13 +183,11 @@ public class Notifier implements INotifier {
 	/* overwrite... */
 	agony_internal function dispose() : void {
 		this.removeAllListeners()
-		m_dead = true
 	}
 	
 	private static var cachedEventList:Array = []
 	private static var cachedEventLength:int, cachedEventIndex:int
 	
 	agony_internal var m_target:Object, m_obList:Object // type:Observer
-	agony_internal var m_dead:Boolean
 }
 }

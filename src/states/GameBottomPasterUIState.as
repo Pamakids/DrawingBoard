@@ -8,6 +8,7 @@ package states
 	
 	import assets.ImgAssets;
 	import assets.PasterAssets;
+	import assets.game.GameAssets;
 	
 	import models.Config;
 	
@@ -45,7 +46,7 @@ package states
 			// bg
 			{
 				bg = new ImagePuppet
-				bg.embed(ImgAssets.img_paster_bg)
+				bg.embed(GameAssets.img_paster_bg)
 				this.fusion.addElement(bg, 86, 12)
 			}
 			
@@ -73,7 +74,7 @@ package states
 						// item bg
 						mContent.position = position
 						img = new ImagePuppet(5)
-						img.embed(ImgAssets.img_paster_item_bg)
+						img.embed(GameAssets.img_paster_item_bg)
 						if(i==0){
 							mContent.addElement(img, ITEM_GAP + 45, bgHeight / 2, LayoutType.FA__F)
 						}
@@ -85,7 +86,7 @@ package states
 						
 						// item png
 						img = new ImagePuppet(5)
-						img.embed(PasterAssets.gesture)
+						img.embed(GameAssets.gesture)
 						img.scaleX = img.scaleY = Config.PASTER_LIST_ITEM_SCALE
 						mContent.addElement(img,0,0,LayoutType.AB, LayoutType.AB)
 						img.userData = i

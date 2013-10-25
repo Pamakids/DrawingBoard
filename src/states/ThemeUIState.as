@@ -65,7 +65,7 @@ package states
 //			this.fusion.addElement(sp, LIST_X, LIST_Y)
 				
 			layout= new HorizLayout(325, 245, 3, 50, 5, 50, 120)
-			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 320, 200)
+			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
 			
 			list.scroll.vertiReboundFactor = 1
 			list.scroll.horizReboundFactor = 1

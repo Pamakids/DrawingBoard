@@ -1,7 +1,9 @@
 package org.agony2d.core {
 	import flash.display.Stage
 	import flash.events.Event
+	import flash.events.TimerEvent;
 	import flash.utils.getTimer
+	import flash.utils.Timer;
 	import org.agony2d.debug.Logger
 	import org.agony2d.notify.AEvent
 	import org.agony2d.notify.Notifier
@@ -21,6 +23,11 @@ package org.agony2d.core {
 	 *  	a.  default system notifier...
 	 */
 final public class ProcessManager extends Notifier {
+	
+	//public function ProcessManager() {
+		//g_timer = new Timer(1000 / 30, 0)
+		//g_timer.addEventListener(TimerEvent.TIMER, updateAll, false, 0, true)
+	//}
 	
 	public function get timeScale() : Number {
 		return m_timeScale 
@@ -43,6 +50,10 @@ final public class ProcessManager extends Notifier {
 		TickProcessor.TICKS_PER_SECOND = v 
 	}
 	
+	//public function get frameRate() : int {
+		//return m_frameRate
+	//}
+	
 	/** elapsed time between both frames (ms) */
 	public function get elapsed() : Number {
 		return m_elapsed 
@@ -57,10 +68,12 @@ final public class ProcessManager extends Notifier {
 			m_running = b
 			if (b) {
 				g_stage.addEventListener(Event.ENTER_FRAME, updateAll, false, 8000, true)
+				//g_timer.start()
 				m_oldTime = getTimer()
 			}
 			else {
 				g_stage.removeEventListener(Event.ENTER_FRAME, updateAll)
+				//g_timer.stop()
 			}
 			Logger.reportMessage(this, (b ? '▲' : '▼') + 'running [ ' + b + ' ]...')
 		}
@@ -129,8 +142,10 @@ final public class ProcessManager extends Notifier {
 	
 	agony_internal static var g_frameProcessor:ProcessorCore, g_tickProcessor:ProcessorCore
 	agony_internal static var g_stage:Stage
+	//agony_internal static var g_timer:Timer
 	agony_internal var m_running:Boolean
 	agony_internal var m_timeScale:Number = 1
 	agony_internal var m_oldTime:int, m_elapsed:int
+	//agony_internal var m_frameRate:int = 30
 }
 }

@@ -59,7 +59,13 @@ package
 		}
 		
 		private function doInitAgony() : void {
-			Agony.startup(stage, 1024, 768, "low");
+			if(Agony.isMoblieDevice)
+			{
+				Agony.startup(stage, 1024, 768, "low", true);
+			}
+			else{
+				Agony.startup(stage, 1024, 768, "low", true, 3/4);
+			}
 			AgonyUI.startup(false, true);
 			AgonyUI.setButtonEffectType(ButtonEffectType.PRESS_PRESS)
 			TouchManager.getInstance().multiTouchEnabled = true

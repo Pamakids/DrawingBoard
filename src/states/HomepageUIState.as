@@ -72,7 +72,7 @@ package states
 			
 			{
 				imgBtn = new ImageButton("btn_gallery")
-				this.fusion.addElement(imgBtn, 395, 600)
+				this.fusion.addElement(imgBtn, 395, 560)
 				imgBtn.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 		}

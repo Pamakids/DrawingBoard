@@ -12,7 +12,7 @@ package assets.player
 		[Embed(source="btn/speed_3.png")] public static const btn_speed_3:Class
 		
 		
-		[Embed(source="img/bigPlay.png")] public static const bigPlay:Class
+		[Embed(source="btn/bigPlay.png")] public static const bigPlay:Class
 		[Embed(source="img/mic.png")] public static const mic:Class
 		[Embed(source="img/recordBg.png")] public static const recordBg:Class
 	}

@@ -48,10 +48,24 @@ package states
 			// bg
 			{
 				mBg = new ImagePuppet
-				mBg.embed(ImgAssets.img_bottom_bg)
+				mBg.embed(GameAssets.bottomBg)
 				this.fusion.addElement(mBg)
 				this.fusion.spaceWidth = mBg.width
 				this.fusion.spaceHeight = mBg.height
+				
+				// drag btn
+				{
+					mDragImg = new ImagePuppet
+					mDragImg.embed(GameAssets.btn_game_bottom_down)
+					this.fusion.addElement(mDragImg, -28, 5, LayoutType.F__AF, LayoutType.A_F_F)
+					mDragImg.graphics.quickDrawRect(69, 40, 0x0, 0, 0, -4)
+					mDragImg.cacheAsBitmap = true
+					mDragImg.addEventListener(AEvent.PRESS, onDragBottom)
+				}
+					
+//				img = new ImagePuppet
+//				img.embed(GameAssets.bottomBgA)
+//				this.fusion.addElement(img)
 			}
 			
 			// btn bar
@@ -82,17 +96,7 @@ package states
 				mStateFusion.setState(GameBottomBrushUIState)
 				this.fusion.addElement(mStateFusion)
 			}
-			
-			// drag btn
-			{
-				mDragImg = new ImagePuppet
-				mDragImg.embed(ImgAssets.btn_game_bottom_down)
-				this.fusion.addElement(mDragImg, -28, 5, LayoutType.F__AF, LayoutType.A_F_F)
-				mDragImg.graphics.quickDrawRect(69, 40, 0x0, 0, 0, -4)
-				mDragImg.cacheAsBitmap = true
-				mDragImg.addEventListener(AEvent.PRESS, onDragBottom)
-			}
-			
+
 			AgonyUI.getModule("GameBottom").addEventListener(AEvent.ENTER_STAGE, onEnterStage)
 			Agony.process.addEventListener(GameSceneUIState.START_DRAW, onStartDraw)
 			Agony.process.addEventListener(GameSceneUIState.TOP_AND_BOTTOM_AUTO_BACK, onAutoBack)
@@ -176,12 +180,12 @@ package states
 			//trace("stop drag...")
 			
 			if(mClosed){
-				mDragImg.embed(ImgAssets.btn_game_bottom_up)
+				mDragImg.embed(GameAssets.btn_game_bottom_up)
 				hideTime = (1 - ratio) * Config.TOP_AND_BOTTOM_HIDE_TIME
 				TweenLite.to(this.fusion, hideTime, {y:mStartY+mHeight, ease:Cubic.easeOut, overwrite:1})
 			}
 			else{
-				mDragImg.embed(ImgAssets.btn_game_bottom_down)
+				mDragImg.embed(GameAssets.btn_game_bottom_down)
 				hideTime = ratio * Config.TOP_AND_BOTTOM_HIDE_TIME
 				TweenLite.to(this.fusion, hideTime, {y:mStartY, ease:Cubic.easeOut,overwrite:1})
 			}

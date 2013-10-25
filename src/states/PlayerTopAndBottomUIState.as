@@ -1,12 +1,20 @@
 package states
 {
+	import flash.utils.ByteArray;
+	
 	import assets.ImgAssets;
+	import assets.game.GameAssets;
 	import assets.player.PlayerAssets;
 	
 	import models.DrawingManager;
 	import models.StateManager;
+	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.air.AgonyAir;
+	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFile;
+	import org.agony2d.air.file.IFolder;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.AgonyUI;
@@ -53,7 +61,7 @@ package states
 			// bg
 			{
 				bg = new ImagePuppet
-				bg.embed(ImgAssets.img_top_bg)
+				bg.embed(GameAssets.img_top_bg)
 				this.fusion.addElement(bg)
 			}
 			
@@ -245,7 +253,17 @@ package states
 		}
 		
 		private function onComplete(e:AEvent):void{
+			var bytes:ByteArray = PlayerSceneUIState.bytes
+			PlayerSceneUIState.bytes = null
+			var folder:IFolder = AgonyAir.createFolder("dbData", FolderType.DESKTOP)
+			var dateStr:String = (new Date()).toString()
+			bytes.compress()
+			var file:IFile = folder.createFile("AAA", "db")
+			file.bytes = bytes
+			file.upload()
 			
+			StateManager.setPlayer(false)
+			StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
 		}
 		
 		private function onShowRecordUI(e:AEvent ) : void{

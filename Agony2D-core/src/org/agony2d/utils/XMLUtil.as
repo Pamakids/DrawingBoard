@@ -1,14 +1,6 @@
-package org.agony2d.utils 
-{
+package org.agony2d.utils {
 
-public class XMLUtil 
-{
-	
-	public function XMLUtil() 
-	{
-		
-	}
-	
+public class XMLUtil {
 	
 	public static function getObjectFromXMLList( list:XMLList ) : Object
 	{

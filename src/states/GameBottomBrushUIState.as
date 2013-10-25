@@ -44,12 +44,12 @@ package states
 			
 			brushIcons = 
 			[
-				ImgAssets.img_brush_waterColor,
-				ImgAssets.img_brush_pencil,
-				ImgAssets.img_brush_crayon,
-				ImgAssets.img_brush_pink,
-				ImgAssets.img_brush_maker,
-				ImgAssets.img_brush_eraser
+				GameAssets.img_brush_waterColor,
+				GameAssets.img_brush_pencil,
+				GameAssets.img_brush_crayon,
+				GameAssets.img_brush_pink,
+				GameAssets.img_brush_maker,
+				GameAssets.img_brush_eraser
 			]
 				
 			// all brush
@@ -67,7 +67,7 @@ package states
 			
 			// brush scale slider
 			{
-				mBrushScaleSlider = new Slider(ImgAssets.img_track_A, ImgAssets.img_thumb_A, 1, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
+				mBrushScaleSlider = new Slider(GameAssets.img_track_A, GameAssets.img_thumb_A, 1, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
 				this.fusion.addElement(mBrushScaleSlider, 0, 16)
 				mBrushScaleSlider.addEventListener(AEvent.CHANGE, onBrushScaleChange)
 				this.doAddHotspot(mBrushScaleSlider.thumb)
@@ -122,7 +122,7 @@ package states
 			TweenLite.killTweensOf(mCurrBrushImg)
 		}
 		
-
+		
 		private static var mPickerColorTransform:ColorTransform = new ColorTransform
 		
 		

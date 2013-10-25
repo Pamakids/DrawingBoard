@@ -10,6 +10,7 @@ package models
 	
 	import assets.BrushAssets;
 	import assets.ImgAssets;
+	import assets.game.GameAssets;
 	
 	import drawing.CommonPaper;
 	import drawing.DrawingPlayer;
@@ -82,10 +83,6 @@ package models
 			return mInstance ||= new DrawingManager
 		}
 		
-		public function getDrawingBg( index:int ) : Class {
-			return ImgAssets.drawingBgList[index]
-		}
-		
 		
 		private function doInitPaper():void
 		{
@@ -115,11 +112,11 @@ package models
 //			bp.x = -bp.width / 2
 //			bp.y = -bp.height / 2
 			
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.brush1)).bitmapData, 0, 10)
-			brush = mPaper.createTransformationBrush([(new (BrushAssets.brush2)).bitmapData], 1, 15,0,0,true)
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 2, 15)
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 3, 15)
-			brush = mPaper.createCopyPixelsBrush((new (BrushAssets.light)).bitmapData, 4, 15)
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush1)).bitmapData, 0, 10)
+			brush = mPaper.createTransformationBrush([(new (GameAssets.brush2)).bitmapData], 1, 15,0,0,true)
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.light)).bitmapData, 2, 15)
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.light)).bitmapData, 3, 15)
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.light)).bitmapData, 4, 15)
 			brush = mPaper.createEraseBrush(eraser, 5, 5)
 			
 			mPaper.brushIndex = 0

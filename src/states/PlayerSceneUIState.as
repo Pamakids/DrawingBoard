@@ -57,10 +57,11 @@ public class PlayerSceneUIState extends UIState
 	private var mPasterLayer:Fusion
 	private var mPaster:PivotFusion
 	private var mPasterTweenedIndex:int = -1
+	public static var bytes:ByteArray
 	
 	
 	private function doAddPlayer() : void{
-		var bytes:ByteArray
+		var bytesA:ByteArray
 		var BA:ByteArray
 		var offsetA:int, offsetB:int
 		var img:ImagePuppet
@@ -69,8 +70,10 @@ public class PlayerSceneUIState extends UIState
 		var bgUrl:String
 		
 		BA = new ByteArray()
-		bytes = DrawingManager.getInstance().bytes
-		
+		bytesA = DrawingManager.getInstance().bytes
+		bytes = new ByteArray
+		bytes.writeBytes(bytesA)
+			
 		// bg
 		bytes.position = 0
 		bgUrl = bytes.readUTF()

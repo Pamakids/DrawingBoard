@@ -80,8 +80,8 @@ public class AEvent {
 	public static const BUTTON_PRESS:String    =  "buttonPress";
 	public static const BUTTON_RELEASE:String  =  "buttonRelease";
 	
-	internal var m_target:Object
-	internal var m_observer:Observer
-	internal var m_type:String
+	agony_internal var m_target:Object
+	agony_internal var m_observer:Observer
+	agony_internal var m_type:String
 }
 }
