@@ -31,7 +31,7 @@ package models
 				AgonyUI.getModule("Homepage").exit()
 			}
 		}
-		
+		 
 		// Theme...
 		private static var mThemeExists:Boolean
 		public static function setTheme( enabled:Boolean, type:String = null) : void{

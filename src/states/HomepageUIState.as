@@ -19,6 +19,7 @@ package states
 	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.enum.ButtonEffectType;
 	import org.agony2d.view.enum.ImageButtonType;
+	import org.agony2d.view.enum.LayoutType;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.ImagePuppet;
@@ -36,25 +37,48 @@ package states
 			var layout:ILayout
 			var imgBtn:ImageButton
 			
-			AgonyUI.addImageButtonData(HomepageAssets.btn_gallery, "btn_gallery", ImageButtonType.BUTTON_RELEASE_PRESS)
+			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
+			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
+			AgonyUI.addImageButtonData(HomepageAssets.btn_gallery, "btn_gallery", ImageButtonType.BUTTON_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(HomepageAssets.btn_shop, "btn_shop", ImageButtonType.BUTTON_RELEASE_PRESS)
+				
 			// theme dir model...
 			dirList = ThemeManager.getInstance().getThemeList()
 			
 				
+			// bg
+			{
+				img = new ImagePuppet
+				img.embed(HomepageAssets.homepageBg, false)
+				this.fusion.addElement(img)
+			}
 			
+			// title
+			{
+				img = new ImagePuppet
+				img.embed(HomepageAssets.title, false)
+				this.fusion.addElement(img, 329, 5)
+			}
 			
 			// theme dir thumbnail...
 			{
-				layout = new HorizLayout(300, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2 - 50, 500)
+				layout = new HorizLayout(400, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2 - 50, 140)
 				mRadioList = new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400,400)
 				mRadioList.scroll.vertiReboundFactor = 1
 				mRadioList.scroll.horizReboundFactor = 0.6
 				{
-					mNumitems = l = dirList.length
+					l = dirList.length
+					i = -1
 					while(i<l){
 						dir = dirList[i]
-						mThemeList[i] = mRadioList.addItem({data:dir}, ThemeFolderListItem)
+						if(i==-1){
+							mThemeList[mNumitems++] = mRadioList.addItem({}, ThemeFolderListItem)
+						}
+						else{
+							mThemeList[mNumitems++] = mRadioList.addItem({data:dir}, ThemeFolderListItem)
+						}
+							
 						i++
 					}
 				}
@@ -70,15 +94,23 @@ package states
 			}
 
 			
+			// gallery
 			{
 				imgBtn = new ImageButton("btn_gallery")
-				this.fusion.addElement(imgBtn, 395, 560)
+				this.fusion.addElement(imgBtn, 390, 550)
+				imgBtn.addEventListener(AEvent.CLICK, onGoIntoGallery)
+			}
+			// shop
+			{
+				imgBtn = new ImageButton("btn_shop")
+				this.fusion.addElement(imgBtn, -390, 570, LayoutType.F__AF)
 				imgBtn.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 		}
 		
 		override public function exit():void{
 			AgonyUI.removeImageButtonData("btn_gallery")
+			AgonyUI.removeImageButtonData("btn_shop")
 			this.doCheckScrolling()
 			if(mIsTweeningScaleItem){
 				TweenLite.killTweensOf(mThemeList[mIndex])
@@ -86,7 +118,7 @@ package states
 		}
 		
 		
-		private const ITEM_SCALE:Number = 1.15
+		private const ITEM_SCALE:Number = 1.4
 		
 		private var mRadioList:RadioList
 		private var mThemeList:Array = []
@@ -143,7 +175,7 @@ package states
 			
 			mIsTweeningScaleItem = true
 			cc = mThemeList[index]
-			TweenLite.to(cc, 0.7, {scaleX:ITEM_SCALE,scaleY:ITEM_SCALE, onComplete:function():void{
+			TweenLite.to(cc, 0.6, {scaleX:ITEM_SCALE,scaleY:ITEM_SCALE, onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 			
@@ -151,7 +183,7 @@ package states
 		
 		private function doTweenOffScaleItem() : void{
 			mIsTweeningScaleItem = true
-			TweenLite.to(mThemeList[mIndex], 0.7, {scaleX:1,scaleY:1, overwrite:1,onComplete:function():void{
+			TweenLite.to(mThemeList[mIndex], 0.6, {scaleX:1,scaleY:1, overwrite:1,onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 		}

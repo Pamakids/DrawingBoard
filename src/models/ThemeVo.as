@@ -4,7 +4,7 @@ package models
 	{
 
 		public function get dataUrl():String{
-			return thumbnail.replace("thumbnail", "common")
+			return thumbnail.replace("thumbnail", "category")
 		}
 		
 		public var thumbnail:String

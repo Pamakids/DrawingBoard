@@ -21,7 +21,7 @@ public class ThemeListItem extends ListItem
 		var image:ImagePuppet
 		
 		image = new ImagePuppet
-		image.embed(ThemeAssets.itemBg)
+		//image.embed(ThemeAssets.itemBg)
 		this.addElement(image)
 		
 		image = new ImagePuppet

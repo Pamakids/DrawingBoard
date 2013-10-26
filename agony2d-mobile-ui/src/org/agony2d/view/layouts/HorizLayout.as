@@ -29,7 +29,7 @@ public class HorizLayout extends LayoutBase {
 			m_width = tx
 		}
 		var ty:Number = item.y + item.spaceHeight
-		if (m_height < ty) {
+		if (m_height < ty && m_maxLength > 0) {
 			m_height = ty
 		}
 	}

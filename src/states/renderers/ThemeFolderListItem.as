@@ -1,6 +1,7 @@
 package states.renderers
 {
 	import assets.ImgAssets;
+	import assets.homepage.HomepageAssets;
 	
 	import models.StateManager;
 	import models.ThemeFolderVo;
@@ -22,19 +23,28 @@ package states.renderers
 		
 		override public function init() : void {
 			var img:ImagePuppet
+
 			
-			img = new ImagePuppet(5)
-			img.embed(ImgAssets.itemBg)
-			this.addElement(img)	
+			if(this.id == 0){
+				img = new ImagePuppet(5)
+				img.embed(HomepageAssets.itemBg_A)
+				this.addElement(img)	
+				this.addEventListener(AEvent.CLICK, onEveryDay)
+			}
+			else{
 				
-			img = new ImagePuppet(5)
-			this.addElement(img)
-			var vo:ThemeFolderVo = this.itemArgs["data"]
-			img.load(vo.thumbnail, false)
-			this.userData = vo
-			
-			
-			this.addEventListener(AEvent.CLICK, onClick)
+				img = new ImagePuppet(5)
+				img.embed(HomepageAssets.itemBg)
+				this.addElement(img)	
+				
+				img = new ImagePuppet(5) 
+				this.addElement(img, 3, -39.5)
+				var vo:ThemeFolderVo = this.itemArgs["data"]
+				img.load(vo.thumbnail, false)
+				this.userData = vo
+				this.addEventListener(AEvent.CLICK, onClick)
+			}
+				
 		}
 		
 		override public function resetData() : void {
@@ -54,6 +64,10 @@ package states.renderers
 			
 			StateManager.setHomepage(false)
 			StateManager.setTheme(true, vo.type)
+		}
+		
+		private function onEveryDay(e:AEvent) : void{
+			trace("Every Day")
 		}
 	}
 }
