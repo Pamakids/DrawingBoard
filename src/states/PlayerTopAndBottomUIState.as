@@ -20,6 +20,7 @@ package states
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.ImageCheckBox;
+	import org.agony2d.view.ProgressBar;
 	import org.agony2d.view.Slider;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.core.IComponent;
@@ -61,7 +62,7 @@ package states
 			// bg
 			{
 				bg = new ImagePuppet
-				bg.embed(GameAssets.img_top_bg)
+				bg.embed(ImgAssets.img_top_bg)
 				this.fusion.addElement(bg)
 			}
 			
@@ -98,8 +99,12 @@ package states
 		private function doAddBottom():void{
 			var bg:ImagePuppet, img:ImagePuppet
 			
-			AgonyUI.addImageButtonData(assets.ImgAssets.player_checkbox_play, "player_checkbox_play", ImageButtonType.CHECKBOX_RELEASE)
 			
+			AgonyUI.addImageButtonData(assets.ImgAssets.player_checkbox_play, "player_checkbox_play", ImageButtonType.CHECKBOX_RELEASE)
+			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_1, "speed_1", ImageButtonType.CHECKBOX_RELEASE)
+			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_2, "speed_2", ImageButtonType.CHECKBOX_RELEASE)
+			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_3, "speed_3", ImageButtonType.CHECKBOX_RELEASE)
+				
 			// play btn
 			{
 				mPlayCheckBox = new ImageCheckBox('player_checkbox_play', false, 7)
@@ -115,32 +120,17 @@ package states
 			
 			// progress
 			{
-				slider = new Slider(ImgAssets.player_progress_bg, ImgAssets.player_progress_bar, 4, true, 0, 0, DrawingManager.getInstance().player.totalTime)
-				this.fusion.addElement(slider, 40,0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
-				slider.thumb.interactive = false
-				slider.track.interactive = false
+//				slider = new Slider(ImgAssets.player_progress_bg, ImgAssets.player_progress_bar, 4, true, 0, 0, DrawingManager.getInstance().player.totalTime)
+//				this.fusion.addElement(slider, 40,0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+//				slider.thumb.interactive = false
+//				slider.track.interactive = false
+				mc_playProgressBar
+				m_progress = new ProgressBar("mc_playProgressBar", 0, 0, DrawingManager.getInstance().player.totalTime)
+				this.fusion.addElement(m_progress, 40,0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 			}
 			
 			// speed
 			{
-				
-				// very slow
-				{
-					img = new ImagePuppet
-					img.embed(ImgAssets.btn_global)
-					this.fusion.addElement(img, 50, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
-					img.userData = 0.2
-					img.addEventListener(AEvent.CLICK, onPlaySpeedChange)
-				}
-				
-				// slow
-				{
-					img = new ImagePuppet
-					img.embed(ImgAssets.btn_global)
-					this.fusion.addElement(img, 22, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
-					img.userData = 0.5
-					img.addEventListener(AEvent.CLICK, onPlaySpeedChange)
-				}
 				
 				// medium
 				{
@@ -186,7 +176,8 @@ package states
 		/////////////////////////////////////////////
 		/////////////////////////////////////////////
 		
-		private var slider:Slider
+//		private var slider:Slider
+		private var m_progress:ProgressBar
 		private var mIsPlayed:Boolean
 		private var mPlayCheckBox:ImageCheckBox
 		private var mBigPlayButton:ImagePuppet
@@ -244,7 +235,7 @@ package states
 		}
 		
 		private function onEnterFrame(e:AEvent):void{
-			slider.value = DrawingManager.getInstance().player.intervalTime
+			m_progress.range.value = DrawingManager.getInstance().player.intervalTime
 			if(DrawingManager.getInstance().player.intervalTime == 0){
 				mPlayCheckBox.setSelected(false)
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)

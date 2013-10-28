@@ -120,6 +120,37 @@ final public class DelayManager implements IProcess {
 		}
 	}
 	
+	public function killDelayedCall( delayID:uint, complete:Boolean = false ) : void {
+		var dp:DelayProp
+		var index:int
+		
+		if (!m_masterList[delayID]) {
+			return
+		}
+		dp = m_masterList[delayID]
+		delete m_masterList[delayID]
+		if (complete) {
+			dp.callback.apply(null, dp.params)
+		}
+		recycleDelay(dp)
+		// only
+		if (--m_numDelay == 0) {
+			m_delayProps.length = 1
+			this.doComplete()
+		}
+		else {
+			index = m_delayProps.indexOf(dp)
+			// tail
+			if (index == m_numDelay + 1) {
+				m_delayProps.pop()
+			}
+			else {
+				m_delayProps[index] = m_delayProps.pop()
+				this.doSink(index)
+			}
+		}
+	}
+	
 	/** complete after all kill without the correct delay order... */
 	public function killAll( complete:Boolean = false ) : void {
 		var dp:DelayProp

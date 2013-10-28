@@ -1,26 +1,21 @@
 package 
 {
-	import com.google.analytics.core.EventInfo;
-	import com.sociodox.theminer.TheMiner;
-	
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.events.TimerEvent;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
+	import flash.events.SampleDataEvent;
+	import flash.events.StatusEvent;
+	import flash.media.Microphone;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import flash.utils.ByteArray;
-	import flash.utils.Timer;
-	import flash.utils.getTimer;
-	import flash.utils.setTimeout;
 	
-	import org.agony2d.debug.Logger;
-	import org.agony2d.debug.getRunningTime;
+	import org.agony2d.Agony;
+	import org.agony2d.air.AgonyAir;
+	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFile;
+	import org.agony2d.air.file.IFolder;
+	import org.agony2d.notify.AEvent;
+	import org.agony2d.view.AgonyUI;
 	
 	[SWF(frameRate="4")]
 	public class CopyPixelsGpuTest extends Sprite 
@@ -35,52 +30,102 @@ package
 	
 		private function init(e:Event = null):void 
 		{
-			mBytesA.writeFloat(0.33)
-			mBytesA.writeFloat(0.33)
-			mBytesA.writeFloat(0.33)
-			mBytesA.writeFloat(0.33)
 			
-			N = 0
-			var txt:TextField = new TextField
-			txt.text = getRunningTime(funA, 2000000).toString()
-			addChild(txt)
-			trace(mBytes.length)
+			Agony.startup(stage)
+			AgonyUI.startup(false)
+				
+			if(Microphone.isSupported){
+				trace("Microphone isSupported: " + Microphone.isSupported)
+				
+				mBytes = new ByteArray
+				mMic = Microphone.getMicrophone()
+				
+//				trace(mMic)
+				mMic.rate = 44
+				//trace(mMic.gain)
+				//mMic.gain = 100
+				mMic.setUseEchoSuppression(true)
+				//mMic.setSilenceLevel(0)
+				//mMic.codec = SoundCodec.SPEEX
+				//mMic.setLoopBack(true)
+				trace(Microphone.names.length)
+				mMic.addEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData);
+				mMic.addEventListener(StatusEvent.STATUS, onStatus);
+				//mMic.addEventListener(Event.ACTIVATE, onActivate)
+				//mic.
+				
+				Agony.process.addEventListener(AEvent.ENTER_FRAME, update)
+			}
+
 			
-			N = 0
-			txt = new TextField
-			txt.text = getRunningTime(funB, 2000000).toString()
-			txt.x = txt.y = 200
-			addChild(txt)
-			trace(mVec.length)
+		}
+		
+		//private function onActivate(e:Event):void {
+		//trace("onActivate")
+		//}
+		//
+		private var mT:int
+		private function update(e:AEvent):void {
+			mT += Agony.process.elapsed
+			if (mT > 10000) {
+				Agony.process.removeEventListener(AEvent.ENTER_FRAME, update)
+				mMic.removeEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData)
+				mMic.removeEventListener(StatusEvent.STATUS, onStatus)
+				trace("Finish: " + (mT / 1000) + " | "  + mBytes.length)
+//				mBytes.compress()
+//				trace("Finish: " + (mT / 1000) + " | "  + mBytes.length)
+//				mBytes.uncompress()
+				
+				var folder:IFolder = AgonyAir.createFolder("record", FolderType.DESKTOP)
+				var file:IFile = folder.createFile("AAA","rec")
+				file.bytes = mBytes
+				file.upload()
+				mBytes.position = 0
+				this.doPlay()
+			}
 			
-			stage.addEventListener(MouseEvent.MOUSE_DOWN, d)
-		}
-		
-		private var mMatrix:Matrix = new Matrix
-		private var mBytes:ByteArray = new ByteArray
-		private var mBytesA:ByteArray = new ByteArray
-		private var mVec:Vector.<Number> = new Vector.<Number>()
-		
-		private function funA():void {
-			//mBytes.position = 0
-//			mBytes.writeBytes(mBytesA)
-			mBytes.writeFloat(0.22)
-		}
-		
-		private var mIndex:int
-		private function funB():void {
-			mVec[mIndex++] = 0.22
-			//mVec[mIndex++] = 0.22
-		}
-		
-		private var N:int
-		private var mLength:int = 600000
-		private var mI:int
-		private function d(e:MouseEvent):void {
-			trace(mI++)
 		}
 		
 		
+		private var mBytes:ByteArray
+		private var mMic:Microphone
+		private var mSound:Sound
+		private var mChannel:SoundChannel
+		
+		
+		private function onSampleData(e:SampleDataEvent):void {
+			trace("SampleDataEvent: " + (mT / 1000) + " | "  + e.data.length)
+			mBytes.writeBytes(e.data)
+		}
+		
+		private function onStatus(e:StatusEvent):void {
+			trace(e.code)
+		}
+		
+		
+		private function doPlay() : void {
+			mSound = new Sound
+			mSound.addEventListener(SampleDataEvent.SAMPLE_DATA, onSoundSampleData)
+			mChannel = mSound.play()
+			mChannel.addEventListener(Event.SOUND_COMPLETE, onPlayFinish)
+		}
+		
+		private function onPlayFinish(e:Event):void{
+			mChannel.removeEventListener(Event.SOUND_COMPLETE, onPlayFinish)
+				
+			trace("onPlayFinish")
+		}
+		
+		private function onSoundSampleData(e:SampleDataEvent):void {
+			for (var i:int = 0; i < 8192 && mBytes.bytesAvailable; i++)
+			{
+				var data:Number = mBytes.readFloat()
+				e.data.writeFloat(data)
+				e.data.writeFloat(data)
+			}
+//			e.data.writeBytes(mBytes)
+			trace(e.data.length)
+		}
 		
 	}
 }

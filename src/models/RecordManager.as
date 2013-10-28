@@ -1,6 +1,7 @@
 package models
 {
 	import flash.events.Event;
+	import flash.media.Microphone;
 	import flash.utils.ByteArray;
 	
 	import org.agony2d.notify.AEvent;
@@ -16,6 +17,8 @@ public class RecordManager extends Notifier
 {
 	public function RecordManager(){
 		super(null)
+		
+//		trace("Microphone: " + Microphone.isSupported)
 	}
 	
 	
@@ -29,42 +32,58 @@ public class RecordManager extends Notifier
 		return mRecord ? mRecord.output : null
 	}
 	
+	public function get ratio() : Number {
+		if(mWavChannel){
+			return (mWavChannel.position - 500) / (mWav.length)
+		}
+		return 0
+	}
+	
 	public function get isPlaying() : Boolean {
 		return Boolean(mWavChannel)
 	}
 	
 	public function startRecord() : void {
-		this.stopRecord()
-		mRecord = new MicRecorder(new WaveEncoder)
-		mRecord.addEventListener(RecordingEvent.RECORDING, onRecording)
-		mRecord.record()	
-		mStarted = true
-	}
-	
-	public function play() : void {
-		if(mRecord){
-			mWav = new WavSound(mRecord.output)
-			mWavChannel = mWav.play()
-			mWavChannel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete)
-		}
-	}
-	
-	public function stop() : void{
-		if(mWavChannel){
-			mWavChannel.stop()
-			mWavChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete)
-			mWavChannel = null
-		}
+//		this.stopRecord()
+//		mRecord = new MicRecorder(new WaveEncoder)
+//		mRecord.addEventListener(RecordingEvent.RECORDING, onRecording)
+//		mRecord.record()	
+//		mStarted = true
 	}
 	
 	public function stopRecord() : void {
-		if(mStarted){
-			mRecord.removeEventListener(RecordingEvent.RECORDING, onRecording)
-			mRecord.stop()
-			mStarted =false
-		}
+//		if(mStarted){
+//			mRecord.removeEventListener(RecordingEvent.RECORDING, onRecording)
+//			mRecord.stop()
+//			mStarted =false
+//		}
 	}
 	
+	public function play() : void {
+//		this.stop()
+//		if(mRecord){
+//			mWav = new WavSound(mRecord.output)
+//			mWavChannel = mWav.play(950)
+//			mWavChannel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete)
+//		}
+	}
+	
+	public function stop() : void{
+//		if(mWavChannel){
+//			mWavChannel.stop()
+//			mWavChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete)
+//			mWavChannel = null
+//		}
+	}
+	
+	public function reset() : void{
+//		this.stop()
+//		if(mRecord){
+//			mRecord.removeEventListener(RecordingEvent.RECORDING, onRecording)
+//			mRecord = null
+//		}
+	}
+
 	
 	private var mRecord:MicRecorder
 	private var mStarted:Boolean

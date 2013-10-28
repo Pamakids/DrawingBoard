@@ -38,13 +38,13 @@ package
 			var loader:ILoader
 			
 			this.doInitAgony()
-			loader = LoaderManager.getInstance().getLoader(McAssets.mc_optional, 0, true)
-			LoaderManager.getInstance().addEventListener(AEvent.COMPLETE, onMcLoaded)
-		}
+//			loader = LoaderManager.getInstance().getLoader(McAssets.mc_optional, 0, true)
+//			LoaderManager.getInstance().addEventListener(AEvent.COMPLETE, onMcLoaded)
+//		}
 		
-		private function onMcLoaded(e:AEvent):void{
-			LoaderManager.getInstance().removeEventListener(AEvent.COMPLETE, onMcLoaded)
-			Logger.reportMessage(this, "Mc assets are all loaded...")
+//		private function onMcLoaded(e:AEvent):void{
+//			LoaderManager.getInstance().removeEventListener(AEvent.COMPLETE, onMcLoaded)
+//			Logger.reportMessage(this, "Mc assets are all loaded...")
 				
 			this.doInitModel()
 			this.doInitView()
@@ -52,7 +52,9 @@ package
 				
 //			AgonyUI.fusion.addElement(new StatsMobileUI)
 			if(Capabilities.isDebugger){
-				this.addChild(new TheMiner)
+				var tm:TheMiner = new TheMiner
+				tm.x = 200
+				this.addChild(tm)
 			}
 				
 
@@ -78,6 +80,7 @@ package
 		
 		private function doInitView():void{
 			StateManager.setHomepage(true)
+			
 //			StateManager.setRecord(true)
 		}
 

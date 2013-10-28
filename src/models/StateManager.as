@@ -6,6 +6,7 @@ package models
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.enum.LayoutType;
 	
+	import states.GalleryUIState;
 	import states.GameBottomUIState;
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
@@ -44,6 +45,21 @@ package models
 			}
 			else{
 				AgonyUI.getModule("Theme").exit()
+			}
+		}
+		
+		// Gallery...
+		private static var mGalleryExists:Boolean
+		public static function setGallery( enabled:Boolean) : void{
+			if(!mGalleryExists){
+				mGalleryExists = true
+				AgonyUI.addModule("Gallery", GalleryUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("Gallery").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("Gallery").exit()
 			}
 		}
 		
@@ -115,6 +131,6 @@ package models
 				AgonyUI.getModule("Record").exit()
 			}
 		}
-		
+
 	}
 }

@@ -11,25 +11,21 @@ package states.renderers
 	
 public class ThemeListItem extends ListItem
 {
-	public function ThemeListItem()
-	{
-		super();
-	}
-	
 	
 	override public function init() : void {
 		var image:ImagePuppet
 		
 		image = new ImagePuppet
-		//image.embed(ThemeAssets.itemBg)
+		image.embed(ThemeAssets.itemBg)
 		this.addElement(image)
 		
 		image = new ImagePuppet
-		this.spaceWidth = 234
-		this.spaceHeight = 159
-		this.addElement(image,43.5,43.5)
+		this.spaceWidth = 238
+		this.spaceHeight = 148
+		this.addElement(image,32.5,32)
 		var vo:ThemeVo = this.itemArgs["data"]
 		image.load(vo.thumbnail,false)
+		image.scaleY = 138 / 151
 		this.userData = vo
 			
 			

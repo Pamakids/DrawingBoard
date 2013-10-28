@@ -75,7 +75,7 @@ package states
 				img = new ImagePuppet
 				img.embed(GameAssets.btnBg_pen, false)
 				imgBtn.addElementAt(img, 0)
-				this.fusion.addElement(imgBtn, 0, 0)
+				this.fusion.addElement(imgBtn, 14, 14)
 				
 				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
 //				imgBtn.image.graphics.quickDrawRect(67,52)
@@ -85,7 +85,7 @@ package states
 				img = new ImagePuppet
 				img.embed(GameAssets.btnBg_paster, false)
 				imgBtn.addElementAt(img, 0)
-				this.fusion.addElement(imgBtn, 0, 54)
+				this.fusion.addElement(imgBtn, 14, 64)
 				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
 //				imgBtn.image.graphics.quickDrawRect(67,52)
 			}

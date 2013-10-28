@@ -40,60 +40,75 @@ package states
 			
 			AgonyUI.addImageButtonData(PlayerAssets.btn_closeRecord, "record_closeRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_pressToRecord, "record_pressToRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
-			
+			AgonyUI.addImageButtonData(PlayerAssets.btn_reRecord, "reRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(PlayerAssets.btn_playRecord, "playRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
+				
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
+			// bg
 			{
 				bg = new SpritePuppet
-				bg.graphics.beginFill(0x0, 0.44)
+				bg.graphics.beginFill(0x0, 0.05)
 				bg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
 				//mResetBg.cacheAsBitmap = true
 				this.fusion.addElement(bg)
+				bg.interactive = false	
 			}
 			
+			// bg_A
 			{
 				img = new ImagePuppet
 				img.embed(PlayerAssets.recordBg, false)
-				this.fusion.addElement(img, 0,0,LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
+				this.fusion.addElement(img, 0,-20,LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
 				img.interactive = false
 			}
 			
+			// close btn
 			{
-				img = new ImagePuppet
-				img.embed(PlayerAssets.mic, false)
-				this.fusion.addElement(img, 0,317,LayoutType.F__A__F_ALIGN)
-				img.interactive = false
+				imgBtn = new ImageButton("record_closeRecord")
+				this.fusion.addElement(imgBtn, 765,215)
+				imgBtn.addEventListener(AEvent.CLICK, onCloseRecord)
 			}
 			
+//			{
+//				img = new ImagePuppet
+//				img.embed(PlayerAssets.mic, false)
+//				this.fusion.addElement(img, 0,317,LayoutType.F__A__F_ALIGN)
+//				img.interactive = false
+//			}
+			
+			// record progress bar
 			{
-				mPb = new ProgressBar("mc_progressBarA", 0, 0, 1)
-				this.fusion.addElement(mPb, 40, 275, LayoutType.F__A__F_ALIGN)
+				mc_recordd
+				mPb = new ProgressBar("mc_recordd", 0, 0, 1)
+				this.fusion.addElement(mPb, 0, 280, LayoutType.F__A__F_ALIGN)
 			}
 			
 			// pressToRecord
 			{
-				imgBtn = new ImageButton("record_pressToRecord")
-				this.fusion.addElement(imgBtn,0, 70, LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
-				imgBtn.addEventListener(AEvent.PRESS, onStartRecord)
-				imgBtn.addEventListener(AEvent.RELEASE, onStopRecord)
-			}
+				mBtn_A = new ImageButton("record_pressToRecord")
+				this.fusion.addElement(mBtn_A,0, 31, LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
+				mBtn_A.addEventListener(AEvent.PRESS, onStartRecord)
+				mBtn_A.addEventListener(AEvent.RELEASE, onStopRecord)
 			
-			// close
+			}
+
+			// reRecord
 			{
-				imgBtn = new ImageButton("record_closeRecord")
-				this.fusion.addElement(imgBtn, 750,311)
-				imgBtn.addEventListener(AEvent.CLICK, onCloseRecord)
+				mBtn_B = new ImageButton("reRecord")
+				this.fusion.addElement(mBtn_B,410,31, 1, LayoutType.F__A__F_ALIGN)
+				mBtn_B.addEventListener(AEvent.CLICK, onReRecord)
+				mBtn_B.visible = false
 			}
 			
 			// play
 			{
-				img = new ImagePuppet(5)
-				img.embed(ImgAssets.btn_global)
-				this.fusion.addElement(img,670,100, 1, LayoutType.F__A__F_ALIGN)
-				img.addEventListener(AEvent.CLICK, onPlayRecord)
+				mBtn_C = new ImageButton("playRecord")
+				this.fusion.addElement(mBtn_C,530,31, 1, LayoutType.F__A__F_ALIGN)
+				mBtn_C.addEventListener(AEvent.CLICK, onPlayRecord)
+				mBtn_C.visible = false
 			}
-			
 			
 			RecordManager.getInstance().addEventListener(RecordManager.RECORDING, onRecording)
 		}
@@ -101,13 +116,13 @@ package states
 		override public function exit() : void{
 			RecordManager.getInstance().removeEventListener(RecordManager.RECORDING, onRecording)
 			if(RecordManager.getInstance().isPlaying){
-				RecordManager.getInstance().removeEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
+//				RecordManager.getInstance().removeEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
 				RecordManager.getInstance().stop()
 			}
 			RecordManager.getInstance().stop()
-			AgonyUI.removeImageButtonData("record_closeRecord")
-			AgonyUI.removeImageButtonData("record_pressToRecord")
+//			AgonyUI.removeImageButtonData("record_closeRecord")
+//			AgonyUI.removeImageButtonData("record_pressToRecord")
 		}
 		
 		
@@ -117,6 +132,10 @@ package states
 		private var mPb:ProgressBar
 		private var mTime:Number
 		private var mCurrTime:Number = 0
+		private var mBtn_A:ImageButton
+		private var mBtn_B:ImageButton
+		private var mBtn_C:ImageButton
+		
 		
 		
 		private function onStartRecord(e:AEvent):void{
@@ -128,6 +147,9 @@ package states
 			mTime = e.data as Number
 			if(mTime >= Config.MAX_RECORD_TIME * 1000){
 				RecordManager.getInstance().stop()
+				mBtn_A.visible = false
+				mBtn_B.visible = true
+				mBtn_C.visible = true	
 			}
 			else{
 				mPb.range.value = mTime / Config.MAX_RECORD_TIME * 0.001
@@ -136,24 +158,52 @@ package states
 		}
 		
 		private function onStopRecord(e:AEvent):void{
-			RecordManager.getInstance().stopRecord()
-			mPb.range.ratio = 0
-//			trace("stop...")
+			if(mTime > 2000){
+				RecordManager.getInstance().stopRecord()
+				mPb.range.ratio = 0
+				//			trace("stop...")
+				
+				mBtn_A.visible = false
+				mBtn_B.visible = true
+				mBtn_C.visible = true
+			}
+			else{
+				mTime = 0
+			}
 		}
 		
 		private function onPlayRecord(e:AEvent):void{
 			RecordManager.getInstance().play()
 				
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, onPlaying)
-			RecordManager.getInstance().addEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
+			mIsPlaying = true
+			mCurrTime = 0
+//			RecordManager.getInstance().addEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
 		}
 		
+		private var mIsPlaying:Boolean
 		private function onPlaying(e:AEvent ) : void{
 			mCurrTime += Agony.process.elapsed
 			if(mCurrTime <= mTime){
-				mPb.range.ratio = mCurrTime / mTime	
+				trace(RecordManager.getInstance().ratio)
+				mPb.range.ratio = mCurrTime / mTime//RecordManager.getInstance().ratio
 			}
-
+			else{
+				this.doStopPlay()
+			}
+//			if(RecordManager.getInstance().ratio >= 0.99){
+//				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
+//				mPb.range.ratio = 0
+//			}
+		}
+		
+		private function doStopPlay():void{
+			if(mIsPlaying){
+				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
+				mPb.range.ratio = 0
+				mCurrTime = 0
+				mIsPlaying = false
+			}
 		}
 		
 		private function onPlayComplete(e:AEvent ) : void{
@@ -172,6 +222,14 @@ package states
 			StateManager.setRecord(false)
 			
 			trace("finish...")
+		}
+		
+		private function onReRecord(e:AEvent):void{
+			RecordManager.getInstance().reset()
+			mBtn_A.visible = true
+			mBtn_B.visible = false
+			mBtn_C.visible = false
+			this.doStopPlay()
 		}
 	}
 }

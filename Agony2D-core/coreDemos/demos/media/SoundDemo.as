@@ -1,4 +1,4 @@
-package demos 
+package demos.media 
 {
 	import assets.AssetsCore;
 	import com.bit101.components.ProgressBar;
@@ -22,7 +22,7 @@ public class SoundDemo extends Sprite
 {
 	private var progress:ProgressBar
 	
-	[Embed(source="../assets/data/soundAsset.swf", mimeType="application/octet-stream")]
+	[Embed(source="../../assets/data/soundAsset.swf", mimeType="application/octet-stream")]
 	private var soundAssets:Class
 	
 	private var mSfxA:SfxManager = new SfxManager()

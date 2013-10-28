@@ -7,7 +7,8 @@ package assets
 		}
 		
 		// global
-		[Embed(source="data/images/itemBg.png")] public static const itemBg:Class
+		[Embed(source="data/images/publicBg.png")] public static const publicBg:Class
+		[Embed(source="data/images/top_bg.png")] public static const img_top_bg:Class
 		[Embed(source="data/buttons/2013-08-23-b.png")] public static const btn_global:Class
 		
 		// game top

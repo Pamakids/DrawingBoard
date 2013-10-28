@@ -30,7 +30,7 @@ package assets.game
 		[Embed(source="img/common/btnBg_pen.png")] public static const btnBg_pen:Class
 		[Embed(source="img/common/btnBg_paster.png")] public static const btnBg_paster:Class
 		
-		[Embed(source="img/common/top_bg.png")] public static const img_top_bg:Class
+
 		[Embed(source="img/common/bottomBg.png")] public static const bottomBg:Class
 
 		

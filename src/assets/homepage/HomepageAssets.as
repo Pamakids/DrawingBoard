@@ -24,8 +24,6 @@ package assets.homepage
 		
 		
 		
-		
-		[Embed(source="img/common/homepageBg.png")] public static const homepageBg:Class
 		[Embed(source="img/common/itemBg.png")] public static const itemBg:Class
 		[Embed(source="img/common/itemBg_A.png")] public static const itemBg_A:Class
 		[Embed(source="img/common/title.png")] public static const title:Class

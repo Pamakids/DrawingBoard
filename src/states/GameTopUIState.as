@@ -65,7 +65,7 @@ package states
 //				this.fusion.addElement(sprite)
 				
 				img = new ImagePuppet
-				img.embed(GameAssets.img_top_bg, false)
+				img.embed(ImgAssets.img_top_bg, false)
 				this.fusion.addElement(img)
 				mHeight = img.height
 			}

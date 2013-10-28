@@ -102,7 +102,7 @@ public class PlayerSceneUIState extends UIState
 		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, doStartAddPaster)
 		DrawingManager.getInstance().setPlayer(mPlayer)
 		Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)
-		
+	
 		// drawing bg...
 		{
 			img = new ImagePuppet

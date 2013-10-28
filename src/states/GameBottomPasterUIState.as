@@ -50,14 +50,17 @@ package states
 				this.fusion.addElement(bg, 86, 12)
 			}
 			
-			bgWidth = bg.width
-			bgHeight = bg.height
+//			bgWidth = bg.width
+//			bgHeight = bg.height
+			
+			bgWidth = 936
+			bgHeight = 100
 			
 			// scroll list
 			{
 				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, Config.PASTER_HORIZ_DISABLE_OFFSET,8000)
 				mContent = mPasterArea.content
-				this.fusion.addElement(mPasterArea, 86, 12)
+				this.fusion.addElement(mPasterArea, 66, 12)
 				mContent.spaceWidth = bgWidth
 				mContent.spaceHeight = bgHeight
 //				mPasterArea.limitLeft = true

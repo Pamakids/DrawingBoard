@@ -5,6 +5,7 @@ package states
 	import assets.ImgAssets;
 	import assets.homepage.HomepageAssets;
 	
+	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	
@@ -50,7 +51,7 @@ package states
 			// bg
 			{
 				img = new ImagePuppet
-				img.embed(HomepageAssets.homepageBg, false)
+				img.embed(ImgAssets.publicBg, true)
 				this.fusion.addElement(img)
 			}
 			
@@ -104,7 +105,6 @@ package states
 			{
 				imgBtn = new ImageButton("btn_shop")
 				this.fusion.addElement(imgBtn, -390, 570, LayoutType.F__AF)
-				imgBtn.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 		}
 		
@@ -129,9 +129,8 @@ package states
 		
 			
 		private function onRadioListReset(e:AEvent):void{
-//			trace("reset")
 			mWidth = mRadioList.scroll.contentWidth
-//			trace(mNumitems)
+			trace(mWidth)
 		}
 		
 		private function doCheckScrolling():void{
@@ -196,7 +195,9 @@ package states
 		
 		// 画廊
 		private function onGoIntoGallery(e:AEvent):void{
-			trace("onGoIntoGallery")
+//			trace("onGoIntoGallery")
+			StateManager.setHomepage(false)
+			StateManager.setGallery(true)
 		}
 	}
 }

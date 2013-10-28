@@ -408,7 +408,7 @@ package org.agony2d.view {
 				m_content.x += offsetX
 				m_content.y += offsetY
 				this.view.m_notifier.dispatchDirectEvent(AEvent.DRAGGING)
-				//trace(touchA)
+				trace(touchA)
 			}
 			else {
 				touchA = m_touchList[m_numTouchs - 2]
