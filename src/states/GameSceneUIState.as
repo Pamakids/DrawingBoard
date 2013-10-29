@@ -154,7 +154,12 @@ package states
 					img = new ImagePuppet
 //					mDrawingBgIndex = this.stateArgs[0]
 					mThemeVo = this.stateArgs[0]
-					img.load(mThemeVo.dataUrl, false)
+					if(mThemeVo){
+						img.load(mThemeVo.dataUrl, false)
+					}
+						
+					
+
 					img.interactive = false
 					mBoard.content.addElement(img)	
 				}

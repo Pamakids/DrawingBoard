@@ -60,7 +60,7 @@ package states
 			img.embed(ImgAssets.publicBg)
 			
 			// list
-			layout= new HorizLayout(330, 245, 3, 50, 5, 50, 190)
+			layout= new HorizLayout(330, 245, 3, 50, 5, 50, 120)
 			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
 			mScroll = list.scroll
 			mContent = mScroll.content

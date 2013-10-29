@@ -83,7 +83,7 @@ package states
 			// reset
 			{
 				imgBtn = new ImageButton("btn_clear")
-				this.fusion.addElement(imgBtn, 728, 13)
+				this.fusion.addElement(imgBtn, 728, 16)
 				imgBtn.addEventListener(AEvent.CLICK, onTopReset)
 				mImgList.push(imgBtn)
 				mPositonA = this.fusion.position
@@ -140,7 +140,7 @@ package states
 			
 			{
 				mResetBg = new SpritePuppet
-				mResetBg.graphics.beginFill(0x0, 0.44)
+				mResetBg.graphics.beginFill(0x0, 0.4)
 				mResetBg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
 				//mResetBg.cacheAsBitmap = true
 				this.fusion.addElement(mResetBg)
@@ -169,7 +169,7 @@ package states
 					img.addEventListener(AEvent.CLICK, onResetNo)
 				}
 				this.fusion.position = mPositonA
-				this.fusion.addElement(mResetFusion, -11, -18, LayoutType.BA, LayoutType.B__A)
+				this.fusion.addElement(mResetFusion, 17, 5, LayoutType.BA, LayoutType.B__A)
 			}
 		}
 		

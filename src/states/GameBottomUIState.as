@@ -15,6 +15,7 @@ package states
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.Fusion;
 	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.StateFusion;
 	import org.agony2d.view.UIState;
@@ -35,6 +36,7 @@ package states
 		public static const STATE_TO_BRUSH:String = "stateToBrush"
 			
 			
+		public static const BG_OFFSET_Y:Number = 0
 		
 		override public function enter():void
 		{
@@ -49,7 +51,7 @@ package states
 			{
 				mBg = new ImagePuppet
 				mBg.embed(GameAssets.bottomBg)
-				this.fusion.addElement(mBg)
+				this.fusion.addElement(mBg, 0, BG_OFFSET_Y)
 				this.fusion.spaceWidth = mBg.width
 				this.fusion.spaceHeight = mBg.height
 				
@@ -57,8 +59,8 @@ package states
 				{
 					mDragImg = new ImagePuppet
 					mDragImg.embed(GameAssets.btn_game_bottom_down)
-					this.fusion.addElement(mDragImg, -28, 5, LayoutType.F__AF, LayoutType.A_F_F)
-					mDragImg.graphics.quickDrawRect(69, 40, 0x0, 0, 0, -4)
+					this.fusion.addElement(mDragImg, -26, 1 + BG_OFFSET_Y, LayoutType.F__AF, LayoutType.A_F_F)
+					mDragImg.graphics.quickDrawRect(60, 38, 0x0, 0, 4, 1)
 					mDragImg.cacheAsBitmap = true
 					mDragImg.addEventListener(AEvent.PRESS, onDragBottom)
 				}
@@ -70,22 +72,26 @@ package states
 			
 			// btn bar
 			{
-				imgBtn = new ImageButton("btn_pen")
+				imgBtn = new ImageButton("btn_pen", 5)
 				imgBtn.userData = 0
-				img = new ImagePuppet
+					
+				img = new ImagePuppet(5)
 				img.embed(GameAssets.btnBg_pen, false)
 				imgBtn.addElementAt(img, 0)
-				this.fusion.addElement(imgBtn, 14, 14)
+				mCurrFusion = imgBtn
+				this.fusion.addElement(imgBtn, 45, 42 +BG_OFFSET_Y)
 				
 				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
 //				imgBtn.image.graphics.quickDrawRect(67,52)
 					
-				imgBtn = new ImageButton("btn_paster")
+				imgBtn = new ImageButton("btn_paster", 5)
 				imgBtn.userData = 1
-				img = new ImagePuppet
+					
+				img = new ImagePuppet(5)
 				img.embed(GameAssets.btnBg_paster, false)
 				imgBtn.addElementAt(img, 0)
-				this.fusion.addElement(imgBtn, 14, 64)
+				img.alpha = 0
+				this.fusion.addElement(imgBtn, 45, 89 +BG_OFFSET_Y)
 				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
 //				imgBtn.image.graphics.quickDrawRect(67,52)
 			}
@@ -119,12 +125,15 @@ package states
 		private var mBg:ImagePuppet
 		private var mClosed:Boolean
 		private var mDragImg:ImagePuppet
+		private var mCurrFusion:Fusion
 		
 		
 		private function onStateChange(e:AEvent):void{
 			var index:int
+			var fusion:Fusion
 			
-			index = (e.target as IComponent).userData as int
+			fusion = (e.target as Fusion)
+			index = fusion.userData as int
 			if(mIndex == index){
 				return
 			}
@@ -149,12 +158,15 @@ package states
 					break;
 				}
 			}
+			mCurrFusion.getElementByLayer(0).alpha = 0
+			fusion.getElementByLayer(0).alpha = 1
+			mCurrFusion = fusion
 		}
 		
 		private function onEnterStage(e:AEvent):void{
 			mStartX = this.fusion.x
 			mStartY = this.fusion.y
-			mHeight = mBg.height
+			mHeight = mBg.height - BG_OFFSET_Y
 			//trace(mStartX, mStartY)
 		}
 		

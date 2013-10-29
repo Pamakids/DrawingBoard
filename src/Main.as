@@ -82,6 +82,7 @@ package
 			StateManager.setHomepage(true)
 			
 //			StateManager.setRecord(true)
+//			StateManager.setGameScene(true)
 		}
 
 	}

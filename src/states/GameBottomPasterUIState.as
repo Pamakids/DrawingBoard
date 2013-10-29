@@ -48,19 +48,27 @@ package states
 				bg = new ImagePuppet
 				bg.embed(GameAssets.img_paster_bg)
 				this.fusion.addElement(bg, 86, 12)
+				bg.alpha = 0
 			}
+			
+			// left
+//			{
+//				bg = new ImagePuppet
+//				bg.embed(GameAssets.bottom_left)
+//				this.fusion.addElement(bg, 56, 12)
+//			}
 			
 //			bgWidth = bg.width
 //			bgHeight = bg.height
 			
-			bgWidth = 936
+			bgWidth = 935
 			bgHeight = 100
 			
 			// scroll list
 			{
 				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, Config.PASTER_HORIZ_DISABLE_OFFSET,8000)
 				mContent = mPasterArea.content
-				this.fusion.addElement(mPasterArea, 66, 12)
+				this.fusion.addElement(mPasterArea, 74, 12 + GameBottomUIState.BG_OFFSET_Y)
 				mContent.spaceWidth = bgWidth
 				mContent.spaceHeight = bgHeight
 //				mPasterArea.limitLeft = true

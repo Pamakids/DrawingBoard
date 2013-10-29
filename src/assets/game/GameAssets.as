@@ -37,16 +37,20 @@ package assets.game
 		[Embed(source="img/common/thumb_A.png")] public static const img_thumb_A:Class
 		[Embed(source="img/common/track_A.png")] public static const img_track_A:Class
 		
+		[Embed(source="img/common/bottom_left.png")] public static const bottom_left:Class
+		[Embed(source="img/common/bottom_right.png")] public static const bottom_right:Class
 		
 		
 		
 		
 		// brush
 		
-		[Embed(source="img/brush/02.png")] public static const brush1:Class
-		[Embed(source="img/brush/brush.png")] public static const brush2:Class
-		[Embed(source="img/brush/light.png")] public static const light:Class
-		[Embed(source="img/brush/eraser.png")] public static const eraser:Class
+		[Embed(source="img/brush/crayon.png")] public static const brush_crayon:Class
+		[Embed(source="img/brush/eraser.png")] public static const brush_eraser:Class
+		[Embed(source="img/brush/maker.png")] public static const brush_maker:Class
+		[Embed(source="img/brush/pencil.png")] public static const brush_pencil:Class
+		[Embed(source="img/brush/pink.png")] public static const brush_pink:Class
+		[Embed(source="img/brush/waterColor.png")] public static const brush_waterColor:Class
 		
 		// pen
 		[Embed(source="img/pen/crayon.png")] public static const img_brush_crayon:Class

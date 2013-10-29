@@ -28,18 +28,18 @@ package states
 			var bg:ImagePuppet
 			var slider:Slider
 			var img:ImagePuppet
-			const GAP_Y:int = 653
+			const GAP_Y:int = 653 + 16
 			var brushIcons:Array, colorImgList:Array, colorDataList:Array
 			var i:int, l:int
 
 			mBrushCoordsA = 
 			[
-				new Point(90, 632 - GAP_Y),
+				new Point(90,  634 - GAP_Y),
 				new Point(164, 634 - GAP_Y),
-				new Point(233, 635 - GAP_Y),
-				new Point(293, 626 - GAP_Y),
-				new Point(358, 628 - GAP_Y),
-				new Point(442, 637 - GAP_Y)
+				new Point(233, 634 - GAP_Y),
+				new Point(293, 634 - GAP_Y),
+				new Point(358, 634 - GAP_Y),
+				new Point(442, 634 - GAP_Y)
 			]
 			
 			brushIcons = 
@@ -67,8 +67,8 @@ package states
 			
 			// brush scale slider
 			{
-				mBrushScaleSlider = new Slider(GameAssets.img_track_A, GameAssets.img_thumb_A, 1, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
-				this.fusion.addElement(mBrushScaleSlider, 0, 16)
+				mBrushScaleSlider = new Slider(GameAssets.img_track_A, GameAssets.img_thumb_A, 2, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
+				this.fusion.addElement(mBrushScaleSlider, 0, 10)
 				mBrushScaleSlider.addEventListener(AEvent.CHANGE, onBrushScaleChange)
 				this.doAddHotspot(mBrushScaleSlider.thumb)
 			}
@@ -77,7 +77,7 @@ package states
 			{
 				img = new ImagePuppet
 				img.embed(GameAssets.img_bigCircleB)
-				this.fusion.addElement(img, 605, 19)
+				this.fusion.addElement(img, 605, 35 - 16)
 				
 				img = new ImagePuppet
 				img.embed(GameAssets.img_bigCircleA, false)
@@ -97,7 +97,7 @@ package states
 					img.embed(colorImgList[i])
 					img.userData = colorDataList[i]
 					if(i==0){
-						this.fusion.addElement(img, 712, 15)
+						this.fusion.addElement(img, 712, 40 - 16)
 					}
 					else if(i==6){
 						this.fusion.addElement(img, 712, 6, 1, LayoutType.B__A)
@@ -127,7 +127,7 @@ package states
 		
 		
 		private var mBrushCoordsA:Array
-		private var mRawBrushY:int = 24
+		private var mRawBrushY:int = 24 - 26
 		private var mImgList:Array = []
 		private var mCurrBrushImg:ImagePuppet
 		private var mBrushScaleSlider:Slider
