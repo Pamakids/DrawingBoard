@@ -1,4 +1,4 @@
-package org.agony2d.utils.byte 
+package org.agony2d.utils.bytes 
 {
 	import flash.utils.ByteArray;
 	

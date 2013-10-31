@@ -11,6 +11,7 @@ package states
 	import assets.game.GameAssets;
 	
 	import models.Config;
+	import models.PasterManager;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.input.ATouchEvent;
@@ -79,8 +80,9 @@ package states
 					
 				// paster item
 				{
+				
 					i = 0
-					l = 20
+					l = PasterManager.getInstance().numPaster
 					while(i<l){
 						// item bg
 						mContent.position = position
@@ -97,7 +99,7 @@ package states
 						
 						// item png
 						img = new ImagePuppet(5)
-						img.embed(GameAssets.gesture)
+						img.embed(PasterManager.getInstance().getPasterRefByIndex(i))
 						img.scaleX = img.scaleY = Config.PASTER_LIST_ITEM_SCALE
 						mContent.addElement(img,0,0,LayoutType.AB, LayoutType.AB)
 						img.userData = i
@@ -224,7 +226,7 @@ package states
 			global = img.transformCoord(0,0,false)
 				
 			//trace("onRandomCreatePaster")
-			Agony.process.dispatchEvent(new DataEvent(RANDOM_CREATE_PASTER, [global.x,global.y,img.key]))
+			Agony.process.dispatchEvent(new DataEvent(RANDOM_CREATE_PASTER, [global.x,global.y,img.userData]))
 		}
 		
 		private function onDelayCreatePaster(e:AEvent):void{
@@ -247,7 +249,7 @@ package states
 			//touch = AgonyUI.getTouchIn(img)
 			touch.dispatchDirectEvent(AEvent.RELEASE)
 			
-			Agony.process.dispatchEvent(new DataEvent(PRESS_DELAY_CREATE_PASTER, [touch, img.key]))
+			Agony.process.dispatchEvent(new DataEvent(PRESS_DELAY_CREATE_PASTER, [touch, img.userData]))
 		}
 		
 //		private function onItemRelease(e:AEvent):void{

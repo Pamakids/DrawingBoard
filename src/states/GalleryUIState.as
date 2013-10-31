@@ -6,11 +6,16 @@ package states
 	import assets.ImgAssets;
 	import assets.theme.ThemeAssets;
 	
+	import models.Config;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
+	import org.agony2d.Agony;
+	import org.agony2d.air.AgonyAir;
+	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFolder;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.timer.DelayManager;
@@ -27,6 +32,7 @@ package states
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
 	
+	import states.renderers.GalleryItem;
 	import states.renderers.ThemeListItem;
 	
 	public class GalleryUIState extends UIState
@@ -50,10 +56,21 @@ package states
 			var vo:ThemeVo
 			var img:ImagePuppet
 			var imgBtn:ImageButton
+			var folder:IFolder
+			var files:Array
 			
 			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
 			
-			
+			if(Agony.isMoblieDevice){
+				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
+			}
+			else{
+				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
+			}
+			files = folder.getAllFiles()
+//			trace(files)
+				
+				
 			// bg
 			img = new ImagePuppet
 			this.fusion.addElement(img)
@@ -66,12 +83,14 @@ package states
 			mContent = mScroll.content
 			list.scroll.vertiReboundFactor = 1
 			list.scroll.horizReboundFactor = 1
-			dir = ThemeManager.getInstance().getThemeDirByType("animal")
-			arr = dir.themeList
-			l = arr.length
+//			dir = ThemeManager.getInstance().getThemeDirByType("animal")
+//			arr = dir.themeList
+//			l = arr.length
+			l = files.length
 			while (i < l) {
-				vo = arr[i]
-				list.addItem({data:vo}, ThemeListItem)
+//				vo = arr[i]
+//				list.addItem({data:vo}, ThemeListItem)
+				list.addItem({"file":files[i]},GalleryItem)
 				i++
 			}
 			this.fusion.addElement(list, LIST_X, LIST_Y)

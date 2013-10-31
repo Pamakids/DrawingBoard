@@ -1,21 +1,53 @@
-package org.agony2d.utils.byte 
-{
+package org.agony2d.utils.bytes {
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	
+public class BytesUtil {
 	
-public class BytesUtil
-{
-
-	public static function writeChars( chars:String, bytes:ByteArray ) : void
-	{
-		//var strBytes:ByteArray = getNewBytes();
-		//strBytes.writeMultiByte(str , 'utf-8');
-		//bytes.writeInt(strBytes.length);
-		//bytes.writeBytes(strBytes);
+	/** 合并ByteArray列表... */
+	public static function merge( AY:Array, result:ByteArray = null ) : ByteArray {
+		var bytes_A:ByteArray
+		var i:int, l:int
+		
+		if (!result) {
+			result = new ByteArray
+		}
+		else if (result.bytesAvailable) {
+			result.position = result.length
+		}
+		l = AY.length
+		while (i < l) {
+			bytes_A = AY[i++]
+			if(bytes_A){
+				result.writeUnsignedInt(bytes_A.length)
+				result.writeBytes(bytes_A)
+			}
+			else {
+				result.writeUnsignedInt(0)
+			}
+		}
+		return result
 	}
 	
-	
+	/** 拆散ByteArray列表，若单个ByteArray中不存在数据，为null... */
+	public static function unmerge( bytes:ByteArray ) : Array {
+		var AY:Array
+		var i:int, offset:int, length:int
+		var bytes_A:ByteArray
+		
+		bytes.position = 0
+		AY = []
+		while (bytes.bytesAvailable) {
+			length = bytes.readUnsignedInt()
+			AY[i++] = bytes_A = (length > 0) ? new ByteArray : null
+			if (bytes_A) {
+				bytes_A.writeBytes(bytes, offset + 4, length)
+			}
+			offset += length + 4
+			bytes.position = offset
+		}
+		return AY
+	}
 	
 	
 	

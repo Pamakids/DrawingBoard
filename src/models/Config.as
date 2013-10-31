@@ -7,6 +7,8 @@ package models
 		public static const IMAGE_BUFFERS:String    =  "buffers"
 		public static const DATA_THUMBNAILS:String  =  "thumbnails"
 		public static const DATA_FILE:String        =  "files"
+		public static const DB_FOLDER:String        =  "dbData"
+		public static const DB_THUMB:String         =  "dbThumb"
 		
 		// record...	
 		public static const MAX_RECORD_TIME:int = 15

@@ -22,10 +22,11 @@ public class ThemeListItem extends ListItem
 		image = new ImagePuppet
 		this.spaceWidth = 238
 		this.spaceHeight = 148
-		this.addElement(image,32.5,32)
+		this.addElement(image,34,32)
 		var vo:ThemeVo = this.itemArgs["data"]
 		image.load(vo.thumbnail,false)
-		image.scaleY = 138 / 151
+		image.scaleX = 0.98
+		image.scaleY = 138 / 158
 		this.userData = vo
 			
 			

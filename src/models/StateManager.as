@@ -1,5 +1,7 @@
 package models
 {
+	import flash.utils.ByteArray;
+	
 	import org.agony2d.Agony;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.notify.AEvent;
@@ -98,7 +100,7 @@ package models
 		
 		// Player...
 		private static var mPlayerExists:Boolean
-		public static function setPlayer( enabled:Boolean ) : void{
+		public static function setPlayer( enabled:Boolean, bytes:ByteArray = null ) : void{
 			if(!mPlayerExists){
 				mPlayerExists = true
 				AgonyUI.addModule("PlayerScene", PlayerSceneUIState)
@@ -106,8 +108,9 @@ package models
 			}
 			if(enabled){
 				Agony.stage.frameRate = 30
-				AgonyUI.getModule("PlayerScene").init(-1, null, false,false)
-				AgonyUI.getModule("PlayerTopAndBottom").init(-1, null, false,false)
+				// 存在bytes，表示正在播放文件。
+				AgonyUI.getModule("PlayerScene").init(-1,  bytes?[bytes]:null, false,false)
+				AgonyUI.getModule("PlayerTopAndBottom").init(-1, bytes?[bytes]:null, false,false)
 					
 			}
 			else{

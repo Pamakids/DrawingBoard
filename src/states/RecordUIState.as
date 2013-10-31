@@ -49,11 +49,10 @@ package states
 			// bg
 			{
 				bg = new SpritePuppet
-				bg.graphics.beginFill(0x0, 0.05)
+				bg.graphics.beginFill(0x0, 0.4)
 				bg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
 				//mResetBg.cacheAsBitmap = true
 				this.fusion.addElement(bg)
-				bg.interactive = false	
 			}
 			
 			// bg_A
@@ -110,17 +109,15 @@ package states
 				mBtn_C.visible = false
 			}
 			
-			RecordManager.getInstance().addEventListener(RecordManager.RECORDING, onRecording)
+			RecordManager.getInstance().addEventListener(DataEvent.RECEIVE_DATA, onProgress)
+			RecordManager.getInstance().addEventListener(RecordManager.RECORD_COMPLETE, onStopRecord)
 		}
 		
 		override public function exit() : void{
-			RecordManager.getInstance().removeEventListener(RecordManager.RECORDING, onRecording)
-			if(RecordManager.getInstance().isPlaying){
-//				RecordManager.getInstance().removeEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
-				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
-				RecordManager.getInstance().stop()
-			}
-			RecordManager.getInstance().stop()
+			RecordManager.getInstance().removeEventListener(DataEvent.RECEIVE_DATA, onProgress)
+			RecordManager.getInstance().removeEventListener(RecordManager.RECORD_COMPLETE, onStopRecord)
+//			RecordManager.getInstance().startRecord()
+//			RecordManager.getInstance().stop()
 //			AgonyUI.removeImageButtonData("record_closeRecord")
 //			AgonyUI.removeImageButtonData("record_pressToRecord")
 		}
@@ -143,63 +140,55 @@ package states
 //			trace("start...")
 		}
 		
-		private function onRecording(e:DataEvent):void{
-			mTime = e.data as Number
-			if(mTime >= Config.MAX_RECORD_TIME * 1000){
-				RecordManager.getInstance().stop()
-				mBtn_A.visible = false
-				mBtn_B.visible = true
-				mBtn_C.visible = true	
-			}
-			else{
-				mPb.range.value = mTime / Config.MAX_RECORD_TIME * 0.001
-			}
+		private function onProgress(e:DataEvent):void{
+//			mTime = e.data as Number
+//			if(mTime >= Config.MAX_RECORD_TIME * 1000){
+//				RecordManager.getInstance().stop()
+//				mBtn_A.visible = false
+//				mBtn_B.visible = true
+//				mBtn_C.visible = true	
+//			}
+//			else{
+//				mPb.range.value = Number(e.data)
+//			}
 //			trace(mTime)
+			mPb.range.value = Number(e.data)
+
 		}
 		
 		private function onStopRecord(e:AEvent):void{
-			if(mTime > 2000){
-				RecordManager.getInstance().stopRecord()
-				mPb.range.ratio = 0
-				//			trace("stop...")
-				
-				mBtn_A.visible = false
-				mBtn_B.visible = true
-				mBtn_C.visible = true
-			}
-			else{
-				mTime = 0
-			}
+//			if(mTime > 2000){
+//				RecordManager.getInstance().stopRecord()
+//				mPb.range.ratio = 0
+//				//			trace("stop...")
+//				
+//				mBtn_A.visible = false
+//				mBtn_B.visible = true
+//				mBtn_C.visible = true
+//			}
+//			else{
+//				mTime = 0
+//			}
+			
+			RecordManager.getInstance().stopRecord()
+			mPb.range.ratio = 0
+			mBtn_A.visible = false
+			mBtn_B.visible = true
+			mBtn_C.visible = true	
 		}
 		
 		private function onPlayRecord(e:AEvent):void{
 			RecordManager.getInstance().play()
 				
-			Agony.process.addEventListener(AEvent.ENTER_FRAME, onPlaying)
 			mIsPlaying = true
 			mCurrTime = 0
 //			RecordManager.getInstance().addEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
 		}
 		
 		private var mIsPlaying:Boolean
-		private function onPlaying(e:AEvent ) : void{
-			mCurrTime += Agony.process.elapsed
-			if(mCurrTime <= mTime){
-				trace(RecordManager.getInstance().ratio)
-				mPb.range.ratio = mCurrTime / mTime//RecordManager.getInstance().ratio
-			}
-			else{
-				this.doStopPlay()
-			}
-//			if(RecordManager.getInstance().ratio >= 0.99){
-//				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
-//				mPb.range.ratio = 0
-//			}
-		}
 		
 		private function doStopPlay():void{
 			if(mIsPlaying){
-				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
 				mPb.range.ratio = 0
 				mCurrTime = 0
 				mIsPlaying = false
@@ -207,8 +196,6 @@ package states
 		}
 		
 		private function onPlayComplete(e:AEvent ) : void{
-			RecordManager.getInstance().removeEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
-			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onPlaying)
 			mPb.range.ratio = 0
 			mCurrTime = 0
 		}

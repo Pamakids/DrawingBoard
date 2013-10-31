@@ -7,8 +7,10 @@ package states
 	
 	import flash.display.BitmapData;
 	import flash.display.PNGEncoderOptions;
+	import flash.events.Event;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
+	import flash.media.CameraRoll;
 	import flash.utils.ByteArray;
 	
 	import assets.ImgAssets;
@@ -18,10 +20,15 @@ package states
 	
 	import models.Config;
 	import models.DrawingManager;
+	import models.PasterManager;
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.air.AgonyAir;
+	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFile;
+	import org.agony2d.air.file.IFolder;
 	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.Touch;
@@ -30,6 +37,7 @@ package states
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.timer.DelayManager;
 	import org.agony2d.utils.ArrayUtil;
+	import org.agony2d.utils.DateUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
 	import org.agony2d.view.GestureFusion;
@@ -405,7 +413,7 @@ package states
 			}})
 		}
 		
-		private function doCreatePaster(x:Number, y:Number,key:*):GestureFusion{
+		private function doCreatePaster(x:Number, y:Number,index:int):GestureFusion{
 			var ges:GestureFusion
 			var img:ImagePuppet
 			
@@ -417,7 +425,7 @@ package states
 			ges.setGlobalCoord(x,y)
 			
 			img = new ImagePuppet(5)
-			img.embed(key)
+			img.embed(PasterManager.getInstance().getPasterRefByIndex(index))
 			ges.addElement(img)
 			
 			ges.addEventListener(AEvent.START_DRAG, onStartDrag)
@@ -449,24 +457,52 @@ package states
 			var BA:BitmapData
 			var scale:Number
 			var matrix:Matrix
+			var file:IFile
+			var folder:IFolder
 				
 			//  thumbnail
 			BA = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)
 			scale = Config.FILE_THUMBNAIL_WIDTH / mPaper.content.width * mContentRatio
 			matrix = new Matrix(scale,0,0,scale,0,0)
 			BA.draw(mContent.displayObject, matrix, null, null, null, true)
-			DrawingManager.getInstance().thumbnail = BA
+			//DrawingManager.getInstance().thumbnail = BA
+			
+			var roll:CameraRoll
+			if(CameraRoll.supportsBrowseForImage){
+				roll = new CameraRoll
+				roll.addBitmapData(BA)
+//				roll.addEventListener(Event.COMPLETE, 
+			}
 				
+			// file thumbnail
+			var fileName:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND])
+			if(Agony.isMoblieDevice){
+				folder = AgonyAir.createFolder(Config.DB_THUMB, FolderType.APP_STORAGE)
+			}
+			else{
+				folder = AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
+			}
+			file = folder.createFile(fileName, "png")
+			file.bytes = BA.encode(BA.rect, new PNGEncoderOptions)
+			file.upload()	
+				
+			bytes = new ByteArray
+			
+			bytes.writeUTF(file.url)
+				
+			trace("thumbnail: " + file.url)
 //			cachedBytesA = BA.getPixels(BA.rect)
-//			bytes.writeByte(mDrawingBgIndex)
 //			bytes.writeUnsignedInt(cachedBytesA.length)
 //			bytes.writeBytes(cachedBytesA)
 //			cachedBytesA.length = 0
-			
-			bytes = new ByteArray
 				
 			// bg
-			bytes.writeUTF(mThemeVo.dataUrl)
+			if(mThemeVo){
+				bytes.writeUTF(mThemeVo.dataUrl)
+			}
+			else{
+				bytes.writeUTF("assets/theme/img/category/animal/chicken.png")
+			}
 				
 			// paster
 			this.doAddPasterData(bytes)
@@ -487,7 +523,7 @@ package states
 			
 			while(i<l){
 				ges = mPasterFusion.getElementByLayer(i++) as GestureFusion
-				cachedBytesA.writeUTF((ges.getElementByLayer(0) as ImagePuppet).key)
+				cachedBytesA.writeShort((ges.getElementByLayer(0) as ImagePuppet).userData as int)
 				cachedBytesA.writeShort(int(ges.pivotX * 10))
 				cachedBytesA.writeShort(int(ges.pivotY * 10))
 				cachedBytesA.writeShort(int(ges.x * 10))

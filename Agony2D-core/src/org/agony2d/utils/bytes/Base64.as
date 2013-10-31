@@ -14,7 +14,7 @@
  * 
  * Optimize & Profile any Flash content with TheMiner ( http://www.sociodox.com/theminer ) 
  */  
-package org.agony2d.utils.byte
+package org.agony2d.utils.bytes
 {  
     import flash.utils.ByteArray;  
 	

@@ -179,8 +179,6 @@
     <classEntry path="org.agony2d.utils.ValidateUtil"/>
     <classEntry path="org.agony2d.utils.XMLUtil"/>
     <classEntry path="org.agony2d.utils.bezier.getClosestPoint"/>
-    <classEntry path="org.agony2d.utils.byte.Base64"/>
-    <classEntry path="org.agony2d.utils.byte.BytesType"/>
     <classEntry path="org.agony2d.utils.byte.BytesUtil"/>
     <classEntry path="org.agony2d.utils.gc"/>
     <classEntry path="org.agony2d.utils.getClassName"/>

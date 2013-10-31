@@ -11,6 +11,7 @@ package org.agony2d.core {
 	 *  	d.  animator
 	 *  [★]
 	 *  	a.  无关执行次序...
+	 *  	b.  dual-track system...
 	 */
 public class NextUpdaterManager {
 	
@@ -36,15 +37,19 @@ public class NextUpdaterManager {
 	}
 	
 	agony_internal static function updateAllNextUpdaters() : void {
+		var AY:Array
+		
 		if (g_nextUpdaterLength > 0) {
 			//Logger.reportMessage(NextUpdaterManager, 'Length(' + g_nextUpdaterLength + '):' + g_nextUpdaterList)
-			g_execList.push.apply(null, g_nextUpdaterList)
-			g_execLength = g_nextUpdaterLength
-			g_execIndex = g_nextUpdaterList.length = g_nextUpdaterLength = 0
+			AY                 =  g_nextUpdaterList
+			g_nextUpdaterList  =  g_execList
+			g_execList         =  AY
+			g_execLength       =  g_nextUpdaterLength
+			g_nextUpdaterList.length = g_nextUpdaterLength = 0
 			while (g_execIndex < g_execLength) {
 				g_execList[g_execIndex++].modify()
 			}
-			g_execLength = g_execList.length = 0
+			g_execIndex = g_execLength = g_execList.length = 0
 		}
 	}
 	
