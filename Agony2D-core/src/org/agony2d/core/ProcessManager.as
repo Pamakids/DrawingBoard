@@ -56,7 +56,7 @@ final public class ProcessManager extends Notifier {
 	
 	/** elapsed time between both frames (ms) */
 	public function get elapsed() : Number {
-		return m_elapsed 
+		return g_elapsed 
 	}
 	
 	public function get running() : Boolean { 
@@ -113,21 +113,22 @@ final public class ProcessManager extends Notifier {
 		var t:int
 		
 		t          =  getTimer()
-		m_elapsed  =  (t - m_oldTime) * m_timeScale
+		g_elapsed  =  (t - m_oldTime) * m_timeScale
+		
 		// Next Frame Update
 		NextUpdaterManager.updateAllNextUpdaters()
 		// Tick Action
 		if (g_tickProcessor) {
-			g_tickProcessor.advance(m_elapsed)
+			g_tickProcessor.advance(g_elapsed)
 		}
 		// Frame Action
 		if (g_frameProcessor) {
-			g_frameProcessor.advance(m_elapsed)
+			g_frameProcessor.advance(g_elapsed)
 		}
 		// User Action
 		this.dispatchDirectEvent(AEvent.ENTER_FRAME)
 		m_oldTime = t
-		//Logger.reportMessage(this, '==============PROCESS==============: ' + m_elapsed)
+		//Logger.reportMessage(this, '==============PROCESS==============: ' + g_elapsed)
 	}
 	
 	agony_internal static const KEYBOARD:int   =  90000
@@ -142,10 +143,12 @@ final public class ProcessManager extends Notifier {
 	
 	agony_internal static var g_frameProcessor:ProcessorCore, g_tickProcessor:ProcessorCore
 	agony_internal static var g_stage:Stage
+	agony_internal static var g_elapsed:int
+	
 	//agony_internal static var g_timer:Timer
 	agony_internal var m_running:Boolean
 	agony_internal var m_timeScale:Number = 1
-	agony_internal var m_oldTime:int, m_elapsed:int
+	agony_internal var m_oldTime:int
 	//agony_internal var m_frameRate:int = 30
 }
 }

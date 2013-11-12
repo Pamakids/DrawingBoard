@@ -29,6 +29,7 @@ package states
 	import org.agony2d.air.file.FolderType;
 	import org.agony2d.air.file.IFile;
 	import org.agony2d.air.file.IFolder;
+	import org.agony2d.debug.Logger;
 	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.Touch;
@@ -464,8 +465,13 @@ package states
 			BA = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)
 			scale = Config.FILE_THUMBNAIL_WIDTH / mPaper.content.width * mContentRatio
 			matrix = new Matrix(scale,0,0,scale,0,0)
+			mBoard.scaleRatio = 1
+			mContent.pivotX = 0
+			mContent.pivotY = 0
 			BA.draw(mContent.displayObject, matrix, null, null, null, true)
 			//DrawingManager.getInstance().thumbnail = BA
+			
+			Logger.reportMessage(this, "Draw : " + mContent.displayObject.width + " | " + mContent.displayObject.height + "...scale : ( " + scale + " )...")
 			
 			var roll:CameraRoll
 			if(CameraRoll.supportsBrowseForImage){

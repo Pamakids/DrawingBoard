@@ -50,13 +50,13 @@ public class Animator implements INextUpdater
 	agony_internal static const a_delayFlag:uint  =  0x002;
 	
 	/** 进行中 **/
-	agony_internal static const a_tickFlag:uint   =  0x010;
+	//agony_internal static const a_tickFlag:uint   =  0x010;
 	
 	/** 待加入 **/
-	agony_internal static const a_waitFlag:uint   =  0x020;
+	//agony_internal static const a_waitFlag:uint   =  0x020;
 	
 	/** 已加入脏列表 **/
-	agony_internal static const a_dirtyFlag:uint  =  0x100
+	//agony_internal static const a_dirtyFlag:uint  =  0x100
 	
 		
 	/** ◆◇动画时间比例系数 */
@@ -310,15 +310,11 @@ public class Animator implements INextUpdater
 	
 	agony_internal var m_reaction:ActionReaction;
 	
-	agony_internal var m_changeObserver:Object
-	
-	agony_internal var m_flags:uint;
-	
 	agony_internal var m_pointer:int;
 	
 	agony_internal var m_currentCount:int;
 	
-	agony_internal var m_repeatCount:int;
+	//agony_internal var m_repeatCount:int;
 	
 	agony_internal var cachedGroupIndex:int;
 	
@@ -505,6 +501,8 @@ public class Animator implements INextUpdater
 		return false;
 	}
 	
+	
+	
 	agony_internal function _makeImageDirty() : void
 	{
 		if (!Boolean(m_flags & a_dirtyFlag))
@@ -515,6 +513,12 @@ public class Animator implements INextUpdater
 	}
 }
 }
+
+
+
+
+
+
 //import org.agony2d.notify.Observer;
 
 final internal class ActionReaction 

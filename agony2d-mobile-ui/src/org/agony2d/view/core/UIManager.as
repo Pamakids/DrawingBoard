@@ -475,7 +475,7 @@ final class Module extends Notifier implements IModule, INextUpdater {
 		else {
 			this.doEnter()
 		}
-		Logger.reportMessage("UI -> ■" + getClassName(m_stateType), "▲[ init ]...stateArgs [ " + stateArgs + " ]", 1)
+		Logger.reportMessage("UI -> ■" + getClassName(m_stateType), "▲[ init ]...stateArgs [ " + (stateArgs ? stateArgs.length : 0) + " ]", 1)
 	}
 	
 	public function exit() : void {

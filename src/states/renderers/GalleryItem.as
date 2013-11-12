@@ -49,7 +49,7 @@ public class GalleryItem extends ListItem
 		mBytes.position = 4
 		thumbnail = mBytes.readUTF()
 		mImg.load(thumbnail,false)
-		mImg.scaleX = 0.95
+		mImg.scaleX = 0.96
 		mImg.scaleY = 0.77
 			
 			

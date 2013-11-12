@@ -15,9 +15,11 @@ package states
 	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.input.TouchManager;
 	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
+	import org.agony2d.timer.DelayManager;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
@@ -192,8 +194,12 @@ package states
 		
 		private function onTopComplete(e:AEvent):void{
 			Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
-			StateManager.setGameScene(false)
-			StateManager.setPlayer(true)
+//			TouchManager.getInstance().isLocked = true
+//			DelayManager.getInstance().delayedCall(0.6, function():void{
+				StateManager.setGameScene(false)
+				StateManager.setPlayer(true)
+//			})
+//			TouchManager.getInstance().isLocked = false
 		}
 		
 		
