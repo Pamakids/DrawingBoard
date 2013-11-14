@@ -124,7 +124,7 @@ package states
 		}
 		
 		override public function exit():void{
-			TouchManager.getInstance().velocityEnabled = false
+			//TouchManager.getInstance().velocityEnabled = false
 			TweenLite.killTweensOf(mContent)
 //			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, onScrollBeginning)
 				

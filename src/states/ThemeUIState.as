@@ -31,11 +31,6 @@ package states
 
 	public class ThemeUIState extends UIState
 	{
-		public function ThemeUIState()
-		{
-			
-		}
-		
 		
 		private const LIST_X:int = -20
 		private const LIST_Y:int = 62
@@ -75,7 +70,7 @@ package states
 			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
 			mScroll = list.scroll
 			mContent = mScroll.content
-			list.scroll.vertiReboundFactor = 1
+			list.scroll.vertiReboundFactor = 0.5
 			list.scroll.horizReboundFactor = 1
 			dir = ThemeManager.getInstance().getThemeDirByType(this.stateArgs[0])
 			arr = dir.themeList
@@ -111,7 +106,7 @@ package states
 		}
 		
 		override public function exit():void {
-			TouchManager.getInstance().velocityEnabled = false
+//			TouchManager.getInstance().velocityEnabled = false
 			TweenLite.killTweensOf(mContent)
 		}
 		
@@ -158,7 +153,7 @@ package states
 			else if (velocityY != 0)
 			{
 //				mContent.interactive = false
-				TweenLite.to(mContent, 0.65, { y:mContent.y + velocityY * 15,
+				TweenLite.to(mContent, 0.65, { y:mContent.y + velocityY * 20,
 					ease:Cubic.easeOut,
 					onUpdate:function():void
 					{

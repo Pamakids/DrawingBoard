@@ -76,7 +76,7 @@ package models
 			}
 			
 			if(enabled){
-				Agony.stage.frameRate = 30
+				//Agony.stage.frameRate = 30
 				AgonyUI.getModule("GameScene").init(-1, [vo], false,false)
 				if(!Agony.isMoblieDevice){
 					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, -100, 1, LayoutType.F__AF)
@@ -88,7 +88,7 @@ package models
 				
 			}
 			else{
-				Agony.stage.frameRate = 50
+				//Agony.stage.frameRate = 50
 				AgonyUI.getModule("GameScene").exit()
 				AgonyUI.getModule("GameBottom").exit()
 				AgonyUI.getModule("GameTop").exit()
@@ -107,7 +107,7 @@ package models
 				AgonyUI.addModule("PlayerTopAndBottom", PlayerTopAndBottomUIState)
 			}
 			if(enabled){
-				Agony.stage.frameRate = 30
+				//Agony.stage.frameRate = 30
 				// 存在bytes，表示正在播放文件。
 				AgonyUI.getModule("PlayerScene").init(-1,  bytes?[bytes]:null, false,false)
 				AgonyUI.getModule("PlayerTopAndBottom").init(-1, bytes?[bytes]:null, false,false)

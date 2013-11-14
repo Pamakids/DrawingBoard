@@ -10,6 +10,7 @@ package states
 	import models.ThemeManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
@@ -106,11 +107,14 @@ package states
 				imgBtn = new ImageButton("btn_shop")
 				this.fusion.addElement(imgBtn, -390, 570, LayoutType.F__AF)
 			}
+			
+			TouchManager.getInstance().velocityEnabled = true
 		}
 		
 		override public function exit():void{
 			AgonyUI.removeImageButtonData("btn_gallery")
 			AgonyUI.removeImageButtonData("btn_shop")
+//			TouchManager.getInstance().velocityEnabled = false
 			this.doCheckScrolling()
 			if(mIsTweeningScaleItem){
 				TweenLite.killTweensOf(mThemeList[mIndex])
@@ -159,10 +163,21 @@ package states
 			}
 			else{
 				var N:Number = MathUtil.getNeareatValue(mRadioList.scroll.horizRatio, 0, 1, mNumitems)
+				var l:int = mNumitems
+				var interval:Number = 1 / ((l < 2 ? 2 : l) - 1)
+				
 	//			trace(N)
+				if(AgonyUI.currTouch.velocityX <= -3){
+					N = (N >=1) ? 1 : N + interval
+				}
+				else if(AgonyUI.currTouch.velocityX >= 3){
+					N = (N <= 0) ? 0 : N - interval
+				}
 				mScrolling = true	
-				var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 7
+				var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 5
 				TweenLite.to(mRadioList.scroll, duration, {horizRatio:N,onComplete:onValidateScrollComplete})
+//				trace(AgonyUI.currTouch)
+
 				mIndex = Math.round(N * (mNumitems - 1))
 			}
 //			trace("scale index: " + N + "..." + mIndex)

@@ -59,8 +59,13 @@ public class AgonySprite extends Sprite {
 		this.reset()
 	}
 	
+	
 	agony_internal static var cachedPoint:Point
 	
-	agony_internal var m_alpha:Number, m_scaleX:Number, m_scaleY:Number, m_rotation:Number	
+	agony_internal var m_scaleX:Number
+	agony_internal var m_scaleY:Number
+	agony_internal var m_alpha:Number
+	agony_internal var m_rotation:Number
+	
 }
 }

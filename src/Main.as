@@ -26,7 +26,7 @@ package
 	
 	import states.RecordUIState;
 	
-	[SWF(width = "1024", height = "768", frameRate = "30", backgroundColor = "0xdddddd")]
+	[SWF(width = "1024", height = "768", frameRate = "60", backgroundColor = "0xdddddd")]
 	public class Main extends Sprite 
 	{
 		public function Main() 

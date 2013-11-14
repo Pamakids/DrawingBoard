@@ -144,14 +144,14 @@ package states
 				{
 					mStateFusion.setState(GameBottomBrushUIState)
 					Agony.process.dispatchDirectEvent(STATE_TO_BRUSH)
-					Agony.stage.frameRate = 30
+					//Agony.stage.frameRate = 30
 					break;
 				}
 				case 1:
 				{
 					mStateFusion.setState(GameBottomPasterUIState)
 					Agony.process.dispatchDirectEvent(STATE_TO_PASTER)
-					Agony.stage.frameRate = 45
+					//Agony.stage.frameRate = 45
 				}
 				default:
 				{
