@@ -101,7 +101,6 @@ final public class DelayManager implements IProcess {
 		if (complete) {
 			dp.callback.apply(null, dp.params)
 		}
-		recycleDelay(dp)
 		// only
 		if (--m_numDelay == 0) {
 			m_delayProps.length = 1
@@ -132,7 +131,6 @@ final public class DelayManager implements IProcess {
 		if (complete) {
 			dp.callback.apply(null, dp.params)
 		}
-		recycleDelay(dp)
 		// only
 		if (--m_numDelay == 0) {
 			m_delayProps.length = 1
@@ -157,18 +155,16 @@ final public class DelayManager implements IProcess {
 		
 		if (m_numDelay > 0) {
 			if (complete) {
-				while (--m_numDelay > 0) {
-					dp = m_delayProps[m_numDelay]
+				while (m_numDelay > 0) {
+					dp = m_delayProps[m_numDelay--]
 					dp.callback.apply(null, dp.params)
 					delete m_masterList[dp.delayID]
-					recycleDelay(dp)
 				}
 			}
 			else {
-				while (--m_numDelay > 0) {
-					dp = m_delayProps[m_numDelay]
+				while (m_numDelay > 0) {
+					dp = m_delayProps[m_numDelay--]
 					delete m_masterList[dp.delayID]
-					recycleDelay(dp)
 				}
 			}
 			m_delayProps.length = 1
@@ -196,7 +192,6 @@ final public class DelayManager implements IProcess {
 				m_delayProps.pop()
 				delete m_masterList[dp.delayID]
 				dp.callback.apply(null, dp.params)
-				recycleDelay(dp)
 				// a new delay is maybe added while the tail callback is executed...
 				if(m_numDelay == 0){
 					this.doComplete()
@@ -209,7 +204,6 @@ final public class DelayManager implements IProcess {
 			}
 			delete m_masterList[dp.delayID]
 			dp.callback.apply(null, dp.params)
-			recycleDelay(dp)
 			dp = m_delayProps[1]
 		}
 	}
@@ -270,15 +264,7 @@ final public class DelayManager implements IProcess {
 		m_oldTime = 0
 	}
 	
-	private static function recycleDelay( prop:DelayProp ) : void {
-		prop.callback = null
-		prop.params = null
-		cachedDelayList[cachedDelayLength++] = prop
-	}
-	
 	private static var g_instance:DelayManager
-	private static var cachedDelayList:Array = []
-	private static var cachedDelayLength:int
 	
 	private var m_delayProps:Vector.<DelayProp> = new <DelayProp>[null]
 	private var m_masterList:Object = {}  //  delayID : DelayProp

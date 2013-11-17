@@ -43,10 +43,12 @@ public class AbstractMovieClipButton extends AbstractButton {
 		Logger.reportMessage("MovieClip Button", "add movieClip button data : [ " + dataName + " ]...")
 	}
 	
+	// 内部的sprite
 	public function get sprite() : SpritePuppet { 
 		return m_sprite 
 	}
 	
+	// 实际显示的MovieClip
 	public function get movieClip() : MovieClip { 
 		return m_movieClip
 	}

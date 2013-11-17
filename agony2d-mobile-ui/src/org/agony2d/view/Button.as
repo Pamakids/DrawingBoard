@@ -5,6 +5,10 @@ package org.agony2d.view {
 	import org.agony2d.core.agony_internal;
 	use namespace agony_internal;
 	
+	/** 普通按钮，使用MovieClip
+	 * @param 使用加入的数据
+	 * @see   AgonyUI.addMovieClipButtonData
+	 */
 public class Button extends AbstractMovieClipButton {
 	
 	public function Button( dataName:String ) {

@@ -70,10 +70,12 @@ final public class ImagePuppet extends SmoothProxy {
 		m_bitmapDataList = {}
 	}
 	
+	/** 数据源 */
 	public function get key() : String {
 		return m_key
 	}
 	
+	/** 图片bitmapData */
 	public function get bitmapData() : BitmapData { 
 		return m_view.m_img.bitmapData 
 	}
@@ -99,6 +101,10 @@ final public class ImagePuppet extends SmoothProxy {
 		m_cacheAsBitmap = m_view.cacheAsBitmap = b
 	}
 	
+	/** 嵌入图片
+	 *  @param	bitmapRef	图片Class或类名称
+	 *  @param	cached		是否进行缓存
+	 */
 	public function embed( bitmapRef:*, cached:Boolean = true ) : void {
 		var key:String
 		var BP:Bitmap
@@ -125,6 +131,11 @@ final public class ImagePuppet extends SmoothProxy {
 		this.adjustAlign()
 	}
 	
+	/** 加载图片并显示，完成后派发complete事件
+	 *  @param	url
+	 *  @param	cached
+	 *  @param	optional
+	 */
 	public function load( url:String, cached:Boolean = true, optional:* = null ) : void {
 		var BA:BitmapData
 		

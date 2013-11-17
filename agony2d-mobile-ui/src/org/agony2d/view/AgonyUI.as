@@ -89,6 +89,10 @@ public class AgonyUI {
 			 "，[ fusionComp ]..."      + FusionComp.cachedFusionLength
 	}
 	
+	/** 启动UI，初始化方法
+	 *  @param	invalidWhenLeave		若为true，表示触摸离开组件后相关的交互失效
+	 *  @param	hasMaskForAspectRatio	是否保留宽高比例，true表示保留，四周填补黑色
+	 */
 	public static function startup( invalidWhenLeave:Boolean, hasMaskForAspectRatio:Boolean = false ) : void {
 		if (!ProcessManager.g_stage) {
 			Logger.reportError("AgonyUI", "startup", "AgonyCore has not started up...!!");
@@ -101,12 +105,17 @@ public class AgonyUI {
 		UIManager.initialize(hasMaskForAspectRatio)
 	}
 	
-	/** 拖拽超过边界，是否进行方向跟随...optional[ false ] */
+	/** 设定拖拽超过边界后，是否进行方向跟随
+	 *  @param	optional，false
+	 */
 	public static function setDragOutFollowed( b:Boolean ) : void {
 		ComponentProxy.m_isDragOutFollowed = b 
 	}
 	
-	/** @see [ ■org.agony2d.view.enum.ButtonEffectType ]...optional[ LEAVE_LEAVE (0)] */
+	/** 设定按钮反应类型，press-over-leave变换时的效果
+	 *  @param	type 
+	 *  @usage	[ ■org.agony2d.view.enum.ButtonEffectType ]，optional（LEAVE_LEAVE）
+	 */
 	public static function setButtonEffectType( type:int ) : void {
 		if (type < 0 || type > 2) {
 			Logger.reportError("AgonyUI", "setButtonEffectType", "button effect type error : [ " + type + " ]...")
@@ -114,33 +123,53 @@ public class AgonyUI {
 		AbstractButton.m_effectType = type
 	}
 	
-	/** @see [ ■org.agony2d.view.enum.ImageButtonType ] */
+	/** 加入图片按钮数据
+	 *  @param	source
+	 *  @param	dataName
+	 *  @param	type	 [ ■org.agony2d.view.enum.ImageButtonType ]
+	 */
 	public static function addImageButtonData( source:*, dataName:String, type:int ) : void {
 		AbstractImageButton.addImageButtonData(source, dataName, type)
 	}
 	
+	/** 移除画像按钮数据
+	 *  @param	dataName
+	 */
 	public static function removeImageButtonData( dataName:String ) : void {
 		AbstractImageButton.removeImageButtonData(dataName)
 	}
 	
+	/** 加入影片剪辑按钮数据
+	 *  @param	source
+	 *  @param	dataName
+	 */
 	public static function addMovieClipButtonData( source:*, dataName:String ) : void {
 		AbstractMovieClipButton.addMovieClipButtonData(source, dataName)
 	}
 	
+	/** 加入模块
+	 *  @param	module
+	 *  @param	stateType
+	 *  @return 返回生成的模块
+	 *  @usage 模块一旦被加入，不需削除，只需显示(init)或退出(exit)
+	 */
 	public static function addModule( module:*, stateType:Class ) : IModule {
 		return UIManager.addModule(module, stateType)
 	}
 	
+	/** 获取模块
+	 *  @param	module
+	 *  @return 
+	 */
 	public static function getModule( module:* ) : IModule {
 		return UIManager.getModule(module)
 	}
 	
+	/** 退出全部模块
+	 *  @param	exceptModuleNames
+	 */
 	public static function exitAllModules( exceptModuleNames:Array = null ) : void {
 		UIManager.exitAllModules(exceptModuleNames)
-	}
-	
-	public static function contains ( element:IComponent, fusion:IComponent ) : Boolean {
-		return UIManager.contains(element, fusion)
 	}
 	
 	public static function getPuppetUnderTouch( touch:Touch ) : IComponent {
@@ -151,19 +180,34 @@ public class AgonyUI {
 		return UIManager.getTouchIn(c)
 	}
 	
+	/** 为组件增加双击侦听器
+	 *  @param	target
+	 *  @param	listener
+	 *  @param	priority
+	 */
 	public static function addDoublePressEvent( target:IComponent, listener:Function, priority:int = 0 ) : void {
 		UIManager.addDoublePressEvent(target, listener, priority)
 	}
 	
+	/** 削除组件上的双击侦听器
+	 *  @param	target
+	 *  @param	listener
+	 */
 	public static function removeDoublePressEvent( target:IComponent, listener:Function ) : void {
 		UIManager.removeDoublePressEvent(target, listener)
 	}
 	
+	/** 削除组件上的全部双击侦听器
+	 *  @param	target
+	 */
 	public static function removeAllDoublePressEvent( target:IComponent ) : void {
 		UIManager.removeAllDoublePressEvent(target)
 	}
 	
-	/** optional[ 0.2 ] */
+	/** 设定双击间隔
+	 *  @param v 
+	 *  @usage optional 0.2s
+	 */
 	public static function setDoubliePressInterval( v:Number ) : void {
 		UIManager.m_doubliePressInterval = v
 	}

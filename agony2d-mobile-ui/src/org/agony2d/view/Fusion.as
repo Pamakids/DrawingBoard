@@ -48,6 +48,9 @@ package org.agony2d.view {
 												Bottom                               
 		
 		[ add sub element × add other view ]... -> [ layout ]... -> [ set pivot ]...
+		A : 要加入的元素
+		B : 内部的相对元素
+		F : 容器本身
 	 */
 public class Fusion extends SmoothProxy {
 	
@@ -56,14 +59,17 @@ public class Fusion extends SmoothProxy {
 		paddingLeft = paddingRight = paddingTop = paddingBottom = 0
 	}
 	
+	// 元素数目
 	public function get numElement() : int { 
 		return m_numElement 
 	}
 	
+	// 元素列表
 	public function get elementList() : Array {
 		return m_elementList
 	}
 	
+	// 上一元素的索引位置，有时加入新元素时会有用
 	public function get position() : int {
 		return m_bb ? m_elementList.indexOf(m_bb) : null
 	}
@@ -72,8 +78,16 @@ public class Fusion extends SmoothProxy {
 		m_bb = m_elementList[v]
 	}
 	
+	// 内部布局边距
 	public var paddingLeft:Number, paddingRight:Number, paddingTop:Number, paddingBottom:Number
 	
+	/** 加入元素
+	 *  @param	c
+	 *  @param	gapX
+	 *  @param	gapY
+	 *  @param	horizLayout
+	 *  @param	vertiLayout
+	 */
 	public function addElement( c:IComponent, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
 		var cc:ComponentProxy
 		
@@ -83,6 +97,14 @@ public class Fusion extends SmoothProxy {
 		this.doRender(cc, -1)
 	}
 	
+	/** 插入元素
+	 *  @param	c
+	 *  @param	layer
+	 *  @param	gapX
+	 *  @param	gapY
+	 *  @param	horizLayout
+	 *  @param	vertiLayout
+	 */
 	public function addElementAt( c:IComponent, layer:int = -1, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
 		var cc:ComponentProxy
 		
@@ -92,10 +114,18 @@ public class Fusion extends SmoothProxy {
 		this.doRender(cc, layer)
 	}
 	
+	/** 设定元素图层（索引）
+	 *  @param	c
+	 *  @param	layer
+	 */
 	public function setElementLayer( c:IComponent, layer:int ) : void {
 		m_view.setChildIndex((c as ComponentProxy).shell, layer)
 	}
 	
+	/** 由图层（索引）获取元素
+	 *  @param	layer
+	 *  @return
+	 */
 	public function getElementByLayer( layer:int ) : IComponent {
 		var obj:AgonySprite
 		
@@ -103,6 +133,8 @@ public class Fusion extends SmoothProxy {
 		return (obj is PivotSprite) ? (obj.getChildAt(0) as Component).m_proxy as IComponent : (obj as Component).m_proxy as IComponent
 	}
 	
+	/** 削除全部元素
+	 */
 	public function removeAllElement() : void {
 		var l:int
 		
@@ -114,7 +146,13 @@ public class Fusion extends SmoothProxy {
 		m_elementList.length = m_numElement = 0
 	}
 	
-	/** [ A ] 本体，[ B ] 前体，[ F ] 父合体 */
+	/** 重新为元素布局
+	 *  @param	aa
+	 *  @param	gapX
+	 *  @param	gapY
+	 *  @param	horizLayout
+	 *  @param	vertiLayout
+	 */
 	public function layoutElement( aa:ComponentProxy, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
 		var shellA:AgonySprite
 		var AX:Number, AY:Number
