@@ -279,6 +279,17 @@ public class ComponentProxy implements IComponent {//, INextUpdater {
 		this.setGlobalCoord(m_touchForDrag.stageX / m_pixelRatio - offsetX, m_touchForDrag.stageY / m_pixelRatio - offsetY)
 	}
 	
+	public function stopDrag() : void {
+		if (m_touchForDrag) {
+			m_touchForDrag.removeEventListener(AEvent.MOVE,    ____onDragging)
+			AgonyUI.fusion.removeEventListener(AEvent.RELEASE, ____onDragComplete)
+			m_dragging = m_dragged = false
+			m_touchForDrag = null
+			if (cachedInteractive) {
+				view.interactive = true
+			}
+		}
+	}
 	/** 内部(本地坐标，是否可见，可交互) */
 	agony_internal function get view() : Component { 
 		return null 

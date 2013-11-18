@@ -178,6 +178,7 @@ package states
 		
 		private function onStopDrag(e:AEvent):void{
 			this.hideBottom(!mClosed)
+//			Agony.process.dispatchDirectEvent(HIDE_GAME_BOTTOM_PANEL)
 		}
 			
 			

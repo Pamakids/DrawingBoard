@@ -114,11 +114,13 @@ package states
 			this.doSelectBrush(0)
 				
 			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
+			Agony.process.addEventListener(GameSceneUIState.START_DRAW, onStopDragSlider)
 		}
 		
 		override public function exit():void
 		{
 			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
+			Agony.process.removeEventListener(GameSceneUIState.START_DRAW, onStopDragSlider)
 			TweenLite.killTweensOf(mCurrBrushImg)
 		}
 		
@@ -198,12 +200,17 @@ package states
 		private function onSceneBottomVisibleChange(e:DataEvent):void{
 			if(e.data as Boolean){
 				TweenLite.to(mCurrBrushImg, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:mRawBrushY,overwrite:1})
+				mBrushScaleSlider.thumb.stopDrag()
+				
 			}
 			else{
+				
 				TweenLite.to(mCurrBrushImg, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:mBrushCoordsA[DrawingManager.getInstance().paper.brushIndex].y,overwrite:1})
 			}
 		}
 		
-			
+		private function onStopDragSlider(e:AEvent):void{
+			mBrushScaleSlider.thumb.stopDrag()
+		}
 	}
 }

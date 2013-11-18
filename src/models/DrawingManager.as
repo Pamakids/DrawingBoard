@@ -110,7 +110,7 @@ package models
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_waterColor)).bitmapData], 0, 6,0,0,true);
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 6,0,0,true)
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 6,0,0,true)
-			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 4)
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 3)
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_maker)).bitmapData], 4, 6,0,0,true)
 			brush = mPaper.createEraseBrush(eraser, 5, 8)
 			

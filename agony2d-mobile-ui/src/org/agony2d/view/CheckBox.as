@@ -20,6 +20,11 @@ public class CheckBox extends AbstractMovieClipButton {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return 
+	 * 
+	 */	
 	public function get selected() : Boolean { 
 		return m_selected
 	}

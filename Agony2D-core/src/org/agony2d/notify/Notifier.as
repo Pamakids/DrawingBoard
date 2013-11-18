@@ -47,28 +47,30 @@ package org.agony2d.notify {
 	
 	use namespace agony_internal;
 	
-	/** [ Notifier ]
-	 *  [◆◆]
-	 *		1.  addEventListener
-	 * 		2.  removeEventListener
-	 * 		3.  removeEventAllListeners
-	 * 		4.  removeAllListeners
-	 * 		5.  hasEventListener
-	 *  	6.  hasAnyEventListener
-	 * 		7.  dispatchEvent
-	 * 		8.  dispatchDirectEvent
-	 *  	9.  kill
-	 *  [★]
-	 *  	a. [ addEventListener ]...slower than native 30~40%...
-	 *  	b. [ removeEventListener / removeEventAllListeners (more) / removeAllListeners (more) ]...faster than native 400%+...!!
-	 *  	c. [ dispatchEvent / dispatchDirectEvent (faster when ob type doesn't exist) ]...faster than native 20~50%...!!
+	/** The Notifier class is the base class for all agony2d classes that dispatch events, implements the INotifier interface.
+	 *   It is an extremely fast, lightweight system, and very like the original flash.events.EventDispatcher.
 	 */
 public class Notifier implements INotifier {
 	
+	/** Constructor
+	 * @param	target	The target object for events dispatched to. 
+	 */
 	public function Notifier( target:Object = null ) {
 		m_target = target ? target : this
 	}
 	
+	/** Registers an event listener object with an Notifier object so that the listener receives notification of an event.
+	 * @param	type	The type of event.
+	 * @param	listener	The listener function that processes the event. This function must accept
+	 *   an Event object as its only parameter and must return nothing, as this example shows:
+	 *   <codeblock>
+	 *   function(e:AEvent):void
+	 *   </codeblock>
+	 *   The function can have any name.
+	 * @param	priority	The priority level of the event listener. The higher the number, 
+	 *   the higher the priority. If two or more listeners share the same priority,
+	 *   the listener which added later will be processed earlier. The default priority is 0.
+	 */
 	public function addEventListener( type:String, listener:Function, priority:int = 0 ) : void {
 		var ob:Observer
 		
@@ -85,6 +87,11 @@ public class Notifier implements INotifier {
 		ob.addListener(listener, priority)
 	}
 	
+	/** Removes a listener from the Notifier object. If there is no matching listener 
+	 *   registered with the Notifier object, a call to this method has no effect.
+	 * @param	type	The type of event.
+	 * @param	listener	The listener object to remove.
+	 */
 	public function removeEventListener( type:String, listener:Function ) : void {
 		var ob:Observer
 		
@@ -101,6 +108,9 @@ public class Notifier implements INotifier {
 		}
 	}
 	
+	/** Removes all listeners for a specific type of event from the Notifier object.
+	 * @param	type	The type of event.
+	 */
 	public function removeEventAllListeners( type:String ) : void {
 		var ob:Observer
 		
@@ -111,6 +121,7 @@ public class Notifier implements INotifier {
 		}
 	}
 	
+	/** Removes all listeners from the Notifier object. */
 	public function removeAllListeners() : void {
 		var ob:*
 		
@@ -122,10 +133,17 @@ public class Notifier implements INotifier {
 		}
 	}
 	
+	/** Checks whether the Notifier object has any listener registered for a specific type of event. 
+	 * @param	type
+	 * @return	A value of true if a listener of the specified type is registered.
+	 */
 	public function hasEventListener( type:String ) : Boolean {
 		return m_obList ? m_obList[type] : false
 	}
 	
+	/** Checks whether the Notifier object has any listener registered. 
+	 * @return	A value of true if any listener is registered.
+	 */
 	public function hasAnyEventListener() : Boolean {
 		var ob:*
 		
@@ -138,6 +156,9 @@ public class Notifier implements INotifier {
 		return false
 	}
 	
+	/** Dispatches an event
+	 * @param	event	The AEvent object that is dispatched.
+	 */
 	public function dispatchEvent( event:AEvent ) : Boolean {
 		var ob:Observer
 		
@@ -151,7 +172,9 @@ public class Notifier implements INotifier {
 		return false
 	}
 	
-	/** just be only used by ■AEvent... */
+	/** Dispatches an direct event, just be only used by <b>org.agony2d.notifier.AEvent</b>.
+	 * @param	type	The event type
+	 */
 	public function dispatchDirectEvent( type:String ) : Boolean {
 		var ob:Observer
 		var event:AEvent

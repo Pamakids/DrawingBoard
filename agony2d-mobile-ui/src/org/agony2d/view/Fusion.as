@@ -1,3 +1,44 @@
+
+/** [ Fusion ]
+ *  [◆]
+ * 		1.  numElement
+ *  	2.  position
+ *  	3.  paddingLeft × paddingRight × paddingTop × paddingBottom
+ *  [◆◆]
+ *  	1.  addElement
+ *		2.  addElementAt
+ * 		3.  setElementLayer
+ * 		4.  getElementByLayer
+ * 		5.  removeAllElement
+ *  [★]
+ *  	a.  Fusion应该继承自[ AbstractFusion ]，以区别与[ List ]之间的矛盾关系...!!
+ Top
+ ------------------------------------------------------------------↓-------
+ |                                                    paddingTop ← ↓	    |
+ |                                                                 ↓      |
+ |                                 A__B                   (origin) ● ← ← ←|
+ |          --------------------------------                       ↑		|
+ |     A__B | BA                    BA     |                 paddingRight |
+ |          | 　　　                       |                              |
+ |          |                          AB  | B__A                  |      |    
+ |          |        AB    				 |                       |      |
+ Left |          ---↓---------------------------- ← ← ← ← ← ← gapX ← ← ←|		| Right
+ |           → ■    B__A   				 ↑                       |      |
+ |                                         ↑                       |      |
+ |                                         ↑                              | 
+ | paddingLeft                            gapY                			|
+ |    ↓                                  	 ↑               		   		|
+ |→ → → ● (origin)                     ---------                  		|
+ |      ↑                                  ↑                     			|
+ |      ↑ → paddingBottom                  ↑           					|
+ -------↑------------------------------------------------------------------
+ Bottom                               
+ 
+ [ add sub element × add other view ]... -> [ layout ]... -> [ set pivot ]...
+ A : 要加入的元素
+ B : 内部的相对元素
+ F : 容器本身
+ */
 package org.agony2d.view {
 	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
@@ -12,46 +53,7 @@ package org.agony2d.view {
 	
 	use namespace agony_internal;
 	
-	/** [ Fusion ]
-	 *  [◆]
-	 * 		1.  numElement
-	 *  	2.  position
-	 *  	3.  paddingLeft × paddingRight × paddingTop × paddingBottom
-	 *  [◆◆]
-	 *  	1.  addElement
-	 *		2.  addElementAt
-	 * 		3.  setElementLayer
-	 * 		4.  getElementByLayer
-	 * 		5.  removeAllElement
-	 *  [★]
-	 *  	a.  Fusion应该继承自[ AbstractFusion ]，以区别与[ List ]之间的矛盾关系...!!
-												Top
-		   ------------------------------------------------------------------↓-------
-		   |                                                    paddingTop ← ↓	    |
-		   |                                                                 ↓      |
-		   |                                 A__B                   (origin) ● ← ← ←|
-		   |          --------------------------------                       ↑		|
-		   |     A__B | BA                    BA     |                 paddingRight |
-		   |          | 　　　                       |                              |
-		   |          |                          AB  | B__A                  |      |    
-		   |          |        AB    				 |                       |      |
-	  Left |          ---↓---------------------------- ← ← ← ← ← ← gapX ← ← ←|		| Right
-		   |           → ■    B__A   				 ↑                       |      |
-		   |                                         ↑                       |      |
-		   |                                         ↑                              | 
-		   | paddingLeft                            gapY                			|
-		   |    ↓                                  	 ↑               		   		|
-		   |→ → → ● (origin)                     ---------                  		|
-		   |      ↑                                  ↑                     			|
-		   |      ↑ → paddingBottom                  ↑           					|
-		   -------↑------------------------------------------------------------------
-												Bottom                               
-		
-		[ add sub element × add other view ]... -> [ layout ]... -> [ set pivot ]...
-		A : 要加入的元素
-		B : 内部的相对元素
-		F : 容器本身
-	 */
+	/** 容器，可加入其它元素 */
 public class Fusion extends SmoothProxy {
 	
 	public function Fusion() {
@@ -83,10 +85,10 @@ public class Fusion extends SmoothProxy {
 	
 	/** 加入元素
 	 *  @param	c
-	 *  @param	gapX
-	 *  @param	gapY
-	 *  @param	horizLayout
-	 *  @param	vertiLayout
+	 *  @param	gapX	位移差X
+	 *  @param	gapY	位移差Y
+	 *  @param	horizLayout	水平布局类型
+	 *  @param	vertiLayout	垂直布局类型
 	 */
 	public function addElement( c:IComponent, gapX:Number = NaN, gapY:Number = NaN, horizLayout:int = 1, vertiLayout:int = 1 ) : void {
 		var cc:ComponentProxy
