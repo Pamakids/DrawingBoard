@@ -8,6 +8,9 @@ package org.agony2d.air {
 	
 	use namespace agony_internal;
 	
+	/**
+	 * 负责处理本地系统（文件等）
+	 */
 public class AgonyAir {
 	
 	/** 代理指定文件夹(不存在则自动生成)
