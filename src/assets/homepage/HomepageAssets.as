@@ -29,5 +29,6 @@ package assets.homepage
 		[Embed(source="img/common/title.png")] public static const title:Class
 		
 		
+		[Embed(source="img/common/noFile.png")] public static const noFile:Class
 	}
 }

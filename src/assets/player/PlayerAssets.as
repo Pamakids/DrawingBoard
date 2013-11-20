@@ -18,5 +18,8 @@ package assets.player
 		[Embed(source="img/mic.png")] public static const mic:Class
 		[Embed(source="img/recordBg.png")] public static const recordBg:Class
 		[Embed(source="img/player_bird.png")] public static const player_bird:Class
+		
+		[Embed(source="img/backToGallery.png")] public static const backToGallery:Class
+		[Embed(source="img/backToPrev.png")] public static const backToPrev:Class
 	}
 }
