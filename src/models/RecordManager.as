@@ -38,6 +38,10 @@ public class RecordManager extends Notifier
 		mBytes = v ? v : new ByteArray
 	}
 	
+	public function get hasRecord() : Boolean{
+		return mBytes && mBytes.length
+	}
+	
 	public var canRecord:Boolean
 	
 //	public function get recordRatio() : Number {

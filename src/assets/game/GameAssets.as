@@ -41,6 +41,9 @@ package assets.game
 		[Embed(source="img/common/bottom_right.png")] public static const bottom_right:Class
 		
 		
+		[Embed(source="img/common/game_Back.png")] public static const game_Back:Class
+		[Embed(source="img/common/game_Clear.png")] public static const game_Clear:Class
+		[Embed(source="img/common/game_complete.png")] public static const game_complete:Class
 		
 		
 		// brush

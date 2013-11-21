@@ -43,7 +43,7 @@ package states
 		
 		override public function enter():void
 		{
-			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_record, "btn_record", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
@@ -71,22 +71,38 @@ package states
 				this.fusion.addElement(bg)
 			}
 			
+			// complete
+			if(!mFileBytes){
+				img = new ImagePuppet
+				this.fusion.addElement(img, 18, 9)
+				img.embed(PlayerAssets.backToPrev, false)
+				img.addEventListener(AEvent.CLICK, onComplete)
+			}
+			else{
+				imgBtn = new ImageButton("btn_menu")
+				this.fusion.addElement(imgBtn, 20, 11)
+				imgBtn.addEventListener(AEvent.CLICK, onBackToGallery)
+			}
+			
+			
 			// record
 			{
 				if(!mFileBytes){
 					imgBtn = new ImageButton("btn_record")
-					this.fusion.addElement(imgBtn, 950, 8)
+					this.fusion.addElement(imgBtn, 700, 13)
 					imgBtn.addEventListener(AEvent.CLICK, onShowRecordUI)
 				}
-
+				
 			}
 			
-			// complete
-			{
-				imgBtn = new ImageButton("btn_complete")
-				this.fusion.addElement(imgBtn, 18, 9)
-				imgBtn.addEventListener(AEvent.CLICK, onComplete)
+			// gallery
+			if(!mFileBytes){
+				img = new ImagePuppet
+				this.fusion.addElement(img, 957, 11)
+				img.embed(PlayerAssets.backToGallery, false)
+				img.addEventListener(AEvent.CLICK, onBackToGallery)
 			}
+			
 			
 			// big play btn
 			{
@@ -222,6 +238,7 @@ package states
 //			DrawingManager.getInstance().player.play()
 			Agony.process.dispatchDirectEvent(PLAYER_PLAY)
 			mPlayCheckBox.setSelected(true , true)
+			
 //			mIsPlayed = true
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 		}
@@ -284,13 +301,13 @@ package states
 		}
 		
 		private function onComplete(e:AEvent):void{
-			if(!mFileBytes){
+//			if(!mFileBytes){
 				Agony.process.dispatchDirectEvent(MERGE_FILE)
 				StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
-			}
-			else{
-				StateManager.setGallery(true)
-			}
+//			}
+//			else{
+//				StateManager.setGallery(true)
+//			}
 			StateManager.setPlayer(false)
 			
 		}
@@ -299,6 +316,14 @@ package states
 			StateManager.setRecord(true)
 //			this.doTogglePlay(false)
 			mPlayCheckBox.setSelected(false, true)
+		}
+		
+		private function onBackToGallery(e:AEvent):void{
+			if(!mFileBytes){
+				Agony.process.dispatchDirectEvent(MERGE_FILE)
+			}
+			StateManager.setGallery(true)
+			StateManager.setPlayer(false)
 		}
 	}
 }

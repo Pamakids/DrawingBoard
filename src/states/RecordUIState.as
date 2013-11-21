@@ -38,7 +38,7 @@ package states
 			var bg:SpritePuppet
 			var imgBtn:ImageButton
 			
-			AgonyUI.addImageButtonData(PlayerAssets.btn_closeRecord, "record_closeRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(PlayerAssets.btn_closeRecord, "record_closeRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_pressToRecord, "record_pressToRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_reRecord, "reRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_playRecord, "playRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
@@ -65,9 +65,13 @@ package states
 			
 			// close btn
 			{
-				imgBtn = new ImageButton("record_closeRecord")
-				this.fusion.addElement(imgBtn, 765,215)
-				imgBtn.addEventListener(AEvent.CLICK, onCloseRecord)
+//				imgBtn = new ImageButton("record_closeRecord")
+//				this.fusion.addElement(imgBtn, 765,215)
+//				imgBtn.addEventListener(AEvent.CLICK, onCloseRecord)
+				mImg = new ImagePuppet(5)
+				this.fusion.addElement(mImg, 775, 228)
+				mImg.embed(PlayerAssets.noRecord)
+				mImg.addEventListener(AEvent.CLICK, onCloseRecord)
 			}
 			
 //			{
@@ -132,12 +136,14 @@ package states
 		private var mBtn_A:ImageButton
 		private var mBtn_B:ImageButton
 		private var mBtn_C:ImageButton
+		private var mImg:ImagePuppet
 		
 		
 		
 		private function onStartRecord(e:AEvent):void{
 			RecordManager.getInstance().startRecord()
 //			trace("start...")
+			mImg.embed(PlayerAssets.hasRecord)
 		}
 		
 		private function onProgress(e:DataEvent):void{
@@ -217,6 +223,7 @@ package states
 			mBtn_B.visible = false
 			mBtn_C.visible = false
 			this.doStopPlay()
+			mImg.embed(PlayerAssets.noRecord)
 		}
 	}
 }

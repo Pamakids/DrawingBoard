@@ -78,7 +78,7 @@ package states
 			{
 				imgBtn = new ImageButton("btn_menu")
 				this.fusion.addElement(imgBtn, 18, 11)
-				imgBtn.addEventListener(AEvent.CLICK, onTopBack)
+				imgBtn.addEventListener(AEvent.CLICK, onPreTopBack)
 				mImgList.push(imgBtn)
 			}
 			
@@ -86,7 +86,7 @@ package states
 			{
 				imgBtn = new ImageButton("btn_clear")
 				this.fusion.addElement(imgBtn, 728, 16)
-				imgBtn.addEventListener(AEvent.CLICK, onTopReset)
+				imgBtn.addEventListener(AEvent.CLICK, onPreTopReset)
 				mImgList.push(imgBtn)
 				mPositonA = this.fusion.position
 			}
@@ -95,7 +95,7 @@ package states
 			{
 				mFinishBtn = new ImageButton("btn_complete")
 				this.fusion.addElement(mFinishBtn, 966, 10)
-				mFinishBtn.addEventListener(AEvent.CLICK, onTopComplete)
+				mFinishBtn.addEventListener(AEvent.CLICK, onPreTopComplete)
 				mImgList.push(mFinishBtn)
 				this.onPaperClear(null)
 			}
@@ -120,6 +120,16 @@ package states
 			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.removeEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
 			TweenLite.killTweensOf(this.fusion)
+				
+			if(mGameBack){
+				AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopBackCancel)
+			}
+			if(mGameClear){
+				AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopClearCancel)
+			}
+			if(mGameComplete){
+				AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopCompleteCancel)
+			}
 		}
 		
 		
@@ -131,75 +141,124 @@ package states
 		private var mResetBg:SpritePuppet
 		private var mFinishBtn:ImageButton
 		
+		private var mGameBack:ImagePuppet
+		private var mGameClear:ImagePuppet
+		private var mGameComplete:ImagePuppet
+		
+		
+		
+		private function onPreTopBack(e:AEvent):void{
+			mGameBack = new ImagePuppet
+			this.fusion.addElement(mGameBack, 15, 55)
+			mGameBack.embed(GameAssets.game_Back)
+			mGameBack.addEventListener(AEvent.PRESS, onTopBack)
+			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopBackCancel)
+		}
+		
+		private function onTopBackCancel(e:AEvent):void{
+			AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopBackCancel)
+			mGameBack.kill()
+			mGameBack = null
+		}
 		
 		private function onTopBack(e:AEvent):void{
+//			AgonyUI.fusion.removeEventListener(AEvent.RELEASE, onTopBackCancel)
+//			mGameBack = null
 			StateManager.setGameScene(false)
 			StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
 		}
 		
-		private function onTopReset(e:AEvent):void{
-			var img:ImagePuppet
+		private function onPreTopReset(e:AEvent):void{
+//			var img:ImagePuppet
 			
-			{
-				mResetBg = new SpritePuppet
-				mResetBg.graphics.beginFill(0x0, 0.4)
-				mResetBg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
-				//mResetBg.cacheAsBitmap = true
-				this.fusion.addElement(mResetBg)
-			}
+//			{
+//				mResetBg = new SpritePuppet
+//				mResetBg.graphics.beginFill(0x0, 0.4)
+//				mResetBg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
+//				this.fusion.addElement(mResetBg)
+//			}
 			
-			{
-				mResetFusion = new Fusion
+//			{
+//				mResetFusion = new Fusion
+//			
+//				{
+//					img = new ImagePuppet
+//					img.embed(ImgAssets.img_game_top_reset_bg)
+//					mResetFusion.addElement(img)
+//				}
+//				
+//				{
+//					img = new ImagePuppet
+//					img.embed(ImgAssets.img_game_top_reset_yes)
+//					mResetFusion.addElement(img, 17, 54)
+//					img.addEventListener(AEvent.CLICK, onResetYes)
+//				}
+//				
+//				{
+//					img = new ImagePuppet
+//					img.embed(ImgAssets.img_game_top_reset_no)
+//					mResetFusion.addElement(img, 87, 54)
+//					img.addEventListener(AEvent.CLICK, onResetNo)
+//				}
+//				this.fusion.position = mPositonA
+//				this.fusion.addElement(mResetFusion, 17, 5, LayoutType.BA, LayoutType.B__A)
+//			}
 			
-				{
-					img = new ImagePuppet
-					img.embed(ImgAssets.img_game_top_reset_bg)
-					mResetFusion.addElement(img)
-				}
-				
-				{
-					img = new ImagePuppet
-					img.embed(ImgAssets.img_game_top_reset_yes)
-					mResetFusion.addElement(img, 17, 54)
-					img.addEventListener(AEvent.CLICK, onResetYes)
-				}
-				
-				{
-					img = new ImagePuppet
-					img.embed(ImgAssets.img_game_top_reset_no)
-					mResetFusion.addElement(img, 87, 54)
-					img.addEventListener(AEvent.CLICK, onResetNo)
-				}
-				this.fusion.position = mPositonA
-				this.fusion.addElement(mResetFusion, 17, 5, LayoutType.BA, LayoutType.B__A)
-			}
+			mGameClear = new ImagePuppet
+			this.fusion.addElement(mGameClear, 696, 55)
+			mGameClear.embed(GameAssets.game_Clear)
+			mGameClear.addEventListener(AEvent.PRESS, onTopClear)
+			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopClearCancel)
 		}
 		
-		private function onResetYes(e:AEvent):void{
-			mResetFusion.kill()
-			mResetFusion = null
-			mResetBg.kill()
-			mResetBg = null
+		
+		private function onTopClearCancel(e:AEvent):void{
+			AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopClearCancel)
+			mGameClear.kill()
+			mGameClear = null
+		}
+		
+		private function onTopClear(e:AEvent):void{
+			this.onTopClearCancel(null)
+			
+//			mResetFusion.kill()
+//			mResetFusion = null
+//			mResetBg.kill()
+//			mResetBg = null
 			DrawingManager.getInstance().paper.reset()
 			this.onPaperClear(null)
 			Agony.process.dispatchDirectEvent(GAME_RESET)
 		}
 		
-		private function onResetNo(e:AEvent):void{
-			mResetFusion.kill()
-			mResetFusion = null
-			mResetBg.kill()
-			mResetBg = null
+//		private function onResetNo(e:AEvent):void{
+//			mResetFusion.kill()
+//			mResetFusion = null
+//			mResetBg.kill()
+//			mResetBg = null
+//		}
+		
+		private function onPreTopComplete(e:AEvent):void{
+			mGameComplete = new ImagePuppet
+			this.fusion.addElement(mGameComplete, 922, 55)
+			mGameComplete.embed(GameAssets.game_complete)
+			mGameComplete.addEventListener(AEvent.PRESS, onTopComplete)
+			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopCompleteCancel)
+		}
+		
+		private function onTopCompleteCancel(e:AEvent):void{
+			AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopCompleteCancel)
+			mGameComplete.kill()
+			mGameComplete = null
 		}
 		
 		private function onTopComplete(e:AEvent):void{
 			Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
-//			TouchManager.getInstance().isLocked = true
-//			DelayManager.getInstance().delayedCall(0.6, function():void{
+			
+//			DelayManager.getInstance().delayedCall(0.4, function():void{
 				StateManager.setGameScene(false)
 				StateManager.setPlayer(true)
 //			})
-//			TouchManager.getInstance().isLocked = false
+
 		}
 		
 		

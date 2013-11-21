@@ -21,5 +21,8 @@ package assets.player
 		
 		[Embed(source="img/backToGallery.png")] public static const backToGallery:Class
 		[Embed(source="img/backToPrev.png")] public static const backToPrev:Class
+		
+		[Embed(source="img/hasRecord.png")] public static const hasRecord:Class
+		[Embed(source="img/noRecord.png")] public static const noRecord:Class
 	}
 }

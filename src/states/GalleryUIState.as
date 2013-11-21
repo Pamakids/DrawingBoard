@@ -4,6 +4,7 @@ package states
 	import com.greensock.easing.Cubic;
 	
 	import assets.ImgAssets;
+	import assets.homepage.HomepageAssets;
 	import assets.theme.ThemeAssets;
 	
 	import models.Config;
@@ -26,6 +27,7 @@ package states
 	import org.agony2d.view.RadioList;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.enum.ImageButtonType;
+	import org.agony2d.view.enum.LayoutType;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.layouts.VertiLayout;
@@ -93,6 +95,14 @@ package states
 				list.addItem({"file":files[i]},GalleryItem)
 				i++
 			}
+			
+			// no file
+			if(l == 0){
+				img = new ImagePuppet
+				img.embed(HomepageAssets.noFile, false)
+				this.fusion.addElement(img, 0, 300, LayoutType.F__A__F_ALIGN)
+			}
+			
 			this.fusion.addElement(list, LIST_X, LIST_Y)
 			mScroll.addEventListener(AEvent.BEGINNING, onScrollStart)
 			mScroll.addEventListener(AEvent.COMPLETE, onScrollComplete)

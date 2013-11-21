@@ -94,7 +94,7 @@ package states
 			// back...
 			{
 				imgBtn = new ImageButton("btn_menu")
-				this.fusion.addElement(imgBtn, 20, 11)
+				this.fusion.addElement(imgBtn, 18, 10)
 				imgBtn.addEventListener(AEvent.CLICK, onBackToHomepage)
 			}
 			

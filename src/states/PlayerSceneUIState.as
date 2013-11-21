@@ -214,7 +214,7 @@ public class PlayerSceneUIState extends UIState
 		else{
 			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
 		}
-		var dateStr:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND])
+		var dateStr:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND],"")
 //		bytes.compress()
 		var file:IFile = folder.createFile(dateStr, "db")
 		file.bytes = BytesUtil.merge([bytes, RecordManager.getInstance().bytes])
@@ -223,6 +223,7 @@ public class PlayerSceneUIState extends UIState
 		trace("db: " + file.url)
 		file.upload()
 		bytes = null
+		RecordManager.getInstance().reset()
 	}
 }
 }

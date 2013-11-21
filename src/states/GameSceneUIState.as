@@ -468,9 +468,17 @@ package states
 			mBoard.scaleRatio = 1
 			mContent.pivotX = 0
 			mContent.pivotY = 0
-			BA.draw(mContent.displayObject, matrix, null, null, null, true)
+				
+			BA.draw(mContent.displayObject, matrix, null, null, null)
 			//DrawingManager.getInstance().thumbnail = BA
-			
+				
+				
+			// 这里有一处bug，绘制内容有时保存不了 ??????? 
+//			var img:ImagePuppet = new ImagePuppet
+//			img.bitmapData = BA
+//			this.fusion.addElement(img, 400,300)
+//			return
+				
 			Logger.reportMessage(this, "Draw : " + mContent.displayObject.width + " | " + mContent.displayObject.height + "...scale : ( " + scale + " )...")
 			
 			var roll:CameraRoll
