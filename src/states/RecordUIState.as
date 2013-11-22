@@ -46,6 +46,8 @@ package states
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
+			var hasRecord:Boolean = RecordManager.getInstance().hasRecord
+			
 			// bg
 			{
 				bg = new SpritePuppet
@@ -70,7 +72,7 @@ package states
 //				imgBtn.addEventListener(AEvent.CLICK, onCloseRecord)
 				mImg = new ImagePuppet(5)
 				this.fusion.addElement(mImg, 775, 228)
-				mImg.embed(PlayerAssets.noRecord)
+				mImg.embed(hasRecord ? PlayerAssets.hasRecord : PlayerAssets.noRecord)
 				mImg.addEventListener(AEvent.CLICK, onCloseRecord)
 			}
 			
@@ -94,7 +96,7 @@ package states
 				this.fusion.addElement(mBtn_A,0, 31, LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
 				mBtn_A.addEventListener(AEvent.PRESS, onStartRecord)
 				mBtn_A.addEventListener(AEvent.RELEASE, onStopRecord)
-			
+				mBtn_A.visible = !hasRecord
 			}
 
 			// reRecord
@@ -102,7 +104,7 @@ package states
 				mBtn_B = new ImageButton("reRecord")
 				this.fusion.addElement(mBtn_B,410,31, 1, LayoutType.F__A__F_ALIGN)
 				mBtn_B.addEventListener(AEvent.CLICK, onReRecord)
-				mBtn_B.visible = false
+				mBtn_B.visible = hasRecord
 			}
 			
 			// play
@@ -110,7 +112,7 @@ package states
 				mBtn_C = new ImageButton("playRecord")
 				this.fusion.addElement(mBtn_C,530,31, 1, LayoutType.F__A__F_ALIGN)
 				mBtn_C.addEventListener(AEvent.CLICK, onPlayRecord)
-				mBtn_C.visible = false
+				mBtn_C.visible = hasRecord
 			}
 			
 			RecordManager.getInstance().addEventListener(DataEvent.RECEIVE_DATA, onProgress)

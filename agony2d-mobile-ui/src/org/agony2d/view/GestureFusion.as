@@ -27,10 +27,17 @@ public class GestureFusion extends PivotFusion {
 		this.gestureType = gestureType
 	}
 	
+	// 移动
 	public static const MOVEMENT:int = 0x01
+	
+	// 缩放
 	public static const SCALE:int = 0x02
+	
+	// 旋转
 	public static const ROTATE:int = 0x04
 	
+		
+	/** 手势类型 */
 	public function get gestureType() : int { 
 		return m_gestureType 
 	}
@@ -70,6 +77,9 @@ public class GestureFusion extends PivotFusion {
 		return m_oldPivotY
 	}
 	
+	/**
+	 * 手动加入触摸
+	 */
 	public function addTouch( touch:Touch ) : void{
 		if(!touch){
 			Logger.reportError(this,"addTouch","null touch...")

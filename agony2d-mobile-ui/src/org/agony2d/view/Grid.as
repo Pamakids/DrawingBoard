@@ -12,6 +12,7 @@ package org.agony2d.view {
 	
 	[Event(name = "exitStage", type = "org.agony2d.notify.AEvent")] 
 	
+	/** 格子对象，优化性能内部使用 */
 public class Grid extends Notifier {
 	
 	public function Grid() {
