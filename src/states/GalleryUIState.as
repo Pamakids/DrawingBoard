@@ -1,9 +1,11 @@
 package states
 {
+	import com.google.analytics.debug.Layout;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
 	
 	import assets.ImgAssets;
+	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
 	import assets.theme.ThemeAssets;
 	
@@ -16,11 +18,13 @@ package states
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFile;
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.timer.DelayManager;
 	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.Fusion;
 	import org.agony2d.view.GridScrollFusionA;
 	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.PivotFusion;
@@ -41,6 +45,9 @@ package states
 	{
 		
 		
+		public static const READY_TO_REMOVE_ITEM:String = "readyToRemoveItem"
+		
+		
 		private const LIST_X:int = -20
 		private const LIST_Y:int = 62
 		
@@ -59,7 +66,6 @@ package states
 			var img:ImagePuppet
 			var imgBtn:ImageButton
 			var folder:IFolder
-			var files:Array
 			
 			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
 			
@@ -69,7 +75,7 @@ package states
 			else{
 				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
 			}
-			files = folder.getAllFiles()
+			mFiles = folder.getAllFiles()
 //			trace(files)
 				
 				
@@ -88,11 +94,11 @@ package states
 //			dir = ThemeManager.getInstance().getThemeDirByType("animal")
 //			arr = dir.themeList
 //			l = arr.length
-			l = files.length
+			l = mFiles.length
 			while (i < l) {
 //				vo = arr[i]
 //				list.addItem({data:vo}, ThemeListItem)
-				list.addItem({"file":files[i]},GalleryItem)
+				mItemList[mNumItems++] = list.addItem({"file":mFiles[i]},GalleryItem)
 				i++
 			}
 			
@@ -122,6 +128,14 @@ package states
 				imgBtn.addEventListener(AEvent.CLICK, onBackToHomepage)
 			}
 			
+			// remove
+			{
+				mRemoveImg = new ImagePuppet(5)
+				this.fusion.addElement(mRemoveImg, -58, 28, LayoutType.F__AF,1)
+				mRemoveImg.embed(GalleryAssets.gallery_trash)
+				mRemoveImg.addEventListener(AEvent.CLICK, onToggleRemoveState)
+			}
+			
 			TouchManager.getInstance().velocityEnabled = true
 //			TouchManager.getInstance().setVelocityLimit(4)
 
@@ -130,12 +144,22 @@ package states
 		override public function exit():void {
 //			TouchManager.getInstance().velocityEnabled = false
 			TweenLite.killTweensOf(mContent)
+			var l:int = mFiles.length
+			while(--l>-1){
+				mFiles[l].kill()
+			}
 		}
 		
 		
 		
 		private var mScroll:GridScrollFusionA
 		private var mContent:PivotFusion
+		private var mItemList:Array = []
+		private var mNumItems:int
+		private var mRemoveImg:ImagePuppet
+		private var mIsRemoveState:Boolean
+		private var mFiles:Array
+		
 		
 		
 		private function onScrollStart(e:AEvent):void{
@@ -206,6 +230,31 @@ package states
 			
 			StateManager.setHomepage(true)
 			StateManager.setGallery(false)
+		}
+		
+		
+		private function onToggleRemoveState(e:AEvent):void{
+			var i:int
+			var item:Fusion
+			while(i<mNumItems){
+				item = mItemList[i++]
+				item.dispatchDirectEvent(GalleryItem.Remove_STATE)
+			}
+			mIsRemoveState = !mIsRemoveState
+			mRemoveImg.embed(mIsRemoveState ? GalleryAssets.gallery_cancel : GalleryAssets.gallery_trash)
+		}
+		
+		
+		
+		
+		
+		///////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
+		
+		private function onShowRemoveItemPanel():void{
+			
 		}
 	}
 }

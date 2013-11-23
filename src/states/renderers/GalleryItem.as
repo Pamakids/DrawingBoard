@@ -3,6 +3,7 @@ package states.renderers
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	
+	import assets.gallery.GalleryAssets;
 	import assets.theme.ThemeAssets;
 	
 	import models.Config;
@@ -20,6 +21,10 @@ public class GalleryItem extends ListItem
 	private var mBytes:ByteArray
 	private var mImg:ImagePuppet
 	
+	
+	public static const Remove_STATE:String = "closeState"
+	
+	
 	override public function init() : void {
 		var image:ImagePuppet
 		var file:IFile
@@ -31,6 +36,9 @@ public class GalleryItem extends ListItem
 		this.addElement(image)
 		
 		mImg = new ImagePuppet
+		mImg.scaleX = 0.96
+		mImg.scaleY = 0.77
+			
 //		this.spaceWidth = 238
 //		this.spaceHeight = 148
 		this.addElement(mImg,34,33)
@@ -38,6 +46,29 @@ public class GalleryItem extends ListItem
 		file = this.itemArgs["file"]
 		file.download()
 		file.addEventListener(AEvent.COMPLETE, onDownloaded)
+			
+		this.addEventListener(Remove_STATE, onRemoveState)
+	}
+	
+	private var mIsRemoveState:Boolean
+	private var mRemoveImg:ImagePuppet
+	private function onRemoveState(e:AEvent):void{
+		mIsRemoveState = !mIsRemoveState
+		if(mIsRemoveState){
+			mRemoveImg = new ImagePuppet(5)
+			this.addElement(mRemoveImg, 266, 33)
+			mRemoveImg.embed(GalleryAssets.gallery_remove)
+			mRemoveImg.addEventListener(AEvent.CLICK, onRemoveItem)
+		}
+		else{
+			mRemoveImg.kill()
+			mRemoveImg = null
+		}
+	}
+	
+	private function onRemoveItem(e:AEvent):void{
+		trace("remove...")
+		
 	}
 	
 	private function onDownloaded(e:AEvent):void{
@@ -49,9 +80,7 @@ public class GalleryItem extends ListItem
 		mBytes.position = 4
 		thumbnail = mBytes.readUTF()
 		mImg.load(thumbnail,false)
-		mImg.scaleX = 0.96
-		mImg.scaleY = 0.77
-			
+
 			
 		this.addEventListener(AEvent.CLICK, onClick)
 	}
@@ -66,8 +95,11 @@ public class GalleryItem extends ListItem
 	
 	
 	private function onClick(e:AEvent):void{
-		StateManager.setTheme(false)
-		StateManager.setPlayer(true, mBytes)
+		if(!mIsRemoveState){
+			StateManager.setTheme(false)
+			StateManager.setPlayer(true, mBytes)
+		}
+
 	}
 }
 }

@@ -2,7 +2,9 @@ package org.agony2d.view.core {
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	
 	import org.agony2d.input.Touch;
+	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.INotifier;
 	import org.agony2d.view.Fusion;
 	
@@ -84,5 +86,7 @@ public interface IComponent {
 	function removeEventListener( type:String, listener:Function ) : void
 	function removeEventAllListeners( type:String ) : void
 	function hasEventListener( type:String ) : Boolean	
+	function dispatchDirectEvent(type:String):Boolean
+	function dispatchEvent(event:AEvent):Boolean
 }
 }
