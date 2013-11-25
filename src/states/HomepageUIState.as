@@ -189,7 +189,7 @@ package states
 			
 			mIsTweeningScaleItem = true
 			cc = mThemeList[index]
-			TweenLite.to(cc, 0.6, {scaleX:ITEM_SCALE,scaleY:ITEM_SCALE, onComplete:function():void{
+			TweenLite.to(cc, 0.6, {delay:0.1, scaleX:ITEM_SCALE,scaleY:ITEM_SCALE, onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 			

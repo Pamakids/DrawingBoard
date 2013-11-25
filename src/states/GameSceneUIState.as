@@ -481,12 +481,11 @@ package states
 				
 			Logger.reportMessage(this, "Draw : " + mContent.displayObject.width + " | " + mContent.displayObject.height + "...scale : ( " + scale + " )...")
 			
-			var roll:CameraRoll
-			if(CameraRoll.supportsBrowseForImage){
-				roll = new CameraRoll
-				roll.addBitmapData(BA)
-//				roll.addEventListener(Event.COMPLETE, 
-			}
+//			var roll:CameraRoll
+//			if(CameraRoll.supportsBrowseForImage){
+//				roll = new CameraRoll
+//				roll.addBitmapData(BA)
+//			}
 				
 			// file thumbnail
 			var fileName:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND])

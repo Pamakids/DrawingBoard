@@ -10,24 +10,29 @@ package states.renderers
 	import models.StateManager;
 	import models.ThemeVo;
 	
+	import org.agony2d.Agony;
 	import org.agony2d.air.file.IFile;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.ListItem;
 	import org.agony2d.view.puppet.ImagePuppet;
 	
 public class GalleryItem extends ListItem
 {
-	
+	private var mFile:IFile
 	private var mBytes:ByteArray
 	private var mImg:ImagePuppet
 	
 	
 	public static const Remove_STATE:String = "closeState"
-	
+		
+	public static const READY_TO_REMOVE_ITEM:String = "readyToRemoveItem"
+		
+		
 	
 	override public function init() : void {
 		var image:ImagePuppet
-		var file:IFile
+		
 		
 		
 			
@@ -43,9 +48,9 @@ public class GalleryItem extends ListItem
 //		this.spaceHeight = 148
 		this.addElement(mImg,34,33)
 	
-		file = this.itemArgs["file"]
-		file.download()
-		file.addEventListener(AEvent.COMPLETE, onDownloaded)
+		mFile = this.itemArgs["file"]
+		mFile.download()
+		mFile.addEventListener(AEvent.COMPLETE, onDownloaded)
 			
 		this.addEventListener(Remove_STATE, onRemoveState)
 	}
@@ -69,6 +74,10 @@ public class GalleryItem extends ListItem
 	private function onRemoveItem(e:AEvent):void{
 		trace("remove...")
 		
+		if(!mBytes){
+			return
+		}
+		Agony.process.dispatchEvent(new DataEvent(READY_TO_REMOVE_ITEM, mFile))
 	}
 	
 	private function onDownloaded(e:AEvent):void{
@@ -95,6 +104,9 @@ public class GalleryItem extends ListItem
 	
 	
 	private function onClick(e:AEvent):void{
+		if(!mBytes){
+			return
+		}
 		if(!mIsRemoveState){
 			StateManager.setTheme(false)
 			StateManager.setPlayer(true, mBytes)

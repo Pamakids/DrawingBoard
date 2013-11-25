@@ -4,6 +4,9 @@ package states
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
 	
+	import flash.filesystem.File;
+	import flash.utils.ByteArray;
+	
 	import assets.ImgAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
@@ -22,6 +25,7 @@ package states
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.timer.DelayManager;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
@@ -44,9 +48,10 @@ package states
 	public class GalleryUIState extends UIState
 	{
 		
+			
+		public static const ITEM_REMOVED:String = "itemRemoved"
 		
-		public static const READY_TO_REMOVE_ITEM:String = "readyToRemoveItem"
-		
+			
 		
 		private const LIST_X:int = -20
 		private const LIST_Y:int = 62
@@ -56,7 +61,7 @@ package states
 		
 		
 		override public function enter():void{
-			var list:RadioList
+			
 			var i:int, l:int
 			var layout:ILayout
 			var arr:Array
@@ -86,11 +91,11 @@ package states
 			
 			// list
 			layout= new HorizLayout(330, 245, 3, 50, 5, 0, 120)
-			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
-			mScroll = list.scroll
+			mRadioList = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
+			mScroll = mRadioList.scroll
 			mContent = mScroll.content
-			list.scroll.vertiReboundFactor = 0.5
-			list.scroll.horizReboundFactor = 1
+			mRadioList.scroll.vertiReboundFactor = 0.5
+			mRadioList.scroll.horizReboundFactor = 1
 //			dir = ThemeManager.getInstance().getThemeDirByType("animal")
 //			arr = dir.themeList
 //			l = arr.length
@@ -98,7 +103,7 @@ package states
 			while (i < l) {
 //				vo = arr[i]
 //				list.addItem({data:vo}, ThemeListItem)
-				mItemList[mNumItems++] = list.addItem({"file":mFiles[i]},GalleryItem)
+				mItemList[mNumItems++] = mRadioList.addItem({"file":mFiles[i]},GalleryItem)
 				i++
 			}
 			
@@ -109,7 +114,7 @@ package states
 				this.fusion.addElement(img, 0, 300, LayoutType.F__A__F_ALIGN)
 			}
 			
-			this.fusion.addElement(list, LIST_X, LIST_Y)
+			this.fusion.addElement(mRadioList, LIST_X, LIST_Y)
 			mScroll.addEventListener(AEvent.BEGINNING, onScrollStart)
 			mScroll.addEventListener(AEvent.COMPLETE, onScrollComplete)
 			mScroll.addEventListener(AEvent.UNSUCCESS, onScrollUnsuccess)
@@ -134,14 +139,22 @@ package states
 				this.fusion.addElement(mRemoveImg, -58, 28, LayoutType.F__AF,1)
 				mRemoveImg.embed(GalleryAssets.gallery_trash)
 				mRemoveImg.addEventListener(AEvent.CLICK, onToggleRemoveState)
+				if(l == 0){
+					mRemoveImg.alpha = 0.5
+					mRemoveImg.interactive = false
+				}
 			}
 			
 			TouchManager.getInstance().velocityEnabled = true
 //			TouchManager.getInstance().setVelocityLimit(4)
-
+			
+				
+			Agony.process.addEventListener(GalleryItem.READY_TO_REMOVE_ITEM, onReadyToRemoveItem)
 		}
 		
 		override public function exit():void {
+			Agony.process.removeEventListener(GalleryItem.READY_TO_REMOVE_ITEM, onReadyToRemoveItem)
+				
 //			TouchManager.getInstance().velocityEnabled = false
 			TweenLite.killTweensOf(mContent)
 			var l:int = mFiles.length
@@ -159,7 +172,7 @@ package states
 		private var mRemoveImg:ImagePuppet
 		private var mIsRemoveState:Boolean
 		private var mFiles:Array
-		
+		private var mRadioList:RadioList
 		
 		
 		private function onScrollStart(e:AEvent):void{
@@ -241,6 +254,11 @@ package states
 				item.dispatchDirectEvent(GalleryItem.Remove_STATE)
 			}
 			mIsRemoveState = !mIsRemoveState
+			if(!mIsRemoveState && mRemoveItemFusion){
+				mRemoveItemFusion.kill()
+				mRemoveItemFusion = null
+				mScroll.visible = true
+			}
 			mRemoveImg.embed(mIsRemoveState ? GalleryAssets.gallery_cancel : GalleryAssets.gallery_trash)
 		}
 		
@@ -253,8 +271,109 @@ package states
 		///////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////
 		
-		private function onShowRemoveItemPanel():void{
+		
+		private var mRemoveItemFusion:Fusion
+		private var mImg:ImagePuppet
+		private var mRemovedFile:IFile
+		private var mRemovedBytes:ByteArray
+		
+		private function onReadyToRemoveItem(e:DataEvent):void{
+			var image:ImagePuppet
+			mRemovedFile = e.data as IFile
+			mRemovedBytes = mRemovedFile.bytes
+			var thumbnail:String
 			
+			mScroll.visible = false
+			
+			{
+				mRemoveItemFusion = new Fusion
+					
+				{
+					image = new ImagePuppet
+					image.embed(ThemeAssets.itemBg)
+					mRemoveItemFusion.addElement(image)
+				}
+				
+				{
+					image = new ImagePuppet
+					image.embed(GalleryAssets.gallery_confirm)
+					mRemoveItemFusion.addElement(image, 0, 350, LayoutType.B__A__B_ALIGN)
+					image.addEventListener(AEvent.CLICK, onConfirmRemoveItem)
+				}
+				
+				{
+					mImg = new ImagePuppet
+					mImg.scaleX = 0.96
+					mImg.scaleY = 0.77
+					mRemoveItemFusion.addElement(mImg,34,33)	
+					mRemovedBytes.position = 4
+					thumbnail = mRemovedBytes.readUTF()
+					mImg.load(thumbnail,false)
+					
+				}
+
+					
+				this.fusion.addElement(mRemoveItemFusion, 0, 200, LayoutType.F__A__F_ALIGN)
+			}
+		}
+		
+		private function onConfirmRemoveItem(e:AEvent):void{
+			var folder:IFolder
+			var i:int, l:int
+			var img:ImagePuppet
+			var thumbnail:String
+			
+//			trace("Confirm Remove Item")
+			mIsRemoveState = false
+			mRemoveItemFusion.kill()
+			mRemoveItemFusion = null
+			mRemoveImg.embed(GalleryAssets.gallery_trash)
+			mScroll.visible = true
+			mRadioList.removeAllItems()
+			
+			l = mFiles.length
+			while(--l>-1){
+				mFiles[l].kill()
+			}
+			
+			
+			if(Agony.isMoblieDevice){
+				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
+			}
+			else{
+				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
+			}
+			
+			// 削除文件
+			mRemovedBytes.position = 4
+			thumbnail = mRemovedBytes.readUTF()
+//			AgonyAir.createFolder(
+			var rawFile:File = new File(thumbnail)
+			if (rawFile.exists) {
+				rawFile.deleteFile()
+			}
+			mRemovedFile.destroy()
+			mRemovedFile = null
+				
+			mFiles = folder.getAllFiles()
+				
+			mItemList.length = mNumItems = 0
+			l = mFiles.length
+			while (i < l) {
+				//				vo = arr[i]
+				//				list.addItem({data:vo}, ThemeListItem)
+				mItemList[mNumItems++] = mRadioList.addItem({"file":mFiles[i]},GalleryItem)
+				i++
+			}
+			
+			// no file
+			if(l == 0){
+				img = new ImagePuppet
+				img.embed(HomepageAssets.noFile, false)
+				this.fusion.addElement(img, 0, 300, LayoutType.F__A__F_ALIGN)
+				mRemoveImg.alpha = 0.5
+				mRemoveImg.interactive = false
+			}
 		}
 	}
 }
