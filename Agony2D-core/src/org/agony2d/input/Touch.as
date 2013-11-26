@@ -61,13 +61,6 @@ public class Touch extends Notifier {
 		return "[touch] - ID [ " + m_touchID + " ]..." + m_stageX + "|" + m_stageY + " / " + m_prevStageX + "|" + m_prevStageY + " / " + m_maxMoveX + "|" + m_maxMoveY
 	}
 	
-	override agony_internal function dispose() : void {
-		super.dispose()
-		m_moveStateA = false
-		m_maxMoveX = m_maxMoveY = 0
-		cachedTouchList[cachedTouchLength] = this
-	}
-	
 	internal function setCoords( stageX:Number, stageY:Number ) : void {
 		var tx:Number, ty:Number
 		
@@ -127,6 +120,13 @@ public class Touch extends Notifier {
 		m_prevStageX = m_stageX = m_currMoveX = stageX
 		m_prevStageY = m_stageY = m_currMoveY = stageY
 		return this
+	}
+	
+	override agony_internal function dispose() : void {
+		super.dispose()
+		m_moveStateA = false
+		m_maxMoveX = m_maxMoveY = 0
+		cachedTouchList[cachedTouchLength] = this
 	}
 	
 	internal static function NewTouch( touchID:int, stageX:Number, stageY:Number ) : Touch {

@@ -102,10 +102,13 @@ package states
 				mStateFusion.setState(GameBottomBrushUIState)
 				this.fusion.addElement(mStateFusion)
 			}
+			
+			
 
 			AgonyUI.getModule("GameBottom").addEventListener(AEvent.ENTER_STAGE, onEnterStage)
 			Agony.process.addEventListener(GameSceneUIState.START_DRAW, onStartDraw)
 			Agony.process.addEventListener(GameSceneUIState.TOP_AND_BOTTOM_AUTO_BACK, onAutoBack)
+			Agony.process.addEventListener(GameSceneUIState.READY_TO_START, onReadyToStart)
 		}
 
 		override public function exit():void{
@@ -114,6 +117,7 @@ package states
 			AgonyUI.getModule("GameBottom").removeEventListener(AEvent.ENTER_STAGE, onEnterStage)
 			Agony.process.removeEventListener(GameSceneUIState.START_DRAW, onStartDraw)
 			Agony.process.removeEventListener(GameSceneUIState.TOP_AND_BOTTOM_AUTO_BACK, onAutoBack)
+			Agony.process.removeEventListener(GameSceneUIState.READY_TO_START, onReadyToStart)
 			TweenLite.killTweensOf(this.fusion)
 		}
 		
@@ -168,6 +172,7 @@ package states
 			mStartY = this.fusion.y
 			mHeight = mBg.height - BG_OFFSET_Y
 			//trace(mStartX, mStartY)
+			this.fusion.y = mStartY+mHeight + 30
 		}
 		
 		private function onDragBottom(e:AEvent):void{
@@ -213,6 +218,10 @@ package states
 		
 		private function onAutoBack(e:AEvent):void{
 			this.hideBottom(false)
+		}
+		
+		private function onReadyToStart(e:AEvent):void{
+			TweenLite.to(this.fusion, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:mStartY, ease:Cubic.easeOut,overwrite:1})
 		}
 	}
 }

@@ -160,8 +160,11 @@ public class TouchManager extends Notifier implements IProcess {
 		type     =  e.type
 		touchID  =  (e is TouchEvent) ? (e as TouchEvent).touchPointID : 0
 		
-		if (type == TouchEvent.TOUCH_MOVE && !g_allInvalid) {
-			g_touchList[touchID].setCoords(e.stageX, e.stageY)
+		if ((type == TouchEvent.TOUCH_MOVE || type == MouseEvent.MOUSE_MOVE) && !g_allInvalid) {
+			touch = g_touchList[touchID]
+			if (touch) {
+				touch.setCoords(e.stageX, e.stageY)
+			}
 		}
 		else if (type == TouchEvent.TOUCH_BEGIN || type == MouseEvent.MOUSE_DOWN) {
 			g_touchList[touchID] = touch = Touch.NewTouch(touchID, e.stageX, e.stageY)
@@ -180,8 +183,10 @@ public class TouchManager extends Notifier implements IProcess {
 			--g_numTouchs
 			if (!g_allInvalid) {
 				touch = g_touchList[touchID]
-				touch.dispatchDirectEvent(AEvent.RELEASE)
-				touch.dispose()
+				if(touch){
+					touch.dispatchDirectEvent(AEvent.RELEASE)
+					touch.dispose()
+				}
 			}
 			delete g_touchList[touchID]
 			if (g_numTouchs == 0) {
@@ -191,12 +196,12 @@ public class TouchManager extends Notifier implements IProcess {
 				}
 			}
 		}
-		else if (type == MouseEvent.MOUSE_MOVE && !g_allInvalid) {
-			touch = g_touchList[touchID]
-			if (touch) {
-				touch.setCoords(e.stageX, e.stageY)
-			}
-		}
+//		else if (type == MouseEvent.MOUSE_MOVE && !g_allInvalid) {
+//			touch = g_touchList[touchID]
+//			if (touch) {
+//				touch.setCoords(e.stageX, e.stageY)
+//			}
+//		}
 	}
 	
 	agony_internal static var g_instance:TouchManager

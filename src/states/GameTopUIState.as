@@ -108,8 +108,11 @@ package states
 				imgBtn.addEventListener(AEvent.PRESS, onMakeSfxForPress)
 			}
 			
+			this.fusion.y = -mHeight
+				
 			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.addEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
+			Agony.process.addEventListener(GameSceneUIState.READY_TO_START, onReadyToStart)
 		}
 		
 		override public function exit():void{
@@ -119,6 +122,8 @@ package states
 //			}
 			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.removeEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
+			Agony.process.removeEventListener(GameSceneUIState.READY_TO_START, onReadyToStart)	
+				
 			TweenLite.killTweensOf(this.fusion)
 				
 			if(mGameBack){
@@ -130,6 +135,9 @@ package states
 			if(mGameComplete){
 				AgonyUI.fusion.removeEventListener(AEvent.PRESS, onTopCompleteCancel)
 			}
+			
+			
+			
 		}
 		
 		
@@ -303,6 +311,10 @@ package states
 		private function onPaperDirty(e:AEvent):void{
 			mFinishBtn.alpha = 1
 			mFinishBtn.interactive = true
+		}
+		
+		private function onReadyToStart(e:AEvent):void{
+			TweenLite.to(this.fusion, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:0,overwrite:1})
 		}
 	}
 }

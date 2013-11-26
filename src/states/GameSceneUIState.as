@@ -34,6 +34,8 @@ package states
 	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
+	import org.agony2d.media.ISound;
+	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.timer.DelayManager;
@@ -52,6 +54,7 @@ package states
 	// [ bytes ] paster - draw
 	public class GameSceneUIState extends UIState
 	{
+		public static const READY_TO_START:String = "readyToStart"
 		
 		public static const START_DRAW:String = "startDraw"
 		
@@ -71,6 +74,9 @@ package states
 //					createPasterData()
 //				})
 //			}
+			var sound:ISound = SfxManager.getInstance().loadAndPlay(mThemeVo.soundUrl, 1, 1, false)
+			sound.addEventListener(AEvent.COMPLETE, onThemeSoundComplete)
+			TouchManager.getInstance().isLocked = true
 		}
 		
 		private function doAddListeners(): void{
@@ -550,6 +556,13 @@ package states
 			bytes.writeShort(mNumPaster)
 			bytes.writeBytes(cachedBytesA)
 			cachedBytesA.length = 0
+		}
+		
+		
+		private function onThemeSoundComplete(e:AEvent):void{
+			TouchManager.getInstance().isLocked = false
+				
+			Agony.process.dispatchDirectEvent(READY_TO_START)
 		}
 	}
 }
