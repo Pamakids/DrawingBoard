@@ -276,6 +276,7 @@ public class CommonPaper extends PaperBase implements IProcess {
 //				}
 //			}
 //		}
+		this.isStarted = false
 	}
 	
 	override public function dispose() : void {

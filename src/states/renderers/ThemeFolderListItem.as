@@ -74,14 +74,21 @@ package states.renderers
 //			StateManager.setTheme(false)
 //			StateManager.setGameScene(true, this.userData as ThemeVo)
 			var vo:ThemeFolderVo = ThemeManager.getInstance().prevThemeFolder = this.userData as ThemeFolderVo
-			trace(vo.type)
+//			trace("Theme Folder : " + vo.type)
 			
 			StateManager.setHomepage(false)
 			StateManager.setTheme(true, vo.type)
 		}
 		
 		private function onEveryDay(e:AEvent) : void{
-			trace("Every Day")
+			
+			
+			var vo:ThemeFolderVo = ThemeManager.getInstance().prevThemeFolder = ThemeManager.getInstance().getRandomThemeFolder()
+			var vo_A:ThemeVo = vo.getRandomTheme()
+				
+			StateManager.setHomepage(false)
+			StateManager.setGameScene(true, vo_A)
+//			trace("[Every Day] Theme Folder : ")
 		}
 	}
 }

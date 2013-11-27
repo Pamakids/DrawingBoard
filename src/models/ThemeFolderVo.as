@@ -1,5 +1,7 @@
 package models
 {
+	import org.agony2d.utils.ArrayUtil;
+
 	public class ThemeFolderVo
 	{
 		public function ThemeFolderVo()
@@ -11,6 +13,9 @@ package models
 			return mThemeList
 		}
 		
+		public function getRandomTheme() : ThemeVo{
+			return ArrayUtil.pullRandom(mThemeList, false)
+		}
 		
 		public var thumbnail:String
 		

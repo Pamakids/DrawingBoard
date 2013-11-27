@@ -3,6 +3,7 @@ package states
 	import com.greensock.TweenLite;
 	
 	import flash.display.BitmapData;
+	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
 	import drawing.DrawingPlayer;
@@ -19,6 +20,9 @@ package states
 	import org.agony2d.air.file.IFile;
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.debug.Logger;
+	import org.agony2d.input.TouchManager;
+	import org.agony2d.loader.ILoader;
+	import org.agony2d.loader.LoaderManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.utils.DateUtil;
 	import org.agony2d.utils.bytes.BytesUtil;
@@ -32,12 +36,16 @@ package states
 public class PlayerSceneUIState extends UIState
 {
 	
+	public static const FINAL_IMG_LOADED:String = "finalImgLoaded"
+	
+	
 	override public function enter():void
 	{
 		mFileBytes = this.stateArgs ? this.stateArgs[0] : null
 		this.doAddPlayer()
 		this.doAddView()
 		this.doAddListeners()
+		this.fusion.visible = false
 	}
 	
 
@@ -48,7 +56,7 @@ public class PlayerSceneUIState extends UIState
 		var img:ImagePuppet
 		var data:BitmapData
 		var drawingBgIndex:int
-		var bgUrl:String
+		var bgUrl:String, finalUrl:String
 		var AY:Array
 		
 		if(mFileBytes){
@@ -69,8 +77,11 @@ public class PlayerSceneUIState extends UIState
 		// thumbnail
 		bytes.position = 0
 		
-		// bg
+		// final img
 		bytes.readUTF()
+		finalUrl = bytes.readUTF()
+			
+		// bg
 		bgUrl = bytes.readUTF()
 		
 		// paster
@@ -95,17 +106,34 @@ public class PlayerSceneUIState extends UIState
 			this.fusion.addElement(img)	
 		}
 		
+		mFinalImgLoader = LoaderManager.getInstance().getLoader(finalUrl)
+		mFinalImgLoader.addEventListener(AEvent.COMPLETE, onFinalImgLoaded)
+			
+		TouchManager.getInstance().isLocked = true
+	}
+	
+	private var mFinalImgLoader:ILoader
+	private function onFinalImgLoaded(e:AEvent):void{
+		var BA:BitmapData
+		
+		BA = (e.target.data).bitmapData as BitmapData
+		mImg.bitmapData.copyPixels(BA, BA.rect, new Point)
+		mFinalImgLoader = null
+			
+		TouchManager.getInstance().isLocked = false
+		Agony.process.dispatchDirectEvent(FINAL_IMG_LOADED)
+		this.fusion.visible = true
 	}
 	
 	private function doAddView():void{
-		var img:ImagePuppet
+		
 		
 		{
-			img = new ImagePuppet
-			img.bitmapData = mPlayer.content
-			img.interactive = false
-			img.scaleX = img.scaleY = 1 / mPlayer.contentRatio
-			this.fusion.addElement(img)	
+			mImg = new ImagePuppet
+			mImg.bitmapData = mPlayer.content
+			mImg.interactive = false
+			mImg.scaleX = mImg.scaleY = 1 / mPlayer.contentRatio
+			this.fusion.addElement(mImg)	
 		}
 	}
 	
@@ -124,6 +152,9 @@ public class PlayerSceneUIState extends UIState
 		if(mPaster){
 			TweenLite.killTweensOf(mPaster)
 		}
+		if(mFinalImgLoader){
+			mFinalImgLoader.kill()
+		}
 		RecordManager.getInstance().reset()
 	}
 	
@@ -141,7 +172,7 @@ public class PlayerSceneUIState extends UIState
 	public static var bytes:ByteArray
 	private var mFileBytes:ByteArray
 	private var mRecordBytes:ByteArray
-	
+	private var mImg:ImagePuppet
 
 	
 	private function onBack(e:AEvent):void{

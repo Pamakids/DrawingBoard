@@ -321,7 +321,8 @@ package states
 			var folder:IFolder
 			var i:int, l:int
 			var img:ImagePuppet
-			var thumbnail:String
+			var thumbnail:String, finalUrl:String
+			var rawFile:File
 			
 //			trace("Confirm Remove Item")
 			mIsRemoveState = false
@@ -347,11 +348,19 @@ package states
 			// 削除文件
 			mRemovedBytes.position = 4
 			thumbnail = mRemovedBytes.readUTF()
+			
 //			AgonyAir.createFolder(
-			var rawFile:File = new File(thumbnail)
+			
+			rawFile = new File(thumbnail)
 			if (rawFile.exists) {
 				rawFile.deleteFile()
 			}
+			finalUrl = mRemovedBytes.readUTF()
+			rawFile = new File(finalUrl)
+			if (rawFile.exists) {
+				rawFile.deleteFile()
+			}
+			
 			mRemovedFile.destroy()
 			mRemovedFile = null
 				

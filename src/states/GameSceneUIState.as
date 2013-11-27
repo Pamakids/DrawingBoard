@@ -144,16 +144,16 @@ package states
 		private var mContent:PivotFusion
 		private var mDrawingBgIndex:int
 		private var mThemeVo:ThemeVo
+		private var mBgImg:ImagePuppet
 		
 		
 		
 		private function doAddPaper():void
 		{	
-			var img:ImagePuppet
-			
+
 			mPixelRatio = AgonyUI.pixelRatio
 			mPaper = DrawingManager.getInstance().paper
-			mPaper.isStarted = true
+//			mPaper.isStarted = true
 			mContentRatio = mPaper.contentRatio
 			
 			// board...
@@ -166,17 +166,17 @@ package states
 					
 				// bg...
 				{
-					img = new ImagePuppet
+					mBgImg = new ImagePuppet
 //					mDrawingBgIndex = this.stateArgs[0]
 					mThemeVo = this.stateArgs[0]
 					if(mThemeVo){
-						img.load(mThemeVo.dataUrl, false)
+						mBgImg.load(mThemeVo.dataUrl, false)
 					}
 						
 					
 
-					img.interactive = false
-					mBoard.content.addElement(img)	
+					mBgImg.interactive = false
+					mBoard.content.addElement(mBgImg)	
 				}
 				
 				// content...
@@ -212,6 +212,9 @@ package states
 			var ratio:Number
 			var point:Point
 			
+			if(!mPaper.isStarted){
+				mPaper.isStarted = true
+			}
 //			ratio = 1 / mContentRatio * mBoard.scaleRatio
 			ratio = 1 / mContentRatio * mPixelRatio
 			touch = e.touch
@@ -461,10 +464,10 @@ package states
 		// 
 		private function onFinishDrawAndPaster(e:AEvent) : void {
 			var bytes:ByteArray
-			var BA:BitmapData
+			var BA:BitmapData, BA_A:BitmapData
 			var scale:Number
 			var matrix:Matrix
-			var file:IFile
+			var file:IFile, file_A:IFile
 			var folder:IFolder
 				
 			//  thumbnail
@@ -477,8 +480,7 @@ package states
 				
 			BA.draw(mContent.displayObject, matrix, null, null, null)
 			//DrawingManager.getInstance().thumbnail = BA
-				
-				
+
 			// 这里有一处bug，绘制内容有时保存不了 ??????? 
 //			var img:ImagePuppet = new ImagePuppet
 //			img.bitmapData = BA
@@ -501,15 +503,27 @@ package states
 			else{
 				folder = AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
 			}
-			file = folder.createFile(fileName, "png")
+			file = folder.createFile("thumb" + fileName, "png")
 			file.bytes = BA.encode(BA.rect, new PNGEncoderOptions)
 			file.upload()	
+				
+			mBgImg.kill()
+			BA_A = new BitmapData(mPaper.content.width, mPaper.content.height, true, 0x0)
+			BA_A.draw(mContent.displayObject)
+				
+			file_A = folder.createFile("final" + fileName, "png")
+			file_A.bytes = BA_A.encode(BA_A.rect, new PNGEncoderOptions)
+			file_A.upload()	
 				
 			bytes = new ByteArray
 			
 			bytes.writeUTF(file.url)
+			bytes.writeUTF(file_A.url)
 				
 			trace("thumbnail: " + file.url)
+			
+			
+			
 //			cachedBytesA = BA.getPixels(BA.rect)
 //			bytes.writeUnsignedInt(cachedBytesA.length)
 //			bytes.writeBytes(cachedBytesA)

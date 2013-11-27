@@ -53,6 +53,10 @@ package states
 			mFileBytes = this.stateArgs ? this.stateArgs[0] : null
 			this.doAddTop()
 			this.doAddBottom()
+				
+			Agony.process.addEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)	
+				
+			this.fusion.visible = false
 		}
 		
 		///////////////////////////////////////
@@ -203,6 +207,7 @@ package states
 
 		override public function exit():void
 		{
+			Agony.process.removeEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)
 			if(mPlayCheckBox.selected){
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 			}
@@ -324,6 +329,10 @@ package states
 			}
 			StateManager.setGallery(true)
 			StateManager.setPlayer(false)
+		}
+		
+		private function onFinalImgLoaded(e:AEvent):void{
+			this.fusion.visible = true
 		}
 	}
 }

@@ -2,6 +2,9 @@ package models
 {
 	import assets.DataAssets;
 	
+	import org.agony2d.utils.ArrayUtil;
+	import org.agony2d.utils.MathUtil;
+	
 	public class ThemeManager
 	{
 
@@ -33,6 +36,11 @@ package models
 		public function getThemeList():Array{
 			return mThemeList
 		}
+		
+		public function getRandomThemeFolder() : ThemeFolderVo{
+			return ArrayUtil.pullRandom(mThemeList, false)
+		}
+		
 		
 		public function getThemeDirByType( type:String ):ThemeFolderVo{
 			var dir:ThemeFolderVo
