@@ -108,12 +108,17 @@ package models
 //			bp.y = -bp.height / 2
 			
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_waterColor)).bitmapData], 0, 6,0,0,true);
+			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 6,0,0,true)
+			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 6,0,0,true)
+			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 3)
+			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_maker)).bitmapData], 4, 6,0,0,true)
+			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createEraseBrush(eraser, 5, 8)
-			
+			brush.color = Config.INIT_BRUSH_COLOR
 			mPaper.brushIndex = 0
 			
 //			GameAssets.brush_maker

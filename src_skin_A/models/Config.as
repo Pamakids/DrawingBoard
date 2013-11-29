@@ -33,20 +33,23 @@ package models
 		public static const FILE_THUMBNAIL_HEIGHT:int = 180
 			
 			
+			
+		public static const INIT_BRUSH_COLOR:uint = 0xe10e0e
+			
 		public static function get colorDataList():Array{ 
 			return [
-				0xFFFFFF,
-				0xFFF200,
-				0xF26522,
-				0xF06eaa,
-				0x92278F,
-				0x00aeef,
+				0xe10e0e,
+				0xffc621,
+				0xf97a41,
+				0xf96bc2,
+				0x30a1dd,
+				0xffffff,
 				
-				0x005826,
-				0x39b54a,
-				0x754c24,
-				0x790000,
-				0x464646,
+				0x74bd4b,
+				0x9a1b8b,
+				0x40d9ee,
+				0x67472e,
+				0x8c8c8c,
 				0x000000
 			]
 		}

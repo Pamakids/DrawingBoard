@@ -47,9 +47,10 @@ package states
 			var stats:Fusion
 			var img:ImagePuppet
 			
-			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
-			AgonyUI.addImageButtonData(GameAssets.btn_clear, "btn_clear", ImageButtonType.BUTTON_RELEASE_PRESS)
-			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
+			
+//			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(GameAssets.btn_clear, "btn_clear", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
 			mPaper = DrawingManager.getInstance().paper
 			
@@ -66,35 +67,39 @@ package states
 //				//sprite.interactive = false
 //				this.fusion.addElement(sprite)
 				
-				img = new ImagePuppet
-				img.embed(ImgAssets.img_top_bg, false)
-				this.fusion.addElement(img)
-				mHeight = img.height
+//				img = new ImagePuppet
+//				img.embed(ImgAssets.img_top_bg, false)
+//				this.fusion.addElement(img)
+//				mHeight = img.height
 			}
 			
+			mHeight = 120
 			mImgList = []
 			
 			// back
 			{
-				imgBtn = new ImageButton("btn_menu")
-				this.fusion.addElement(imgBtn, 18, 11)
-				imgBtn.addEventListener(AEvent.CLICK, onPreTopBack)
-				mImgList.push(imgBtn)
+				img = new ImagePuppet
+				this.fusion.addElement(img, 42, 21)
+				img.embed(GameAssets.game_pre_back)
+				img.addEventListener(AEvent.CLICK, onPreTopBack)
+				mImgList.push(img)
 			}
 			
 			// reset
 			{
-				imgBtn = new ImageButton("btn_clear")
-				this.fusion.addElement(imgBtn, 728, 16)
-				imgBtn.addEventListener(AEvent.CLICK, onPreTopReset)
-				mImgList.push(imgBtn)
+				img = new ImagePuppet
+				this.fusion.addElement(img, 463, 21)
+				img.embed(GameAssets.game_pre_trash)
+				img.addEventListener(AEvent.CLICK, onPreTopReset)
+				mImgList.push(img)
 				mPositonA = this.fusion.position
 			}
 			
 			// complete
 			{
-				mFinishBtn = new ImageButton("btn_complete")
-				this.fusion.addElement(mFinishBtn, 966, 10)
+				mFinishBtn = new ImagePuppet
+				mFinishBtn.embed(GameAssets.game_pre_complete)
+				this.fusion.addElement(mFinishBtn, 885, 21)
 				mFinishBtn.addEventListener(AEvent.CLICK, onPreTopComplete)
 				mImgList.push(mFinishBtn)
 				this.onPaperClear(null)
@@ -102,10 +107,10 @@ package states
 			
 			var l:int = mImgList.length
 			while(--l>-1){
-				imgBtn = mImgList[l]
+				img = mImgList[l]
 //				imgBtn.addEventListener(AEvent.BUTTON_PRESS, onButtonPress)
 //				imgBtn.addEventListener(AEvent.BUTTON_RELEASE, onButtonRelease)
-				imgBtn.addEventListener(AEvent.PRESS, onMakeSfxForPress)
+				img.addEventListener(AEvent.PRESS, onMakeSfxForPress)
 			}
 			
 			this.fusion.y = -mHeight
@@ -147,7 +152,7 @@ package states
 		private var mPositonA:int
 		private var mResetFusion:Fusion
 		private var mResetBg:SpritePuppet
-		private var mFinishBtn:ImageButton
+		private var mFinishBtn:ImagePuppet
 		
 		private var mGameBack:ImagePuppet
 		private var mGameClear:ImagePuppet
@@ -157,7 +162,7 @@ package states
 		
 		private function onPreTopBack(e:AEvent):void{
 			mGameBack = new ImagePuppet
-			this.fusion.addElement(mGameBack, 15, 55)
+			this.fusion.addElement(mGameBack, 45, 123)
 			mGameBack.embed(GameAssets.game_Back)
 			mGameBack.addEventListener(AEvent.PRESS, onTopBack)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopBackCancel)
@@ -213,7 +218,7 @@ package states
 //			}
 			
 			mGameClear = new ImagePuppet
-			this.fusion.addElement(mGameClear, 696, 55)
+			this.fusion.addElement(mGameClear, 466, 123)
 			mGameClear.embed(GameAssets.game_Clear)
 			mGameClear.addEventListener(AEvent.PRESS, onTopClear)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopClearCancel)
@@ -247,7 +252,7 @@ package states
 		
 		private function onPreTopComplete(e:AEvent):void{
 			mGameComplete = new ImagePuppet
-			this.fusion.addElement(mGameComplete, 922, 55)
+			this.fusion.addElement(mGameComplete, 890, 123)
 			mGameComplete.embed(GameAssets.game_complete)
 			mGameComplete.addEventListener(AEvent.PRESS, onTopComplete)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopCompleteCancel)

@@ -28,18 +28,18 @@ package states
 			var bg:ImagePuppet
 			var slider:Slider
 			var img:ImagePuppet
-			const GAP_Y:int = 653 + 16
+			const GAP_Y:int = -35
 			var brushIcons:Array, colorImgList:Array, colorDataList:Array
 			var i:int, l:int
 
-			mBrushCoordsA = 
+			mBrushCoordsA =
 			[
-				new Point(90,  634 - GAP_Y),
-				new Point(164, 634 - GAP_Y),
-				new Point(233, 634 - GAP_Y),
-				new Point(293, 634 - GAP_Y),
-				new Point(358, 634 - GAP_Y),
-				new Point(442, 634 - GAP_Y)
+				new Point(91,  GAP_Y),
+				new Point(167, GAP_Y - 6),
+				new Point(269, GAP_Y - 1),
+				new Point(354, GAP_Y - 12),
+				new Point(425, GAP_Y + 8),
+				new Point(506, GAP_Y + 12)
 			]
 			
 			brushIcons = 
@@ -77,13 +77,14 @@ package states
 			{
 				img = new ImagePuppet
 				img.embed(GameAssets.img_bigCircleB)
-				this.fusion.addElement(img, 605, 35 - 16)
+				this.fusion.addElement(img, 606, 7)
 				
-				img = new ImagePuppet
-				img.embed(GameAssets.img_bigCircleA, false)
-				this.fusion.addElement(img, 0, 0,LayoutType.B__A__B_ALIGN, LayoutType.B__A__B_ALIGN)
+//				img = new ImagePuppet
+//				img.embed(GameAssets.img_bigCircleA, false)
+//				this.fusion.addElement(img, 0, 0,LayoutType.B__A__B_ALIGN, LayoutType.B__A__B_ALIGN)
 				mColorPickerData = img.bitmapData
 				mColorPickerDataSource = mColorPickerData.clone()
+//				this.doChangeColorPicker(0xffc621)
 			}
 			
 			// color list
@@ -93,17 +94,18 @@ package states
 				l = colorDataList.length
 				colorImgList = GameAssets.colorImgList
 				while(i<l){
-					img = new ImagePuppet
-					img.embed(colorImgList[i])
+					img = new ImagePuppet(5)
+					img.embed(colorImgList[i],true)
 					img.userData = colorDataList[i]
+					mColopMap[colorDataList[i]] = img
 					if(i==0){
-						this.fusion.addElement(img, 712, 40 - 16)
+						this.fusion.addElement(img, 720 + 20, 6 + 24)
 					}
 					else if(i==6){
-						this.fusion.addElement(img, 712, 6, 1, LayoutType.B__A)
+						this.fusion.addElement(img, 720 + 20, 10, 1, LayoutType.B__A)
 					}
 					else{
-						this.fusion.addElement(img, 8, 0, LayoutType.B__A, LayoutType.BA)
+						this.fusion.addElement(img, 10, 0, LayoutType.B__A, LayoutType.BA)
 					}
 					i++
 						img.addEventListener(AEvent.CLICK, onSelectColor)
@@ -111,8 +113,13 @@ package states
 				
 			}
 			
-			this.doSelectBrush(0)
+			mColorHalo = new ImagePuppet(5)
+			mColorHalo.embed(GameAssets.img_colorHalo, true)
+			this.fusion.addElement(mColorHalo)
 				
+			// 选择最初刷子
+			this.doSelectBrush(0)
+		
 			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.addEventListener(GameSceneUIState.START_DRAW, onStopDragSlider)
 		}
@@ -129,12 +136,14 @@ package states
 		
 		
 		private var mBrushCoordsA:Array
-		private var mRawBrushY:int = 24 - 26
+		private var mRawBrushY:int = 15
 		private var mImgList:Array = []
 		private var mCurrBrushImg:ImagePuppet
 		private var mBrushScaleSlider:Slider
-		private var mColorPickerData:BitmapData, mColorPickerDataSource:BitmapData
-		
+		private var mColorPickerData:BitmapData
+		private var mColorPickerDataSource:BitmapData
+		private var mColorHalo:ImagePuppet
+		private var mColopMap:Object = {}
 		
 		
 		private function doAddHotspot(thumb:ImagePuppet) : void {
@@ -167,7 +176,6 @@ package states
 			DrawingManager.getInstance().paper.brushIndex = index
 			mBrushScaleSlider.value = DrawingManager.getInstance().paper.currBrush.scale
 			this.doChangeColorPicker(DrawingManager.getInstance().paper.currBrush.color)
-			
 		}
 		
 		private function onBrushScaleChange(e:AEvent):void{
@@ -182,6 +190,8 @@ package states
 			color = cc.userData as uint
 			DrawingManager.getInstance().paper.currBrush.color = color
 			this.doChangeColorPicker(color)
+				
+				
 		}
 		
 		private function doChangeColorPicker(color:uint):void{
@@ -195,6 +205,10 @@ package states
 			mPickerColorTransform.blueMultiplier = b
 			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
 			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
+				
+			var cc:IComponent = mColopMap[color]
+			mColorHalo.x = cc.x
+			mColorHalo.y = cc.y
 		}
 		
 		private function onSceneBottomVisibleChange(e:DataEvent):void{
@@ -211,6 +225,10 @@ package states
 		
 		private function onStopDragSlider(e:AEvent):void{
 			mBrushScaleSlider.thumb.stopDrag()
+		}
+		
+		private function doChangeColorHalo(cc:IComponent):void{
+
 		}
 	}
 }

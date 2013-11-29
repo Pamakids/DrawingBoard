@@ -69,7 +69,7 @@ package states
 			{
 				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, Config.PASTER_HORIZ_DISABLE_OFFSET,8000)
 				mContent = mPasterArea.content
-				this.fusion.addElement(mPasterArea, 74, 12 + GameBottomUIState.BG_OFFSET_Y)
+				this.fusion.addElement(mPasterArea, 74, 12)
 				mContent.spaceWidth = bgWidth
 				mContent.spaceHeight = bgHeight
 //				mPasterArea.limitLeft = true
@@ -100,7 +100,7 @@ package states
 						// item png
 						img = new ImagePuppet(5)
 						img.embed(PasterManager.getInstance().getPasterRefByIndex(i))
-						img.scaleX = img.scaleY = Config.PASTER_LIST_ITEM_SCALE
+//						img.scaleX = img.scaleY = Config.PASTER_LIST_ITEM_SCALE
 						mContent.addElement(img,0,0,LayoutType.AB, LayoutType.AB)
 						img.userData = i
 						i++

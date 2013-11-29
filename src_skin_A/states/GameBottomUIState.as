@@ -35,23 +35,20 @@ package states
 		
 		public static const STATE_TO_BRUSH:String = "stateToBrush"
 			
-			
-		public static const BG_OFFSET_Y:Number = 0
-		
 		override public function enter():void
 		{
 			var imgBtn:ImageButton
 			var img:ImagePuppet
 			
-			AgonyUI.addImageButtonData(GameAssets.btn_pen, "btn_pen", ImageButtonType.BUTTON_RELEASE_PRESS)
-			AgonyUI.addImageButtonData(GameAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(GameAssets.btn_pen, "btn_pen", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(GameAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
 				
 			// bg
 			{
 				mBg = new ImagePuppet
 				mBg.embed(GameAssets.bottomBg)
-				this.fusion.addElement(mBg, 0, BG_OFFSET_Y)
+				this.fusion.addElement(mBg)
 				this.fusion.spaceWidth = mBg.width
 				this.fusion.spaceHeight = mBg.height
 				
@@ -59,7 +56,7 @@ package states
 				{
 					mDragImg = new ImagePuppet
 					mDragImg.embed(GameAssets.btn_game_bottom_down)
-					this.fusion.addElement(mDragImg, -26, 1 + BG_OFFSET_Y, LayoutType.F__AF, LayoutType.A_F_F)
+					this.fusion.addElement(mDragImg, -26, 1, LayoutType.F__AF, LayoutType.A_F_F)
 					mDragImg.graphics.quickDrawRect(60, 38, 0x0, 0, 4, 1)
 					mDragImg.cacheAsBitmap = true
 					mDragImg.addEventListener(AEvent.PRESS, onDragBottom)
@@ -72,27 +69,19 @@ package states
 			
 			// btn bar
 			{
-				imgBtn = new ImageButton("btn_pen", 5)
-				imgBtn.userData = 0
-					
-				img = new ImagePuppet(5)
-				img.embed(GameAssets.btnBg_pen, false)
-				imgBtn.addElementAt(img, 0)
-				mCurrFusion = imgBtn
-				this.fusion.addElement(imgBtn, 45, 42 +BG_OFFSET_Y)
-				
-				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+				img = new ImagePuppet()
+				img.embed(GameAssets.pen_selected, true)
+				img.userData = 0
+				mCurrStateImg = img
+				this.fusion.addElement(img, 22, 10)
+				img.addEventListener(AEvent.CLICK, onStateChange)
 //				imgBtn.image.graphics.quickDrawRect(67,52)
-					
-				imgBtn = new ImageButton("btn_paster", 5)
-				imgBtn.userData = 1
-					
-				img = new ImagePuppet(5)
-				img.embed(GameAssets.btnBg_paster, false)
-				imgBtn.addElementAt(img, 0)
-				img.alpha = 0
-				this.fusion.addElement(imgBtn, 45, 89 +BG_OFFSET_Y)
-				imgBtn.addEventListener(AEvent.CLICK, onStateChange)
+				
+				img = new ImagePuppet()
+				img.embed(GameAssets.paster_unselected, true)
+				img.userData = 1
+				this.fusion.addElement(img, 14, 65)
+				img.addEventListener(AEvent.CLICK, onStateChange)
 //				imgBtn.image.graphics.quickDrawRect(67,52)
 			}
 			
@@ -129,25 +118,26 @@ package states
 		private var mBg:ImagePuppet
 		private var mClosed:Boolean
 		private var mDragImg:ImagePuppet
-		private var mCurrFusion:Fusion
+		private var mCurrStateImg:ImagePuppet
 		
 		
 		private function onStateChange(e:AEvent):void{
 			var index:int
-			var fusion:Fusion
+			var img:ImagePuppet
 			
-			fusion = (e.target as Fusion)
-			index = fusion.userData as int
+			img = (e.target as ImagePuppet)
+			index = img.userData as int
 			if(mIndex == index){
 				return
 			}
-			mIndex = index
 			switch(index)
 			{
 				case 0:
 				{
 					mStateFusion.setState(GameBottomBrushUIState)
 					Agony.process.dispatchDirectEvent(STATE_TO_BRUSH)
+					mCurrStateImg.embed(GameAssets.paster_unselected)
+					img.embed(GameAssets.pen_selected)
 					//Agony.stage.frameRate = 30
 					break;
 				}
@@ -156,21 +146,22 @@ package states
 					mStateFusion.setState(GameBottomPasterUIState)
 					Agony.process.dispatchDirectEvent(STATE_TO_PASTER)
 					//Agony.stage.frameRate = 45
+					mCurrStateImg.embed(GameAssets.pen_unselected)
+					img.embed(GameAssets.paster_selected)
 				}
 				default:
 				{
 					break;
 				}
 			}
-			mCurrFusion.getElementByLayer(0).alpha = 0
-			fusion.getElementByLayer(0).alpha = 1
-			mCurrFusion = fusion
+			mCurrStateImg = img
+			mIndex = index
 		}
 		
 		private function onEnterStage(e:AEvent):void{
 			mStartX = this.fusion.x
 			mStartY = this.fusion.y
-			mHeight = mBg.height - BG_OFFSET_Y
+			mHeight = mBg.height
 			//trace(mStartX, mStartY)
 			this.fusion.y = mStartY+mHeight + 30
 		}
