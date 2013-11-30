@@ -163,7 +163,7 @@ package states
 			mStartY = this.fusion.y
 			mHeight = mBg.height
 			//trace(mStartX, mStartY)
-			this.fusion.y = mStartY+mHeight + 30
+			this.fusion.y = mStartY+mHeight + 40
 		}
 		
 		private function onDragBottom(e:AEvent):void{

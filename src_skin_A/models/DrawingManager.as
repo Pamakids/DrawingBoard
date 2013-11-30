@@ -107,18 +107,21 @@ package models
 //			bp.x = -bp.width / 2
 //			bp.y = -bp.height / 2
 			
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_waterColor)).bitmapData], 0, 6,0,0,true);
+//			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_waterColor)).bitmapData], 0, 2,0,0,true);
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_waterColor)).bitmapData, 0, 2);
 			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 6,0,0,true)
+			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 1.5,0,0,true)
 			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 6,0,0,true)
+			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 2,0,0,true)
 			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 3)
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 2)
 			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_maker)).bitmapData], 4, 6,0,0,true)
+			brush.scale = 1.3
+			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_maker)).bitmapData, 4, 2)
 			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createEraseBrush(eraser, 5, 8)
+			brush = mPaper.createEraseBrush(eraser, 5, 6)
 			brush.color = Config.INIT_BRUSH_COLOR
+			brush.scale = 1.9
 			mPaper.brushIndex = 0
 			
 //			GameAssets.brush_maker

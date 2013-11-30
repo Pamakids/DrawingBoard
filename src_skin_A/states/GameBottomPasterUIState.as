@@ -63,13 +63,13 @@ package states
 //			bgHeight = bg.height
 			
 			bgWidth = 935
-			bgHeight = 100
+			bgHeight = 90
 			
 			// scroll list
 			{
 				mPasterArea = new GridScrollFusion(bgWidth, bgHeight, 120, 8000, false, Config.PASTER_HORIZ_DISABLE_OFFSET,8000)
 				mContent = mPasterArea.content
-				this.fusion.addElement(mPasterArea, 74, 12)
+				this.fusion.addElement(mPasterArea, 63, 12)
 				mContent.spaceWidth = bgWidth
 				mContent.spaceHeight = bgHeight
 //				mPasterArea.limitLeft = true
@@ -99,7 +99,7 @@ package states
 						
 						// item png
 						img = new ImagePuppet(5)
-						img.embed(PasterManager.getInstance().getPasterRefByIndex(i))
+						img.embed(PasterManager.getInstance().getPasterThumbRefByIndex(i))
 //						img.scaleX = img.scaleY = Config.PASTER_LIST_ITEM_SCALE
 						mContent.addElement(img,0,0,LayoutType.AB, LayoutType.AB)
 						img.userData = i
@@ -109,7 +109,7 @@ package states
 						img.addEventListener(AEvent.CLICK, onRandomCreatePaster)
 					}
 				}
-				mPasterArea.contentWidth = (90+ITEM_GAP) * l + ITEM_GAP
+				mPasterArea.contentWidth = (85+ITEM_GAP) * l + ITEM_GAP
 					
 //				mPasterArea.addEventListener(AEvent.BEGINNING, onScrollBeginning)
 				mPasterArea.addEventListener(AEvent.START_DRAG, onScrollStart)
@@ -138,7 +138,7 @@ package states
 		
 		//////////////////////////////////////////////////
 		
-		private var ITEM_GAP:int = 44
+		private var ITEM_GAP:int = 19
 		private var mPasterArea:GridScrollFusion
 		private var mContent:PivotFusion
 		private var mPasterPressedMap:Dictionary = new Dictionary

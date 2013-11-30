@@ -78,12 +78,12 @@ package models
 			if(enabled){
 				//Agony.stage.frameRate = 30
 				AgonyUI.getModule("GameScene").init(-1, [vo], false,false)
-				if(!Agony.isMoblieDevice){
-					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, -100, 1, LayoutType.F__AF)
-				}
-				else{
+//				if(!Agony.isMoblieDevice){
+//					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, -100, 1, LayoutType.F__AF)
+//				}
+//				else{
 					AgonyUI.getModule("GameBottom").init(-1, null, false, false, 0, 0, 1, LayoutType.F__AF)
-				}
+//				}
 				AgonyUI.getModule("GameTop").init(-1, null, false,false)
 				
 			}

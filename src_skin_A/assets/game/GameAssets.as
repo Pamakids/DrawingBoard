@@ -109,7 +109,50 @@ package assets.game
 		[Embed(source="img/paster/paster_item_bg.png")] public static const img_paster_item_bg:Class
 		
 		
-		[Embed(source="img/paster/gesture.png")] public static const gesture:Class
+		[Embed(source="img/paster/1-1.png")] public static const paster_1_1:Class
+		[Embed(source="img/paster/2-1.png")] public static const paster_2_1:Class
+		[Embed(source="img/paster/3-1.png")] public static const paster_3_1:Class
+		[Embed(source="img/paster/4-1.png")] public static const paster_4_1:Class
+		[Embed(source="img/paster/5-1.png")] public static const paster_5_1:Class
+		[Embed(source="img/paster/6-1.png")] public static const paster_6_1:Class
+		[Embed(source="img/paster/7-1.png")] public static const paster_7_1:Class
+		[Embed(source="img/paster/8-1.png")] public static const paster_8_1:Class
+		[Embed(source="img/paster/9-1.png")] public static const paster_9_1:Class
+		[Embed(source="img/paster/10-1.png")] public static const paster_10_1:Class
+		[Embed(source="img/paster/11-1.png")] public static const paster_11_1:Class
+		[Embed(source="img/paster/12-1.png")] public static const paster_12_1:Class
+		[Embed(source="img/paster/13-1.png")] public static const paster_13_1:Class
+		[Embed(source="img/paster/14-1.png")] public static const paster_14_1:Class
+		[Embed(source="img/paster/15-1.png")] public static const paster_15_1:Class
+		[Embed(source="img/paster/16-1.png")] public static const paster_16_1:Class
+		[Embed(source="img/paster/17-1.png")] public static const paster_17_1:Class
+		[Embed(source="img/paster/18-1.png")] public static const paster_18_1:Class
+		[Embed(source="img/paster/19-1.png")] public static const paster_19_1:Class
+		[Embed(source="img/paster/20-1.png")] public static const paster_20_1:Class
+		[Embed(source="img/paster/21-1.png")] public static const paster_21_1:Class
+		[Embed(source="img/paster/22-1.png")] public static const paster_22_1:Class
 		
+		[Embed(source="img/paster/1.png")] public static const paster_1:Class
+		[Embed(source="img/paster/2.png")] public static const paster_2:Class
+		[Embed(source="img/paster/3.png")] public static const paster_3:Class
+		[Embed(source="img/paster/4.png")] public static const paster_4:Class
+		[Embed(source="img/paster/5.png")] public static const paster_5:Class
+		[Embed(source="img/paster/6.png")] public static const paster_6:Class
+		[Embed(source="img/paster/7.png")] public static const paster_7:Class
+		[Embed(source="img/paster/8.png")] public static const paster_8:Class
+		[Embed(source="img/paster/9.png")] public static const paster_9:Class
+		[Embed(source="img/paster/10.png")] public static const paster_10:Class
+		[Embed(source="img/paster/11.png")] public static const paster_11:Class
+		[Embed(source="img/paster/12.png")] public static const paster_12:Class
+		[Embed(source="img/paster/13.png")] public static const paster_13:Class
+		[Embed(source="img/paster/14.png")] public static const paster_14:Class
+		[Embed(source="img/paster/15.png")] public static const paster_15:Class
+		[Embed(source="img/paster/16.png")] public static const paster_16:Class
+		[Embed(source="img/paster/17.png")] public static const paster_17:Class
+		[Embed(source="img/paster/18.png")] public static const paster_18:Class
+		[Embed(source="img/paster/19.png")] public static const paster_19:Class
+		[Embed(source="img/paster/20.png")] public static const paster_20:Class
+		[Embed(source="img/paster/21.png")] public static const paster_21:Class
+		[Embed(source="img/paster/22.png")] public static const paster_22:Class
 	}
 }

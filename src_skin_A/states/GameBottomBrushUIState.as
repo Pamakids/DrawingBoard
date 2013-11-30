@@ -28,18 +28,18 @@ package states
 			var bg:ImagePuppet
 			var slider:Slider
 			var img:ImagePuppet
-			const GAP_Y:int = -35
+			const GAP_Y:int = -32
 			var brushIcons:Array, colorImgList:Array, colorDataList:Array
 			var i:int, l:int
 
 			mBrushCoordsA =
 			[
 				new Point(91,  GAP_Y),
-				new Point(167, GAP_Y - 6),
-				new Point(269, GAP_Y - 1),
-				new Point(354, GAP_Y - 12),
+				new Point(167, GAP_Y - 4),
+				new Point(269, GAP_Y + 1),
+				new Point(354, GAP_Y - 14),
 				new Point(425, GAP_Y + 8),
-				new Point(506, GAP_Y + 12)
+				new Point(506, GAP_Y + 14)
 			]
 			
 			brushIcons = 
@@ -66,12 +66,12 @@ package states
 			}
 			
 			// brush scale slider
-			{
-				mBrushScaleSlider = new Slider(GameAssets.img_track_A, GameAssets.img_thumb_A, 2, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
-				this.fusion.addElement(mBrushScaleSlider, 0, 10)
-				mBrushScaleSlider.addEventListener(AEvent.CHANGE, onBrushScaleChange)
-				this.doAddHotspot(mBrushScaleSlider.thumb)
-			}
+//			{
+//				mBrushScaleSlider = new Slider(GameAssets.img_track_A, GameAssets.img_thumb_A, 2, false, 1, Config.BRUSH_SCALE_MIN, Config.BRUSH_SCALE_MAX)
+//				this.fusion.addElement(mBrushScaleSlider, 0, 10)
+//				mBrushScaleSlider.addEventListener(AEvent.CHANGE, onBrushScaleChange)
+//				this.doAddHotspot(mBrushScaleSlider.thumb)
+//			}
 			
 			// color picker
 			{
@@ -139,7 +139,7 @@ package states
 		private var mRawBrushY:int = 15
 		private var mImgList:Array = []
 		private var mCurrBrushImg:ImagePuppet
-		private var mBrushScaleSlider:Slider
+//		private var mBrushScaleSlider:Slider
 		private var mColorPickerData:BitmapData
 		private var mColorPickerDataSource:BitmapData
 		private var mColorHalo:ImagePuppet
@@ -172,15 +172,15 @@ package states
 			img = mImgList[index]
 			img.y = mBrushCoordsA[index].y
 			mCurrBrushImg = img
-			mBrushScaleSlider.x = img.x + img.width / 2 - 6
+//			mBrushScaleSlider.x = img.x + img.width / 2 - 6
 			DrawingManager.getInstance().paper.brushIndex = index
-			mBrushScaleSlider.value = DrawingManager.getInstance().paper.currBrush.scale
+//			mBrushScaleSlider.value = DrawingManager.getInstance().paper.currBrush.scale
 			this.doChangeColorPicker(DrawingManager.getInstance().paper.currBrush.color)
 		}
 		
-		private function onBrushScaleChange(e:AEvent):void{
-			DrawingManager.getInstance().paper.currBrush.scale = mBrushScaleSlider.value
-		}
+//		private function onBrushScaleChange(e:AEvent):void{
+//			DrawingManager.getInstance().paper.currBrush.scale = mBrushScaleSlider.value
+//		}
 		
 		private function onSelectColor(e:AEvent):void{
 			var color:uint
@@ -205,7 +205,7 @@ package states
 			mPickerColorTransform.blueMultiplier = b
 			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
 			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
-				
+			
 			var cc:IComponent = mColopMap[color]
 			mColorHalo.x = cc.x
 			mColorHalo.y = cc.y
@@ -214,7 +214,7 @@ package states
 		private function onSceneBottomVisibleChange(e:DataEvent):void{
 			if(e.data as Boolean){
 				TweenLite.to(mCurrBrushImg, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:mRawBrushY,overwrite:1})
-				mBrushScaleSlider.thumb.stopDrag()
+//				mBrushScaleSlider.thumb.stopDrag()
 				
 			}
 			else{
@@ -224,11 +224,8 @@ package states
 		}
 		
 		private function onStopDragSlider(e:AEvent):void{
-			mBrushScaleSlider.thumb.stopDrag()
+//			mBrushScaleSlider.thumb.stopDrag()
 		}
 		
-		private function doChangeColorHalo(cc:IComponent):void{
-
-		}
 	}
 }

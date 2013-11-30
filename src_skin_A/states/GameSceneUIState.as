@@ -437,7 +437,9 @@ package states
 			img = new ImagePuppet(5)
 			img.embed(PasterManager.getInstance().getPasterRefByIndex(index))
 			ges.addElement(img)
+			img.userData = index
 			
+			ges.scaleX = ges.scaleY = Config.PASTER_INIT_SCALE
 			ges.addEventListener(AEvent.START_DRAG, onStartDrag)
 			ges.addEventListener(AEvent.STOP_DRAG, onStopDrag)
 			AgonyUI.addDoublePressEvent(ges, onPasterKilled)
@@ -470,6 +472,8 @@ package states
 			var file:IFile, file_A:IFile
 			var folder:IFolder
 				
+			mPasterFusion.alpha = 1.0
+		
 			//  thumbnail
 			BA = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)
 			scale = Config.FILE_THUMBNAIL_WIDTH / mPaper.content.width * mContentRatio
