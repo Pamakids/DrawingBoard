@@ -472,7 +472,9 @@ package states
 			var file:IFile, file_A:IFile
 			var folder:IFolder
 				
-			mPasterFusion.alpha = 1.0
+			if(mPasterFusion){
+				mPasterFusion.alpha = 1.0
+			}
 		
 			//  thumbnail
 			BA = new BitmapData(Config.FILE_THUMBNAIL_WIDTH, Config.FILE_THUMBNAIL_HEIGHT, true, 0x0)

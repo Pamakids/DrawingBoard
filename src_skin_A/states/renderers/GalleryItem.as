@@ -15,6 +15,7 @@ package states.renderers
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.ListItem;
+	import org.agony2d.view.enum.LayoutType;
 	import org.agony2d.view.puppet.ImagePuppet;
 	
 public class GalleryItem extends ListItem
@@ -37,17 +38,22 @@ public class GalleryItem extends ListItem
 		
 			
 		image = new ImagePuppet
-		image.embed(ThemeAssets.itemBg)
+		image.embed(GalleryAssets.galleryItemBg)
 		this.addElement(image)
 		
 		mImg = new ImagePuppet
-		mImg.scaleX = 0.96
-		mImg.scaleY = 0.77
+		mImg.scaleX = 1.2
+		mImg.scaleY = 1.23
 			
 //		this.spaceWidth = 238
 //		this.spaceHeight = 148
-		this.addElement(mImg,34,33)
-	
+		this.addElement(mImg,8,7)
+		
+		image = new ImagePuppet
+		this.position = 0
+		image.embed(GalleryAssets.galleryHalo)
+		this.addElement(image, 0, 0, 1, LayoutType.BA)
+			
 		mFile = this.itemArgs["file"]
 		mFile.download()
 		mFile.addEventListener(AEvent.COMPLETE, onDownloaded)

@@ -54,7 +54,7 @@ package states
 			
 		
 		private const LIST_X:int = -20
-		private const LIST_Y:int = 62
+		private const LIST_Y:int = 142
 		
 		private const LIST_WIDTH:int = 1024
 		private const LIST_HEIGHT:int = 768 - LIST_Y
@@ -72,7 +72,7 @@ package states
 			var imgBtn:ImageButton
 			var folder:IFolder
 			
-			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
 			
 			if(Agony.isMoblieDevice){
 				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
@@ -87,10 +87,10 @@ package states
 			// bg
 			img = new ImagePuppet
 			this.fusion.addElement(img)
-			img.embed(ImgAssets.publicBg)
+			img.embed(GalleryAssets.galleryBg)
 			
 			// list
-			layout= new HorizLayout(330, 245, 3, 50, 5, 0, 120)
+			layout= new HorizLayout(330, 250, 3, 50, 5, 0, 120)
 			mRadioList = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
 			mScroll = mRadioList.scroll
 			mContent = mScroll.content
@@ -121,22 +121,30 @@ package states
 			
 			
 			// top bg
-			img = new ImagePuppet
-			this.fusion.addElement(img)
-			img.embed(ImgAssets.img_top_bg)
+//			img = new ImagePuppet
+//			this.fusion.addElement(img)
+//			img.embed(ImgAssets.img_top_bg)
 			
+			// title
+			{
+				img = new ImagePuppet
+				img.embed(GalleryAssets.galleryTitle)
+				this.fusion.addElement(img,0,42,LayoutType.F__A__F_ALIGN)
+				img.interactive = false
+			}
 			
 			// back...
 			{
-				imgBtn = new ImageButton("btn_menu")
-				this.fusion.addElement(imgBtn, 20, 11)
-				imgBtn.addEventListener(AEvent.CLICK, onBackToHomepage)
+				img = new ImagePuppet
+				this.fusion.addElement(img, 42, 21)
+				img.embed(GalleryAssets.galleryBack)
+				img.addEventListener(AEvent.CLICK, onBackToHomepage)
 			}
 			
 			// remove
 			{
 				mRemoveImg = new ImagePuppet(5)
-				this.fusion.addElement(mRemoveImg, -58, 28, LayoutType.F__AF,1)
+				this.fusion.addElement(mRemoveImg, -108, 70, LayoutType.F__AF,1)
 				mRemoveImg.embed(GalleryAssets.gallery_trash)
 				mRemoveImg.addEventListener(AEvent.CLICK, onToggleRemoveState)
 				if(l == 0){

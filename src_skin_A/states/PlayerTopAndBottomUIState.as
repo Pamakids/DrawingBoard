@@ -83,9 +83,10 @@ package states
 				img.addEventListener(AEvent.CLICK, onComplete)
 			}
 			else{
-				imgBtn = new ImageButton("btn_menu")
-				this.fusion.addElement(imgBtn, 20, 11)
-				imgBtn.addEventListener(AEvent.CLICK, onBackToGallery)
+				img = new ImagePuppet
+				img.embed(GameAssets.game_pre_back)
+				this.fusion.addElement(img, 20, 11)
+				img.addEventListener(AEvent.CLICK, onBackToGallery)
 			}
 			
 			
