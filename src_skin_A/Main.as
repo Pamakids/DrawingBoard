@@ -67,7 +67,7 @@ package
 				Agony.startup(stage, 1024, 768, "low", true);
 			}
 			else{
-				Agony.startup(stage, 1024, 768, "low", true, 3/4);
+				Agony.startup(stage, 1024, 768, "low", true, 4/5);
 			}
 			AgonyUI.startup(false, true);
 			AgonyUI.setButtonEffectType(ButtonEffectType.PRESS_PRESS)

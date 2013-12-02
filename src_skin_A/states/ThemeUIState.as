@@ -4,6 +4,7 @@ package states
 	import com.greensock.easing.Cubic;
 	
 	import assets.ImgAssets;
+	import assets.gallery.GalleryAssets;
 	import assets.theme.ThemeAssets;
 	
 	import models.StateManager;
@@ -21,6 +22,7 @@ package states
 	import org.agony2d.view.RadioList;
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.enum.ImageButtonType;
+	import org.agony2d.view.enum.LayoutType;
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.layouts.VertiLayout;
@@ -33,7 +35,7 @@ package states
 	{
 		
 		private const LIST_X:int = -20
-		private const LIST_Y:int = 62
+		private const LIST_Y:int = 142
 		
 		private const LIST_WIDTH:int = 1024
 		private const LIST_HEIGHT:int = 768 - LIST_Y
@@ -50,7 +52,7 @@ package states
 			var img:ImagePuppet
 			var imgBtn:ImageButton
 			
-			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
 
 			
 			// list
@@ -66,7 +68,7 @@ package states
 			img.embed(ImgAssets.publicBg)
 
 			// list
-			layout= new HorizLayout(330, 245, 3, 50, 5, 50, 120)
+			layout= new HorizLayout(330, 250, 3, 50, 5, 0, 20)
 			list = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
 			mScroll = list.scroll
 			mContent = mScroll.content
@@ -86,16 +88,24 @@ package states
 				
 			
 			// top bg
-			img = new ImagePuppet
-			this.fusion.addElement(img)
-			img.embed(ImgAssets.img_top_bg)
+//			img = new ImagePuppet
+//			this.fusion.addElement(img)
+//			img.embed(ImgAssets.img_top_bg)
 			
+			// title
+			{
+				img = new ImagePuppet
+				img.embed(dir.getTitleRef())
+				this.fusion.addElement(img,0,42,LayoutType.F__A__F_ALIGN)
+				img.interactive = false
+			}
 			
 			// back...
 			{
-				imgBtn = new ImageButton("btn_menu")
-				this.fusion.addElement(imgBtn, 18, 10)
-				imgBtn.addEventListener(AEvent.CLICK, onBackToHomepage)
+				img = new ImagePuppet
+				this.fusion.addElement(img, 42, 21)
+				img.embed(GalleryAssets.galleryBack)
+				img.addEventListener(AEvent.CLICK, onBackToHomepage)
 			}
 			
 			TouchManager.getInstance().velocityEnabled = true

@@ -90,7 +90,7 @@ package states
 			img.embed(GalleryAssets.galleryBg)
 			
 			// list
-			layout= new HorizLayout(330, 250, 3, 50, 5, 0, 120)
+			layout= new HorizLayout(330, 250, 3, 50, 5, 0, 20)
 			mRadioList = new RadioList(layout, LIST_WIDTH, LIST_HEIGHT, 370, 320)
 			mScroll = mRadioList.scroll
 			mContent = mScroll.content
@@ -298,7 +298,7 @@ package states
 					
 				{
 					image = new ImagePuppet
-					image.embed(ThemeAssets.itemBg)
+					image.embed(GalleryAssets.galleryItemBg)
 					mRemoveItemFusion.addElement(image)
 				}
 				
@@ -311,13 +311,20 @@ package states
 				
 				{
 					mImg = new ImagePuppet
-					mImg.scaleX = 0.96
-					mImg.scaleY = 0.77
-					mRemoveItemFusion.addElement(mImg,34,33)	
+//					mImg.scaleX = 0.96
+//					mImg.scaleY = 0.77
+					mRemoveItemFusion.addElement(mImg,7,6)	
 					mRemovedBytes.position = 4
 					thumbnail = mRemovedBytes.readUTF()
 					mImg.load(thumbnail,false)
 					
+				}
+				
+				{
+					image = new ImagePuppet
+					mRemoveItemFusion.position = 0
+					image.embed(GalleryAssets.galleryHalo)
+					mRemoveItemFusion.addElement(image, 1, -1, 1, LayoutType.BA)
 				}
 
 					

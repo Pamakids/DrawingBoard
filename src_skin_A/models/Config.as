@@ -32,8 +32,8 @@ package models
 		public static const PASTER_PRESS_CREATE_TIME:Number = 0.21
 		public static const PASTER_HORIZ_DISABLE_OFFSET:Number = 13
 			
-		public static const FILE_THUMBNAIL_WIDTH:int = 240
-		public static const FILE_THUMBNAIL_HEIGHT:int = 180
+		public static const FILE_THUMBNAIL_WIDTH:int = 289
+		public static const FILE_THUMBNAIL_HEIGHT:int = 216
 			
 			
 			
