@@ -27,6 +27,9 @@ public class RecordManager extends Notifier
 	
 	public static const PLAY_COMPLETE:String = "playComplete"
 		
+	public static const RECORD_RESET:String = "recordReset";
+	
+		
 	public const MAX_RECORD_TIME:int = 12 * 1000
 		
 	
@@ -171,6 +174,7 @@ public class RecordManager extends Notifier
 //		}
 		this.stop()
 		mRecordTime = mBytes.length = 0
+		this.dispatchDirectEvent(RECORD_RESET)
 	}
 
 	

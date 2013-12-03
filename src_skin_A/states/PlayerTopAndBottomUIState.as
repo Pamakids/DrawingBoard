@@ -44,7 +44,7 @@ package states
 		override public function enter():void
 		{
 //			AgonyUI.addImageButtonData(ImgAssets.btn_complete, "btn_complete", ImageButtonType.BUTTON_RELEASE_PRESS)
-			AgonyUI.addImageButtonData(PlayerAssets.btn_record, "btn_record", ImageButtonType.BUTTON_RELEASE_PRESS)
+//			AgonyUI.addImageButtonData(PlayerAssets.btn_record, "btn_record", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
@@ -69,23 +69,23 @@ package states
 			var imgBtn:ImageButton
 			
 			// bg
-			{
-				bg = new ImagePuppet
-				bg.embed(ImgAssets.img_top_bg)
-				this.fusion.addElement(bg)
-			}
+//			{
+//				bg = new ImagePuppet
+//				bg.embed(ImgAssets.img_top_bg)
+//				this.fusion.addElement(bg)
+//			}
 			
 			// complete
 			if(!mFileBytes){
 				img = new ImagePuppet
-				this.fusion.addElement(img, 18, 9)
-				img.embed(PlayerAssets.backToPrev, false)
+				this.fusion.addElement(img, 42, 21)
+				img.embed(GameAssets.game_pre_back)
 				img.addEventListener(AEvent.CLICK, onComplete)
 			}
 			else{
 				img = new ImagePuppet
 				img.embed(GameAssets.game_pre_back)
-				this.fusion.addElement(img, 20, 11)
+				this.fusion.addElement(img, 42, 21)
 				img.addEventListener(AEvent.CLICK, onBackToGallery)
 			}
 			
@@ -93,9 +93,10 @@ package states
 			// record
 			{
 				if(!mFileBytes){
-					imgBtn = new ImageButton("btn_record")
-					this.fusion.addElement(imgBtn, 700, 13)
-					imgBtn.addEventListener(AEvent.CLICK, onShowRecordUI)
+					mRecordImg = new ImagePuppet
+					this.fusion.addElement(mRecordImg, 463, 21)
+					mRecordImg.embed(PlayerAssets.top_no_record)
+					mRecordImg.addEventListener(AEvent.CLICK, onShowRecordUI)
 				}
 				
 			}
@@ -103,25 +104,28 @@ package states
 			// gallery
 			if(!mFileBytes){
 				img = new ImagePuppet
-				this.fusion.addElement(img, 957, 11)
+				this.fusion.addElement(img, 885, 21)
 				img.embed(PlayerAssets.backToGallery, false)
 				img.addEventListener(AEvent.CLICK, onBackToGallery)
 			}
 			
 			
 			// big play btn
-			{
-				mBigPlayButton = new ImagePuppet
-				mBigPlayButton.embed(PlayerAssets.bigPlay)
-				mBigPlayButton.scaleX = mBigPlayButton.scaleY = 2
-				this.fusion.addElement(mBigPlayButton, 0,0,LayoutType.F__A__F_ALIGN,LayoutType.F__A__F_ALIGN)
-				mBigPlayButton.addEventListener(AEvent.CLICK, onStartPlay)
-			}
+//			{
+//				mBigPlayButton = new ImagePuppet
+//				mBigPlayButton.embed(PlayerAssets.bigPlay)
+//				mBigPlayButton.scaleX = mBigPlayButton.scaleY = 2
+//				this.fusion.addElement(mBigPlayButton, 0,0,LayoutType.F__A__F_ALIGN,LayoutType.F__A__F_ALIGN)
+//				mBigPlayButton.addEventListener(AEvent.CLICK, onStartPlay)
+//			}
 			
+			if(!mFileBytes){
+				RecordManager.getInstance().addEventListener(RecordManager.RECORD_COMPLETE, onRecordComplete)
+				RecordManager.getInstance().addEventListener(RecordManager.RECORD_RESET, onRecordReset)
+			}
 		}
 
 		
-			
 		///////////////////////////////////////
 		// bottom
 		///////////////////////////////////////
@@ -134,7 +138,7 @@ package states
 			var bg:ImagePuppet, img:ImagePuppet
 			var checkBox:ImageCheckBox
 			
-			AgonyUI.addImageButtonData(PlayerAssets.btn_playAndPause, "btn_playAndPause", ImageButtonType.CHECKBOX_RELEASE_PRESS)
+			AgonyUI.addImageButtonData(PlayerAssets.btn_playAndPause, "btn_playAndPause", ImageButtonType.CHECKBOX_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_1, "speed_1", ImageButtonType.CHECKBOX_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_2, "speed_2", ImageButtonType.CHECKBOX_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_3, "speed_3", ImageButtonType.CHECKBOX_RELEASE)
@@ -143,12 +147,12 @@ package states
 			{
 				mPlayCheckBox = new ImageCheckBox('btn_playAndPause', false, 7)
 					
-				if(Agony.isMoblieDevice){	
-					this.fusion.addElement(mPlayCheckBox, 25, -30, LayoutType.FA__F, LayoutType.F__AF)
-				}
-				else{
-					this.fusion.addElement(mPlayCheckBox, 25, - 180, LayoutType.FA__F, LayoutType.F__AF)
-				}
+//				if(Agony.isMoblieDevice){	
+					this.fusion.addElement(mPlayCheckBox, 42,646)
+//				}
+//				else{
+//					this.fusion.addElement(mPlayCheckBox, 25, - 180, LayoutType.FA__F, LayoutType.F__AF)
+//				}
 				mPlayCheckBox.addEventListener(AEvent.CHANGE, onPlayChange)
 			}
 			
@@ -160,14 +164,14 @@ package states
 //				slider.track.interactive = false
 				mc_playProgressBar
 				m_progress = new ProgressBar("mc_playProgressBar", 0, 0, DrawingManager.getInstance().player.totalTime)
-				this.fusion.addElement(m_progress, 20, 10, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+				this.fusion.addElement(m_progress, 177,693)
 					
-				mBird = new ImagePuppet
-				mBird.embed(PlayerAssets.player_bird)
-				m_progress.addElement(mBird, -22, -mBird.height / 2 + 2)
-				mBirdStartX = mBird.x
-				mBirdStartY = mBird.y
-				mBirdEndX = mBirdStartX + m_progress.sprite.width - 10
+//				mBird = new ImagePuppet
+//				mBird.embed(PlayerAssets.player_bird)
+//				m_progress.addElement(mBird, -22, -mBird.height / 2 + 2)
+//				mBirdStartX = mBird.x
+//				mBirdStartY = mBird.y
+//				mBirdEndX = mBirdStartX + m_progress.sprite.width - 10
 			}
 			
 			// speed
@@ -176,7 +180,7 @@ package states
 				// medium
 				{
 					checkBox = new ImageCheckBox("speed_1", true)
-					this.fusion.addElement(checkBox, 10, -8, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+					this.fusion.addElement(checkBox, 718, 676)
 					checkBox.userData = 1
 					checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					mCurrSpeedBtn = checkBox
@@ -186,7 +190,7 @@ package states
 				{
 					{
 						checkBox = new ImageCheckBox("speed_2", false)
-						this.fusion.addElement(checkBox, -2, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 						checkBox.userData = 2
 						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					}
@@ -196,7 +200,7 @@ package states
 				{
 					{
 						checkBox = new ImageCheckBox("speed_3", false)
-						this.fusion.addElement(checkBox, -1.5, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 						checkBox.userData = 3
 						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					}
@@ -209,6 +213,10 @@ package states
 		override public function exit():void
 		{
 			Agony.process.removeEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)
+			if(!mFileBytes){
+				RecordManager.getInstance().removeEventListener(RecordManager.RECORD_COMPLETE, onRecordComplete)
+				RecordManager.getInstance().removeEventListener(RecordManager.RECORD_RESET, onRecordReset)
+			}
 			if(mPlayCheckBox.selected){
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 			}
@@ -226,8 +234,9 @@ package states
 		private var m_progress:ProgressBar
 		private var mIsPlayed:Boolean
 		private var mPlayCheckBox:ImageCheckBox
-		private var mBigPlayButton:ImagePuppet
-		private var mBird:ImagePuppet
+		private var mRecordImg:ImagePuppet
+//		private var mBigPlayButton:ImagePuppet
+//		private var mBird:ImagePuppet
 		
 		
 
@@ -240,7 +249,7 @@ package states
 //				mBigPlayButton.kill()
 //				mBigPlayButton = null
 //			}
-			mBigPlayButton.visible = false
+//			mBigPlayButton.visible = false
 //			DrawingManager.getInstance().player.play()
 			Agony.process.dispatchDirectEvent(PLAYER_PLAY)
 			mPlayCheckBox.setSelected(true , true)
@@ -267,7 +276,7 @@ package states
 					//					DrawingManager.getInstance().player.play()
 					Agony.process.dispatchDirectEvent(PLAYER_PLAY)
 					mIsPlayed = true
-					mBigPlayButton.visible = false
+//					mBigPlayButton.visible = false
 					RecordManager.getInstance().play()
 				}
 				else{
@@ -297,10 +306,10 @@ package states
 		
 		private function onEnterFrame(e:AEvent):void{
 			m_progress.range.value = DrawingManager.getInstance().player.intervalTime
-			mBird.x = mBirdStartX + (mBirdEndX - mBirdStartX) * m_progress.range.ratio
+//			mBird.x = mBirdStartX + (mBirdEndX - mBirdStartX) * m_progress.range.ratio
 			if(DrawingManager.getInstance().player.intervalTime == 0){
 				mPlayCheckBox.setSelected(false)
-				mBigPlayButton.visible = true
+//				mBigPlayButton.visible = true
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 				mIsPlayed = false
 			}
@@ -335,5 +344,15 @@ package states
 		private function onFinalImgLoaded(e:AEvent):void{
 			this.fusion.visible = true
 		}
+		
+		
+		private function onRecordComplete(e:AEvent):void{
+			mRecordImg.embed(PlayerAssets.top_has_record)
+		}
+		
+		private function onRecordReset(e:AEvent):void{
+			mRecordImg.embed(PlayerAssets.top_no_record)
+		}
+		
 	}
 }
