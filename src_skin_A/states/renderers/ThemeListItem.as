@@ -35,7 +35,7 @@ public class ThemeListItem extends ListItem
 		image = new ImagePuppet
 		this.position = 0
 		image.embed(GalleryAssets.galleryHalo)
-		this.addElement(image, 1, -1, 1, LayoutType.BA)
+		this.addElement(image, 1, -2, 1, LayoutType.BA)
 			
 		this.addEventListener(AEvent.CLICK, onClick)
 	}

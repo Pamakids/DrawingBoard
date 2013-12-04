@@ -365,7 +365,12 @@ package states
 			var target:GestureFusion
 				
 			target = e.target as GestureFusion
-			if(target.scaleX < Config.PASTER_SCALE_MINIMUM){
+			var posX:Number = target.x
+			var posY:Number = target.y
+			if(posX < 7 ||posX > AgonyUI.fusion.spaceWidth - 7 || posY < 7 || target.y > AgonyUI.fusion.spaceHeight - 7){
+				this.doKillPaster(target)
+			}
+			else if(target.scaleX < Config.PASTER_SCALE_MINIMUM){
 				target.pivotX = target.oldPivotX
 				target.pivotY = target.oldPivotY
 				TweenLite.to(target, 0.44, {scaleX:Config.PASTER_SCALE_MINIMUM, scaleY:Config.PASTER_SCALE_MINIMUM,ease:Back.easeOut})
@@ -409,20 +414,6 @@ package states
 			ges.addTouch(touch)
 		}
 		
-		private function onPasterKilled(e:AEvent):void{
-			var ges:GestureFusion
-			
-			ges = e.target as GestureFusion
-			ges.gestureType = 0
-			ges.interactive = false
-			TweenLite.to(ges, 0.8, {alpha:0.1, scaleX:0.1,scaleY:0.1,ease:Cubic.easeOut,onComplete:function():void{
-				ArrayUtil.removeFrom(ges, mPasterList)
-				mNumPaster--
-				ges.userData = false
-				ges.kill()
-			}})
-		}
-		
 		private function doCreatePaster(x:Number, y:Number,index:int):GestureFusion{
 			var ges:GestureFusion
 			var img:ImagePuppet
@@ -445,7 +436,25 @@ package states
 			AgonyUI.addDoublePressEvent(ges, onPasterKilled)
 			return ges
 		}
-
+		
+		private function onPasterKilled(e:AEvent):void{
+			var ges:GestureFusion
+			
+			ges = e.target as GestureFusion
+			this.doKillPaster(ges)
+		}
+		
+		private function doKillPaster(ges:GestureFusion):void{
+			ges.gestureType = 0
+			ges.interactive = false
+			TweenLite.to(ges, 0.8, {alpha:0.1, scaleX:0.1,scaleY:0.1,ease:Cubic.easeOut,onComplete:function():void{
+				ArrayUtil.removeFrom(ges, mPasterList)
+				mNumPaster--
+				ges.userData = false
+				ges.kill()
+			}})
+		}
+		
 		private function onGameReset(e:AEvent):void{
 			var l:int
 			var ges:GestureFusion
