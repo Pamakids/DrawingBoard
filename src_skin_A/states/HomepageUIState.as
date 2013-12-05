@@ -38,13 +38,11 @@ package states
 			var dir:ThemeFolderVo
 			var layout:ILayout
 			var imgBtn:ImageButton
+			var item:Fusion
 			
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
-			AgonyUI.addImageButtonData(HomepageAssets.btn_gallery, "btn_gallery", ImageButtonType.BUTTON_RELEASE_PRESS)
-			AgonyUI.addImageButtonData(HomepageAssets.btn_shop, "btn_shop", ImageButtonType.BUTTON_RELEASE_PRESS)
-				
 			// theme dir model...
 			dirList = ThemeManager.getInstance().getThemeList()
 			
@@ -56,16 +54,30 @@ package states
 				this.fusion.addElement(img)
 			}
 			
+			// title bg
+			{
+				img = new ImagePuppet
+				img.embed(HomepageAssets.titleBg, true)
+				this.fusion.addElement(img)
+			}
+			
+			// parents
+			{
+				img = new ImagePuppet
+				img.embed(HomepageAssets.parents, true)
+				this.fusion.addElement(img, 16, 21)
+			}
+			
 			// title
 			{
 				img = new ImagePuppet
-				img.embed(HomepageAssets.title, false)
-				this.fusion.addElement(img, 329, 5)
+				img.embed(HomepageAssets.title, true)
+				this.fusion.addElement(img, 396, 62)
 			}
 			
 			// theme dir thumbnail...
 			{
-				layout = new HorizLayout(400, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2 - 50, 140)
+				layout = new HorizLayout(435, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2 + 10, 230)
 				mRadioList = new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400,400)
 				mRadioList.scroll.vertiReboundFactor = 1
 				mRadioList.scroll.horizReboundFactor = 0.6
@@ -75,19 +87,18 @@ package states
 					while(i<l){
 						dir = dirList[i]
 						if(i==-1){
-							mThemeList[mNumitems++] = mRadioList.addItem({}, ThemeFolderListItem)
+							item = mThemeList[mNumitems++] = mRadioList.addItem({}, ThemeFolderListItem)
 						}
 						else{
-							mThemeList[mNumitems++] = mRadioList.addItem({data:dir}, ThemeFolderListItem)
+							item = mThemeList[mNumitems++] = mRadioList.addItem({data:dir}, ThemeFolderListItem)
+							item.scaleX = item.scaleY = ITEM_SCALE_MIN
 						}
 							
 						i++
 					}
 				}
 				this.fusion.addElement(mRadioList)
-					
-				mThemeList[0].scaleX = ITEM_SCALE	
-				mThemeList[0].scaleY = ITEM_SCALE	
+				
 					
 				mRadioList.addEventListener(AEvent.RESET, onRadioListReset)
 				mRadioList.scroll.addEventListener(AEvent.BEGINNING, onScrollBeginning)
@@ -98,22 +109,16 @@ package states
 			
 			// gallery
 			{
-				imgBtn = new ImageButton("btn_gallery")
-				this.fusion.addElement(imgBtn, 390, 550)
-				imgBtn.addEventListener(AEvent.CLICK, onGoIntoGallery)
-			}
-			// shop
-			{
-				imgBtn = new ImageButton("btn_shop")
-				this.fusion.addElement(imgBtn, -390, 570, LayoutType.F__AF)
+				img = new ImagePuppet
+				img.embed(HomepageAssets.btn_gallery)
+				this.fusion.addElement(img, 479, 654)
+				img.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 			
 			TouchManager.getInstance().velocityEnabled = true
 		}
 		
 		override public function exit():void{
-			AgonyUI.removeImageButtonData("btn_gallery")
-			AgonyUI.removeImageButtonData("btn_shop")
 //			TouchManager.getInstance().velocityEnabled = false
 			this.doCheckScrolling()
 			if(mIsTweeningScaleItem){
@@ -122,7 +127,8 @@ package states
 		}
 		
 		
-		private const ITEM_SCALE:Number = 1.4
+		private const ITEM_SCALE_MAX:Number = 1.0
+		private const ITEM_SCALE_MIN:Number = 0.5
 		
 		private var mRadioList:RadioList
 		private var mThemeList:Array = []
@@ -189,7 +195,7 @@ package states
 			
 			mIsTweeningScaleItem = true
 			cc = mThemeList[index]
-			TweenLite.to(cc, 0.6, {delay:0.1, scaleX:ITEM_SCALE,scaleY:ITEM_SCALE, onComplete:function():void{
+			TweenLite.to(cc, 0.6, {delay:0.1, scaleX:ITEM_SCALE_MAX,scaleY:ITEM_SCALE_MAX, onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 			
@@ -197,7 +203,7 @@ package states
 		
 		private function doTweenOffScaleItem() : void{
 			mIsTweeningScaleItem = true
-			TweenLite.to(mThemeList[mIndex], 0.6, {scaleX:1,scaleY:1, overwrite:1,onComplete:function():void{
+			TweenLite.to(mThemeList[mIndex], 0.6, {scaleX:ITEM_SCALE_MIN,scaleY:ITEM_SCALE_MIN, overwrite:1,onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 		}

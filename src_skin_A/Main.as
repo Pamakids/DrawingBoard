@@ -12,6 +12,7 @@ package
 	
 	import models.DataManager;
 	import models.DrawingManager;
+	import models.FontManager;
 	import models.PasterManager;
 	import models.StateManager;
 	import models.ThemeManager;
@@ -78,6 +79,7 @@ package
 			DrawingManager.getInstance().initialize()
 			ThemeManager.getInstance().initialize();
 			PasterManager.getInstance().initialize()
+			FontManager.initialize()
 		}
 		
 		private function doInitView():void{

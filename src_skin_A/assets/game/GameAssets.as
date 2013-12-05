@@ -57,7 +57,8 @@ package assets.game
 		[Embed(source="img/brush/maker.png")] public static const brush_maker:Class
 		[Embed(source="img/brush/pencil.png")] public static const brush_pencil:Class
 		[Embed(source="img/brush/pink.png")] public static const brush_pink:Class
-		[Embed(source="img/brush/waterColor.png")] public static const brush_waterColor:Class
+//		[Embed(source="img/brush/waterColor.png")] public static const brush_waterColor:Class
+		[Embed(source="img/brush/partical.png")] public static const brush_waterColor:Class
 		
 		// pen
 		[Embed(source="img/pen/crayon.png")] public static const img_brush_crayon:Class
