@@ -120,9 +120,12 @@ package states
 		
 		override public function exit():void{
 //			TouchManager.getInstance().velocityEnabled = false
+			var l:int
+			
 			this.doCheckScrolling()
-			if(mIsTweeningScaleItem){
-				TweenLite.killTweensOf(mThemeList[mIndex])
+			l = mThemeList.length
+			while(--l>-1){
+				TweenLite.killTweensOf(mThemeList[l])
 			}
 		}
 		

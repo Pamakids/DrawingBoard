@@ -35,11 +35,15 @@ package states.renderers
 					this.addElement(img)	
 				}
 				
+				mEverydayThemeFold = ThemeManager.getInstance().getRandomThemeFolder()
+				mEverydayTheme = mEverydayThemeFold.getRandomTheme()
+					
 				// thumb
 				{
 					img = new ImagePuppet(5) 
 					this.addElement(img, 2, -8)
-					img.load("assets/homepage/img/thumbnail/optional.pg", false)
+//					img.scaleX = img.scaleY = 1.2
+					img.load(mEverydayTheme.thumbnail, false)
 				}
 				
 				// halo
@@ -112,14 +116,15 @@ package states.renderers
 			StateManager.setTheme(true, vo.type)
 		}
 		
+		private var mEverydayThemeFold:ThemeFolderVo
+		private var mEverydayTheme:ThemeVo
 		private function onEveryDay(e:AEvent) : void{
 			
 			
-			var vo:ThemeFolderVo = ThemeManager.getInstance().prevThemeFolder = ThemeManager.getInstance().getRandomThemeFolder()
-			var vo_A:ThemeVo = vo.getRandomTheme()
+			ThemeManager.getInstance().prevThemeFolder = mEverydayThemeFold
 				
 			StateManager.setHomepage(false)
-			StateManager.setGameScene(true, vo_A)
+			StateManager.setGameScene(true, mEverydayTheme)
 //			trace("[Every Day] Theme Folder : ")
 		}
 	}
