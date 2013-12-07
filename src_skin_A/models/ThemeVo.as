@@ -7,6 +7,10 @@ package models
 			return thumbnail.replace("thumbnail", "category")
 		}
 		
+		public function get everydayUrl():String{
+			return thumbnail.replace("thumbnail", "everyday")
+		}
+		
 		public function get soundUrl() : String {
 			var result:String
 			

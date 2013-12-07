@@ -5,6 +5,8 @@ package assets.player
 		[Embed(source="btn/closeRecord.png")] public static const btn_closeRecord:Class
 		[Embed(source="btn/playAndPause.png")] public static const btn_playAndPause:Class
 		[Embed(source="btn/pressToRecord.png")] public static const btn_pressToRecord:Class
+		[Embed(source="btn/pressToRecord_B.png")] public static const btn_pressToRecord_B:Class
+		
 		[Embed(source="btn/record.png")] public static const btn_record:Class
 		[Embed(source="btn/reRecord.png")] public static const btn_reRecord:Class
 		[Embed(source="btn/playRecord.png")] public static const btn_playRecord:Class

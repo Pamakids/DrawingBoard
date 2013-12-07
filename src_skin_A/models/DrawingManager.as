@@ -112,7 +112,7 @@ package models
 			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 1.5,0,0,true)
 			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 2,0,0,true)
+			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 22,0,0,true)
 			brush.color = Config.INIT_BRUSH_COLOR
 			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 2)
 			brush.color = Config.INIT_BRUSH_COLOR
