@@ -127,6 +127,7 @@ package states
 			while(--l>-1){
 				TweenLite.killTweensOf(mThemeList[l])
 			}
+			
 		}
 		
 		
@@ -143,7 +144,7 @@ package states
 			
 		private function onRadioListReset(e:AEvent):void{
 			mWidth = mRadioList.scroll.contentWidth
-			trace(mWidth)
+//			trace(mWidth)
 		}
 		
 		private function doCheckScrolling():void{
@@ -165,25 +166,33 @@ package states
 		
 		private function onScrollComplete(e:AEvent):void{
 //			trace(mRadioList.scroll.horizRatio)
+			// 超过左右边界
 			if(mRadioList.scroll.reachLeft || mRadioList.scroll.reachRight){
 				mScrolling = true	
 				mIndex = mRadioList.scroll.reachLeft ? 0 : mNumitems - 1
-				TweenLite.to(mRadioList.scroll.content, 1, {x:mRadioList.scroll.content.x + mRadioList.scroll.correctionX,onComplete:onValidateScrollComplete})
+				TweenLite.to(mRadioList.scroll.content, 0.6, {x:mRadioList.scroll.content.x + mRadioList.scroll.correctionX,onComplete:onValidateScrollComplete})
 			}
 			else{
-				var N:Number = MathUtil.getNeareatValue(mRadioList.scroll.horizRatio, 0, 1, mNumitems)
+				var ratio:Number = mRadioList.scroll.horizRatio
+				var N:Number = MathUtil.getNeareatValue(ratio, 0, 1, mNumitems)
 				var l:int = mNumitems
 				var interval:Number = 1 / ((l < 2 ? 2 : l) - 1)
 				
+				// 计算将要滑动到的位置的总比率
 	//			trace(N)
-				if(AgonyUI.currTouch.velocityX <= -3){
-					N = (N >=1) ? 1 : N + interval
+				if(AgonyUI.currTouch.velocityX <= -1.5){
+					if(ratio > N){
+						N = (N >= 1) ? 1 : N + interval
+					}
 				}
-				else if(AgonyUI.currTouch.velocityX >= 3){
-					N = (N <= 0) ? 0 : N - interval
+				else if(AgonyUI.currTouch.velocityX >= 1.5){
+					if(ratio < N){
+						N = (N <= 0) ? 0 : N - interval
+					}
+						
 				}
 				mScrolling = true	
-				var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 5
+				var duration:Number = Math.abs(N - mRadioList.scroll.horizRatio) * 4
 				TweenLite.to(mRadioList.scroll, duration, {horizRatio:N,onComplete:onValidateScrollComplete})
 //				trace(AgonyUI.currTouch)
 
@@ -198,7 +207,7 @@ package states
 			
 			mIsTweeningScaleItem = true
 			cc = mThemeList[index]
-			TweenLite.to(cc, 0.6, {delay:0.1, scaleX:ITEM_SCALE_MAX,scaleY:ITEM_SCALE_MAX, onComplete:function():void{
+			TweenLite.to(cc, 0.5, {scaleX:ITEM_SCALE_MAX,scaleY:ITEM_SCALE_MAX, onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 			
@@ -206,7 +215,7 @@ package states
 		
 		private function doTweenOffScaleItem() : void{
 			mIsTweeningScaleItem = true
-			TweenLite.to(mThemeList[mIndex], 0.6, {scaleX:ITEM_SCALE_MIN,scaleY:ITEM_SCALE_MIN, overwrite:1,onComplete:function():void{
+			TweenLite.to(mThemeList[mIndex], 0.5, {scaleX:ITEM_SCALE_MIN,scaleY:ITEM_SCALE_MIN, overwrite:1,onComplete:function():void{
 				mIsTweeningScaleItem = false
 			}})
 		}

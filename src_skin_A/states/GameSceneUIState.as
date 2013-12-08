@@ -523,8 +523,10 @@ package states
 			file.upload()	
 				
 			mBgImg.kill()
-			BA_A = new BitmapData(mPaper.content.width, mPaper.content.height, true, 0x0)
-			BA_A.draw(mContent.displayObject)
+			BA_A = new BitmapData(mPaper.content.width / mPaper.contentRatio, mPaper.content.height / mPaper.contentRatio, true, 0x0)
+			matrix.setTo(mContentRatio, 0, 0, mContentRatio, 0, 0)
+			BA_A.draw(mContent.displayObject, matrix)
+			trace("final rect : " + BA_A.rect)
 				
 			file_A = folder.createFile("final" + fileName, "png")
 			file_A.bytes = BA_A.encode(BA_A.rect, new PNGEncoderOptions)

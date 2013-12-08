@@ -42,7 +42,7 @@ package states
 			var imgBtn:ImageButton
 			
 //			AgonyUI.addImageButtonData(PlayerAssets.btn_closeRecord, "record_closeRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
-			AgonyUI.addImageButtonData(PlayerAssets.btn_pressToRecord, "record_pressToRecord", ImageButtonType.BUTTON_RELEASE)
+			//AgonyUI.addImageButtonData(PlayerAssets.btn_pressToRecord, "record_pressToRecord", ImageButtonType.BUTTON_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_reRecord, "reRecord", ImageButtonType.BUTTON_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_playRecord, "playRecord", ImageButtonType.BUTTON_RELEASE)
 				
@@ -100,7 +100,8 @@ package states
 			
 			// pressToRecord
 			{
-				mBtn_A = new ImageButton("record_pressToRecord")
+				mBtn_A = new ImagePuppet
+				mBtn_A.embed(PlayerAssets.btn_pressToRecord)
 				fusion_A.addElement(mBtn_A,31,242)
 				mBtn_A.addEventListener(AEvent.PRESS, onStartRecord)
 				mBtn_A.addEventListener(AEvent.RELEASE, onStopRecord)
@@ -143,7 +144,7 @@ package states
 		private var mPb:ProgressBar
 		private var mTime:Number
 		private var mCurrTime:Number = 0
-		private var mBtn_A:ImageButton
+		private var mBtn_A:ImagePuppet
 		private var mBtn_B:ImageButton
 		private var mBtn_C:ImageButton
 		private var mImg:ImagePuppet
@@ -154,22 +155,7 @@ package states
 			RecordManager.getInstance().startRecord()
 //			trace("start...")
 			mImg.embed(PlayerAssets.hasRecord)
-		}
-		
-		private function onProgress(e:DataEvent):void{
-//			mTime = e.data as Number
-//			if(mTime >= Config.MAX_RECORD_TIME * 1000){
-//				RecordManager.getInstance().stop()
-//				mBtn_A.visible = false
-//				mBtn_B.visible = true
-//				mBtn_C.visible = true	
-//			}
-//			else{
-//				mPb.range.value = Number(e.data)
-//			}
-//			trace(mTime)
-			mPb.range.value = Number(e.data)
-
+			mBtn_A.embed(PlayerAssets.btn_pressToRecord_B)
 		}
 		
 		private function onStopRecord(e:AEvent):void{
@@ -185,12 +171,28 @@ package states
 //			else{
 //				mTime = 0
 //			}
-			
+			mBtn_A.embed(PlayerAssets.btn_pressToRecord)
 			RecordManager.getInstance().stopRecord()
 			mPb.range.ratio = 0
 			mBtn_A.visible = false
 			mBtn_B.visible = true
 			mBtn_C.visible = true	
+		}
+		
+		private function onProgress(e:DataEvent):void{
+			//			mTime = e.data as Number
+			//			if(mTime >= Config.MAX_RECORD_TIME * 1000){
+			//				RecordManager.getInstance().stop()
+			//				mBtn_A.visible = false
+			//				mBtn_B.visible = true
+			//				mBtn_C.visible = true	
+			//			}
+			//			else{
+			//				mPb.range.value = Number(e.data)
+			//			}
+			//			trace(mTime)
+			mPb.range.value = Number(e.data)
+			
 		}
 		
 		private function onPlayRecord(e:AEvent):void{

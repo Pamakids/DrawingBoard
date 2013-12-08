@@ -41,9 +41,9 @@ package states.renderers
 				// thumb
 				{
 					img = new ImagePuppet(5) 
-					this.addElement(img, 2, -8)
+					this.addElement(img, -8.5, 6)
 //					img.scaleX = img.scaleY = 1.2
-					img.load(mEverydayTheme.thumbnail, false)
+					img.load(mEverydayTheme.everydayUrl, false)
 				}
 				
 				// halo
