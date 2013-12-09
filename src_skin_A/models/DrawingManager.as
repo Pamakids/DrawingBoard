@@ -62,6 +62,15 @@ package models
 			mPlayer = v
 		}
 		
+		public function resetAllBrushes() : void{
+			m_waterColorBrush.color = Config.INIT_BRUSH_COLOR
+			m_pencilBrush.color = Config.INIT_BRUSH_COLOR
+			m_crayonBrush.color = Config.INIT_BRUSH_COLOR
+			m_pinkBrush.color = Config.INIT_BRUSH_COLOR
+			m_makerBrush.color = Config.INIT_BRUSH_COLOR
+			m_eraserBrush.color = Config.INIT_BRUSH_COLOR
+		}
+		
 		
 		
 		private var mBytes:ByteArray
@@ -69,6 +78,12 @@ package models
 		private var mPlayer:DrawingPlayer
 		private var mThumbnail:BitmapData
 		
+		private var m_waterColorBrush:IBrush
+		private var m_pencilBrush:IBrush
+		private var m_crayonBrush:IBrush
+		private var m_pinkBrush:IBrush
+		private var m_makerBrush:IBrush
+		private var m_eraserBrush:IBrush
 		
 		///////////////////////////////////////////////////////
 		
@@ -88,7 +103,6 @@ package models
 		private function doAddBrush():void
 		{
 			var eraser:Shape
-			var brush:IBrush
 			
 			// 加入画笔
 			eraser = new Shape()
@@ -107,24 +121,24 @@ package models
 //			bp.x = -bp.width / 2
 //			bp.y = -bp.height / 2
 			
-//			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_waterColor)).bitmapData], 0, 2,0,0,true);
-			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_waterColor)).bitmapData, 0, 2);
-			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 1.5,0,0,true)
-			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 22,0,0,true)
-			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 2)
-			brush.color = Config.INIT_BRUSH_COLOR
-			brush.scale = 1.3
-			brush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_maker)).bitmapData, 4, 2)
-			brush.color = Config.INIT_BRUSH_COLOR
-			brush = mPaper.createEraseBrush(eraser, 5, 6)
-			brush.color = Config.INIT_BRUSH_COLOR
-			brush.scale = 1.9
+//			m_waterColorBrush = mPaper.createTransformationBrush([(new (GameAssets.brush_waterColor)).bitmapData], 0, 2.5,0,0,true);
+			m_waterColorBrush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_waterColor)).bitmapData, 0, 2);
+//			m_waterColorBrush.alpha = 0.5
+			
+			m_pencilBrush = mPaper.createTransformationBrush([(new (GameAssets.brush_pencil)).bitmapData], 1, 2.5,0,0,true)
+//			m_pencilBrush.alpha = 0.5
+				
+			m_crayonBrush = mPaper.createTransformationBrush([(new (GameAssets.brush_crayon)).bitmapData], 2, 22,0,0,true)
+				
+			m_pinkBrush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_pink)).bitmapData, 3, 3)
+			m_pinkBrush.scale = 1.3
+				
+			m_makerBrush = mPaper.createCopyPixelsBrush((new (GameAssets.brush_maker)).bitmapData, 4, 5)
+				
+			m_eraserBrush = mPaper.createEraseBrush(eraser, 5, 6)
+			m_eraserBrush.scale = 1.9
 			mPaper.brushIndex = 0
 			
-//			GameAssets.brush_maker
 		}		
 		
 		

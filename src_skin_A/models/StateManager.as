@@ -76,6 +76,8 @@ package models
 			}
 			
 			if(enabled){
+				DrawingManager.getInstance().resetAllBrushes()
+					
 				//Agony.stage.frameRate = 30
 				AgonyUI.getModule("GameScene").init(-1, [vo], false,false)
 //				if(!Agony.isMoblieDevice){

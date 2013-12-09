@@ -75,15 +75,17 @@ package states
 			
 			// color picker
 			{
-				img = new ImagePuppet
-				img.embed(GameAssets.img_bigCircleB)
-				this.fusion.addElement(img, 606, 7)
+				mColorPickerImg = new ImagePuppet
+				mColorPickerImg.embed(GameAssets.img_bigCircleB)
+				this.fusion.addElement(mColorPickerImg, 606, 7)
 				
 //				img = new ImagePuppet
 //				img.embed(GameAssets.img_bigCircleA, false)
 //				this.fusion.addElement(img, 0, 0,LayoutType.B__A__B_ALIGN, LayoutType.B__A__B_ALIGN)
-				mColorPickerData = img.bitmapData
-				mColorPickerDataSource = mColorPickerData.clone()
+					
+//				mColorPickerData = img.bitmapData
+//				mColorPickerDataSource = mColorPickerData.clone()
+					
 //				this.doChangeColorPicker(0xffc621)
 			}
 			
@@ -129,6 +131,11 @@ package states
 			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.removeEventListener(GameSceneUIState.START_DRAW, onStopDragSlider)
 			TweenLite.killTweensOf(mCurrBrushImg)
+				
+			mPickerColorTransform.redMultiplier = 1
+			mPickerColorTransform.greenMultiplier = 1
+			mPickerColorTransform.blueMultiplier = 1
+			mColorPickerImg.displayObject.transform.colorTransform = mPickerColorTransform
 		}
 		
 		
@@ -142,6 +149,8 @@ package states
 //		private var mBrushScaleSlider:Slider
 		private var mColorPickerData:BitmapData
 		private var mColorPickerDataSource:BitmapData
+		
+		private var mColorPickerImg:ImagePuppet
 		private var mColorHalo:ImagePuppet
 		private var mColopMap:Object = {}
 		
@@ -203,8 +212,10 @@ package states
 			mPickerColorTransform.redMultiplier = r
 			mPickerColorTransform.greenMultiplier = g
 			mPickerColorTransform.blueMultiplier = b
-			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
-			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
+				
+//			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
+//			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
+			mColorPickerImg.displayObject.transform.colorTransform = mPickerColorTransform
 			
 			var cc:IComponent = mColopMap[color]
 			mColorHalo.x = cc.x
