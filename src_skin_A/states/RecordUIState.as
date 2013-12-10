@@ -95,7 +95,7 @@ package states
 			{
 				mc_recordd
 				mPb = new ProgressBar("mc_recordd", 0, 0, 1)
-				fusion_A.addElement(mPb,156,153)
+				fusion_A.addElement(mPb,117,117)
 			}
 			
 			// pressToRecord
@@ -125,12 +125,12 @@ package states
 			}
 			
 			RecordManager.getInstance().addEventListener(DataEvent.RECEIVE_DATA, onProgress)
-			RecordManager.getInstance().addEventListener(RecordManager.RECORD_COMPLETE, onStopRecord)
+			RecordManager.getInstance().addEventListener(RecordManager.RECORD_COMPLETE, onComplete)
 		}
 		
 		override public function exit() : void{
 			RecordManager.getInstance().removeEventListener(DataEvent.RECEIVE_DATA, onProgress)
-			RecordManager.getInstance().removeEventListener(RecordManager.RECORD_COMPLETE, onStopRecord)
+			RecordManager.getInstance().removeEventListener(RecordManager.RECORD_COMPLETE, onComplete)
 //			RecordManager.getInstance().startRecord()
 //			RecordManager.getInstance().stop()
 //			AgonyUI.removeImageButtonData("record_closeRecord")
@@ -171,8 +171,13 @@ package states
 //			else{
 //				mTime = 0
 //			}
-			mBtn_A.embed(PlayerAssets.btn_pressToRecord)
+			
 			RecordManager.getInstance().stopRecord()
+
+		}
+		
+		private function onComplete(e:AEvent):void{
+			mBtn_A.embed(PlayerAssets.btn_pressToRecord)
 			mPb.range.ratio = 0
 			mBtn_A.visible = false
 			mBtn_B.visible = true

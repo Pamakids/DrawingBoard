@@ -79,6 +79,7 @@ public class RecordManager extends Notifier
 	
 	private function onRecording(e:AEvent):void{
 		mRecordTime+=Agony.process.elapsed
+		this.dispatchEvent(new DataEvent(DataEvent.RECEIVE_DATA, mRecordTime / MAX_RECORD_TIME))
 		if(mRecordTime > MAX_RECORD_TIME){
 			mMic.removeEventListener(SampleDataEvent.SAMPLE_DATA, onSampleData)
 			mMic.removeEventListener(StatusEvent.STATUS, onStatus)
@@ -86,7 +87,7 @@ public class RecordManager extends Notifier
 			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onRecording)
 			this.dispatchDirectEvent(RECORD_COMPLETE)
 		}
-		this.dispatchEvent(new DataEvent(DataEvent.RECEIVE_DATA, mRecordTime / MAX_RECORD_TIME))
+		
 	}
 	
 	private function onSampleData(e:SampleDataEvent):void {

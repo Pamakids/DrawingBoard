@@ -143,12 +143,19 @@ package states
 			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_2, "speed_2", ImageButtonType.CHECKBOX_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_speed_3, "speed_3", ImageButtonType.CHECKBOX_RELEASE)
 				
+			// bottom bg	
+			{
+				img = new ImagePuppet
+				img.embed(PlayerAssets.bottomBg)
+				this.fusion.addElement(img, 0,-23,LayoutType.F__A__F_ALIGN, LayoutType.F__AF )
+			}
+			
 			// play btn
 			{
 				mPlayCheckBox = new ImageCheckBox('btn_playAndPause', false, 7)
 					
 //				if(Agony.isMoblieDevice){	
-					this.fusion.addElement(mPlayCheckBox, 42,646)
+					this.fusion.addElement(mPlayCheckBox, 141,675)
 //				}
 //				else{
 //					this.fusion.addElement(mPlayCheckBox, 25, - 180, LayoutType.FA__F, LayoutType.F__AF)
@@ -164,7 +171,7 @@ package states
 //				slider.track.interactive = false
 				mc_playProgressBar
 				m_progress = new ProgressBar("mc_playProgressBar", 0, 0, DrawingManager.getInstance().player.totalTime)
-				this.fusion.addElement(m_progress, 177,693)
+				this.fusion.addElement(m_progress, 222,689)
 					
 //				mBird = new ImagePuppet
 //				mBird.embed(PlayerAssets.player_bird)
@@ -180,7 +187,7 @@ package states
 				// medium
 				{
 					checkBox = new ImageCheckBox("speed_1", true)
-					this.fusion.addElement(checkBox, 718, 676)
+					this.fusion.addElement(checkBox, 712, 685)
 					checkBox.userData = 1
 					checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					mCurrSpeedBtn = checkBox
@@ -190,7 +197,8 @@ package states
 				{
 					{
 						checkBox = new ImageCheckBox("speed_2", false)
-						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+						this.fusion.addElement(checkBox, 787, 683)
+//						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 						checkBox.userData = 2
 						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					}
@@ -200,7 +208,8 @@ package states
 				{
 					{
 						checkBox = new ImageCheckBox("speed_3", false)
-						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+						this.fusion.addElement(checkBox, 863, 684)
+//						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 						checkBox.userData = 3
 						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					}
@@ -331,6 +340,7 @@ package states
 			StateManager.setRecord(true)
 //			this.doTogglePlay(false)
 			mPlayCheckBox.setSelected(false, true)
+			RecordManager.getInstance().stop()
 		}
 		
 		private function onBackToGallery(e:AEvent):void{
