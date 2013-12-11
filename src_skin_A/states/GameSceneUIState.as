@@ -6,6 +6,7 @@ package states
 	import com.greensock.easing.Cubic;
 	
 	import flash.display.BitmapData;
+	import flash.display.MovieClip;
 	import flash.display.PNGEncoderOptions;
 	import flash.events.Event;
 	import flash.geom.Matrix;
@@ -77,6 +78,12 @@ package states
 			var sound:ISound = SfxManager.getInstance().loadAndPlay(mThemeVo.soundUrl, 1, 1, false)
 			sound.addEventListener(AEvent.COMPLETE, onThemeSoundComplete)
 			TouchManager.getInstance().isLocked = true
+				
+			mReadyToDraw = new SpritePuppet
+			mc_readyToDraw
+			var mc:MovieClip = new mc_readyToDraw
+			mReadyToDraw.addChild(mc)
+			this.fusion.addElement(mReadyToDraw, 430, 474)
 		}
 		
 		private function doAddListeners(): void{
@@ -91,7 +98,9 @@ package states
 		
 		override public function exit():void{
 			var ges:GestureFusion
-			
+			if(mReadyToDraw){
+				TweenLite.killTweensOf(mReadyToDraw)
+			}
 			if(mDelayID >= 0){
 				DelayManager.getInstance().removeDelayedCall(mDelayID)
 			}
@@ -145,7 +154,7 @@ package states
 		private var mDrawingBgIndex:int
 		private var mThemeVo:ThemeVo
 		private var mBgImg:ImagePuppet
-		
+		private var mReadyToDraw:SpritePuppet
 		
 		
 		private function doAddPaper():void
@@ -592,6 +601,11 @@ package states
 		
 		private function onThemeSoundComplete(e:AEvent):void{
 			TouchManager.getInstance().isLocked = false
+				
+			TweenLite.to(mReadyToDraw, 0.5, {alpha:0.1,onComplete:function():void{
+				mReadyToDraw.kill()
+			}})	
+			
 				
 			Agony.process.dispatchDirectEvent(READY_TO_START)
 		}

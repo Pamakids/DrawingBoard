@@ -111,7 +111,7 @@ package states
 			{
 				img = new ImagePuppet
 				img.embed(HomepageAssets.btn_gallery)
-				this.fusion.addElement(img, 479, 654)
+				this.fusion.addElement(img, 463, 636)
 				img.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 			
