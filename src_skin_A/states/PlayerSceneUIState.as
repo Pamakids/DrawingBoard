@@ -38,6 +38,8 @@ public class PlayerSceneUIState extends UIState
 	
 	public static const FINAL_IMG_LOADED:String = "finalImgLoaded"
 	
+	public static const PLAYER_HIDE_OR_APPEAR:String = "playerHideOrAppear"
+		
 	
 	override public function enter():void
 	{
@@ -131,9 +133,11 @@ public class PlayerSceneUIState extends UIState
 		{
 			mImg = new ImagePuppet
 			mImg.bitmapData = mPlayer.content
-			mImg.interactive = false
+//			mImg.interactive = false
 			mImg.scaleX = mImg.scaleY = 1 / mPlayer.contentRatio
 			this.fusion.addElement(mImg)	
+				
+			mImg.addEventListener(AEvent.CLICK, onClickImg)
 		}
 	}
 	
@@ -255,6 +259,10 @@ public class PlayerSceneUIState extends UIState
 		file.upload()
 		bytes = null
 		RecordManager.getInstance().reset()
+	}
+	
+	private function onClickImg(e:AEvent ) : void{
+		Agony.process.dispatchDirectEvent(PLAYER_HIDE_OR_APPEAR)
 	}
 }
 }

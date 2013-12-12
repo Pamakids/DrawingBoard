@@ -2,6 +2,7 @@ package
 {
 	import com.sociodox.theminer.TheMiner;
 	
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.StageQuality;
 	import flash.events.Event;
@@ -58,10 +59,9 @@ package
 				tm.x = 200
 				this.addChild(tm)
 			}
-				
 
 		}
-		
+
 		private function doInitAgony() : void {
 			if(Agony.isMoblieDevice)
 			{
@@ -83,10 +83,11 @@ package
 		}
 		
 		private function doInitView():void{
-			StateManager.setHomepage(true)
+			StateManager.setLogo(true)
+			
 			
 //			StateManager.setRecord(true)
-//			StateManager.setGameScene(true)
+//			StateManager.setHomepage(true)
 		}
 
 	}

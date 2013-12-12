@@ -1,5 +1,7 @@
 package states
 {
+	import com.greensock.TweenLite;
+	
 	import flash.utils.ByteArray;
 	
 	import assets.ImgAssets;
@@ -18,6 +20,7 @@ package states
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
+	import org.agony2d.timer.DelayManager;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.ImageButton;
 	import org.agony2d.view.ImageCheckBox;
@@ -55,6 +58,7 @@ package states
 			this.doAddBottom()
 				
 			Agony.process.addEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)	
+			Agony.process.addEventListener(PlayerSceneUIState.PLAYER_HIDE_OR_APPEAR, onPlayerHideOrAppear)
 				
 			this.fusion.visible = false
 		}
@@ -191,17 +195,19 @@ package states
 					checkBox.userData = 1
 					checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					mCurrSpeedBtn = checkBox
+					this.doDrawHotArea(checkBox.image, -20, -18)
 				}
 				
 				// fast
 				{
-					{
-						checkBox = new ImageCheckBox("speed_2", false)
-						this.fusion.addElement(checkBox, 787, 683)
-//						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
-						checkBox.userData = 2
-						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
-					}
+
+					checkBox = new ImageCheckBox("speed_2", false)
+					this.fusion.addElement(checkBox, 787, 683)
+//					this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
+					checkBox.userData = 2
+					checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
+					this.doDrawHotArea(checkBox.image, -19, -16)
+					
 				}
 				
 				// very fast
@@ -212,16 +218,26 @@ package states
 //						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 						checkBox.userData = 3
 						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
+						this.doDrawHotArea(checkBox.image, -19, -17)
 					}
 				}
 			}
 		}
 		
-		
+		private function doDrawHotArea( img:ImagePuppet, x:Number, y:Number ) : void{
+			img.graphics.beginFill(0x0, 0)
+			img.graphics.drawRect(x,y, 70, 56)
+			img.cacheAsBitmap = true
+		}
 
 		override public function exit():void
 		{
 			Agony.process.removeEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)
+			Agony.process.removeEventListener(PlayerSceneUIState.PLAYER_HIDE_OR_APPEAR, onPlayerHideOrAppear)
+				
+			TweenLite.killTweensOf(this.fusion)
+			DelayManager.getInstance().removeDelayedCall(mDelayId)
+				
 			if(!mFileBytes){
 				RecordManager.getInstance().removeEventListener(RecordManager.RECORD_COMPLETE, onRecordComplete)
 				RecordManager.getInstance().removeEventListener(RecordManager.RECORD_RESET, onRecordReset)
@@ -246,7 +262,8 @@ package states
 		private var mRecordImg:ImagePuppet
 //		private var mBigPlayButton:ImagePuppet
 //		private var mBird:ImagePuppet
-		
+		private var mIsHideState:Boolean
+		private var mDelayId:int = -1
 		
 
 //		private function onBack(e:AEvent):void{
@@ -275,6 +292,10 @@ package states
 		}
 		
 		private function doTogglePlay(b:Boolean ):void{
+			if(mIsHideState){
+				mIsHideState = false
+				this.doPlayerHideOrAppear()
+			}
 			if(b){
 				if(!mIsPlayed){
 					//					if(mBigPlayButton){
@@ -292,6 +313,10 @@ package states
 					DrawingManager.getInstance().player.paused = false
 					
 				}
+				
+				doCountDownForHide()
+				
+				
 				Agony.process.addEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 			}
 			else{
@@ -299,7 +324,9 @@ package states
 				DrawingManager.getInstance().player.paused = true
 				//				mBigPlayButton.visible = true
 				
+				DelayManager.getInstance().removeDelayedCall(mDelayId)
 			}
+			
 		}
 		
 		
@@ -311,6 +338,16 @@ package states
 			DrawingManager.getInstance().player.timeScale = target.userData as Number
 			mCurrSpeedBtn.setSelected(false)
 			mCurrSpeedBtn = target
+				
+			if(mIsHideState){
+				mIsHideState = false
+				this.doPlayerHideOrAppear()
+			}
+			DelayManager.getInstance().removeDelayedCall(mDelayId)
+			if(mPlayCheckBox.selected){
+				doCountDownForHide()
+			}
+
 		}
 		
 		private function onEnterFrame(e:AEvent):void{
@@ -321,6 +358,12 @@ package states
 //				mBigPlayButton.visible = true
 				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 				mIsPlayed = false
+					
+				if(mIsHideState){
+					mIsHideState = false
+					this.doPlayerHideOrAppear()
+				}
+				DelayManager.getInstance().removeDelayedCall(mDelayId)
 			}
 		}
 		
@@ -364,5 +407,37 @@ package states
 			mRecordImg.embed(PlayerAssets.top_no_record)
 		}
 		
+		private function onPlayerHideOrAppear(e:AEvent):void{
+			if(mPlayCheckBox.selected){
+				mIsHideState = !mIsHideState
+				this.doPlayerHideOrAppear()
+			}
+		}
+		
+		private function doPlayerHideOrAppear():void{
+			DelayManager.getInstance().removeDelayedCall(mDelayId)
+			if(mIsHideState){
+				TweenLite.to(this.fusion, 0.5, {alpha:0.05, overwrite:1,onComplete:function():void{
+					fusion.visible = false
+				}})
+			}
+			else{
+				fusion.visible = true
+				TweenLite.to(this.fusion, 0.5, {alpha:1, overwrite:1,onComplete:function():void{
+					if(mPlayCheckBox.selected){
+						doCountDownForHide()
+					}
+				}})
+			}
+		}
+		
+		private function doCountDownForHide() : void{
+			mDelayId = DelayManager.getInstance().delayedCall(4.5, function() : void{
+				mIsHideState = true
+				TweenLite.to(fusion, 0.5, {alpha:0.05, overwrite:1,onComplete:function():void{
+					fusion.visible = false
+				}})
+			})
+		}
 	}
 }

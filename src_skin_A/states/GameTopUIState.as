@@ -3,6 +3,8 @@ package states
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
 	
+	import flash.utils.setTimeout;
+	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.game.GameAssets;
@@ -39,6 +41,8 @@ package states
 		public static const GAME_RESET:String = "gameReset"
 		
 		public static const FINISH_DRAW_AND_PASTER:String = "createDrawAndPasterFile"
+			
+		public static const READY_TO_SAVE:String = "readyToSave" 	
 			
 			
 		
@@ -87,11 +91,11 @@ package states
 			
 			// reset
 			{
-				img = new ImagePuppet
-				this.fusion.addElement(img, 463, 21)
-				img.embed(GameAssets.game_pre_trash)
-				img.addEventListener(AEvent.CLICK, onPreTopReset)
-				mImgList.push(img)
+				mResetImg = new ImagePuppet
+				this.fusion.addElement(mResetImg, 463, 21)
+				mResetImg.embed(GameAssets.game_pre_trash)
+				mResetImg.addEventListener(AEvent.CLICK, onPreTopReset)
+				mImgList.push(mResetImg)
 				mPositonA = this.fusion.position
 			}
 			
@@ -118,6 +122,8 @@ package states
 			Agony.process.addEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.addEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
 			Agony.process.addEventListener(GameSceneUIState.READY_TO_START, onReadyToStart)
+			Agony.process.addEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
+			Agony.process.addEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
 		}
 		
 		override public function exit():void{
@@ -128,7 +134,8 @@ package states
 			Agony.process.removeEventListener(GameBottomUIState.SCENE_BOTTOM_VISIBLE_CHANGE, onSceneBottomVisibleChange)
 			Agony.process.removeEventListener(GameSceneUIState.PAPER_DIRTY, onPaperDirty)
 			Agony.process.removeEventListener(GameSceneUIState.READY_TO_START, onReadyToStart)	
-				
+			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_BRUSH, onStateToBrush)
+			Agony.process.removeEventListener(GameBottomUIState.STATE_TO_PASTER, onStateToPaster)
 			TweenLite.killTweensOf(this.fusion)
 				
 			if(mGameBack){
@@ -150,7 +157,7 @@ package states
 		private var mImgList:Array
 		private var mHeight:Number
 		private var mPositonA:int
-		private var mResetFusion:Fusion
+		private var mResetImg:ImagePuppet
 		private var mResetBg:SpritePuppet
 		private var mFinishBtn:ImagePuppet
 		
@@ -265,13 +272,34 @@ package states
 		}
 		
 		private function onTopComplete(e:AEvent):void{
-			Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
-			
-//			DelayManager.getInstance().delayedCall(0.4, function():void{
+			this.doShowSavingView()
+			TouchManager.getInstance().isLocked = true
+			flash.utils.setTimeout(function():void{
+				Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
+				
 				StateManager.setGameScene(false)
 				StateManager.setPlayer(true)
-//			})
+				
+				
+				TouchManager.getInstance().isLocked = false
+			},200)
 
+		}
+		
+		
+		private function doShowSavingView() : void{
+			var img:ImagePuppet
+			var bg:SpritePuppet
+			
+			bg = new SpritePuppet
+			bg.graphics.beginFill(0x0, 0.4)
+			bg.graphics.drawRect(-4, -4, AgonyUI.fusion.spaceWidth + 8, AgonyUI.fusion.spaceHeight + 8)
+			//mResetBg.cacheAsBitmap = true
+			this.fusion.addElement(bg)
+				
+			img = new ImagePuppet
+			img.embed(GameAssets.game_saving)
+			this.fusion.addElement(img, 0,-20, LayoutType.F__A__F_ALIGN, LayoutType.F__A__F_ALIGN)
 		}
 		
 		
@@ -320,6 +348,16 @@ package states
 		
 		private function onReadyToStart(e:AEvent):void{
 			TweenLite.to(this.fusion, Config.TOP_AND_BOTTOM_HIDE_TIME, {y:0,overwrite:1})
+		}
+		
+		private function onStateToBrush(e:AEvent):void{
+			mResetImg.alpha = 1
+			mResetImg.interactive = true
+		}
+		
+		private function onStateToPaster(e:AEvent):void{
+			mResetImg.alpha = 0.44
+			mResetImg.interactive = false
 		}
 	}
 }

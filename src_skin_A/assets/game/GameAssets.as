@@ -48,6 +48,7 @@ package assets.game
 		[Embed(source="img/common/game_Back.png")] public static const game_Back:Class
 		[Embed(source="img/common/game_Clear.png")] public static const game_Clear:Class
 		[Embed(source="img/common/game_complete.png")] public static const game_complete:Class
+		[Embed(source="img/common/game_saving.png")] public static const game_saving:Class
 		
 		
 		// brush

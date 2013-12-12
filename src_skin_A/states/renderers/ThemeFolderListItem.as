@@ -79,11 +79,11 @@ package states.renderers
 				}
 				
 				// halo
-				{
-					img = new ImagePuppet(5)
-					img.embed(HomepageAssets.themeHalo)
-					this.addElement(img, 0, 129)	
-				}
+//				{
+//					img = new ImagePuppet(5)
+//					img.embed(HomepageAssets.themeHalo)
+//					this.addElement(img, 0, 129)	
+//				}
 				
 				label = new LabelPuppet(vo.getTitleName())
 				this.addElement(label, 185, 145)

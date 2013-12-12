@@ -114,7 +114,7 @@ public class GalleryItem extends ListItem
 			return
 		}
 		if(!mIsRemoveState){
-			StateManager.setTheme(false)
+			StateManager.setGallery(false)
 			StateManager.setPlayer(true, mBytes)
 		}
 

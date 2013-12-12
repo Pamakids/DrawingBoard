@@ -13,6 +13,7 @@ package models
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
 	import states.HomepageUIState;
+	import states.LogoUIState;
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
 	import states.RecordUIState;
@@ -20,6 +21,23 @@ package models
 
 	public class StateManager
 	{
+		
+		// logo.
+		private static var mLogoExists:Boolean
+		public static function setLogo( enabled:Boolean ) : void{
+			if(!mLogoExists){
+				mLogoExists = true
+				AgonyUI.addModule("LogoUIState", LogoUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("LogoUIState").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("LogoUIState").exit()
+			}
+		}
+		
+		
 		// Homepage...
 		private static var mHomepageExists:Boolean
 		public static function setHomepage( enabled:Boolean ) : void{
