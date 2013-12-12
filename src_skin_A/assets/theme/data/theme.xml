@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawBoard>
 	<theme type = "animal" thumbnail = "assets/data/theme/thumbnail/optional.jpg">
-		<data>assets/data/theme/thumbnail/animal/chicken.png</data>
+		<data>assets/data/theme/thumbnail/animal/chicken.jpg</data>
 		<data>assets/data/theme/thumbnail/animal/dog.png</data>
 		<data>assets/data/theme/thumbnail/animal/dogdinner.png</data>
 		<data>assets/data/theme/thumbnail/animal/Hatched.png</data>
@@ -10,7 +10,7 @@
 		<data>assets/data/theme/thumbnail/animal/konglong.png</data>
 		<data>assets/data/theme/thumbnail/animal/peacock.png</data>
 		<data>assets/data/theme/thumbnail/animal/snake.png</data>
-		<data>assets/data/theme/thumbnail/animal/watering flower.png</data>
+		<data>assets/data/theme/thumbnail/animal/watering-flower.png</data>
 	</theme>
 	
 	<theme type = "design" thumbnail = "assets/data/theme/thumbnail/optional.jpg">

@@ -86,11 +86,11 @@ package assets.game
 		[Embed(source="img/color/color12.png")] public static const img_color12:Class
 		public static function get colorImgList():Array{
 			return [
+				img_color5,
 				img_color4,
 				img_color1,
 				img_color2,
-				img_color3,
-				img_color5,
+				img_color3,	
 				img_color6,
 				
 				img_color7,
@@ -132,6 +132,28 @@ package assets.game
 		[Embed(source="img/paster/20-1.png")] public static const paster_20_1:Class
 		[Embed(source="img/paster/21-1.png")] public static const paster_21_1:Class
 		[Embed(source="img/paster/22-1.png")] public static const paster_22_1:Class
+		[Embed(source="img/paster/23-1.png")] public static const paster_23_1:Class
+		[Embed(source="img/paster/24-1.png")] public static const paster_24_1:Class
+		[Embed(source="img/paster/25-1.png")] public static const paster_25_1:Class
+		[Embed(source="img/paster/26-1.png")] public static const paster_26_1:Class
+		[Embed(source="img/paster/27-1.png")] public static const paster_27_1:Class
+		[Embed(source="img/paster/28-1.png")] public static const paster_28_1:Class
+		[Embed(source="img/paster/29-1.png")] public static const paster_29_1:Class
+		[Embed(source="img/paster/30-1.png")] public static const paster_30_1:Class
+		[Embed(source="img/paster/31-1.png")] public static const paster_31_1:Class
+		[Embed(source="img/paster/32-1.png")] public static const paster_32_1:Class
+		[Embed(source="img/paster/33-1.png")] public static const paster_33_1:Class
+		[Embed(source="img/paster/34-1.png")] public static const paster_34_1:Class
+		[Embed(source="img/paster/35-1.png")] public static const paster_35_1:Class
+		[Embed(source="img/paster/36-1.png")] public static const paster_36_1:Class
+		[Embed(source="img/paster/37-1.png")] public static const paster_37_1:Class
+		[Embed(source="img/paster/38-1.png")] public static const paster_38_1:Class
+		[Embed(source="img/paster/39-1.png")] public static const paster_39_1:Class
+		[Embed(source="img/paster/40-1.png")] public static const paster_40_1:Class
+		[Embed(source="img/paster/41-1.png")] public static const paster_41_1:Class
+		[Embed(source="img/paster/42-1.png")] public static const paster_42_1:Class
+		[Embed(source="img/paster/43-1.png")] public static const paster_43_1:Class
+		
 		
 		[Embed(source="img/paster/1.png")] public static const paster_1:Class
 		[Embed(source="img/paster/2.png")] public static const paster_2:Class
@@ -155,5 +177,26 @@ package assets.game
 		[Embed(source="img/paster/20.png")] public static const paster_20:Class
 		[Embed(source="img/paster/21.png")] public static const paster_21:Class
 		[Embed(source="img/paster/22.png")] public static const paster_22:Class
+		[Embed(source="img/paster/23.png")] public static const paster_23:Class
+		[Embed(source="img/paster/24.png")] public static const paster_24:Class
+		[Embed(source="img/paster/25.png")] public static const paster_25:Class
+		[Embed(source="img/paster/26.png")] public static const paster_26:Class
+		[Embed(source="img/paster/27.png")] public static const paster_27:Class
+		[Embed(source="img/paster/28.png")] public static const paster_28:Class
+		[Embed(source="img/paster/29.png")] public static const paster_29:Class
+		[Embed(source="img/paster/30.png")] public static const paster_30:Class
+		[Embed(source="img/paster/31.png")] public static const paster_31:Class
+		[Embed(source="img/paster/32.png")] public static const paster_32:Class
+		[Embed(source="img/paster/33.png")] public static const paster_33:Class
+		[Embed(source="img/paster/34.png")] public static const paster_34:Class
+		[Embed(source="img/paster/35.png")] public static const paster_35:Class
+		[Embed(source="img/paster/36.png")] public static const paster_36:Class
+		[Embed(source="img/paster/37.png")] public static const paster_37:Class
+		[Embed(source="img/paster/38.png")] public static const paster_38:Class
+		[Embed(source="img/paster/39.png")] public static const paster_39:Class
+		[Embed(source="img/paster/40.png")] public static const paster_40:Class
+		[Embed(source="img/paster/41.png")] public static const paster_41:Class
+		[Embed(source="img/paster/42.png")] public static const paster_42:Class
+		[Embed(source="img/paster/43.png")] public static const paster_43:Class
 	}
 }

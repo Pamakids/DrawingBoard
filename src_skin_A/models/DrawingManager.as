@@ -63,12 +63,12 @@ package models
 		}
 		
 		public function resetAllBrushes() : void{
-			m_waterColorBrush.color = Config.INIT_BRUSH_COLOR
-			m_pencilBrush.color = Config.INIT_BRUSH_COLOR
-			m_crayonBrush.color = Config.INIT_BRUSH_COLOR
-			m_pinkBrush.color = Config.INIT_BRUSH_COLOR
-			m_makerBrush.color = Config.INIT_BRUSH_COLOR
-			m_eraserBrush.color = Config.INIT_BRUSH_COLOR
+			m_waterColorBrush.color = 0x30a1dd
+			m_pencilBrush.color = 0x000000
+			m_crayonBrush.color = 0xffc621
+			m_pinkBrush.color = 0xfe5377
+			m_makerBrush.color = 0x74bd4b
+			m_eraserBrush.color = 0x30a1dd
 		}
 		
 		

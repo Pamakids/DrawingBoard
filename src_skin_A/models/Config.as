@@ -37,15 +37,15 @@ package models
 			
 			
 			
-		public static const INIT_BRUSH_COLOR:uint = 0xe10e0e
+		//public static const INIT_BRUSH_COLOR:uint = 0xe10e0e
 			
 		public static function get colorDataList():Array{ 
 			return [
+				0x30a1dd,
 				0xe10e0e,
 				0xffc621,
 				0xf97a41,
-				0xf96bc2,
-				0x30a1dd,
+				0xfe5377,
 				0xffffff,
 				
 				0x74bd4b,
