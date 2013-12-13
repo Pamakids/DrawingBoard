@@ -11,6 +11,7 @@ package states
 	import models.Config;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.utils.MathUtil;
@@ -75,14 +76,16 @@ package states
 				mCurrStateImg = img
 				this.fusion.addElement(img, 22, 10)
 				img.addEventListener(AEvent.CLICK, onStateChange)
-//				imgBtn.image.graphics.quickDrawRect(67,52)
-				
+				img.graphics.quickDrawRect(44,42,0x0,0, 0, 4.5)
+				img.cacheAsBitmap = true
+					
 				img = new ImagePuppet()
 				img.embed(GameAssets.paster_unselected, true)
 				img.userData = 1
 				this.fusion.addElement(img, 14, 65)
 				img.addEventListener(AEvent.CLICK, onStateChange)
-//				imgBtn.image.graphics.quickDrawRect(67,52)
+				img.graphics.quickDrawRect(44,42,0x0,0, 2.5,3.5)
+				img.cacheAsBitmap= true
 			}
 			
 			// state fustion
@@ -130,6 +133,7 @@ package states
 			if(mIndex == index){
 				return
 			}
+			SfxManager.getInstance().play(GameAssets.snd_switchGameState)
 			switch(index)
 			{
 				case 0:

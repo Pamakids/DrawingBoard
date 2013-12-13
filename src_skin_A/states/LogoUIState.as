@@ -2,9 +2,12 @@ package states
 {
 	import flash.display.MovieClip;
 	
+	import assets.SoundAssets;
+	
 	import models.StateManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.UIState;
@@ -18,6 +21,9 @@ package states
 			Agony.stage.frameRate = 24
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
+			
+				
+			SfxManager.getInstance().play(SoundAssets.logo, 1, 1, false)	
 				
 			var sprite:SpritePuppet = new SpritePuppet
 			

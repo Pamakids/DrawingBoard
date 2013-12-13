@@ -199,5 +199,11 @@ package assets.game
 		[Embed(source="img/paster/41.png")] public static const paster_41:Class
 		[Embed(source="img/paster/42.png")] public static const paster_42:Class
 		[Embed(source="img/paster/43.png")] public static const paster_43:Class
+		
+		
+		
+		// sound
+		[Embed(source ="sounds/switchBrush.mp3")] public static const snd_switchBrush:Class
+		[Embed(source ="sounds/switchGameState.mp3")] public static const snd_switchGameState:Class
 	}
 }

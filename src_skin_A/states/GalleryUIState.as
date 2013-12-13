@@ -8,6 +8,7 @@ package states
 	import flash.utils.ByteArray;
 	
 	import assets.ImgAssets;
+	import assets.SoundAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
 	import assets.theme.ThemeAssets;
@@ -24,6 +25,7 @@ package states
 	import org.agony2d.air.file.IFile;
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.input.TouchManager;
+	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.timer.DelayManager;
@@ -338,6 +340,8 @@ package states
 			var img:ImagePuppet
 			var thumbnail:String, finalUrl:String
 			var rawFile:File
+			
+			SfxManager.getInstance().play(SoundAssets.del)
 			
 //			trace("Confirm Remove Item")
 			mIsRemoveState = false

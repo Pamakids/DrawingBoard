@@ -3,6 +3,7 @@ package states
 	import com.greensock.TweenLite;
 	
 	import assets.ImgAssets;
+	import assets.SoundAssets;
 	import assets.homepage.HomepageAssets;
 	
 	import models.StateManager;
@@ -11,6 +12,7 @@ package states
 	
 	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
+	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
@@ -127,12 +129,16 @@ package states
 			}
 			
 			TouchManager.getInstance().velocityEnabled = true
+				
+			Agony.process.addEventListener(AEvent.ENTER_FRAME, onNextFrame)
 		}
 		
 		override public function exit():void{
 //			TouchManager.getInstance().velocityEnabled = false
 			var l:int
-			
+			if(!mIsStartRecordComplete){
+				Agony.process.removeEventListener(AEvent.ENTER_FRAME, onNextFrame)
+			}
 			this.doCheckScrolling()
 			l = mThemeList.length
 			while(--l>-1){
@@ -141,9 +147,18 @@ package states
 			
 		}
 		
+		private function onNextFrame(e:AEvent):void{
+			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onNextFrame)
+			mIsStartRecordComplete = true
+				
+			SfxManager.getInstance().play(SoundAssets.cnlet)
+		}
+		
 		
 		private const ITEM_SCALE_MAX:Number = 1.0
 		private const ITEM_SCALE_MIN:Number = 0.5
+			
+		private var mIsStartRecordComplete:Boolean
 		
 		private var mRadioList:RadioList
 		private var mThemeList:Array = []

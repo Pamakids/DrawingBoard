@@ -13,6 +13,7 @@ package states
 	import models.DrawingManager;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.DataEvent;
 	import org.agony2d.view.Slider;
@@ -169,6 +170,7 @@ package states
 				return
 			}
 			this.doSelectBrush(index)
+			SfxManager.getInstance().play(GameAssets.snd_switchBrush)
 		}
 		
 		private function doSelectBrush(index:int):void{

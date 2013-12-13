@@ -239,6 +239,8 @@ package states
 		}
 		
 		private function onTopClear(e:AEvent):void{
+			SfxManager.getInstance().play(SoundAssets.del)
+				
 			this.onTopClearCancel(null)
 			
 //			mResetFusion.kill()
