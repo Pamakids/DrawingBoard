@@ -172,6 +172,7 @@ package states
 				mBoard.singleTouchForMovement = false
 				mBoard.limitLeft = mBoard.limitRight = mBoard.limitTop = mBoard.limitBottom = true
 				mContent = mBoard.content
+				mBoard.locked = true
 					
 				// bg...
 				{
@@ -188,7 +189,7 @@ package states
 					mBoard.content.addElement(mBgImg)	
 				}
 				
-				// content...
+				// content.
 				{
 					mImg = new ImagePuppet
 					mImg.interactive = false
@@ -305,7 +306,11 @@ package states
 			mIsPaperState = true
 			mPasterFusion.alpha = Config.PASTER_INVALID_ALPHA
 			mPasterFusion.interactive = false
-			mBoard.locked = false
+				
+				
+//			mBoard.locked = false
+				
+				
 			this.doSetPasterEnabled(false)
 			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, __onNewTouch)
 		}
@@ -325,7 +330,11 @@ package states
 				mPasterFusion.interactive = true
 				this.doSetPasterEnabled(true)
 			}
-			mBoard.locked = true
+			
+			
+//			mBoard.locked = true
+				
+				
 //			if(mBoard.horizRatio != 0 || mBoard.vertiRatio != 0 || mBoard.scaleRatio != 1){
 			TweenLite.to(mBoard, 0.3, {scaleRatio:1})
 //			}

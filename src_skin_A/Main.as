@@ -29,7 +29,7 @@ package
 	
 	import states.RecordUIState;
 	
-	[SWF(width = "1024", height = "768", frameRate = "60", backgroundColor = "0xdddddd")]
+	[SWF(width = "1024", height = "768", frameRate = "60", backgroundColor = "0x0")]
 	public class Main extends Sprite 
 	{
 		public function Main() 
@@ -65,10 +65,10 @@ package
 		private function doInitAgony() : void {
 			if(Agony.isMoblieDevice)
 			{
-				Agony.startup(stage, 1024, 768, "low", true);
+				Agony.startup(stage, 1024, 768, "high", true);
 			}
 			else{
-				Agony.startup(stage, 1024, 768, "low", true, 4/5);
+				Agony.startup(stage, 1024, 768, "high", true, 4/5);
 			}
 			AgonyUI.startup(false, true);
 			AgonyUI.setButtonEffectType(ButtonEffectType.PRESS_PRESS)
@@ -84,10 +84,10 @@ package
 		
 		private function doInitView():void{
 			StateManager.setLogo(true)
-			
+//			StateManager.setHomepage(true)		
 			
 //			StateManager.setRecord(true)
-//			StateManager.setHomepage(true)
+
 		}
 
 	}

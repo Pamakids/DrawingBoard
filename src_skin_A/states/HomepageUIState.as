@@ -27,7 +27,7 @@ package states
 	import org.agony2d.view.puppet.ImagePuppet;
 	
 	import states.renderers.ThemeFolderListItem;
-
+	
 	public class HomepageUIState extends UIState
 	{
 		override public function enter():void
@@ -43,39 +43,50 @@ package states
 			this.fusion.spaceWidth = AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
-			// theme dir model...
+			// theme dir model.
 			dirList = ThemeManager.getInstance().getThemeList()
 			
 				
-			// bg
+			// bg.
 			{
 				img = new ImagePuppet
 				img.embed(ImgAssets.publicBg, true)
 				this.fusion.addElement(img)
 			}
 			
-			// title bg
+			// bg_B.
+			{
+				img = new ImagePuppet
+				img.embed(HomepageAssets.homepageBg_B, true)
+				this.fusion.addElement(img)
+			}
+			
+			
+			
+			// title bg.
 			{
 				img = new ImagePuppet
 				img.embed(HomepageAssets.titleBg, true)
 				this.fusion.addElement(img)
 			}
 			
-			// parents
+			// to parent.
 			{
 				img = new ImagePuppet
 				img.embed(HomepageAssets.parents, true)
+				img.graphics.quickDrawRect(70,60,0x0,0,7)
 				this.fusion.addElement(img, 16, 21)
+				img.addEventListener(AEvent.CLICK, onToParent)
 			}
 			
-			// title
+			// title.
 			{
 				img = new ImagePuppet
 				img.embed(HomepageAssets.title, true)
-				this.fusion.addElement(img, 396, 62)
+				this.fusion.addElement(img, 363, 47)
 			}
 			
-			// theme dir thumbnail...
+			// theme dir thumbnail.
 			{
 				layout = new HorizLayout(435, 0, -1, AgonyUI.fusion.spaceWidth/2, AgonyUI.fusion.spaceHeight/2 + 10, 230)
 				mRadioList = new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400,400)
@@ -231,6 +242,11 @@ package states
 //			trace("onGoIntoGallery")
 			StateManager.setHomepage(false)
 			StateManager.setGallery(true)
+		}
+		
+		private function onToParent(e:AEvent):void{
+			StateManager.setHomepage(false)
+			StateManager.setToParent(true)
 		}
 	}
 }

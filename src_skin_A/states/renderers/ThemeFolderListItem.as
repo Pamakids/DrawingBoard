@@ -41,23 +41,26 @@ package states.renderers
 				// thumb
 				{
 					img = new ImagePuppet(5) 
-					this.addElement(img, -8.5, 6)
+					this.addElement(img, -6.5, -7)
 //					img.scaleX = img.scaleY = 1.2
 					img.load(mEverydayTheme.everydayUrl, false)
 				}
 				
-				// halo
+				// halo.
 				{
 					img = new ImagePuppet(5)
 					img.embed(HomepageAssets.everydayHalo)
-					this.addElement(img, -8, 135)	
+					this.addElement(img, -6.5, 124)	
 				}
 				
-				label = new LabelPuppet("每日一画")
-				this.addElement(label, 120, 145)
-				label.textField.embedFonts = true
-				label.textField.setTextFormat(css)
-					
+				// txt.
+				{
+					label = new LabelPuppet("每日一画")
+					this.addElement(label, 123, 145)
+					label.textField.embedFonts = true
+					label.textField.setTextFormat(css)
+				}
+				
 				this.addEventListener(AEvent.CLICK, onEveryDay)
 					
 			}
@@ -72,10 +75,17 @@ package states.renderers
 				// thumb
 				{
 					img = new ImagePuppet(5) 
-					this.addElement(img, 0, 0)
+					this.addElement(img, 0, -9)
 					var vo:ThemeFolderVo = this.itemArgs["data"]
 					img.load(vo.thumbnail, false)
 					this.userData = vo
+				}
+				
+				// txt.
+				{
+					img = new ImagePuppet
+					img.embed(vo.getThemeTxt())
+					this.addElement(img, 135, 82)	
 				}
 				
 				// halo
@@ -85,10 +95,10 @@ package states.renderers
 //					this.addElement(img, 0, 129)	
 //				}
 				
-				label = new LabelPuppet(vo.getTitleName())
-				this.addElement(label, 185, 145)
-				label.textField.embedFonts = true
-				label.textField.setTextFormat(css)
+//				label = new LabelPuppet(vo.getTitleName())
+//				this.addElement(label, 185, 145)
+//				label.textField.embedFonts = true
+//				label.textField.setTextFormat(css)
 					
 				this.addEventListener(AEvent.CLICK, onClick)
 			}

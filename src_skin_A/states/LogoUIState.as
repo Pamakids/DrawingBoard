@@ -31,10 +31,12 @@ package states
 			this.fusion.addElement(sprite, 0,0,LayoutType.F__A__F_ALIGN,LayoutType.F__A__F_ALIGN)
 				
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, onEnterFrame)
+			Agony.stage.quality = "best"
 		}
 		
 		override public function exit():void{
 			Agony.stage.frameRate = 60
+			Agony.stage.quality = "low"
 		}
 		
 		

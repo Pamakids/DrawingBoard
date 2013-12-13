@@ -31,5 +31,20 @@ package assets.homepage
 		
 		
 		[Embed(source="img/common/noFile.png")] public static const noFile:Class
+		
+		[Embed(source="img/common/homepageBg_B.png")] public static const homepageBg_B:Class
+		
+		// toParent
+		[Embed(source="img/common/toParent_A.png")] public static const toParent_A:Class
+		[Embed(source="img/common/toParent_B.png")] public static const toParent_B:Class
+		[Embed(source="img/common/toParent_scroller.png")] public static const toParent_scroller:Class
+		
+		
+		// theme txt
+		[Embed(source="img/theme/animal.png")] public static const animalTxt:Class
+		[Embed(source="img/theme/design.png")] public static const designTxt:Class
+		[Embed(source="img/theme/fantasty.png")] public static const fantastyTxt:Class
+		[Embed(source="img/theme/life.png")] public static const lifeTxt:Class
+		[Embed(source="img/theme/people.png")] public static const peopleTxt:Class
 	}
 }

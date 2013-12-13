@@ -3,6 +3,7 @@ package models
 	import assets.theme.ThemeAssets;
 	
 	import org.agony2d.utils.ArrayUtil;
+	import assets.homepage.HomepageAssets;
 
 	public class ThemeFolderVo
 	{
@@ -60,6 +61,27 @@ package models
 				name = "人物"
 			}
 			return name
+		}
+		
+		public function getThemeTxt() : Class {
+			var ref:Class
+			
+			if(this.type == "animal"){
+				ref = HomepageAssets.animalTxt
+			}
+			else if(this.type == "design"){
+				ref = HomepageAssets.designTxt
+			}
+			else if(this.type == "fantasty"){
+				ref = HomepageAssets.fantastyTxt
+			}
+			else if(this.type == "life"){
+				ref = HomepageAssets.lifeTxt
+			}
+			else if(this.type == "people"){
+				ref = HomepageAssets.peopleTxt
+			}
+			return ref
 		}
 		
 		

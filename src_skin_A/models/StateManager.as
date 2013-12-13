@@ -18,6 +18,7 @@ package models
 	import states.PlayerTopAndBottomUIState;
 	import states.RecordUIState;
 	import states.ThemeUIState;
+	import states.ToParentUIState;
 
 	public class StateManager
 	{
@@ -36,8 +37,20 @@ package models
 				AgonyUI.getModule("LogoUIState").exit()
 			}
 		}
-		
-		
+		// toParent
+		private static var mToParentExists:Boolean
+		public static function setToParent( enabled:Boolean ) : void{
+			if(!mToParentExists){
+				mToParentExists = true
+				AgonyUI.addModule("ToParentUIState", ToParentUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("ToParentUIState").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("ToParentUIState").exit()
+			}
+		}
 		// Homepage...
 		private static var mHomepageExists:Boolean
 		public static function setHomepage( enabled:Boolean ) : void{

@@ -36,6 +36,7 @@ package states
 		
 		override public function enter():void
 		{
+			Agony.stage.quality = "best"
 			
 			var img:ImagePuppet
 			var bg:SpritePuppet
@@ -135,6 +136,8 @@ package states
 //			RecordManager.getInstance().stop()
 //			AgonyUI.removeImageButtonData("record_closeRecord")
 //			AgonyUI.removeImageButtonData("record_pressToRecord")
+				
+			Agony.stage.quality = "low"
 		}
 		
 		
