@@ -38,7 +38,7 @@ Page | Category | Action | Label | Value | Description
 ### 时间
 
 Page | Category | Value | Type | Description
---- |
+--- | --- | --- | --- | ---
 主题列表 | B | 进入列表到离开的时间 | 选择<br>返回 | 选择主题或返回上一界面
 画画 | C | 进入画画到离开的时间 | 返回<br>完成<br>画画 | 返回上一界面<br>完成绘画<br>实际画画的时间
 画画完成 | D | 进入画画完成页面到离开的时间 | 完成 <br> 返回
