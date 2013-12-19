@@ -36,6 +36,7 @@ Page | Category | Action | Label | Value | Description
 致父母|
 
 ### 时间
+
 Page | Category | Value | Type | Description
 --- |
 主题列表 | B | 进入列表到离开的时间 | 选择<br>返回 | 选择主题或返回上一界面
