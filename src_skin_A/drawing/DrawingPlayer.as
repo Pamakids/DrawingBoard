@@ -30,8 +30,8 @@ public class DrawingPlayer extends PaperBase {
 		if (!sourceBytes){
 			Logger.reportError(this, "constructor", "source bytes can't be null!!")
 		}
-		m_content = paper.m_content
-		m_content.fillRect(m_content.rect, 0x0)
+		m_content = paper.m_content.clone()
+//		m_content.fillRect(m_content.rect, 0x0)
 		m_base = paper.m_base ? paper.m_base.clone() : null
 		m_brushList = paper.m_brushList
 		m_bytesB.writeBytes(sourceBytes)

@@ -2,17 +2,17 @@ package states
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-
+	
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
-
+	
 	import assets.ImgAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
-
+	
 	import models.StateManager;
-
+	
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.GridScrollFusionA;
@@ -23,7 +23,7 @@ package states
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
-
+	
 	import states.renderers.GalleryItem;
 
 	public class ToParentUIState extends UIState
@@ -95,6 +95,7 @@ package states
 			super.exit();
 			UserBehaviorAnalysis.trackTime('G', exsitTime, '停留');
 			TweenLite.killTweensOf(mContent)
+			TweenLite.killTweensOf(mThumb)
 		}
 
 
@@ -182,7 +183,8 @@ package states
 		private function onScrolling(e:AEvent):void
 		{
 			//trace(e.type)
-			mThumb.y=mScroll.vertiRatio * (END_Y - START_Y) + START_Y
+			TweenLite.to(mThumb, 0.1, {y:mScroll.vertiRatio * (END_Y - START_Y) + START_Y, overwrite:1})
+//			mThumb.y=mScroll.vertiRatio * (END_Y - START_Y) + START_Y
 		}
 
 	}

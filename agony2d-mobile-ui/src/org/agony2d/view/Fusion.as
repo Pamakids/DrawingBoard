@@ -366,7 +366,7 @@ public class Fusion extends SmoothProxy {
 			Logger.reportError(this, "addElementAt", "a comp cann't insert to self...!!")
 		}
 		if(cc.m_parent) {
-			Logger.reportError(this, "addElementAt", "a comp has added to fusion...!!")
+//			Logger.reportError(this, "addElementAt", "a comp has added to fusion...!!")
 		}
 		cc.m_parent = m_view
 		m_elementList[m_numElement++] = cc

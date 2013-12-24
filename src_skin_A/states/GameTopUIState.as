@@ -2,21 +2,21 @@ package states
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-
+	
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
-
+	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.game.GameAssets;
-
+	
 	import drawing.CommonPaper;
-
+	
 	import models.Config;
 	import models.DrawingManager;
 	import models.StateManager;
 	import models.ThemeManager;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.media.SfxManager;
@@ -86,11 +86,11 @@ package states
 
 			// back
 			{
-				img=new ImagePuppet
-				this.fusion.addElement(img, 42, 21)
-				img.embed(GameAssets.game_pre_back)
-				img.addEventListener(AEvent.CLICK, onPreTopBack)
-				mImgList.push(img)
+				mBackImg=new ImagePuppet
+				this.fusion.addElement(mBackImg, 42, 21)
+				mBackImg.embed(GameAssets.game_pre_back)
+				mBackImg.addEventListener(AEvent.CLICK, onPreTopBack)
+				mImgList.push(mBackImg)
 			}
 
 			// reset
@@ -166,6 +166,8 @@ package states
 		private var mImgList:Array
 		private var mHeight:Number
 		private var mPositonA:int
+		
+		private var mBackImg:ImagePuppet
 		private var mResetImg:ImagePuppet
 		private var mResetBg:SpritePuppet
 		private var mFinishBtn:ImagePuppet
@@ -183,6 +185,9 @@ package states
 			mGameBack.embed(GameAssets.game_Back)
 			mGameBack.addEventListener(AEvent.PRESS, onTopBack)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopBackCancel)
+				
+			// 返回时，保存.
+			
 		}
 
 		private function onTopBackCancel(e:AEvent):void
@@ -194,12 +199,28 @@ package states
 
 		private function onTopBack(e:AEvent):void
 		{
-//			AgonyUI.fusion.removeEventListener(AEvent.RELEASE, onTopBackCancel)
-//			mGameBack = null
 			UserBehaviorAnalysis.trackEvent('C', '025');
 			UserBehaviorAnalysis.trackTime('C', getTimer() - exsitTime, '返回');
-			StateManager.setGameScene(false)
-			StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
+			
+//			StateManager.setGameScene(false)
+//			StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
+			
+			Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
+			StateManager.setPlayer(true, null)
+			Agony.process.dispatchDirectEvent(PlayerTopAndBottomUIState.MERGE_FILE)
+			StateManager.setPlayer(false, null)
+				
+			this.doShowSavingView()
+				
+			TouchManager.getInstance().isLocked=true
+			flash.utils.setTimeout(function():void
+			{
+
+				StateManager.setGameScene(false)
+				StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
+				
+				TouchManager.getInstance().isLocked=false
+			}, 400)
 		}
 
 		private function onPreTopReset(e:AEvent):void
@@ -308,7 +329,7 @@ package states
 
 				TouchManager.getInstance().isLocked=false
 				UserBehaviorAnalysis.trackTime('C', getTimer() - exsitTime, '完成');
-			}, 200)
+			}, 400)
 
 		}
 
@@ -369,13 +390,20 @@ package states
 
 		private function onPaperClear(e:AEvent):void
 		{
+			mBackImg.alpha=0.44
+			mBackImg.interactive=false
+				
 			mFinishBtn.alpha=0.44
 			mFinishBtn.interactive=false
+				
 			DrawingManager.getInstance().isPaperDirty=false
 		}
 
 		private function onPaperDirty(e:AEvent):void
 		{
+			mBackImg.alpha=1
+			mBackImg.interactive=true
+				
 			mFinishBtn.alpha=1
 			mFinishBtn.interactive=true
 		}
