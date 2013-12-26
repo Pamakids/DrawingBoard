@@ -2,31 +2,34 @@ package states
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Back;
-	import com.greensock.easing.Bounce;
 	import com.greensock.easing.Cubic;
-
+	
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.PNGEncoderOptions;
-	import flash.events.Event;
+	import flash.errors.IOError;
+	import flash.events.DataEvent;
+	import flash.events.HTTPStatusEvent;
+	import flash.events.IOErrorEvent;
+	import flash.filesystem.File;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-	import flash.media.CameraRoll;
+	import flash.net.FileReference;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestHeader;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
-
-	import assets.ImgAssets;
-	import assets.PasterAssets;
-
+	
 	import drawing.CommonPaper;
-
+	
 	import models.Config;
 	import models.DrawingManager;
 	import models.PasterManager;
-	import models.ThemeManager;
 	import models.ThemeVo;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -34,13 +37,11 @@ package states
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.input.ATouchEvent;
-	import org.agony2d.input.KeyboardManager;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.media.ISound;
 	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
-	import org.agony2d.notify.DataEvent;
 	import org.agony2d.timer.DelayManager;
 	import org.agony2d.utils.ArrayUtil;
 	import org.agony2d.utils.DateUtil;
@@ -452,7 +453,7 @@ package states
 			TweenLite.killTweensOf(target)
 		}
 
-		private function onRandomCreatePaster(e:DataEvent):void
+		private function onRandomCreatePaster(e:org.agony2d.notify.DataEvent):void
 		{
 			var ges:GestureFusion
 			var img:ImagePuppet
@@ -466,7 +467,7 @@ package states
 			}})
 		}
 
-		private function onPressDelayCreatePaster(e:DataEvent):void
+		private function onPressDelayCreatePaster(e:org.agony2d.notify.DataEvent):void
 		{
 			var touch:Touch
 			var ges:GestureFusion
@@ -597,7 +598,7 @@ package states
 			}
 			else
 			{
-				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
+				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.APP_STORAGE)
 			}
 			file=folder.createFile("thumb" + fileName, "png")
 			file.bytes=BA.encode(BA.rect, new PNGEncoderOptions)
@@ -615,13 +616,49 @@ package states
 			file_A=folder.createFile("final" + fileName, "png")
 			file_A.bytes=BA_A.encode(BA_A.rect, new PNGEncoderOptions)
 			file_A.upload()
+			
+			// 分享图片.
+			var u:URLRequest=new URLRequest('http://up.qiniu.com'); 
+			u.method=URLRequestMethod.POST;
+			u.requestHeaders=[new URLRequestHeader('enctype', 'multipart/form-data')];
+			
+			var ur:URLVariables=new URLVariables();
+			ur.key=file.name;
+			ur.token='-S31BNj77Ilqwk5IN85PIBoGg8qlbkqwULiraG0x:kcwRFo0ZtJ_T2LS9QsLoyuo4ZB4=:eyJzY29wZSI6ImRyYXdpbmdib2FyZCIsImRlYWRsaW5lIjoxNzQ2Nzc0NTIwfQ=='; //Only this is required
+			ur['x:test']='test';
+			u.data=ur;
+			
+			trace(file.url)
+			
+			
+			var f:File = file.rawFile
+			//var f:File=File.applicationDirectory.resolvePath(file.path);
+			
+			f.addEventListener(flash.events.DataEvent.UPLOAD_COMPLETE_DATA, uploadedHandler);
+			f.addEventListener(IOErrorEvent.IO_ERROR, onIoError)
+//			f.addEventListener(HTTPStatusEvent.HTTP_STATUS, function(e:HTTPStatusEvent):void{
+//				trace(e)
+//			})
+//			f.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, function(e:HTTPStatusEvent):void{
+//				trace(e)
+//			})
+			  //File or FileReference is both OK, but UploadDataFieldName must be 'file'
+			function uploadedHandler(event:flash.events.DataEvent):void
+			{
+				trace(event.data);  //{"hash":"File hash info","key":"Uploaded file name", "x:param":"Your custom param and value"}
+				
+			}	
+			function onIoError(e:IOErrorEvent):void{
+				trace(e)
+			}
+			f.upload(u, 'file');
 
 			bytes=new ByteArray
 
 			bytes.writeUTF(file.url)
 			bytes.writeUTF(file_A.url)
 
-			trace("thumbnail: " + file.url)
+			trace("thumbnail: " + file.path)
 
 
 

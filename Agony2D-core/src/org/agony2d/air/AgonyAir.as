@@ -22,19 +22,21 @@ public class AgonyAir {
 	public static function createFolder( folderName:String, baseFolderType:String, baseSubFolders:Array = null ) : IFolder {
 		var parentFolder:File
 		var folder:File
-		var path:String
+		var subPath:String
 		var i:int, l:int
 		
 		parentFolder = FolderType.getFolderByType(baseFolderType)
-		path = parentFolder.nativePath
+//		path = parentFolder.url
+		subPath = ""
 		if(baseSubFolders){
 			l = baseSubFolders.length
 			while(i < l){
-				path += "/" + baseSubFolders[i++]
+				subPath += "/" + baseSubFolders[i++]
 			}
 		}
-		folder = new File(path + "/" + folderName)
-		return new FolderProxy(folder)
+//		folder = new File(path + "/" + folderName)
+		folder = parentFolder.resolvePath(folderName + subPath + folderName)
+		return new FolderProxy(folder, baseFolderType, subPath + folderName)
 	}
 	
 	

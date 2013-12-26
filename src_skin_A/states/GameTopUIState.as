@@ -87,7 +87,7 @@ package states
 			// back
 			{
 				mBackImg=new ImagePuppet
-				this.fusion.addElement(mBackImg, 42, 21)
+				this.fusion.addElement(mBackImg, 46, 21)
 				mBackImg.embed(GameAssets.game_pre_back)
 				mBackImg.addEventListener(AEvent.CLICK, onPreTopBack)
 				mImgList.push(mBackImg)
@@ -96,7 +96,7 @@ package states
 			// reset
 			{
 				mResetImg=new ImagePuppet
-				this.fusion.addElement(mResetImg, 463, 21)
+				this.fusion.addElement(mResetImg, 468, 21)
 				mResetImg.embed(GameAssets.game_pre_trash)
 				mResetImg.addEventListener(AEvent.CLICK, onPreTopReset)
 				mImgList.push(mResetImg)
@@ -107,7 +107,7 @@ package states
 			{
 				mFinishBtn=new ImagePuppet
 				mFinishBtn.embed(GameAssets.game_pre_complete)
-				this.fusion.addElement(mFinishBtn, 885, 21)
+				this.fusion.addElement(mFinishBtn, 890, 21)
 				mFinishBtn.addEventListener(AEvent.CLICK, onPreTopComplete)
 				mImgList.push(mFinishBtn)
 				this.onPaperClear(null)
@@ -181,7 +181,7 @@ package states
 		private function onPreTopBack(e:AEvent):void
 		{
 			mGameBack=new ImagePuppet
-			this.fusion.addElement(mGameBack, 45, 123)
+			this.fusion.addElementAt(mGameBack, 0, 39, 108)
 			mGameBack.embed(GameAssets.game_Back)
 			mGameBack.addEventListener(AEvent.PRESS, onTopBack)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopBackCancel)
@@ -261,7 +261,7 @@ package states
 //			}
 
 			mGameClear=new ImagePuppet
-			this.fusion.addElement(mGameClear, 466, 123)
+			this.fusion.addElementAt(mGameClear, 0, 462, 108)
 			mGameClear.embed(GameAssets.game_Clear)
 			mGameClear.addEventListener(AEvent.PRESS, onTopClear)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopClearCancel)
@@ -302,7 +302,7 @@ package states
 		private function onPreTopComplete(e:AEvent):void
 		{
 			mGameComplete=new ImagePuppet
-			this.fusion.addElement(mGameComplete, 890, 123)
+			this.fusion.addElementAt(mGameComplete, 0, 882, 108)
 			mGameComplete.embed(GameAssets.game_complete)
 			mGameComplete.addEventListener(AEvent.PRESS, onTopComplete)
 			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopCompleteCancel)

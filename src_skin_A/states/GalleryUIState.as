@@ -84,7 +84,7 @@ package states
 			}
 			else
 			{
-				folder=AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
+				folder=AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
 			}
 			mFiles=folder.getAllFiles()
 //			trace(files)
@@ -390,7 +390,7 @@ package states
 			}
 			else
 			{
-				folder=AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
+				folder=AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
 			}
 
 			// 削除文件

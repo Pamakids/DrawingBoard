@@ -247,7 +247,7 @@ public class PlayerSceneUIState extends UIState
 			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
 		}
 		else{
-			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
+			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
 		}
 		var dateStr:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND],"")
 //		bytes.compress()

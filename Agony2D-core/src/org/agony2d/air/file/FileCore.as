@@ -13,6 +13,10 @@ public class FileCore extends Notifier {
 		m_file = file
 	}
 	
+	public function get rawFile() : File {
+		return m_file
+	}
+	
 	public function get exists() : Boolean {
 		return m_file.exists
 	}

@@ -9,18 +9,21 @@ package org.agony2d.air.file {
 	
 public class FolderProxy extends FileCore implements IFolder {
 	
-	public function FolderProxy( file:File ) {
+	public function FolderProxy( file:File, baseFolderType:String, subPath:String ) {
 		super(file)
 		if(!m_file.exists || !m_file.isDirectory){
 			m_file.createDirectory()
 		}
+		m_baseFolderType = baseFolderType
+		m_subPath = subPath
 	}
 	
 	public function createFile( fileName:String, extension:String ) : IFile {
 		var file:File
 		var proxy:FileProxy
 		
-		file = new File(this.path + "/" + fileName + "." + extension)
+//		file = new File(this.path + "/" + fileName + "." + extension)
+		file = FolderType.getFolderByType(m_baseFolderType).resolvePath(m_subPath + "/" + fileName + "." + extension)
 		proxy = new FileProxy(file)
 		return proxy
 	}
@@ -92,6 +95,9 @@ public class FolderProxy extends FileCore implements IFolder {
 		}
 	}
 	
+	
+	agony_internal var m_baseFolderType:String;
+	agony_internal var m_subPath:String
 	
 	
 	agony_internal function ____onSelectFile( e:Event ) : void {
