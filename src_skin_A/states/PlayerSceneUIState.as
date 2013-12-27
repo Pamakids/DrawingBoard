@@ -3,6 +3,7 @@ package states
 	import com.greensock.TweenLite;
 	
 	import flash.display.BitmapData;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
@@ -61,6 +62,7 @@ public class PlayerSceneUIState extends UIState
 		var bgUrl:String, finalUrl:String
 		var AY:Array
 		
+		// 录像.
 		if(mFileBytes){
 			AY = BytesUtil.unmerge(mFileBytes)
 			bytes = AY[0]
@@ -69,6 +71,7 @@ public class PlayerSceneUIState extends UIState
 			trace("rec len: " + RecordManager.getInstance().bytes.length)
 			RecordManager.getInstance().canRecord = false
 		}
+		// 刚画完.
 		else {
 			RecordManager.getInstance().canRecord = true
 			bytes_A = DrawingManager.getInstance().bytes
@@ -76,11 +79,16 @@ public class PlayerSceneUIState extends UIState
 			bytes.writeBytes(bytes_A)
 		}
 		
-		// thumbnail
+		
 		bytes.position = 0
 		
-		// final img
+		// shared
+		mSharedUrl = bytes.readUTF()
+			
+		// thumbnail
 		bytes.readUTF()
+			
+		// final img
 		finalUrl = bytes.readUTF()
 			
 		// bg
@@ -96,7 +104,7 @@ public class PlayerSceneUIState extends UIState
 		// draw
 		BA = new ByteArray()
 		BA.writeBytes(bytes, offsetA + offsetB)
-		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, doStartAddPaster)
+		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, Boolean(this.stateArgs[1]), doStartAddPaster)
 		DrawingManager.getInstance().setPlayer(mPlayer)
 		Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)
 		
@@ -119,7 +127,11 @@ public class PlayerSceneUIState extends UIState
 		var BA:BitmapData
 		
 		BA = (e.target.data).bitmapData as BitmapData
-		mImg.bitmapData.copyPixels(BA, BA.rect, new Point)
+		var matrix:Matrix = new Matrix(DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio, 
+									0,0,
+										DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio)
+		trace("[player]+ " + matrix)
+		mImg.bitmapData.draw(BA, matrix)
 		mFinalImgLoader = null
 			
 		TouchManager.getInstance().isLocked = false
@@ -134,7 +146,7 @@ public class PlayerSceneUIState extends UIState
 			mImg = new ImagePuppet
 			mImg.bitmapData = mPlayer.content
 //			mImg.interactive = false
-			mImg.scaleX = mImg.scaleY = 1 / mPlayer.contentRatio
+			mImg.scaleX = mImg.scaleY = Agony.pixelRatio/DrawingManager.getInstance().paper.fitRatio
 			this.fusion.addElement(mImg)	
 				
 			mImg.addEventListener(AEvent.CLICK, onClickImg)
@@ -144,7 +156,8 @@ public class PlayerSceneUIState extends UIState
 	private function doAddListeners():void{
 		Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
 		Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
-		Agony.process.addEventListener(PlayerTopAndBottomUIState.MERGE_FILE, onMergeFile)
+		Agony.process.addEventListener(PlayerTopAndBottomUIState.MERGE_FILE,  onMergeFile)
+		Agony.process.addEventListener(PlayerTopAndBottomUIState.SHARED,      onShared)
 	}
 	
 	override public function exit():void{
@@ -153,6 +166,7 @@ public class PlayerSceneUIState extends UIState
 		Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
 		Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
 		Agony.process.removeEventListener(PlayerTopAndBottomUIState.MERGE_FILE, onMergeFile)
+		Agony.process.removeEventListener(PlayerTopAndBottomUIState.SHARED,      onShared)
 		if(mPaster){
 			TweenLite.killTweensOf(mPaster)
 		}
@@ -177,10 +191,11 @@ public class PlayerSceneUIState extends UIState
 	private var mFileBytes:ByteArray
 	private var mRecordBytes:ByteArray
 	private var mImg:ImagePuppet
-
+	private var mSharedUrl:String
+	
 	
 	private function onBack(e:AEvent):void{
-		StateManager.setPlayer(false)
+		StateManager.setPlayer(false, true)
 		StateManager.setGameScene(true)
 	}
 	
@@ -247,7 +262,7 @@ public class PlayerSceneUIState extends UIState
 			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
 		}
 		else{
-			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
+			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
 		}
 		var dateStr:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND],"")
 //		bytes.compress()
@@ -263,6 +278,12 @@ public class PlayerSceneUIState extends UIState
 	
 	private function onClickImg(e:AEvent ) : void{
 		Agony.process.dispatchDirectEvent(PLAYER_HIDE_OR_APPEAR)
+	}
+	
+	private function onShared(e:AEvent):void{
+		if(Agony.isMoblieDevice){
+			UMSocial.instance.share(UMeng.instance.getUDID(), "分享我的作品", mSharedUrl)
+		}
 	}
 }
 }

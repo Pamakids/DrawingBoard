@@ -16,6 +16,7 @@ final public class EraseBrush extends BrushBase {
 		bounds = source.getBounds(source)
 		m_offsetX = (bounds.left + bounds.right) / 2
 		m_offsetY = (bounds.top + bounds.bottom) / 2
+		m_alpha = 1
 	}
 	
 	final override public function drawPoint( destX:Number, destY:Number ) : void {

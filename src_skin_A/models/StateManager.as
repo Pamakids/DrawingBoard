@@ -133,7 +133,7 @@ package models
 		
 		// Player...
 		private static var mPlayerExists:Boolean
-		public static function setPlayer( enabled:Boolean, bytes:ByteArray = null, isPopup:Boolean = true ) : void{
+		public static function setPlayer( enabled:Boolean, isTempState:Boolean = false, bytes:ByteArray = null, isPopup:Boolean = true ) : void{
 			if(!mPlayerExists){
 				mPlayerExists = true
 				AgonyUI.addModule("PlayerScene", PlayerSceneUIState)
@@ -142,7 +142,7 @@ package models
 			if(enabled){
 				//Agony.stage.frameRate = 30
 				// 存在bytes，表示正在播放文件。
-				AgonyUI.getModule("PlayerScene").init(-1,  bytes?[bytes]:null, false,false)
+				AgonyUI.getModule("PlayerScene").init(-1,  bytes?[bytes, isTempState]:[null, isTempState], false,false)
 				AgonyUI.getModule("PlayerTopAndBottom").init(-1, bytes?[bytes]:null, false,false)
 				if(!isPopup)
 				{

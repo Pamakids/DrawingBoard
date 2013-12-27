@@ -14,6 +14,7 @@ package assets.player
 		[Embed(source="btn/speed_2.png")] public static const btn_speed_2:Class
 		[Embed(source="btn/speed_3.png")] public static const btn_speed_3:Class
 		[Embed(source="btn/bottomBg.png")] public static const bottomBg:Class
+		[Embed(source="btn/shared.png")] public static const shared:Class
 		
 
 		[Embed(source="img/mic.png")] public static const mic:Class

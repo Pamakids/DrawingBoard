@@ -102,6 +102,7 @@ package states.renderers
 			file=e.target as IFile
 			mBytes=file.bytes
 			mBytes.position=4
+			mBytes.readUTF()
 			thumbnail=mBytes.readUTF()
 			mImg.load(thumbnail, false)
 
@@ -130,7 +131,7 @@ package states.renderers
 			{
 				UserBehaviorAnalysis.trackEvent('E', '111');
 				StateManager.setGallery(false)
-				StateManager.setPlayer(true, mBytes)
+				StateManager.setPlayer(true, false, mBytes)
 			}
 
 		}

@@ -590,28 +590,29 @@ package states
 //				roll.addBitmapData(BA)
 //			}
 
-			// file thumbnail
-			var fileName:String=DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND])
+			// draw thumbnail.
+			var fileName:String=DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND]) + String(int(Math.random() * 100))
 			if (Agony.isMoblieDevice)
 			{
 				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.APP_STORAGE)
 			}
 			else
 			{
-				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.APP_STORAGE)
+				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
 			}
 			file=folder.createFile("thumb" + fileName, "png")
 			file.bytes=BA.encode(BA.rect, new PNGEncoderOptions)
 			file.upload()
-
-			mBgImg.visible = false
-				
-			BA_A=new BitmapData(mPaper.content.width / mPaper.contentRatio, mPaper.content.height / mPaper.contentRatio, true, 0x0)
-			matrix.setTo(mContentRatio, 0, 0, mContentRatio, 0, 0)
+			
+//			mBgImg.visible = false
+			
+			// draw final.
+			BA_A=new BitmapData(mPaper.content.width, mPaper.content.height, true, 0x0)
+			matrix.setTo(1, 0, 0, 1, 0, 0)
 			BA_A.draw(mContent.displayObject, matrix)
 			trace("final rect : " + BA_A.rect)
 
-			mBgImg.visible = true
+//			mBgImg.visible = true
 			
 			file_A=folder.createFile("final" + fileName, "png")
 			file_A.bytes=BA_A.encode(BA_A.rect, new PNGEncoderOptions)
@@ -621,32 +622,17 @@ package states
 			var u:URLRequest=new URLRequest('http://up.qiniu.com'); 
 			u.method=URLRequestMethod.POST;
 			u.requestHeaders=[new URLRequestHeader('enctype', 'multipart/form-data')];
-			
 			var ur:URLVariables=new URLVariables();
-			ur.key=file.name;
+			ur.key=file_A.name;
 			ur.token='-S31BNj77Ilqwk5IN85PIBoGg8qlbkqwULiraG0x:kcwRFo0ZtJ_T2LS9QsLoyuo4ZB4=:eyJzY29wZSI6ImRyYXdpbmdib2FyZCIsImRlYWRsaW5lIjoxNzQ2Nzc0NTIwfQ=='; //Only this is required
 			ur['x:test']='test';
 			u.data=ur;
-			
-			trace(file.url)
-			
-			
-			var f:File = file.rawFile
-			//var f:File=File.applicationDirectory.resolvePath(file.path);
-			
+			var f:File = file_A.rawFile
 			f.addEventListener(flash.events.DataEvent.UPLOAD_COMPLETE_DATA, uploadedHandler);
 			f.addEventListener(IOErrorEvent.IO_ERROR, onIoError)
-//			f.addEventListener(HTTPStatusEvent.HTTP_STATUS, function(e:HTTPStatusEvent):void{
-//				trace(e)
-//			})
-//			f.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, function(e:HTTPStatusEvent):void{
-//				trace(e)
-//			})
-			  //File or FileReference is both OK, but UploadDataFieldName must be 'file'
 			function uploadedHandler(event:flash.events.DataEvent):void
 			{
 				trace(event.data);  //{"hash":"File hash info","key":"Uploaded file name", "x:param":"Your custom param and value"}
-				
 			}	
 			function onIoError(e:IOErrorEvent):void{
 				trace(e)
@@ -654,28 +640,24 @@ package states
 			f.upload(u, 'file');
 
 			bytes=new ByteArray
-
+			
+			// shared
+			bytes.writeUTF("http://drawingboard.u.qiniudn.com/" + file_A.name)
+				
+			// thumbnail
 			bytes.writeUTF(file.url)
+			
+			// final img
 			bytes.writeUTF(file_A.url)
 
 			trace("thumbnail: " + file.path)
-
-
-
 //			cachedBytesA = BA.getPixels(BA.rect)
 //			bytes.writeUnsignedInt(cachedBytesA.length)
 //			bytes.writeBytes(cachedBytesA)
 //			cachedBytesA.length = 0
 
 			// bg
-			if (mThemeVo)
-			{
-				bytes.writeUTF(mThemeVo.dataUrl)
-			}
-			else
-			{
-				bytes.writeUTF("assets/theme/img/category/animal/chicken.png")
-			}
+			bytes.writeUTF(mThemeVo.dataUrl)
 
 			// paster
 			this.doAddPasterData(bytes)

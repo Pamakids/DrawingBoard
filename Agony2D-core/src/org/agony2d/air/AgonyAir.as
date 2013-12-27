@@ -3,6 +3,7 @@ package org.agony2d.air {
 	
 	import org.agony2d.air.file.FolderProxy;
 	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFile;
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.core.agony_internal;
 	
@@ -23,20 +24,21 @@ public class AgonyAir {
 		var parentFolder:File
 		var folder:File
 		var subPath:String
+		var path:String
 		var i:int, l:int
 		
 		parentFolder = FolderType.getFolderByType(baseFolderType)
-//		path = parentFolder.url
+		path = parentFolder.nativePath
 		subPath = ""
 		if(baseSubFolders){
 			l = baseSubFolders.length
 			while(i < l){
-				subPath += "/" + baseSubFolders[i++]
+				path += "/" + baseSubFolders[i++]
 			}
 		}
-//		folder = new File(path + "/" + folderName)
-		folder = parentFolder.resolvePath(folderName + subPath + folderName)
-		return new FolderProxy(folder, baseFolderType, subPath + folderName)
+		folder = new File(path + "/" + folderName)
+//		folder = parentFolder.resolvePath(folderName + subPath + folderName)
+		return new FolderProxy(folder)
 	}
 	
 	

@@ -5,10 +5,9 @@ package drawing {
 	import drawing.supportClasses.BrushBase;
 	import drawing.supportClasses.PaperBase;
 	
-	
+	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
 	import org.agony2d.timer.DelayManager;
-	import org.agony2d.core.agony_internal;
 	use namespace agony_internal;
 	
 	/** [ DrawingPlayer ]
@@ -24,14 +23,22 @@ package drawing {
 	 */
 public class DrawingPlayer extends PaperBase {
 	
-	public function DrawingPlayer( paper:CommonPaper, sourceBytes:ByteArray, intervalLength:Number = 8.0, callback:Function = null ) {
+	public function DrawingPlayer( paper:CommonPaper, sourceBytes:ByteArray, intervalLength:Number, isTempState:Boolean, callback:Function = null ) {
 		super(paper.contentRatio)
 		
 		if (!sourceBytes){
 			Logger.reportError(this, "constructor", "source bytes can't be null!!")
 		}
-		m_content = paper.m_content.clone()
-//		m_content.fillRect(m_content.rect, 0x0)
+		
+		if(isTempState)
+		{
+			m_content = paper.m_content.clone()
+		}
+		else
+		{
+			m_content = paper.content
+			m_content.fillRect(m_content.rect, 0x0)
+		}
 		m_base = paper.m_base ? paper.m_base.clone() : null
 		m_brushList = paper.m_brushList
 		m_bytesB.writeBytes(sourceBytes)
@@ -211,6 +218,8 @@ public class DrawingPlayer extends PaperBase {
 		brush.m_color = color
 		brush.m_alpha = alpha
 		brush.drawPoint(currX, currY)
+			
+//		trace(density, scale, color, alpha, currX, currY)
 	}
 	
 	protected function doDrawLine( brush:BrushBase, currX:Number, currY:Number, prevX:Number, prevY:Number, density:Number, scale:Number, color:uint, alpha:Number ):void{
@@ -219,6 +228,9 @@ public class DrawingPlayer extends PaperBase {
 		brush.m_color = color
 		brush.m_alpha = alpha
 		brush.drawLine(currX, currY, prevX, prevY)
+			
+//		trace("===============================")
+//		trace(density, scale, color, alpha, currX, currY)
 	}
 	
 }

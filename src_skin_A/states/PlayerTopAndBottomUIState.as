@@ -1,19 +1,19 @@
 package states
 {
 	import com.greensock.TweenLite;
-
+	
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
-
+	
 	import assets.ImgAssets;
 	import assets.game.GameAssets;
 	import assets.player.PlayerAssets;
-
+	
 	import models.DrawingManager;
 	import models.RecordManager;
 	import models.StateManager;
 	import models.ThemeManager;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -42,6 +42,8 @@ package states
 
 		public static const MERGE_FILE:String="mergeFile"
 
+		public static const SHARED:String="shared"
+			
 
 		private var mFileBytes:ByteArray
 
@@ -160,7 +162,7 @@ package states
 			{
 				img=new ImagePuppet
 				img.embed(PlayerAssets.bottomBg)
-				this.fusion.addElement(img, 0, -23, LayoutType.F__A__F_ALIGN, LayoutType.F__AF)
+				this.fusion.addElement(img, 52, 646)
 			}
 
 			// play btn
@@ -168,7 +170,7 @@ package states
 				mPlayCheckBox=new ImageCheckBox('btn_playAndPause', false, 7)
 
 //				if(Agony.isMoblieDevice){	
-				this.fusion.addElement(mPlayCheckBox, 141, 675)
+				this.fusion.addElement(mPlayCheckBox, 86, 675)
 //				}
 //				else{
 //					this.fusion.addElement(mPlayCheckBox, 25, - 180, LayoutType.FA__F, LayoutType.F__AF)
@@ -184,7 +186,7 @@ package states
 //				slider.track.interactive = false
 				mc_playProgressBar
 				m_progress=new ProgressBar("mc_playProgressBar", 0, 0, DrawingManager.getInstance().player.totalTime)
-				this.fusion.addElement(m_progress, 222, 689)
+				this.fusion.addElement(m_progress, 146, 689)
 
 //				mBird = new ImagePuppet
 //				mBird.embed(PlayerAssets.player_bird)
@@ -200,7 +202,7 @@ package states
 				// medium
 				{
 					checkBox=new ImageCheckBox("speed_1", true)
-					this.fusion.addElement(checkBox, 712, 685)
+					this.fusion.addElement(checkBox, 642, 685)
 					checkBox.userData=1
 					checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 					mCurrSpeedBtn=checkBox
@@ -211,7 +213,7 @@ package states
 				{
 
 					checkBox=new ImageCheckBox("speed_2", false)
-					this.fusion.addElement(checkBox, 787, 683)
+					this.fusion.addElement(checkBox, 717, 683)
 //					this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 					checkBox.userData=2
 					checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
@@ -223,13 +225,21 @@ package states
 				{
 					{
 						checkBox=new ImageCheckBox("speed_3", false)
-						this.fusion.addElement(checkBox, 863, 684)
+						this.fusion.addElement(checkBox, 793, 684)
 //						this.fusion.addElement(checkBox, 12, 0, LayoutType.B__A, LayoutType.B__A__B_ALIGN)
 						checkBox.userData=3
 						checkBox.addEventListener(AEvent.CLICK, onPlaySpeedChange)
 						this.doDrawHotArea(checkBox.image, -19, -17)
 					}
 				}
+			}
+			
+			// shared
+			{
+				img = new ImagePuppet
+				img.embed(PlayerAssets.shared)
+				this.fusion.addElement(img, 899, 646)
+				img.addEventListener(AEvent.CLICK, onShared)
 			}
 		}
 
@@ -405,7 +415,7 @@ package states
 //			else{
 //				StateManager.setGallery(true)
 //			}
-			StateManager.setPlayer(false)
+			StateManager.setPlayer(false, false)
 			UserBehaviorAnalysis.trackEvent('D', '102');
 			UserBehaviorAnalysis.trackTime('D', getTimer() - exsitTime, '完成');
 		}
@@ -489,6 +499,10 @@ package states
 					fusion.visible=false
 				}})
 			})
+		}
+		
+		private function onShared(e:AEvent):void{
+			Agony.process.dispatchDirectEvent(SHARED)
 		}
 	}
 }
