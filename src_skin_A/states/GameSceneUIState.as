@@ -608,9 +608,9 @@ package states
 			
 			// draw final.
 			BA_A=new BitmapData(mPaper.content.width, mPaper.content.height, true, 0x0)
-			matrix.setTo(1, 0, 0, 1, 0, 0)
+			matrix.setTo(mContentRatio, 0, 0, mContentRatio, 0, 0)
 			BA_A.draw(mContent.displayObject, matrix)
-			trace("final rect : " + BA_A.rect)
+			trace("[final rect] : " + BA_A.rect)
 
 //			mBgImg.visible = true
 			

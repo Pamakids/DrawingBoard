@@ -127,11 +127,15 @@ public class PlayerSceneUIState extends UIState
 		var BA:BitmapData
 		
 		BA = (e.target.data).bitmapData as BitmapData
-		var matrix:Matrix = new Matrix(DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio, 
-									0,0,
-										DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio)
-		trace("[player]+ " + matrix)
-		mImg.bitmapData.draw(BA, matrix)
+//		var matrix:Matrix = new Matrix(DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio, 
+//									0,0,
+//										DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio)
+//		var matrix:Matrix = new Matrix(1, 0,0,1)
+//		trace("[player]+ " + matrix)
+//		mImg.bitmapData.draw(BA, matrix)
+		mImg.bitmapData.copyPixels(BA, BA.rect, new Point)
+			
+		trace(mImg.bitmapData.rect, BA.rect)
 		mFinalImgLoader = null
 			
 		TouchManager.getInstance().isLocked = false
@@ -141,12 +145,11 @@ public class PlayerSceneUIState extends UIState
 	
 	private function doAddView():void{
 		
-		
 		{
 			mImg = new ImagePuppet
 			mImg.bitmapData = mPlayer.content
 //			mImg.interactive = false
-			mImg.scaleX = mImg.scaleY = Agony.pixelRatio/DrawingManager.getInstance().paper.fitRatio
+			mImg.scaleX = mImg.scaleY = 1 / DrawingManager.getInstance().paper.contentRatio /// DrawingManager.getInstance().paper.fitRatio
 			this.fusion.addElement(mImg)	
 				
 			mImg.addEventListener(AEvent.CLICK, onClickImg)
