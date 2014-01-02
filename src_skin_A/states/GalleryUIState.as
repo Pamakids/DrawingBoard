@@ -342,19 +342,19 @@ package states
 //					mImg.scaleY = 0.77
 					mRemoveItemFusion.addElement(mImg, 7, 6)
 					mRemovedBytes.position=4
+					mRemovedBytes.readUTF()
 					thumbnail=mRemovedBytes.readUTF()
 					mImg.load(thumbnail, false)
 
 				}
-
+				
 				{
 					image=new ImagePuppet
 					mRemoveItemFusion.position=0
 					image.embed(GalleryAssets.galleryHalo)
 					mRemoveItemFusion.addElement(image, 1, -1, 1, LayoutType.BA)
 				}
-
-
+				
 				this.fusion.addElement(mRemoveItemFusion, 0, 200, LayoutType.F__A__F_ALIGN)
 			}
 		}
@@ -395,6 +395,7 @@ package states
 
 			// 削除文件
 			mRemovedBytes.position=4
+			mRemovedBytes.readUTF()
 			thumbnail=mRemovedBytes.readUTF()
 
 //			AgonyAir.createFolder(

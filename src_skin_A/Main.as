@@ -85,6 +85,10 @@ package
 			ThemeManager.getInstance().initialize();
 			PasterManager.getInstance().initialize()
 			FontManager.initialize()
+				
+			if(Agony.isMoblieDevice){
+				UMSocial.instance.init("52b1868656240b557713090e", false)
+			}
 		}
 
 		private function doInitView():void

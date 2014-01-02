@@ -8,6 +8,7 @@ package states
 	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
+	import assets.gallery.GalleryAssets;
 	import assets.game.GameAssets;
 	
 	import drawing.CommonPaper;
@@ -88,7 +89,7 @@ package states
 			{
 				mBackImg=new ImagePuppet
 				this.fusion.addElement(mBackImg, 46, 21)
-				mBackImg.embed(GameAssets.game_pre_back)
+				mBackImg.embed(GalleryAssets.galleryBack)
 				mBackImg.addEventListener(AEvent.CLICK, onPreTopBack)
 				mImgList.push(mBackImg)
 			}

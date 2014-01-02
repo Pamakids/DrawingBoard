@@ -6,6 +6,7 @@ package states
 	import flash.utils.getTimer;
 	
 	import assets.ImgAssets;
+	import assets.gallery.GalleryAssets;
 	import assets.game.GameAssets;
 	import assets.player.PlayerAssets;
 	
@@ -92,10 +93,11 @@ package states
 				img.embed(GameAssets.game_pre_back)
 				img.addEventListener(AEvent.CLICK, onComplete)
 			}
+			
 			else
 			{
 				img=new ImagePuppet
-				img.embed(GameAssets.game_pre_back)
+				img.embed(GalleryAssets.galleryBack)
 				this.fusion.addElement(img, 42, 21)
 				img.addEventListener(AEvent.CLICK, onBackToGallery)
 			}

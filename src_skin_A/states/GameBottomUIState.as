@@ -44,7 +44,7 @@ package states
 //			AgonyUI.addImageButtonData(GameAssets.btn_pen, "btn_pen", ImageButtonType.BUTTON_RELEASE_PRESS)
 //			AgonyUI.addImageButtonData(GameAssets.btn_paster, "btn_paster", ImageButtonType.BUTTON_RELEASE_PRESS)
 				
-				
+			
 			// bg
 			{
 				mBg = new ImagePuppet
