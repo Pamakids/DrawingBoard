@@ -43,7 +43,7 @@ package states
 			var img:ImagePuppet
 			var i:int, l:int, position:int
 			var bgWidth:Number, bgHeight:Number
-
+			
 			// bg
 			{
 				bg=new ImagePuppet

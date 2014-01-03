@@ -285,7 +285,7 @@ public class PlayerSceneUIState extends UIState
 	
 	private function onShared(e:AEvent):void{
 		if(Agony.isMoblieDevice){
-			UMSocial.instance.share(UMeng.instance.getUDID(), "分享我的作品", mSharedUrl)
+			UMSocial.instance.share(UMeng.instance.getUDID(), "我正在使用“一起画画”创作我的作品，大家喜欢吗？@斑马骑士", mSharedUrl)
 		}
 	}
 }

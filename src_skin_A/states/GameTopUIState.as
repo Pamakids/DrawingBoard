@@ -278,7 +278,7 @@ package states
 
 		private function onTopClear(e:AEvent):void
 		{
-			SfxManager.getInstance().play(SoundAssets.del)
+			SfxManager.getInstance().loadAndPlay(SoundAssets.url_del)
 
 			this.onTopClearCancel(null)
 
@@ -374,7 +374,7 @@ package states
 //		
 		private function onMakeSfxForPress(e:AEvent):void
 		{
-			SfxManager.getInstance().play(SoundAssets.press)
+			SfxManager.getInstance().loadAndPlay(SoundAssets.url_press)
 		}
 
 		private function onSceneBottomVisibleChange(e:DataEvent):void

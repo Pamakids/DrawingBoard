@@ -367,7 +367,7 @@ package states
 			var thumbnail:String, finalUrl:String
 			var rawFile:File
 
-			SfxManager.getInstance().play(SoundAssets.del)
+			SfxManager.getInstance().loadAndPlay(SoundAssets.url_del)
 
 //			trace("Confirm Remove Item")
 			mIsRemoveState=false

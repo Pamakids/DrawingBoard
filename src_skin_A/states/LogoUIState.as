@@ -23,7 +23,7 @@ package states
 			this.fusion.spaceHeight = AgonyUI.fusion.spaceHeight
 			
 				
-			SfxManager.getInstance().play(SoundAssets.logo, 1, 1, false)	
+			SfxManager.getInstance().loadAndPlay(SoundAssets.url_logo, 1, 1, false)	
 				
 			var sprite:SpritePuppet = new SpritePuppet
 			

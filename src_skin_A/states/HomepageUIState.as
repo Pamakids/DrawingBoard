@@ -155,7 +155,7 @@ package states
 			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onNextFrame)
 			mIsStartRecordComplete=true
 
-			SfxManager.getInstance().play(SoundAssets.cnlet)
+			SfxManager.getInstance().loadAndPlay(SoundAssets.url_cnlet)
 		}
 
 
