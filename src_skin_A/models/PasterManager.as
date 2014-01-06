@@ -49,6 +49,18 @@ package models
 					GameAssets.paster_41_1,
 					GameAssets.paster_42_1,
 					GameAssets.paster_43_1,
+					GameAssets.paster_44_1,
+					GameAssets.paster_45_1,
+					GameAssets.paster_46_1,
+					GameAssets.paster_47_1,
+					GameAssets.paster_48_1,
+					GameAssets.paster_49_1,
+					GameAssets.paster_50_1,
+					GameAssets.paster_51_1,
+					GameAssets.paster_52_1,
+					GameAssets.paster_53_1,
+					GameAssets.paster_54_1,
+					GameAssets.paster_55_1
 					]
 				
 				
@@ -95,6 +107,18 @@ package models
 				GameAssets.paster_41,
 				GameAssets.paster_42,
 				GameAssets.paster_43,
+				GameAssets.paster_44,
+				GameAssets.paster_45,
+				GameAssets.paster_46,
+				GameAssets.paster_47,
+				GameAssets.paster_48,
+				GameAssets.paster_49,
+				GameAssets.paster_50,
+				GameAssets.paster_51,
+				GameAssets.paster_52,
+				GameAssets.paster_53,
+				GameAssets.paster_54,
+				GameAssets.paster_55
 			]
 				
 			mLength = mThumbList.length
