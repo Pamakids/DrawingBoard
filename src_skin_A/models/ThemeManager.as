@@ -20,6 +20,7 @@ package models
 			var arr:Array
 			var dir:ThemeFolderVo
 			
+			// 自帶主題.
 			themeData = XML(new (DataAssets.data_theme))
 			l = themeData.theme.length()
 			while(i<l){
@@ -31,6 +32,8 @@ package models
 				this.addThemeItems(item, dir)
 				i++
 			}
+			
+			// 商店主題.
 		}
 		
 		public function getThemeList():Array{
@@ -68,8 +71,29 @@ package models
 			}
 		}
 		
+		/**
+		 * { theme : [
+		 * {
+		 *     type : ??,
+		 *     thumb : ??,
+		 *     data : [??, ??, ??, ??...]
+		 * },
+		 * {
+		 *     type : ??,
+		 *     thumb : ??,
+		 *     data : [??, ??, ??, ??...]
+		 * }
+		 * ... ...
+		 * ]}
+		 */
+//		private function addThemesByJSON( data:String, dir:ThemeFolderVo ) : void{
+//			
+//		}
+		
+		
 		
 		private var mThemeList:Array = []
+//		private var mShopThemeList:Object = {}
 		
 		private static var mInstance:ThemeManager
 		public static function getInstance() : ThemeManager

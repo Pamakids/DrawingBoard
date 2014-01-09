@@ -87,7 +87,7 @@ package states.renderers
 				// txt.
 				{
 					img=new ImagePuppet
-					img.embed(vo.getThemeTxt())
+					img.load(vo.getThemeTxt(), false)
 					this.addElement(img, 135, 82)
 				}
 

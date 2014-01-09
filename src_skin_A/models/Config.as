@@ -9,6 +9,9 @@ package models
 		public static const DATA_FILE:String        =  "files"
 		public static const DB_FOLDER:String        =  "dbData"
 		public static const DB_THUMB:String         =  "dbThumb"
+		public static const SHOP_CONFIG:String      =  "shopConfig"
+		public static const SHOP_CONTENT:String     =  "shopContent"
+		public static const SHOP_THUMBNAIL:String   =  "shopThumbnail"
 		
 		// record...	
 		public static const MAX_RECORD_TIME:int = 15

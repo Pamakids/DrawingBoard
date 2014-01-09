@@ -98,7 +98,9 @@ package states
 			// title
 			{
 				img=new ImagePuppet
-				img.embed(dir.getTitleRef())
+				img.spaceWidth = 146
+				img.spaceHeight = 37
+				img.load(dir.getTitleRef(), false)
 				this.fusion.addElement(img, 0, 42, LayoutType.F__A__F_ALIGN)
 				img.interactive=false
 			}

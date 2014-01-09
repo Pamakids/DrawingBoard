@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawBoard>
 	
-	<theme type = "life" thumbnail = "assets/homepage/img/thumbnail/life.png">
+	<theme type = "life" thumbnail = "assets/theme/img/cover/life.png">
 		<data>assets/theme/img/thumbnail/life/amburance.jpg</data>
 		<data>assets/theme/img/thumbnail/life/archery.jpg</data>
 		<data>assets/theme/img/thumbnail/life/basketball.jpg</data>
@@ -24,7 +24,7 @@
 	</theme>
 	
 	
-	<theme type = "animal" thumbnail = "assets/homepage/img/thumbnail/animal.png">
+	<theme type = "animal" thumbnail = "assets/theme/img/cover/animal.png">
 		<data>assets/theme/img/thumbnail/animal/chicken.jpg</data>
 		<data>assets/theme/img/thumbnail/animal/dog.jpg</data>
 		<data>assets/theme/img/thumbnail/animal/dogdinner.jpg</data>
@@ -37,7 +37,7 @@
 		<data>assets/theme/img/thumbnail/animal/watering-flower.jpg</data>
 	</theme>
 	
-	<theme type = "people" thumbnail = "assets/homepage/img/thumbnail/people.png">
+	<theme type = "people" thumbnail = "assets/theme/img/cover/people.png">
 		<data>assets/theme/img/thumbnail/people/cook.jpg</data>
 		<data>assets/theme/img/thumbnail/people/docoter.jpg</data>
 		<data>assets/theme/img/thumbnail/people/draw.jpg</data>
@@ -56,7 +56,7 @@
 		<data>assets/theme/img/thumbnail/people/wedding.jpg</data>
 	</theme>
 	
-	<theme type = "design" thumbnail = "assets/homepage/img/thumbnail/design.png">
+	<theme type = "design" thumbnail = "assets/theme/img/cover/design.png">
 		<data>assets/theme/img/thumbnail/design/car1.jpg</data>
 		<data>assets/theme/img/thumbnail/design/car2.jpg</data>
 		<data>assets/theme/img/thumbnail/design/chrismas.jpg</data>
@@ -73,7 +73,7 @@
 		
 	</theme>
 	
-	<theme type = "fantasty" thumbnail = "assets/homepage/img/thumbnail/fantasty.png">
+	<theme type = "fantasty" thumbnail = "assets/theme/img/cover/fantasty.png">
 		<data>assets/theme/img/thumbnail/fantasty/bottle.jpg</data>
 		<data>assets/theme/img/thumbnail/fantasty/dream.jpg</data>
 		<data>assets/theme/img/thumbnail/fantasty/football.jpg</data>

@@ -96,11 +96,13 @@ package states
 					i=-1
 					while (i < l)
 					{
+						// 每日一畫.
 						dir=dirList[i]
 						if (i == -1)
 						{
 							item=mThemeList[mNumitems++]=mRadioList.addItem({}, ThemeFolderListItem)
 						}
+						// 主題.
 						else
 						{
 							item=mThemeList[mNumitems++]=mRadioList.addItem({data: dir}, ThemeFolderListItem)

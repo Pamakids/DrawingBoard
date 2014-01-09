@@ -1,9 +1,9 @@
 package models
 {
+	import assets.homepage.HomepageAssets;
 	import assets.theme.ThemeAssets;
 	
 	import org.agony2d.utils.ArrayUtil;
-	import assets.homepage.HomepageAssets;
 
 	public class ThemeFolderVo
 	{
@@ -20,25 +20,25 @@ package models
 			return ArrayUtil.pullRandom(mThemeList, false)
 		}
 		
-		public function getTitleRef() : Class {
-			var ref:Class
-			
-			if(this.type == "animal"){
-				ref = ThemeAssets.title_animal
-			}
-			else if(this.type == "design"){
-				ref = ThemeAssets.title_design
-			}
-			else if(this.type == "fantasty"){
-				ref = ThemeAssets.title_fantasty
-			}
-			else if(this.type == "life"){
-				ref = ThemeAssets.title_life
-			}
-			else if(this.type == "people"){
-				ref = ThemeAssets.title_people
-			}
-			return ref
+		public function getTitleRef() : String {
+			return this.thumbnail.replace("cover", "titles")
+//			var ref:Class
+//			if(this.type == "animal"){
+//				ref = ThemeAssets.title_animal
+//			}
+//			else if(this.type == "design"){
+//				ref = ThemeAssets.title_design
+//			}
+//			else if(this.type == "fantasty"){
+//				ref = ThemeAssets.title_fantasty
+//			}
+//			else if(this.type == "life"){
+//				ref = ThemeAssets.title_life
+//			}
+//			else if(this.type == "people"){
+//				ref = ThemeAssets.title_people
+//			}
+//			return ref
 		}
 		
 		
@@ -63,25 +63,26 @@ package models
 			return name
 		}
 		
-		public function getThemeTxt() : Class {
-			var ref:Class
-			
-			if(this.type == "animal"){
-				ref = HomepageAssets.animalTxt
-			}
-			else if(this.type == "design"){
-				ref = HomepageAssets.designTxt
-			}
-			else if(this.type == "fantasty"){
-				ref = HomepageAssets.fantastyTxt
-			}
-			else if(this.type == "life"){
-				ref = HomepageAssets.lifeTxt
-			}
-			else if(this.type == "people"){
-				ref = HomepageAssets.peopleTxt
-			}
-			return ref
+		public function getThemeTxt() : String {
+//			var ref:Class
+//			var url:String
+//			if(this.type == "animal"){
+//				ref = HomepageAssets.animalTxt
+//			}
+//			else if(this.type == "design"){
+//				ref = HomepageAssets.designTxt
+//			}
+//			else if(this.type == "fantasty"){
+//				ref = HomepageAssets.fantastyTxt
+//			}
+//			else if(this.type == "life"){
+//				ref = HomepageAssets.lifeTxt
+//			}
+//			else if(this.type == "people"){
+//				ref = HomepageAssets.peopleTxt
+//			}
+//			return ref
+			return this.thumbnail.replace("cover", "themeTxt")
 		}
 		
 		
