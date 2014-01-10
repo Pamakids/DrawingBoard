@@ -205,18 +205,18 @@ package states
 			
 //			StateManager.setGameScene(false)
 //			StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
-			
-			Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
-			StateManager.setPlayer(true, null)
-			Agony.process.dispatchDirectEvent(PlayerTopAndBottomUIState.MERGE_FILE)
-			StateManager.setPlayer(false, null)
-				
+	
 			this.doShowSavingView()
-				
 			TouchManager.getInstance().isLocked=true
+				
 			flash.utils.setTimeout(function():void
 			{
-
+				
+				Agony.process.dispatchDirectEvent(FINISH_DRAW_AND_PASTER)
+				StateManager.setPlayer(true, null)
+				Agony.process.dispatchDirectEvent(PlayerTopAndBottomUIState.MERGE_FILE)
+				StateManager.setPlayer(false, null)
+				
 				StateManager.setGameScene(false)
 				StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
 				

@@ -73,7 +73,7 @@ package states
 			{
 				img=new ImagePuppet
 				img.embed(HomepageAssets.parents, true)
-				img.graphics.quickDrawRect(70, 60, 0x0, 0, 7)
+				img.graphics.quickDrawRect(90 * Agony.pixelRatio, 80 * Agony.pixelRatio, 0x0, 0, 7)
 				this.fusion.addElement(img, 16, 21)
 				img.addEventListener(AEvent.CLICK, onToParent)
 			}
@@ -88,7 +88,7 @@ package states
 			// theme dir thumbnail.
 			{
 				layout=new HorizLayout(435, 0, -1, AgonyUI.fusion.spaceWidth / 2, AgonyUI.fusion.spaceHeight / 2 + 10, 230)
-				mRadioList=new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400, 400)
+				mRadioList=new RadioList(layout, AgonyUI.fusion.spaceWidth, AgonyUI.fusion.spaceHeight, 400, 400, 9, 9)
 				mRadioList.scroll.vertiReboundFactor=1
 				mRadioList.scroll.horizReboundFactor=0.6
 				{

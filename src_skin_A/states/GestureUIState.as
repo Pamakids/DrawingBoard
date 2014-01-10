@@ -105,13 +105,13 @@ package states
 		private var mCount:int
 		private var mDelayID:int = -1
 		private var mDelayTime:Number = 0.8
-		private var mVelocity:Number = 12.0
+		private var mVelocity:Number = 4.0
 		private var mFlag_A:Boolean
 		private var mFlag_B:Boolean // touch數目超過2次.
 		
 		
 		private function onNewTouch(e:ATouchEvent):void{
-			if(mImg.hitTestPoint(e.touch.stageX / Agony.pixelRatio, e.touch.stageY / Agony.pixelRatio)){
+//			if(mImg.hitTestPoint(e.touch.stageX / Agony.pixelRatio, e.touch.stageY / Agony.pixelRatio)){
 //				trace("on gesture.")
 				
 				e.touch.addEventListener(AEvent.RELEASE, onRelease, 2000000)
@@ -123,7 +123,7 @@ package states
 					mFlag_B = true;
 				}
 				mFlag_A = false
-			}
+//			}
 		}
 		
 		private static var gInited:Boolean
