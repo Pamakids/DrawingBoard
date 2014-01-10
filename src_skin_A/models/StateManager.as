@@ -12,6 +12,7 @@ package models
 	import states.GameBottomUIState;
 	import states.GameSceneUIState;
 	import states.GameTopUIState;
+	import states.GestureUIState;
 	import states.HomepageUIState;
 	import states.LogoUIState;
 	import states.PlayerSceneUIState;
@@ -171,6 +172,20 @@ package models
 				AgonyUI.getModule("Record").exit()
 			}
 		}
-
+		
+		// Gesture
+		private static var mGestureExists:Boolean
+		public static function setGesture( enabled:Boolean) : void{
+			if(!mGestureExists){
+				mGestureExists = true
+				AgonyUI.addModule("Gesture", GestureUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("Gesture").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("Gesture").exit()
+			}
+		}
 	}
 }

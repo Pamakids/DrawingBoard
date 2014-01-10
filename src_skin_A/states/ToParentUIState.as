@@ -13,6 +13,7 @@ package states
 	
 	import models.StateManager;
 	
+	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.GridScrollFusionA;
@@ -37,6 +38,7 @@ package states
 
 			this.fusion.spaceWidth=AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight=AgonyUI.fusion.spaceHeight
+			TouchManager.getInstance().velocityEnabled= true
 
 			// bg.
 			{
@@ -62,7 +64,7 @@ package states
 				img=new ImagePuppet
 				img.embed(HomepageAssets.toParent_B)
 				mContent.addElement(img, 108, 0)
-				mScroll.contentHeight=775
+				mScroll.contentHeight=3267
 
 				this.fusion.addElement(mScroll, 0, 176)
 				mScroll.addEventListener(AEvent.BEGINNING, onScrollStart)
@@ -102,7 +104,7 @@ package states
 		private const CONTENT_Y:Number=140
 
 		private const START_Y:Number=120
-		private const END_Y:Number=420
+		private const END_Y:Number=570
 
 		private var mScroll:GridScrollFusionA
 		private var mContent:PivotFusion
@@ -161,11 +163,15 @@ package states
 				TweenLite.to(mContent, 0.65, {y: mContent.y + velocityY * 20, ease: Cubic.easeOut, onUpdate: function():void
 				{
 					correctionY=mScroll.correctionY
+//					mThumb.y = mScroll.vertiRatio * (END_Y - START_Y) + START_Y;
+					TweenLite.to(mThumb, 0.1, {y:mScroll.vertiRatio * (END_Y - START_Y) + START_Y, overwrite:1})
 					if (correctionY != 0)
 					{
 						mContent.y=mContent.y + correctionY
 						TweenLite.killTweensOf(mContent, true)
+						
 					}
+					
 				}, onComplete: onTweenBack})
 			}
 			else

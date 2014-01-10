@@ -64,6 +64,8 @@ package states
 
 			Agony.process.addEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)
 			Agony.process.addEventListener(PlayerSceneUIState.PLAYER_HIDE_OR_APPEAR, onPlayerHideOrAppear)
+			Agony.process.addEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
+			Agony.process.addEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
 
 			this.fusion.visible=false
 		}
@@ -256,6 +258,8 @@ package states
 		{
 			Agony.process.removeEventListener(PlayerSceneUIState.FINAL_IMG_LOADED, onFinalImgLoaded)
 			Agony.process.removeEventListener(PlayerSceneUIState.PLAYER_HIDE_OR_APPEAR, onPlayerHideOrAppear)
+			Agony.process.removeEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
+			Agony.process.removeEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
 
 			TweenLite.killTweensOf(this.fusion)
 			DelayManager.getInstance().removeDelayedCall(mDelayId)
@@ -504,7 +508,18 @@ package states
 		}
 		
 		private function onShared(e:AEvent):void{
+//			Agony.process.dispatchDirectEvent(SHARED)
+			StateManager.setGesture(true)
+			this.fusion.interactive = false
+		}
+		
+		private function onGestureComplete(e:AEvent):void{
+			this.fusion.interactive = true
 			Agony.process.dispatchDirectEvent(SHARED)
+		}
+		
+		private function onGestureClose(e:AEvent):void{
+			this.fusion.interactive = true
 		}
 	}
 }

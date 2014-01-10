@@ -1,15 +1,15 @@
 package states
 {
 	import com.greensock.TweenLite;
-
+	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.homepage.HomepageAssets;
-
+	
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.media.SfxManager;
@@ -24,7 +24,7 @@ package states
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.ImagePuppet;
-
+	
 	import states.renderers.ThemeFolderListItem;
 
 	public class HomepageUIState extends UIState
@@ -133,11 +133,15 @@ package states
 			TouchManager.getInstance().velocityEnabled=true
 
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, onNextFrame)
+			Agony.process.addEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
+			Agony.process.addEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
 		}
 
 		override public function exit():void
 		{
 //			TouchManager.getInstance().velocityEnabled = false
+			Agony.process.removeEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
+			Agony.process.removeEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
 			var l:int
 			if (!mIsStartRecordComplete)
 			{
@@ -285,9 +289,24 @@ package states
 
 		private function onToParent(e:AEvent):void
 		{
+//			StateManager.setHomepage(false)
+//			StateManager.setToParent(true)
+//			UserBehaviorAnalysis.trackEvent('A', '003');
+			
+			mRadioList.scroll.locked = true
+			this.fusion.interactive = false
+			StateManager.setGesture(true)
+		}
+		
+		private function onGestureComplete(e:AEvent):void{
 			StateManager.setHomepage(false)
 			StateManager.setToParent(true)
 			UserBehaviorAnalysis.trackEvent('A', '003');
+		}
+		
+		private function onGestureClose(e:AEvent):void{
+			mRadioList.scroll.locked = false
+			this.fusion.interactive = true
 		}
 	}
 }

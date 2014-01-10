@@ -86,9 +86,10 @@ package models
 		 * ... ...
 		 * ]}
 		 */
-//		private function addThemesByJSON( data:String, dir:ThemeFolderVo ) : void{
-//			
-//		}
+		private function addThemesByJSON( obj:Object ) : void{
+			
+		}
+		
 		
 		
 		
