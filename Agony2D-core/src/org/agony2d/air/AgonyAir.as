@@ -3,7 +3,6 @@ package org.agony2d.air {
 	
 	import org.agony2d.air.file.FolderProxy;
 	import org.agony2d.air.file.FolderType;
-	import org.agony2d.air.file.IFile;
 	import org.agony2d.air.file.IFolder;
 	import org.agony2d.core.agony_internal;
 	
@@ -37,7 +36,6 @@ public class AgonyAir {
 			}
 		}
 		folder = new File(path + "/" + folderName)
-//		folder = parentFolder.resolvePath(folderName + subPath + folderName)
 		return new FolderProxy(folder)
 	}
 	
