@@ -13,8 +13,8 @@ package org.agony2d.air.cache
 	
 	use namespace agony_internal;
 	
-	[Event(name="extractComplete", type="org.agony2d.air.cache.CacheEvent")]
-	
+	[Event(name = "extractComplete", type="org.agony2d.air.cache.CacheEvent")]
+
 	/**
 	 * mediator pattern
 	 * JOSN :
