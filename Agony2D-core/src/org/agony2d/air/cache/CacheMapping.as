@@ -17,16 +17,21 @@ public class CacheMapping {
 	
 	public var remoteURL:String; // 遠程URL.
 	
-	public function downloadAndMakeLocalCache( UM:URLLoaderManager ) : void {
+	/**
+	 * 下載并緩存，已存在的話則跳過.
+	 */
+	public function downloadAndCache( UM:URLLoaderManager ) : void {
 		var loader:ILoader;
 		
 		loader = UM.getLoader(this.remoteURL, URLLoaderDataFormat.BINARY)
 		if(!file.exists){
 			loader.addEventListener(AEvent.COMPLETE, onLoaded);
-			loader.addEventListener(ErrorEvent.IO_ERROR, onError);
 		}
 	}
 	
+	/**
+	 * 下載完成，緩存至本地.
+	 */
 	private function onLoaded(e:AEvent):void{
 		var loader:ILoader;
 		var bytes:ByteArray;
@@ -35,12 +40,6 @@ public class CacheMapping {
 		bytes = loader.data as ByteArray;
 		this.file.bytes = bytes;
 		this.file.upload();
-	}
-	
-	private function onError(e:AEvent):void{
-		Logger.reportWarning(this, "onError", "Error URL : " + this.remoteURL);
-		node.stopDownload();
-		node.dispatchEvent(e)
 	}
 }
 }

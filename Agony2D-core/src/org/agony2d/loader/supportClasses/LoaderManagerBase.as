@@ -14,6 +14,8 @@ package org.agony2d.loader.supportClasses {
 	
 	[Event(name = "complete", type = "org.agony2d.notify.AEvent")] 
 	
+	[Event(name = "ioError", type = "org.agony2d.notify.ErrorEvent")]
+	
 public class LoaderManagerBase extends Notifier implements INextUpdater {
 	
 	final public function get numLoadings() : int { 

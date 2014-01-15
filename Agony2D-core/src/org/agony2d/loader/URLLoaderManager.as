@@ -143,6 +143,7 @@ final public class URLLoaderManager extends LoaderManagerBase {
 		if (!prop.dispatchEvent(new ErrorEvent(ErrorEvent.IO_ERROR, e.text, e.errorID))) {
 			Logger.reportWarning(this, '____onIoError', 'URL:(' + prop.url + ')')
 		}
+		this.dispatchEvent(new ErrorEvent(ErrorEvent.IO_ERROR, e.text, e.errorID))
 		this._removeLoader(prop, false)
 		this.doLoadNext()
 	}	
