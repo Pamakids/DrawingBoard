@@ -3,6 +3,13 @@ package models
 	public class Config
 	{
 		
+		//-- shop ----------------------------------------------------------------
+		
+		public static const SHOP_BASE_URL:String = "http://agony2d.u.qiniudn.com/"
+		
+		
+		///////////////////////////////////////////////////////////////////////
+		
 		// file...
 		public static const IMAGE_BUFFERS:String    =  "buffers"
 		public static const DATA_THUMBNAILS:String  =  "thumbnails"

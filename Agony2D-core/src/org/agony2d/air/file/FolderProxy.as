@@ -22,7 +22,8 @@ public class FolderProxy extends FileCore implements IFolder {
 		var file:File
 		var proxy:FileProxy
 		
-		file = new File(this.path + "/" + fileName + "." + extension)
+		extension = (extension == null || extension == "") ? "" : ("." + extension)
+		file = new File(this.path + "/" + fileName + extension)
 //		file = FolderType.getFolderByType(m_baseFolderType).resolvePath(m_subPath + "/" + fileName + "." + extension)
 		proxy = new FileProxy(file)
 		return proxy

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drawBoard version = "78.0.0">
+	
+	<theme type = "life" thumbnail = "img/cover/science.png">
+		<data>img/thumbnail/science/1.jpg</data>
+		<data>img/thumbnail/science/2.jpg</data>
+		<data>img/thumbnail/science/3.jpg</data>
+		<data>img/thumbnail/science/4.jpg</data>
+		<data>img/thumbnail/science/5.jpg</data>
+		<data>img/thumbnail/science/6.jpg</data>
+		<data>img/thumbnail/science/7.jpg</data>
+		<data>img/thumbnail/science/8.jpg</data>
+		<data>img/thumbnail/science/9.jpg</data>
+		<data>img/thumbnail/science/10.jpg</data>
+		<data>img/thumbnail/science/11.jpg</data>
+		<data>img/thumbnail/science/12.jpg</data>
+		<data>img/thumbnail/science/13.jpg</data>
+		<data>img/thumbnail/science/14.jpg</data>
+		<data>img/thumbnail/science/15.jpg</data>
+	</theme>
+</drawBoard>
