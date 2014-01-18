@@ -60,6 +60,9 @@ package models
 				AgonyUI.addModule("Homepage", HomepageUIState)
 			}
 			if(enabled){
+				// 每次進入主頁都請求最新數據.
+				ShopManager.getInstance().requestData();
+				
 				AgonyUI.getModule("Homepage").init(-1, null, false,false)
 			}
 			else{

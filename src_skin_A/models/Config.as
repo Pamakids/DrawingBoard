@@ -1,12 +1,31 @@
 package models
 {
+	import org.agony2d.Agony;
+	import org.agony2d.air.AgonyAir;
+	import org.agony2d.air.file.FolderType;
+	import org.agony2d.air.file.IFolder;
+
 	public class Config
 	{
 		
 		//-- shop ----------------------------------------------------------------
 		
-		public static const SHOP_BASE_URL:String = "http://agony2d.u.qiniudn.com/"
+//		public static const SHOP_BASE_REMOTE_URL:String = "http://agony2d.u.qiniudn.com/"
+		public static const SHOP_BASE_REMOTE_URL:String = "D:/pama3/shopRemoteAssets/";
 		
+		public static var shopBaseRemoteURL:String
+		
+		public static var shopFolder:IFolder
+		
+		
+		public static function initialize() : void{
+			var folder:IFolder
+			
+			folder = AgonyAir.createFolder("shop", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
+			shopBaseRemoteURL = folder.url + "/";
+			
+			shopFolder = folder;
+		}
 		
 		///////////////////////////////////////////////////////////////////////
 		

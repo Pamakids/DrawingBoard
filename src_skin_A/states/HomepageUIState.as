@@ -39,6 +39,8 @@ package states
 			var imgBtn:ImageButton
 			var item:Fusion
 
+			
+			
 			this.fusion.spaceWidth=AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight=AgonyUI.fusion.spaceHeight
 

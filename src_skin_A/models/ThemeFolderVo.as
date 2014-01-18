@@ -91,7 +91,5 @@ package models
 		public var type:String
 		
 		private var mThemeList:Array = []
-			
-		public var mRemovable:Boolean
 	}
 }

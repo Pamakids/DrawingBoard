@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<drawBoard version = "78.0.0">
+<drawBoard version = "1.0.0">
 	
-	<theme type = "life" thumbnail = "img/cover/science.png">
+	<theme id = "science" numPages = "15">
 		<data>img/thumbnail/science/1.jpg</data>
 		<data>img/thumbnail/science/2.jpg</data>
 		<data>img/thumbnail/science/3.jpg</data>
