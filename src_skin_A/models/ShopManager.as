@@ -233,11 +233,20 @@ package models {
 		}
 		
 		/**
+		 * 使用主題.
+		 */
+		public function useTheme( id:String ) : void{
+			mUserData["theme"][id].isEverUsed = true;
+			this.doFlush();
+		}
+		
+		/**
 		 * 移除主題.
 		 */
 		public function removeTheme( id:String ) : void{
 			var i:int
 			var l:int
+			var folder:IFolder
 			
 			if(!mUserData["theme"][id]){
 				Logger.reportError(this, "addTheme","Not exist theme : " + id)
@@ -245,17 +254,29 @@ package models {
 			delete mUserData["theme"][id];
 			l = mShopVoList.length
 			while(i<l){
-				if(mShopVoList[i].id == id){
+				if(mShopVoList[i].type == id){
 					mShopVoList.splice(i, 1);
 					break;
 				}
 				i++
 			}
 			// 削除文件緩存.
-			
+			this.doDelFolder("img/category/" + id)
+			this.doDelFolder("img/everyday/" + id)
+			this.doDelFolder("img/thumbnail/" + id)
+			this.doDelFolder("sound/chinese/" + id)
+			Config.shopFolder.createFile("img/cover/" + id, "png").destroy();
+			Config.shopFolder.createFile("img/themeTxt/" + id, "png").destroy();
+			Config.shopFolder.createFile("img/titles/" + id, "png").destroy();
 			
 			// 刷新.
 			this.doFlush();
+		}
+		
+		private function doDelFolder( path:String ) : void {
+			var folder:IFolder
+			folder = AgonyAir.createFolder("shop/" + path, Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
+			folder.destroy();
 		}
 		
 		

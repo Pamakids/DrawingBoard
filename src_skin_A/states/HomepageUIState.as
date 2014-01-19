@@ -312,7 +312,8 @@ package states
 		
 		// 移除主題.
 		private function onRemoveTheme(e:AEvent):void{
-			
+			ShopManager.getInstance().removeTheme("science");
+			StateManager.setHomepage(true)
 		}
 
 		// 画廊.

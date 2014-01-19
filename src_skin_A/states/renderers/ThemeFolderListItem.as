@@ -1,15 +1,17 @@
 package states.renderers
 {
 	import flash.text.TextFormat;
-
+	
 	import assets.ImgAssets;
 	import assets.homepage.HomepageAssets;
-
+	
+	import models.ShopManager;
+	import models.ShopVo;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
-
+	
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.ListItem;
@@ -26,6 +28,7 @@ package states.renderers
 			var img:ImagePuppet
 			var label:LabelPuppet
 			var css:TextFormat
+			var shopVo:ShopVo
 
 			css=new TextFormat("weiruanyahei", 25, 0xFFFFFFF, true)
 			if (this.id == 0)
@@ -83,7 +86,13 @@ package states.renderers
 					img.load(vo.thumbnail, false)
 					this.userData=vo
 				}
-
+				
+				shopVo = vo as ShopVo
+				if(shopVo && !shopVo.isEverUsed){
+					img = new ImagePuppet
+					img.embed(HomepageAssets.home_new_big)
+					this.addElement(img, 149, -208)
+				}
 				// txt.
 				{
 					img=new ImagePuppet
@@ -123,6 +132,8 @@ package states.renderers
 
 		private function onClick(e:AEvent):void
 		{
+			var shopVo:ShopVo
+			
 //			StateManager.setTheme(false)
 //			StateManager.setGameScene(true, this.userData as ThemeVo)
 			var vo:ThemeFolderVo=ThemeManager.getInstance().prevThemeFolder=this.userData as ThemeFolderVo
@@ -130,6 +141,11 @@ package states.renderers
 
 			StateManager.setHomepage(false)
 			StateManager.setTheme(true, vo.type);
+			shopVo = vo as ShopVo
+			if(shopVo && !shopVo.isEverUsed){
+				shopVo.isEverUsed = true
+				ShopManager.getInstance().useTheme(shopVo.type)
+			}
 			UserBehaviorAnalysis.trackEvent('A', '002', vo.type);
 		}
 

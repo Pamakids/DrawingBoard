@@ -12,6 +12,8 @@ package assets.homepage
 		[Embed(source="btn/btn_shop.png")] public static const btn_shop:Class
 		
 		[Embed(source="img/common/home_new_small.png")] public static const home_new_small:Class
+		[Embed(source="img/common/home_new_big.png")] public static const home_new_big:Class
+		
 		
 		
 		/////////////////////////////////////////////////////
