@@ -7,10 +7,11 @@ package assets.homepage
 		// button
 		/////////////////////////////////////////////////////
 		
+		[Embed(source="btn/btn_removeTheme.png")] public static const btn_removeTheme:Class
 		[Embed(source="btn/btn_gallery.png")] public static const btn_gallery:Class
+		[Embed(source="btn/btn_shop.png")] public static const btn_shop:Class
 		
-		
-		
+		[Embed(source="img/common/home_new_small.png")] public static const home_new_small:Class
 		
 		
 		/////////////////////////////////////////////////////

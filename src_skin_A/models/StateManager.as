@@ -18,6 +18,7 @@ package models
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
 	import states.RecordUIState;
+	import states.ShopUIState;
 	import states.ThemeUIState;
 	import states.ToParentUIState;
 
@@ -61,7 +62,9 @@ package models
 			}
 			if(enabled){
 				// 每次進入主頁都請求最新數據.
-				ShopManager.getInstance().requestData();
+				if(Config.shopEnabled){
+					ShopManager.getInstance().requestData();
+				}
 				
 				AgonyUI.getModule("Homepage").init(-1, null, false,false)
 			}
@@ -188,6 +191,21 @@ package models
 			}
 			else{
 				AgonyUI.getModule("Gesture").exit()
+			}
+		}
+		
+		// Shop
+		private static var mShopExists:Boolean
+		public static function setShop( enabled:Boolean) : void{
+			if(!mShopExists){
+				mShopExists = true
+				AgonyUI.addModule("Shop", ShopUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("Shop").init(-1, null, false,false)
+			}
+			else{
+				AgonyUI.getModule("Shop").exit()
 			}
 		}
 	}

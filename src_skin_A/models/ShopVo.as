@@ -18,7 +18,7 @@ package models
 			l = purchaseVo.list.length;
 			while(i<l){
 				themeVo = new ThemeVo
-				themeVo.thumbnail = Config.shopBaseRemoteURL + purchaseVo.list[i]
+				themeVo.thumbnail = Config.shopBaseLocalURL + purchaseVo.list[i]
 				themeVo.index = i
 				result[i++] = themeVo
 			}

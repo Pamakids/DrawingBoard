@@ -6,6 +6,7 @@ package states
 	import assets.SoundAssets;
 	import assets.homepage.HomepageAssets;
 	
+	import models.ShopManager;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
@@ -45,7 +46,7 @@ package states
 			this.fusion.spaceHeight=AgonyUI.fusion.spaceHeight
 
 			// theme dir model.
-			dirList=ThemeManager.getInstance().getThemeList()
+			dirList=ShopManager.getInstance().shopThemes.concat(ThemeManager.getInstance().getThemeList())
 
 
 			// bg.
@@ -124,12 +125,39 @@ package states
 			}
 
 
-			// gallery
+			// remove theme.
+			{
+				img=new ImagePuppet
+				img.embed(HomepageAssets.btn_removeTheme)
+				this.fusion.addElement(img, 330, 633)
+				img.addEventListener(AEvent.CLICK, onRemoveTheme)
+			}
+			// gallery.
 			{
 				img=new ImagePuppet
 				img.embed(HomepageAssets.btn_gallery)
-				this.fusion.addElement(img, 463, 636)
+				this.fusion.addElement(img, 512, 633)
 				img.addEventListener(AEvent.CLICK, onGoIntoGallery)
+			}
+			// shop.
+			{
+				img=new ImagePuppet
+				img.embed(HomepageAssets.btn_shop)
+				this.fusion.addElement(img, 634, 633)
+				img.addEventListener(AEvent.CLICK, onGoIntoShop)
+				
+				// shop new item.
+				mShopNewItem=new ImagePuppet
+				mShopNewItem.embed(HomepageAssets.home_new_small)
+				this.fusion.addElement(mShopNewItem, 686, 635)
+				mShopNewItem.interactive = false
+				if(!ShopManager.getInstance().firstLogin)
+				{
+					mShopNewItem.visible = false	
+				}
+				else{
+					ShopManager.getInstance().firstLogin = false
+				}
 			}
 
 			TouchManager.getInstance().velocityEnabled=true
@@ -178,6 +206,8 @@ package states
 		private var mNumitems:int
 		private var mScrolling:Boolean
 		private var mIndex:int
+		
+		private var mShopNewItem:ImagePuppet
 
 
 		private function onRadioListReset(e:AEvent):void
@@ -279,14 +309,25 @@ package states
 		{
 			mScrolling=false
 		}
+		
+		// 移除主題.
+		private function onRemoveTheme(e:AEvent):void{
+			
+		}
 
-		// 画廊
+		// 画廊.
 		private function onGoIntoGallery(e:AEvent):void
 		{
 //			trace("onGoIntoGallery")
 			StateManager.setHomepage(false)
 			StateManager.setGallery(true);
 			UserBehaviorAnalysis.trackEvent('A', '004');
+		}
+		
+		// 商店
+		private function onGoIntoShop(e:AEvent):void{
+			StateManager.setHomepage(false)
+			StateManager.setShop(true)
 		}
 
 		private function onToParent(e:AEvent):void

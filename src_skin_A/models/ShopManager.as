@@ -1,11 +1,19 @@
 package models {
 	import flash.display.BitmapData;
 	import flash.display.PNGEncoderOptions;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
 	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
 	
-	import assets.DataAssets;
 	import assets.shop.ShopAssets;
+	
+	import deng.fzip.FZip;
+	import deng.fzip.FZipErrorEvent;
+	import deng.fzip.FZipEvent;
+	import deng.fzip.FZipFile;
 	
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
@@ -16,6 +24,7 @@ package models {
 	import org.agony2d.loader.ILoader;
 	import org.agony2d.loader.URLLoaderManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.notify.ErrorEvent;
 	import org.agony2d.notify.Notifier;
 	import org.agony2d.notify.cookie.ACookie;
@@ -34,6 +43,8 @@ package models {
 		
 		
 		public static const SHOP_DATA_UPDATE:String = "shopDataUpdate";
+		
+		public static const DOWNLOAD_COMPLETE:String = "downloadComplete";
 		
 		
 		
@@ -84,9 +95,11 @@ package models {
 				for (var id:* in mUserData.theme){
 					shopVo = new ShopVo()
 					shopVo.id = id;
-					shopVo.timestamp  = mUserData.theme.id.timestamp
-					shopVo.isEverUsed = mUserData.theme.id.isEverUsed;
+					shopVo.thumbnail = Config.shopBaseLocalURL + "img/cover/" + id + ".png"
+					shopVo.timestamp  = mUserData["theme"][id].timestamp
+					shopVo.isEverUsed = mUserData["theme"][id].isEverUsed;
 					mShopVoList.push(shopVo)
+					trace("[id] : " + id)
 				}
 				file = AgonyAir.createFolder("shop", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT).createFile("shop","xml");
 				file.addEventListener(AEvent.COMPLETE, onLocalLoaded)
@@ -98,6 +111,7 @@ package models {
 				mUserData = { inited:true, theme :{}};
 				this.doCacheDefaultShopCovers();
 				this.doFlush();
+				firstLogin = true;
 			}
 		}
 		
@@ -159,7 +173,7 @@ package models {
 					
 				Logger.reportMessage(this, "shop data變化，已更新.")
 					
-				// ◆觸發商店數據更新事件.
+				// ◆商店數據更新事件.
 				this.dispatchDirectEvent(SHOP_DATA_UPDATE);
 			}
 			else{
@@ -179,22 +193,27 @@ package models {
 			Logger.reportMessage(this, "加載io錯誤，shop data未獲取.")
 		}
 		
+		
+		
 		/**
 		 * 加入新主題
 		 */
 		public function addTheme( id:String ) : void {
-			
-			
 			if(mUserData["theme"][id]){
 				Logger.reportError(this, "addTheme","exist theme : " + id)
 			}
-			mUserData["theme"][id] = false;
 			var shopVo:ShopVo = new ShopVo()
 			shopVo.id = id;
-			shopVo.timestamp = Number(DateUtil.toString([DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR,DateUtil.MINUTE,DateUtil.SECOND],""));
+			shopVo.thumbnail = Config.shopBaseLocalURL + "img/cover/" + id + ".png"
+			mUserData["theme"][id] = {}
+			mUserData["theme"][id].timestamp = shopVo.timestamp = Number(DateUtil.toString([DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR,DateUtil.MINUTE,DateUtil.SECOND],""));
+			mUserData["theme"][id].isEverUsed = false;
 			mShopVoList.push(shopVo)
 				
 			this.doFlush();
+			
+			// ◆下載完成事件.
+			this.dispatchDirectEvent(DOWNLOAD_COMPLETE)
 		}
 		
 		/**
@@ -225,6 +244,7 @@ package models {
 		
 		
 		
+		public var firstLogin:Boolean
 		
 		private var mUserData:Object;
 		private var mCookie:ACookie;
@@ -283,7 +303,7 @@ package models {
 				purchaseVo = new ShopPurchaseVo
 				purchaseVo.id = item.@id
 				purchaseVo.numPages = item.@numPages
-				purchaseVo.thumbnail = "img/shopThumb/" + purchaseVo.id + ".png"
+				purchaseVo.thumbnail = purchaseVo.id + ".png"
 				purchaseVo.checkCoverCache();
 				mShopPurchaseMap[purchaseVo.id] = purchaseVo
 				ii = 0

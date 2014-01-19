@@ -13,16 +13,19 @@ package models
 //		public static const SHOP_BASE_REMOTE_URL:String = "http://agony2d.u.qiniudn.com/"
 		public static const SHOP_BASE_REMOTE_URL:String = "D:/pama3/shopRemoteAssets/";
 		
-		public static var shopBaseRemoteURL:String
+		public static var shopBaseLocalURL:String
 		
 		public static var shopFolder:IFolder
+		
+		
+		public static var shopEnabled:Boolean  = true
 		
 		
 		public static function initialize() : void{
 			var folder:IFolder
 			
 			folder = AgonyAir.createFolder("shop", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
-			shopBaseRemoteURL = folder.url + "/";
+			shopBaseLocalURL = folder.url + "/";
 			
 			shopFolder = folder;
 		}

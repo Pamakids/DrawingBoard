@@ -60,6 +60,7 @@ final public class ACookie extends UnityNotifierBase {
 			// flush success...
 			case SharedObjectFlushStatus.FLUSHED:
 				this.dispatchDirectEvent(AEvent.CHANGE)
+				trace("[ACookie] : " + "flushed.");
 				break;
 		}
 		m_dirty = false
