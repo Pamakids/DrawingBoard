@@ -82,6 +82,22 @@ package models {
 			return mShopPurchaseMap[id]
 		}
 		
+		public function getShopVo( id:String ) : ShopVo{
+			var vo:ShopVo
+			var i:int
+			var l:int
+			
+			l = mShopVoList.length
+			while(i<l){
+				if(mShopVoList[i].type == id){
+					vo = mShopVoList[i]
+					break;
+				}
+				i++
+			}
+			return vo;
+		}
+		
 		/**
 		 * 初期化，最初使用.
 		 */
@@ -94,7 +110,7 @@ package models {
 				mUserData = mCookie.userData;
 				for (var id:* in mUserData.theme){
 					shopVo = new ShopVo()
-					shopVo.id = id;
+					shopVo.type = id;
 					shopVo.thumbnail = Config.shopBaseLocalURL + "img/cover/" + id + ".png"
 					shopVo.timestamp  = mUserData["theme"][id].timestamp
 					shopVo.isEverUsed = mUserData["theme"][id].isEverUsed;
@@ -203,7 +219,7 @@ package models {
 				Logger.reportError(this, "addTheme","exist theme : " + id)
 			}
 			var shopVo:ShopVo = new ShopVo()
-			shopVo.id = id;
+			shopVo.type = id;
 			shopVo.thumbnail = Config.shopBaseLocalURL + "img/cover/" + id + ".png"
 			mUserData["theme"][id] = {}
 			mUserData["theme"][id].timestamp = shopVo.timestamp = Number(DateUtil.toString([DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR,DateUtil.MINUTE,DateUtil.SECOND],""));

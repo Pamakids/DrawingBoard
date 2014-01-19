@@ -2,16 +2,17 @@ package states
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-
+	
 	import assets.ImgAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.theme.ThemeAssets;
-
+	
+	import models.ShopManager;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
-
+	
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.timer.DelayManager;
@@ -28,7 +29,7 @@ package states
 	import org.agony2d.view.layouts.VertiLayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
-
+	
 	import states.renderers.ThemeListItem;
 
 	public class ThemeUIState extends UIState
@@ -77,6 +78,9 @@ package states
 			list.scroll.vertiReboundFactor=0.5
 			list.scroll.horizReboundFactor=1
 			dir=ThemeManager.getInstance().getThemeDirByType(this.stateArgs[0])
+			if(!dir){
+				dir = ShopManager.getInstance().getShopVo(this.stateArgs[0])
+			}
 			arr=dir.themeList
 			l=arr.length
 			while (i < l)

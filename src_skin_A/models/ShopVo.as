@@ -13,7 +13,7 @@ package models
 			var i:int
 			var l:int
 			
-			purchaseVo = ShopManager.getInstance().getPurchaseVo(this.id);
+			purchaseVo = ShopManager.getInstance().getPurchaseVo(this.type);
 			result = []
 			l = purchaseVo.list.length;
 			while(i<l){
@@ -30,7 +30,7 @@ package models
 		}
 		
 		override public function getTitleName() : String {
-			return id;
+			return type;
 		}
 		
 		
@@ -39,8 +39,6 @@ package models
 		}
 		
 		
-		public var id:String
-
 		public var isEverUsed:Boolean
 		
 		public var timestamp:Number
