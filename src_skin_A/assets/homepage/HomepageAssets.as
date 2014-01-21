@@ -40,6 +40,8 @@ package assets.homepage
 		// toParent
 		[Embed(source="img/common/toParent_A.png")] public static const toParent_A:Class
 		[Embed(source="img/common/toParent_B.png")] public static const toParent_B:Class
+		[Embed(source="img/common/toParent_link.png")] public static const toParent_link:Class
+		[Embed(source="img/common/toParent_mail.png")] public static const toParent_mail:Class
 		[Embed(source="img/common/toParent_scroller.png")] public static const toParent_scroller:Class
 		
 		

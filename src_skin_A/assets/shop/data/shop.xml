@@ -1,21 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawBoard version = "1.0.0">
 	
-	<theme id = "science" numPages = "15">
-		<data>img/thumbnail/science/1.jpg</data>
-		<data>img/thumbnail/science/2.jpg</data>
-		<data>img/thumbnail/science/3.jpg</data>
-		<data>img/thumbnail/science/4.jpg</data>
-		<data>img/thumbnail/science/5.jpg</data>
-		<data>img/thumbnail/science/6.jpg</data>
-		<data>img/thumbnail/science/7.jpg</data>
-		<data>img/thumbnail/science/8.jpg</data>
-		<data>img/thumbnail/science/9.jpg</data>
-		<data>img/thumbnail/science/10.jpg</data>
-		<data>img/thumbnail/science/11.jpg</data>
-		<data>img/thumbnail/science/12.jpg</data>
-		<data>img/thumbnail/science/13.jpg</data>
-		<data>img/thumbnail/science/14.jpg</data>
-		<data>img/thumbnail/science/15.jpg</data>
+	<theme id = "traffic" numPages = "15">
+		<data>img/thumbnail/traffic/1.jpg</data>
+		<data>img/thumbnail/traffic/2.jpg</data>
+		<data>img/thumbnail/traffic/3.jpg</data>
+		<data>img/thumbnail/traffic/4.jpg</data>
+		<data>img/thumbnail/traffic/5.jpg</data>
+		<data>img/thumbnail/traffic/6.jpg</data>
+		<data>img/thumbnail/traffic/7.jpg</data>
+		<data>img/thumbnail/traffic/8.jpg</data>
+		<data>img/thumbnail/traffic/9.jpg</data>
+		<data>img/thumbnail/traffic/10.jpg</data>
+		<data>img/thumbnail/traffic/11.jpg</data>
+		<data>img/thumbnail/traffic/12.jpg</data>
+		<data>img/thumbnail/traffic/13.jpg</data>
+		<data>img/thumbnail/traffic/14.jpg</data>
+		<data>img/thumbnail/traffic/15.jpg</data>
+	</theme>
+	<theme id = "scienceB" numPages = "15">
+		<data>img/thumbnail/scienceB/1.jpg</data>
+		<data>img/thumbnail/scienceB/2.jpg</data>
+		<data>img/thumbnail/scienceB/3.jpg</data>
+		<data>img/thumbnail/scienceB/4.jpg</data>
+		<data>img/thumbnail/scienceB/5.jpg</data>
+		<data>img/thumbnail/scienceB/6.jpg</data>
+		<data>img/thumbnail/scienceB/7.jpg</data>
+		<data>img/thumbnail/scienceB/8.jpg</data>
+		<data>img/thumbnail/scienceB/9.jpg</data>
+		<data>img/thumbnail/scienceB/10.jpg</data>
+		<data>img/thumbnail/scienceB/11.jpg</data>
+		<data>img/thumbnail/scienceB/12.jpg</data>
+		<data>img/thumbnail/scienceB/13.jpg</data>
+		<data>img/thumbnail/scienceB/14.jpg</data>
+		<data>img/thumbnail/scienceB/15.jpg</data>
+	</theme>
+	
+	<theme id = "scienceC" numPages = "15">
+		<data>img/thumbnail/scienceC/1.jpg</data>
+		<data>img/thumbnail/scienceC/2.jpg</data>
+		<data>img/thumbnail/scienceC/3.jpg</data>
+		<data>img/thumbnail/scienceC/4.jpg</data>
+		<data>img/thumbnail/scienceC/5.jpg</data>
+		<data>img/thumbnail/scienceC/6.jpg</data>
+		<data>img/thumbnail/scienceC/7.jpg</data>
+		<data>img/thumbnail/scienceC/8.jpg</data>
+		<data>img/thumbnail/scienceC/9.jpg</data>
+		<data>img/thumbnail/scienceC/10.jpg</data>
+		<data>img/thumbnail/scienceC/11.jpg</data>
+		<data>img/thumbnail/scienceC/12.jpg</data>
+		<data>img/thumbnail/scienceC/13.jpg</data>
+		<data>img/thumbnail/scienceC/14.jpg</data>
+		<data>img/thumbnail/scienceC/15.jpg</data>
+	</theme>
+	
+	<theme id = "scienceD" numPages = "15">
+		<data>img/thumbnail/scienceD/1.jpg</data>
+		<data>img/thumbnail/scienceD/2.jpg</data>
+		<data>img/thumbnail/scienceD/3.jpg</data>
+		<data>img/thumbnail/scienceD/4.jpg</data>
+		<data>img/thumbnail/scienceD/5.jpg</data>
+		<data>img/thumbnail/scienceD/6.jpg</data>
+		<data>img/thumbnail/scienceD/7.jpg</data>
+		<data>img/thumbnail/scienceD/8.jpg</data>
+		<data>img/thumbnail/scienceD/9.jpg</data>
+		<data>img/thumbnail/scienceD/10.jpg</data>
+		<data>img/thumbnail/scienceD/11.jpg</data>
+		<data>img/thumbnail/scienceD/12.jpg</data>
+		<data>img/thumbnail/scienceD/13.jpg</data>
+		<data>img/thumbnail/scienceD/14.jpg</data>
+		<data>img/thumbnail/scienceD/15.jpg</data>
 	</theme>
 </drawBoard>

@@ -3,6 +3,8 @@ package states
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
 	
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -60,12 +62,29 @@ package states
 				mContent=mScroll.content
 				mScroll.horizReboundFactor=1
 				mScroll.vertiReboundFactor=0.5
-
-				img=new ImagePuppet
-				img.embed(HomepageAssets.toParent_B)
-				mContent.addElement(img, 108, 0)
-				mScroll.contentHeight=3267
-
+				mScroll.contentHeight=1080
+					
+				// text.
+				{
+					img=new ImagePuppet
+					img.embed(HomepageAssets.toParent_B)
+					mContent.addElement(img, 108, 0)
+				}
+				
+				// link.
+				{
+					img=new ImagePuppet
+					img.embed(HomepageAssets.toParent_link)
+					mContent.addElement(img, 108, 934)
+					img.addEventListener(AEvent.CLICK, onLink)
+				}
+				// mail.
+				{
+					img=new ImagePuppet
+					img.embed(HomepageAssets.toParent_mail)
+					mContent.addElement(img, 108, 1060)
+					img.addEventListener(AEvent.CLICK,onMail)
+				}
 				this.fusion.addElement(mScroll, 0, 176)
 				mScroll.addEventListener(AEvent.BEGINNING, onScrollStart)
 				mScroll.addEventListener(AEvent.COMPLETE, onScrollComplete)
@@ -113,8 +132,9 @@ package states
 
 		private function onBackToHomepage(e:AEvent):void
 		{
-			StateManager.setToParent(false)
+			
 			StateManager.setHomepage(true)
+			StateManager.setToParent(false)
 		}
 
 
@@ -193,5 +213,14 @@ package states
 //			mThumb.y=mScroll.vertiRatio * (END_Y - START_Y) + START_Y
 		}
 
+		
+		private function onLink(e:AEvent):void{
+			navigateToURL(new URLRequest("http://privacy.pamakids.com/"))
+		}
+		
+		private function onMail(e:AEvent):void{
+			navigateToURL(new URLRequest("mailto:privacy@pamakids.com"))
+			
+		}
 	}
 }

@@ -6,6 +6,7 @@ package states
 	import assets.SoundAssets;
 	import assets.homepage.HomepageAssets;
 	
+	import models.Config;
 	import models.ShopManager;
 	import models.StateManager;
 	import models.ThemeFolderVo;
@@ -126,7 +127,7 @@ package states
 
 
 			// remove theme.
-			{
+			if(Config.shopEnabled) {
 				img=new ImagePuppet
 				img.embed(HomepageAssets.btn_removeTheme)
 				this.fusion.addElement(img, 330, 633)
@@ -140,7 +141,7 @@ package states
 				img.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 			// shop.
-			{
+			if(Config.shopEnabled) {
 				img=new ImagePuppet
 				img.embed(HomepageAssets.btn_shop)
 				this.fusion.addElement(img, 634, 633)

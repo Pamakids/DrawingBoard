@@ -18,7 +18,7 @@ package models
 		public static var shopFolder:IFolder
 		
 		
-		public static var shopEnabled:Boolean  = true
+		public static var shopEnabled:Boolean // = true
 		
 		
 		public static function initialize() : void{

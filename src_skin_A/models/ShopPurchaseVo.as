@@ -49,6 +49,11 @@ package models
 		private var mZip:FZip
 		
 		
+		
+		public function toString() : String{
+			return "id : " + id + "...numPages : " + numPages + "...list : " + list;
+		}
+		
 		public function checkCoverCache():void{
 			var file:IFile = Config.shopFolder.createFile("img/shopThumb/" + this.thumbnail, "")
 			if(file.exists){
