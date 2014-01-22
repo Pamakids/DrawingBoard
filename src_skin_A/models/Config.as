@@ -10,15 +10,15 @@ package models
 		
 		//-- shop ----------------------------------------------------------------
 		
-//		public static const SHOP_BASE_REMOTE_URL:String = "http://agony2d.u.qiniudn.com/"
-		public static const SHOP_BASE_REMOTE_URL:String = "D:/pama3/shopRemoteAssets/";
+		public static const SHOP_BASE_REMOTE_URL:String = "http://agony2d.u.qiniudn.com/"
+//		public static const SHOP_BASE_REMOTE_URL:String = "D:/pama3/shopRemoteAssets/";
 		
 		public static var shopBaseLocalURL:String
 		
 		public static var shopFolder:IFolder
 		
 		
-		public static var shopEnabled:Boolean // = true
+		public static var shopEnabled:Boolean  = true
 		
 		
 		public static function initialize() : void{

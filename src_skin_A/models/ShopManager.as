@@ -340,6 +340,7 @@ package models {
 				purchaseVo = new ShopPurchaseVo
 				purchaseVo.id = item.@id
 				purchaseVo.numPages = item.@numPages
+				purchaseVo.name = item.@name
 				purchaseVo.thumbnail = purchaseVo.id + ".png"
 				purchaseVo.checkCoverCache();
 				mShopPurchaseMap[purchaseVo.id] = purchaseVo

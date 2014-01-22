@@ -30,15 +30,16 @@ package models
 		
 		private static function doInitView():void
 		{
-//			if(Agony.isMoblieDevice){
+			if(Agony.isMoblieDevice){
 				StateManager.setLogo(true)
-//			}
-//			else{
-//				setTimeout(function():void{
-//					StateManager.setHomepage(true)		
-//				}, 500)
-//			}
+			}
+			else{
+				setTimeout(function():void{
+					StateManager.setHomepage(true)		
+				}, 500)
+			}
 			
+//			StateManager.setShopLoading(true, true)
 			//			StateManager.setRecord(true)
 			//			StateManager.setGesture(true)
 //						StateManager.setToParent(true)

@@ -14,6 +14,7 @@ package states
 	import models.ThemeManager;
 	import models.ThemeVo;
 	
+	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.RangeEvent;
@@ -35,15 +36,19 @@ package states
 	{
 		
 		private const LIST_X:int=-20
-		private const LIST_Y:int=142
+		private const LIST_Y:int=215
 		
 		private const LIST_WIDTH:int=1024
 		private const LIST_HEIGHT:int=768 - LIST_Y
 			
+			
+		public static const ENTER_LOADING:String = "enterLoading"
+		public static const EXIT_LOADING:String = "exitLoading"
+			
+			
 		override public function enter():void
 		{
 			var img:ImagePuppet
-			
 			
 			// bg.
 			{
@@ -72,7 +77,7 @@ package states
 			{
 				img = new ImagePuppet
 				img.embed(ShopAssets.themeDownload)
-				this.fusion.addElement(img, 0, 105)
+				this.fusion.addElement(img, 0, 140)
 //				img.addEventListener(AEvent.CLICK, function(e:AEvent):void{
 //					var pv:ShopPurchaseVo
 //					pv = ShopManager.getInstance().getPurchaseVo("science")
@@ -82,6 +87,7 @@ package states
 			}
 			
 			doInitList();
+			doAddListeners()
 		}
 		
 		private function doInitList():void{
@@ -131,10 +137,15 @@ package states
 			mScroll.addEventListener(AEvent.UNSUCCESS, onScrollUnsuccess)
 		}
 		
+		private function doAddListeners():void{
+			Agony.process.addEventListener(ENTER_LOADING, onEnterLoading)
+			Agony.process.addEventListener(EXIT_LOADING, onExitLoading)
+		}
 		
 		override public function exit():void
 		{
-			
+			Agony.process.removeEventListener(ENTER_LOADING, onEnterLoading)
+			Agony.process.removeEventListener(EXIT_LOADING, onExitLoading)
 		}
 		
 		
@@ -227,5 +238,14 @@ package states
 //		private function onDownloading(e:RangeEvent):void{
 //			trace(e.currValue + "/" + e.totalValue)
 //		}
+		
+		
+		private function onEnterLoading(e:AEvent):void{
+			mScroll.locked = true;
+		}
+		
+		private function onExitLoading(e:AEvent):void{
+			mScroll.locked = false
+		}
 	}
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <drawBoard version = "1.0.0">
 	
-	<theme id = "traffic" numPages = "15">
+	<theme id = "traffic" name = "交通" numPages = "15">
 		<data>img/thumbnail/traffic/1.jpg</data>
 		<data>img/thumbnail/traffic/2.jpg</data>
 		<data>img/thumbnail/traffic/3.jpg</data>
@@ -18,7 +18,7 @@
 		<data>img/thumbnail/traffic/14.jpg</data>
 		<data>img/thumbnail/traffic/15.jpg</data>
 	</theme>
-	<theme id = "scienceB" numPages = "15">
+	<theme id = "scienceB" name = "交通" numPages = "15">
 		<data>img/thumbnail/scienceB/1.jpg</data>
 		<data>img/thumbnail/scienceB/2.jpg</data>
 		<data>img/thumbnail/scienceB/3.jpg</data>
@@ -36,7 +36,7 @@
 		<data>img/thumbnail/scienceB/15.jpg</data>
 	</theme>
 	
-	<theme id = "scienceC" numPages = "15">
+	<theme id = "scienceC" name = "交通" numPages = "15">
 		<data>img/thumbnail/scienceC/1.jpg</data>
 		<data>img/thumbnail/scienceC/2.jpg</data>
 		<data>img/thumbnail/scienceC/3.jpg</data>
@@ -54,7 +54,7 @@
 		<data>img/thumbnail/scienceC/15.jpg</data>
 	</theme>
 	
-	<theme id = "scienceD" numPages = "15">
+	<theme id = "scienceD" name = "交通" numPages = "15">
 		<data>img/thumbnail/scienceD/1.jpg</data>
 		<data>img/thumbnail/scienceD/2.jpg</data>
 		<data>img/thumbnail/scienceD/3.jpg</data>

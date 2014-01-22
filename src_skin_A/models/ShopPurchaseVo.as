@@ -40,6 +40,8 @@ package models
 
 		public var numPages:int
 		
+		public var name:String
+		
 		public var id:String;
 		
 		public var list:Array = []
@@ -79,6 +81,13 @@ package models
 			mZip.load(new URLRequest(Config.SHOP_BASE_REMOTE_URL + this.id + ".zip"))
 		}
 		
+		public function cancel() : void{
+			if(mZip){
+				mZip.close();
+				this.doRemoveAllZipEvents();
+			}
+		}
+		
 		
 		private function onZipProgress(e:ProgressEvent):void{
 			// ◆下載進度.
@@ -107,16 +116,20 @@ package models
 			this.doRemoveAllZipEvents()
 				
 			ShopManager.getInstance().addTheme(this.id)
+				
+			ShopManager.getInstance().dispatchDirectEvent(AEvent.COMPLETE)
 		}
 		
 		private function onZipParseError(e:FZipErrorEvent):void{
 			this.doRemoveAllZipEvents()
 			trace(e)
+			ShopManager.getInstance().dispatchDirectEvent(AEvent.UNSUCCESS)
 		}
 		
 		private function onZipIOError(e:IOErrorEvent):void{
 			this.doRemoveAllZipEvents()
 			trace(e)
+			ShopManager.getInstance().dispatchDirectEvent(AEvent.UNSUCCESS)
 		}
 		
 		private function doRemoveAllZipEvents():void{

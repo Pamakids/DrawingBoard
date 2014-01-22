@@ -2,9 +2,6 @@ package models
 {
 	import flash.utils.ByteArray;
 	
-	import org.agony2d.Agony;
-	import org.agony2d.input.KeyboardManager;
-	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.enum.LayoutType;
 	
@@ -18,6 +15,7 @@ package models
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
 	import states.RecordUIState;
+	import states.ShopLoadingUIState;
 	import states.ShopUIState;
 	import states.ThemeUIState;
 	import states.ToParentUIState;
@@ -206,6 +204,21 @@ package models
 			}
 			else{
 				AgonyUI.getModule("Shop").exit()
+			}
+		}
+		
+		// Shop Loading
+		private static var mShopLoadingExists:Boolean
+		public static function setShopLoading( enabled:Boolean, stateArgs:Array = null ) : void{
+			if(!mShopLoadingExists){
+				mShopLoadingExists = true
+				AgonyUI.addModule("ShopLoading", ShopLoadingUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("ShopLoading").init(-1, stateArgs, false,false)
+			}
+			else{
+				AgonyUI.getModule("ShopLoading").exit()
 			}
 		}
 	}
