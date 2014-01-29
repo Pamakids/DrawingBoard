@@ -18,57 +18,57 @@
 		<data>img/thumbnail/traffic/14.jpg</data>
 		<data>img/thumbnail/traffic/15.jpg</data>
 	</theme>
-	<theme id = "scienceB" name = "交通" numPages = "15">
-		<data>img/thumbnail/scienceB/1.jpg</data>
-		<data>img/thumbnail/scienceB/2.jpg</data>
-		<data>img/thumbnail/scienceB/3.jpg</data>
-		<data>img/thumbnail/scienceB/4.jpg</data>
-		<data>img/thumbnail/scienceB/5.jpg</data>
-		<data>img/thumbnail/scienceB/6.jpg</data>
-		<data>img/thumbnail/scienceB/7.jpg</data>
-		<data>img/thumbnail/scienceB/8.jpg</data>
-		<data>img/thumbnail/scienceB/9.jpg</data>
-		<data>img/thumbnail/scienceB/10.jpg</data>
-		<data>img/thumbnail/scienceB/11.jpg</data>
-		<data>img/thumbnail/scienceB/12.jpg</data>
-		<data>img/thumbnail/scienceB/13.jpg</data>
-		<data>img/thumbnail/scienceB/14.jpg</data>
-		<data>img/thumbnail/scienceB/15.jpg</data>
+	<theme id = "food" name = "食物" numPages = "12">
+		<data>img/thumbnail/food/1.jpg</data>
+		<data>img/thumbnail/food/2.jpg</data>
+		<data>img/thumbnail/food/3.jpg</data>
+		<data>img/thumbnail/food/4.jpg</data>
+		<data>img/thumbnail/food/5.jpg</data>
+		<data>img/thumbnail/food/6.jpg</data>
+		<data>img/thumbnail/food/7.jpg</data>
+		<data>img/thumbnail/food/8.jpg</data>
+		<data>img/thumbnail/food/9.jpg</data>
+		<data>img/thumbnail/food/10.jpg</data>
+		<data>img/thumbnail/food/11.jpg</data>
+		<data>img/thumbnail/food/12.jpg</data>
+		<data>img/thumbnail/food/13.jpg</data>
+		<data>img/thumbnail/food/14.jpg</data>
+		<data>img/thumbnail/food/15.jpg</data>
 	</theme>
 	
-	<theme id = "scienceC" name = "交通" numPages = "15">
-		<data>img/thumbnail/scienceC/1.jpg</data>
-		<data>img/thumbnail/scienceC/2.jpg</data>
-		<data>img/thumbnail/scienceC/3.jpg</data>
-		<data>img/thumbnail/scienceC/4.jpg</data>
-		<data>img/thumbnail/scienceC/5.jpg</data>
-		<data>img/thumbnail/scienceC/6.jpg</data>
-		<data>img/thumbnail/scienceC/7.jpg</data>
-		<data>img/thumbnail/scienceC/8.jpg</data>
-		<data>img/thumbnail/scienceC/9.jpg</data>
-		<data>img/thumbnail/scienceC/10.jpg</data>
-		<data>img/thumbnail/scienceC/11.jpg</data>
-		<data>img/thumbnail/scienceC/12.jpg</data>
-		<data>img/thumbnail/scienceC/13.jpg</data>
-		<data>img/thumbnail/scienceC/14.jpg</data>
-		<data>img/thumbnail/scienceC/15.jpg</data>
+	<theme id = "movie" name = "电影" numPages = "15">
+		<data>img/thumbnail/movie/1.jpg</data>
+		<data>img/thumbnail/movie/2.jpg</data>
+		<data>img/thumbnail/movie/3.jpg</data>
+		<data>img/thumbnail/movie/4.jpg</data>
+		<data>img/thumbnail/movie/5.jpg</data>
+		<data>img/thumbnail/movie/6.jpg</data>
+		<data>img/thumbnail/movie/7.jpg</data>
+		<data>img/thumbnail/movie/8.jpg</data>
+		<data>img/thumbnail/movie/9.jpg</data>
+		<data>img/thumbnail/movie/10.jpg</data>
+		<data>img/thumbnail/movie/11.jpg</data>
+		<data>img/thumbnail/movie/12.jpg</data>
+		<data>img/thumbnail/movie/13.jpg</data>
+		<data>img/thumbnail/movie/14.jpg</data>
+		<data>img/thumbnail/movie/15.jpg</data>
 	</theme>
 	
-	<theme id = "scienceD" name = "交通" numPages = "15">
-		<data>img/thumbnail/scienceD/1.jpg</data>
-		<data>img/thumbnail/scienceD/2.jpg</data>
-		<data>img/thumbnail/scienceD/3.jpg</data>
-		<data>img/thumbnail/scienceD/4.jpg</data>
-		<data>img/thumbnail/scienceD/5.jpg</data>
-		<data>img/thumbnail/scienceD/6.jpg</data>
-		<data>img/thumbnail/scienceD/7.jpg</data>
-		<data>img/thumbnail/scienceD/8.jpg</data>
-		<data>img/thumbnail/scienceD/9.jpg</data>
-		<data>img/thumbnail/scienceD/10.jpg</data>
-		<data>img/thumbnail/scienceD/11.jpg</data>
-		<data>img/thumbnail/scienceD/12.jpg</data>
-		<data>img/thumbnail/scienceD/13.jpg</data>
-		<data>img/thumbnail/scienceD/14.jpg</data>
-		<data>img/thumbnail/scienceD/15.jpg</data>
+	<theme id = "city" name = "城市" numPages = "15">
+		<data>img/thumbnail/city/1.jpg</data>
+		<data>img/thumbnail/city/2.jpg</data>
+		<data>img/thumbnail/city/3.jpg</data>
+		<data>img/thumbnail/city/4.jpg</data>
+		<data>img/thumbnail/city/5.jpg</data>
+		<data>img/thumbnail/city/6.jpg</data>
+		<data>img/thumbnail/city/7.jpg</data>
+		<data>img/thumbnail/city/8.jpg</data>
+		<data>img/thumbnail/city/9.jpg</data>
+		<data>img/thumbnail/city/10.jpg</data>
+		<data>img/thumbnail/city/11.jpg</data>
+		<data>img/thumbnail/city/12.jpg</data>
+		<data>img/thumbnail/city/13.jpg</data>
+		<data>img/thumbnail/city/14.jpg</data>
+		<data>img/thumbnail/city/15.jpg</data>
 	</theme>
 </drawBoard>

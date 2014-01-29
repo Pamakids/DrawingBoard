@@ -8,6 +8,7 @@ package states
 	
 	import models.Config;
 	import models.ShopManager;
+	import models.ShopVo;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
@@ -128,10 +129,13 @@ package states
 
 			// remove theme.
 			if(Config.shopEnabled) {
-				img=new ImagePuppet
-				img.embed(HomepageAssets.btn_removeTheme)
-				this.fusion.addElement(img, 330, 633)
-				img.addEventListener(AEvent.CLICK, onRemoveTheme)
+				mRemoveThemeBtn=new ImagePuppet
+				mRemoveThemeBtn.embed(HomepageAssets.btn_removeTheme)
+				this.fusion.addElement(mRemoveThemeBtn, 330, 633)
+				mRemoveThemeBtn.addEventListener(AEvent.CLICK, onRemoveTheme)
+					
+				mRemoveThemeBtn.interactive = false
+				mRemoveThemeBtn.alpha = 0.4
 			}
 			// gallery.
 			{
@@ -209,6 +213,8 @@ package states
 		private var mIndex:int
 		
 		private var mShopNewItem:ImagePuppet
+		
+		private var mRemoveThemeBtn:ImagePuppet
 
 
 		private function onRadioListReset(e:AEvent):void
@@ -278,8 +284,28 @@ package states
 
 				mIndex=Math.round(N * (mNumitems - 1))
 			}
-//			trace("scale index: " + N + "..." + mIndex)
+			
+			
+			trace("theme index : " + mIndex)
+			
+			
+			this.doCheckStateForRemoveTheme()
 			this.doTweenOnScaleItem(mIndex)
+		}
+		
+		private var mCurrShopVo:ShopVo
+		private function doCheckStateForRemoveTheme() : void {
+			var shopVo:ShopVo = mThemeList[mIndex].userData as ShopVo
+			if(shopVo && !mCurrShopVo){
+				mRemoveThemeBtn.interactive = true
+				mRemoveThemeBtn.alpha = 1
+				mCurrShopVo = shopVo;
+			}
+			else if(!shopVo && mCurrShopVo){
+				mCurrShopVo = null
+				mRemoveThemeBtn.interactive = false
+				mRemoveThemeBtn.alpha = 0.4
+			}
 		}
 
 		private function doTweenOnScaleItem(index:int):void
@@ -313,8 +339,12 @@ package states
 		
 		// 移除主題.
 		private function onRemoveTheme(e:AEvent):void{
-			ShopManager.getInstance().removeTheme("science");
-			StateManager.setHomepage(true)
+//			ShopManager.getInstance().removeTheme("science");
+//			StateManager.setHomepage(true)
+			
+			mRadioList.scroll.locked = true
+			this.fusion.interactive = false
+			StateManager.setRemoveTheme(true, mCurrShopVo.type)
 		}
 
 		// 画廊.

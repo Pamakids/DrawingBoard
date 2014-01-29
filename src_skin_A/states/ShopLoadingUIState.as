@@ -55,46 +55,45 @@ package states
 				mCloseBtn.graphics.drawRect(-14, -14, 55, 55)
 				mCloseBtn.addEventListener(AEvent.CLICK, onCloseLoading)
 			}
-			
-			// detail.
-			{
-				// left.
-				{
-					img=new ImagePuppet
-					img.embed(ShopAssets.detailTxt)
-					this.fusion.position = 1
-					this.fusion.addElement(img, 348, 54, LayoutType.AB, LayoutType.AB)
-				}
-				
-				var rawSprite:SpritePuppet = new SpritePuppet
-				this.fusion.position = 1
-				this.fusion.addElement(rawSprite, 443, 54, LayoutType.AB, LayoutType.AB)
-				var txt:TextField
-				var css:TextFormat = new TextFormat("黑体",18, 0xFFFFFF) 
-					
-				{
-					txt = new TextField
-					txt.defaultTextFormat = css
-					txt.text = String(mPurchaseVo.name);
-					rawSprite.addChild(txt)
-						
-					txt = new TextField
-					txt.defaultTextFormat = css
-					txt.text = String(mPurchaseVo.numPages);
-					txt.y = 32
-					rawSprite.addChild(txt)
-						
-					txt = new TextField
-					txt.defaultTextFormat = css
-					txt.text = "免费";
-					txt.y = 65
-					rawSprite.addChild(txt)
-				}
-			}
-			
+
 			// has net.
 			if(this.stateArgs[1]){
 				
+				// detail.
+				{
+					// left.
+					{
+						img=new ImagePuppet
+						img.embed(ShopAssets.detailTxt)
+						this.fusion.position = 1
+						this.fusion.addElement(img, 348, 54, LayoutType.AB, LayoutType.AB)
+					}
+					
+					var rawSprite:SpritePuppet = new SpritePuppet
+					this.fusion.position = 1
+					this.fusion.addElement(rawSprite, 443, 54, LayoutType.AB, LayoutType.AB)
+					var txt:TextField
+					var css:TextFormat = new TextFormat("黑体",18, 0xFFFFFF) 
+					
+					{
+						txt = new TextField
+						txt.defaultTextFormat = css
+						txt.text = String(mPurchaseVo.name);
+						rawSprite.addChild(txt)
+						
+						txt = new TextField
+						txt.defaultTextFormat = css
+						txt.text = String(mPurchaseVo.numPages);
+						txt.y = 32
+						rawSprite.addChild(txt)
+						
+						txt = new TextField
+						txt.defaultTextFormat = css
+						txt.text = "免费";
+						txt.y = 65
+						rawSprite.addChild(txt)
+					}
+				}
 				
 				// cover.
 				{
@@ -242,7 +241,7 @@ package states
 			mCancelBtn.visible = false
 				
 			mDownloadFail=new ImagePuppet
-			mDownloadFail.embed(ShopAssets.downloaded) 
+			mDownloadFail.embed(ShopAssets.downloadFail) 
 			this.fusion.position = 1
 			this.fusion.addElement(mDownloadFail, 77, 307, LayoutType.AB, LayoutType.AB)
 		}

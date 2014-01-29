@@ -15,6 +15,7 @@ package models
 	import states.PlayerSceneUIState;
 	import states.PlayerTopAndBottomUIState;
 	import states.RecordUIState;
+	import states.RemoveThemeUIState;
 	import states.ShopLoadingUIState;
 	import states.ShopUIState;
 	import states.ThemeUIState;
@@ -219,6 +220,21 @@ package models
 			}
 			else{
 				AgonyUI.getModule("ShopLoading").exit()
+			}
+		}
+		
+		// Remove Theme.
+		private static var mRemoveThemeExists:Boolean
+		public static function setRemoveTheme( enabled:Boolean, id:String = null ) : void{
+			if(!mRemoveThemeExists){
+				mRemoveThemeExists = true
+				AgonyUI.addModule("RemoveTheme", RemoveThemeUIState)
+			}
+			if(enabled){
+				AgonyUI.getModule("RemoveTheme").init(-1, [id], false,false)
+			}
+			else{
+				AgonyUI.getModule("RemoveTheme").exit()
 			}
 		}
 	}

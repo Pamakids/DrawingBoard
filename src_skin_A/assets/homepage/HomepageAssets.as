@@ -51,5 +51,12 @@ package assets.homepage
 		[Embed(source="img/theme/fantasty.png")] public static const fantastyTxt:Class
 		[Embed(source="img/theme/life.png")] public static const lifeTxt:Class
 		[Embed(source="img/theme/people.png")] public static const peopleTxt:Class
+		
+		
+		// remove theme
+		[Embed(source="img/common/removeThemeBg.png")] public static const removeThemeBg:Class
+		[Embed(source="img/common/removeThemeCancel.png")] public static const removeThemeCancel:Class
+		[Embed(source="img/common/removeThemeOk.png")] public static const removeThemeOk:Class
+		
 	}
 }

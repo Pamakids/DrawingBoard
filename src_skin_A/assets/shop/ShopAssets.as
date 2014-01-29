@@ -8,12 +8,12 @@ package assets.shop
 		
 		
 		[Embed(source="img/cover/traffic.png")] public static const traffic:Class
-		[Embed(source="img/cover/scienceB.png")] public static const scienceB:Class
-		[Embed(source="img/cover/scienceC.png")] public static const scienceC:Class
-		[Embed(source="img/cover/scienceD.png")] public static const scienceD:Class
+		[Embed(source="img/cover/food.png")] public static const food:Class
+		[Embed(source="img/cover/movie.png")] public static const movie:Class
+		[Embed(source="img/cover/city.png")] public static const city:Class
 		[Embed(source = "data/shop.xml",mimeType = "application/octet-stream")]  public static const shop:Class
 		
-		public static var defaultImgs:Array = [[traffic,"traffic"],[scienceB,"scienceB"],[scienceC,"scienceC"],[scienceD,"scienceD"]];
+		public static var defaultImgs:Array = [[traffic,"traffic"],[food,"food"],[movie,"movie"],[city,"city"]];
 		
 		
 		
