@@ -427,7 +427,7 @@ package states
 			target=e.target as GestureFusion
 			var posX:Number=target.x
 			var posY:Number=target.y
-			if (posX < 7 || posX > AgonyUI.fusion.spaceWidth - 7 || posY < 7 || target.y > AgonyUI.fusion.spaceHeight - 7)
+			if (posX < 10 || posX > AgonyUI.fusion.spaceWidth - 10 || posY < 10 || target.y > AgonyUI.fusion.spaceHeight - 30)
 			{
 				this.doKillPaster(target)
 			}

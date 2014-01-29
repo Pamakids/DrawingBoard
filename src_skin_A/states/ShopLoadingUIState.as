@@ -253,6 +253,9 @@ package states
 			mPb.kill();
 			mPb = null
 				
+			mCloseBtn.interactive = true
+			mCloseBtn.alpha = 1.0
+				
 			mPurchaseVo.cancel();
 		}
 	}

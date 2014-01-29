@@ -111,9 +111,12 @@ package states
 				this.fusion.addElement(mFinishBtn, 890, 21)
 				mFinishBtn.addEventListener(AEvent.CLICK, onPreTopComplete)
 				mImgList.push(mFinishBtn)
-				this.onPaperClear(null)
+				
 			}
 
+			this.onPaperClear(null)
+				
+				
 			var l:int=mImgList.length
 			while (--l > -1)
 			{
@@ -181,12 +184,19 @@ package states
 
 		private function onPreTopBack(e:AEvent):void
 		{
-			mGameBack=new ImagePuppet
-			this.fusion.addElementAt(mGameBack, 0, 39, 108)
-			mGameBack.embed(GameAssets.game_Back)
-			mGameBack.addEventListener(AEvent.PRESS, onTopBack)
-			AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopBackCancel)
-				
+			if(!DrawingManager.getInstance().isPaperDirty){
+				StateManager.setGameScene(false)
+				StateManager.setTheme(true, ThemeManager.getInstance().prevThemeFolder.type)
+			}
+			else{
+				mGameBack=new ImagePuppet
+				this.fusion.addElementAt(mGameBack, 0, 39, 108)
+				mGameBack.embed(GameAssets.game_Back)
+				mGameBack.addEventListener(AEvent.PRESS, onTopBack)
+				AgonyUI.fusion.addEventListener(AEvent.PRESS, onTopBackCancel)
+			}
+
+			
 			// 返回时，保存.
 			
 		}
@@ -391,8 +401,8 @@ package states
 
 		private function onPaperClear(e:AEvent):void
 		{
-			mBackImg.alpha=0.44
-			mBackImg.interactive=false
+//			mBackImg.alpha=0.44
+//			mBackImg.interactive=false
 				
 			mFinishBtn.alpha=0.44
 			mFinishBtn.interactive=false
@@ -402,8 +412,8 @@ package states
 
 		private function onPaperDirty(e:AEvent):void
 		{
-			mBackImg.alpha=1
-			mBackImg.interactive=true
+//			mBackImg.alpha=1
+//			mBackImg.interactive=true
 				
 			mFinishBtn.alpha=1
 			mFinishBtn.interactive=true
