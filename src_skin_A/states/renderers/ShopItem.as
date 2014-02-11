@@ -8,8 +8,10 @@ package states.renderers
 	import air.net.URLMonitor;
 	
 	import assets.gallery.GalleryAssets;
+	import assets.shop.ShopAssets;
 	
 	import models.Config;
+	import models.ShopManager;
 	import models.ShopPurchaseVo;
 	import models.StateManager;
 	import models.ThemeVo;
@@ -45,6 +47,20 @@ package states.renderers
 			image.load(vo.localURL, false)
 			//		image.scaleX = 0.98
 			//		image.scaleY = 138 / 158
+				
+			image = new ImagePuppet
+			this.addElement(image, 7, 182)
+			image.embed(ShopAssets.titlebar)
+				
+			image = new ImagePuppet
+			this.addElement(image, 20, 188)
+			image.load(vo.localTitleURL);
+				
+			if(ShopManager.getInstance().containsTheme(vo.id)){
+				image = new ImagePuppet
+				this.addElement(image, 241, 188)
+				image.embed(ShopAssets.downloaded_A)
+			}
 			this.userData=vo
 			
 //			image=new ImagePuppet
@@ -78,6 +94,22 @@ package states.renderers
 				
 				
 			Agony.process.dispatchDirectEvent(ShopUIState.ENTER_LOADING)
+				
+			ShopManager.getInstance().addEventListener(ShopManager.DOWNLOAD_COMPLETE, onComplete);
+			Agony.process.addEventListener(ShopUIState.EXIT_LOADING, onCancel)
+		}
+		
+		private function onComplete(e:AEvent):void{
+			var image:ImagePuppet
+			
+			image = new ImagePuppet
+			this.addElement(image, 241, 187)
+			image.embed(ShopAssets.downloaded_A)
+		}
+		
+		private function onCancel(e:AEvent):void{
+			ShopManager.getInstance().removeEventListener(ShopManager.DOWNLOAD_COMPLETE, onComplete);
+			Agony.process.removeEventListener(ShopUIState.EXIT_LOADING, onCancel)
 		}
 		
 		private function onCheckNet(e:AEvent):void{

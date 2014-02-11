@@ -31,10 +31,22 @@ package models
 			return Config.SHOP_BASE_REMOTE_URL + thumbnail;
 		}
 		
+		public function get remoteTitleURL() : String{
+			return Config.SHOP_BASE_REMOTE_URL + "title_" + thumbnail;
+		}
 		
 		public function get localURL():String{
 			return Config.shopBaseLocalURL + "img/shopThumb/" + thumbnail;
 		}
+			
+		public function get localTitleURL():String{
+			return Config.shopBaseLocalURL + "img/titles_A/" + thumbnail;
+		}			
+		
+		public function get isCoverCached():Boolean{
+			return mExist_A && mExist_B
+		}
+		
 		
 		public var thumbnail:String
 
@@ -45,11 +57,12 @@ package models
 		public var id:String;
 		
 		public var list:Array = []
-			
-		public var isCoverCached:Boolean
-		
+
 		private var mZip:FZip
 		
+		private var mExist_A:Boolean
+		
+		private var mExist_B:Boolean
 		
 		
 		public function toString() : String{
@@ -58,16 +71,23 @@ package models
 		
 		public function checkCoverCache():void{
 			var file:IFile = Config.shopFolder.createFile("img/shopThumb/" + this.thumbnail, "")
-			if(file.exists){
-				this.isCoverCached = true
-			}
+			var file1:IFile = Config.shopFolder.createFile("img/titles_A/" + this.thumbnail, "")
+			mExist_A = file.exists;
+			mExist_B = file1.exists;
 		}
 		
 		public function downloadCover():void{
 			var L_A:ILoader
 			
-			L_A = URLLoaderManager.getInstance().getLoader(this.remoteURL, URLLoaderDataFormat.BINARY);
-			L_A.addEventListener(AEvent.COMPLETE, onLoaded)
+			if(mExist_A){
+				L_A = URLLoaderManager.getInstance().getLoader(this.remoteURL, URLLoaderDataFormat.BINARY);
+				L_A.addEventListener(AEvent.COMPLETE, onLoaded_A)
+			}
+			if(mExist_B){
+				L_A = URLLoaderManager.getInstance().getLoader(this.remoteTitleURL, URLLoaderDataFormat.BINARY);
+				L_A.addEventListener(AEvent.COMPLETE, onLoaded_B)
+			}
+			
 		}
 		
 		
@@ -148,7 +168,7 @@ package models
 		
 		/////////////////////////////////////////////////////////////////////
 		
-		private function onLoaded(e:AEvent):void{
+		private function onLoaded_A(e:AEvent):void{
 			var L_A:ILoader
 			var file:IFile
 			var folder:IFolder
@@ -156,7 +176,18 @@ package models
 			file = Config.shopFolder.createFile("img/shopThumb/" + this.thumbnail, "")
 			file.bytes = e.target.data as ByteArray;
 			file.upload();
-			this.isCoverCached = true
+			mExist_A = true
+		}
+		
+		private function onLoaded_B(e:AEvent):void{
+			var L_A:ILoader
+			var file:IFile
+			var folder:IFolder
+			
+			file = Config.shopFolder.createFile("img/titles_A/" + this.thumbnail, "")
+			file.bytes = e.target.data as ByteArray;
+			file.upload();
+			mExist_B = true
 		}
 	}
 }

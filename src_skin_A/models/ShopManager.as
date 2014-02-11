@@ -46,6 +46,7 @@ package models {
 		
 		public static const DOWNLOAD_COMPLETE:String = "downloadComplete";
 		
+//		public static const CANCEL:String = "cancel"
 		
 		
 		private static var g_instance:ShopManager;
@@ -232,6 +233,10 @@ package models {
 			this.dispatchDirectEvent(DOWNLOAD_COMPLETE)
 		}
 		
+		public function containsTheme( id:String ) : Boolean {
+			return Boolean(mUserData["theme"][id])
+		}
+		
 		/**
 		 * 使用主題.
 		 */
@@ -294,6 +299,7 @@ package models {
 			var file_XML:IFile
 			var BA:BitmapData
 			var list:Array
+			var list1:Array
 			var l:int
 			var ref:Class
 			
@@ -304,11 +310,18 @@ package models {
 
 			// default shop cover.
 			list = ShopAssets.defaultImgs
+			list1 = ShopAssets.defaultImgs1
 			l = list.length;
 			while(--l>-1){
 				ref = list[l][0]
 				BA = (new ref).bitmapData
 				file = Config.shopFolder.createFile("img/shopThumb/" + list[l][1], "png")
+				file.bytes = BA.encode(BA.rect, new PNGEncoderOptions)
+				file.upload();
+				
+				ref = list1[l][0]
+				BA = (new ref).bitmapData
+				file = Config.shopFolder.createFile("img/titles_A/" + list1[l][1], "png")
 				file.bytes = BA.encode(BA.rect, new PNGEncoderOptions)
 				file.upload();
 			}
