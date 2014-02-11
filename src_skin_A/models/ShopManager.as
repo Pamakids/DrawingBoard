@@ -171,7 +171,7 @@ package models {
 //			trace(mNewestData.@version)
 			
 			
-			if(mCurrData.@version != newestData.@version){
+			if(!mCurrData || mCurrData.@version != newestData.@version){
 				if(Agony.isMoblieDevice){
 					folder = AgonyAir.createFolder("shop", FolderType.APP_STORAGE)
 				}
