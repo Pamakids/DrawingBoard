@@ -1,13 +1,29 @@
 package models
 {
+	import flash.display.Stage;
 	import flash.utils.setTimeout;
 	
 	import org.agony2d.Agony;
+	import org.agony2d.input.TouchManager;
+	import org.agony2d.view.AgonyUI;
+	import org.agony2d.view.enum.ButtonEffectType;
 
 	public class InitManager
 	{
-		public static function startup():void
+		public static function startup(stage:Stage):void
 		{
+			if (Agony.isMoblieDevice)
+			{
+				Agony.startup(stage, 1024, 768, "high", true);
+			}
+			else
+			{
+				Agony.startup(stage, 1024, 768, "high", true, 0.85);
+			}
+			AgonyUI.startup(false, true);
+			AgonyUI.setButtonEffectType(ButtonEffectType.PRESS_PRESS)
+			TouchManager.getInstance().multiTouchEnabled=true
+			
 			doInitModel()
 			doInitView()
 		}

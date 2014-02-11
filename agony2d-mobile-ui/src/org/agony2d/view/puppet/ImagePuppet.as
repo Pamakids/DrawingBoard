@@ -181,7 +181,7 @@ final public class ImagePuppet extends SmoothProxy {
 	
 	agony_internal function checkAndStopLoad() : void {
 		if (m_loader) {
-			m_loader.removeEventListener(Event.COMPLETE,        ____onComplete)
+			m_loader.removeEventListener(AEvent.COMPLETE,        ____onComplete)
 			m_loader.removeEventListener(IOErrorEvent.IO_ERROR, ____onFail)
 			m_loader = null
 		}

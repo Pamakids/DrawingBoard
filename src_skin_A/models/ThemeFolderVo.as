@@ -82,7 +82,7 @@ package models
 //				ref = HomepageAssets.peopleTxt
 //			}
 //			return ref
-			return this.thumbnail.replace("cover", "themeTxt")
+			return this.thumbnail.replace("cover", "ThemeTxt")
 		}
 		
 		

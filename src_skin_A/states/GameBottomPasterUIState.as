@@ -2,19 +2,16 @@ package states
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-
+	
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
-
-	import assets.ImgAssets;
-	import assets.PasterAssets;
+	
 	import assets.game.GameAssets;
-
+	
 	import models.Config;
 	import models.PasterManager;
-
+	
 	import org.agony2d.Agony;
-	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
@@ -24,7 +21,6 @@ package states
 	import org.agony2d.view.GridScrollFusion;
 	import org.agony2d.view.PivotFusion;
 	import org.agony2d.view.UIState;
-	import org.agony2d.view.core.IComponent;
 	import org.agony2d.view.enum.LayoutType;
 	import org.agony2d.view.puppet.ImagePuppet;
 

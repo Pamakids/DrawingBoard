@@ -291,18 +291,17 @@ package models {
 		
 		private function doCacheDefaultShopCovers() : void {
 			var file:IFile
+			var file_XML:IFile
 			var BA:BitmapData
 			var list:Array
 			var l:int
 			var ref:Class
 			
 			// shop xml.
-			file = Config.shopFolder.createFile("shop", "xml")
-			file.bytes = (new (ShopAssets.shop)) as ByteArray
-			file.upload();
-			mCurrData = XML(file.bytes);
-			this.doUpdateShopPurchaseList(mCurrData)
-			
+			file_XML = Config.shopFolder.createFile("shop", "xml")
+			file_XML.bytes = (new (ShopAssets.shop)) as ByteArray
+			file_XML.upload();
+
 			// default shop cover.
 			list = ShopAssets.defaultImgs
 			l = list.length;
@@ -313,6 +312,10 @@ package models {
 				file.bytes = BA.encode(BA.rect, new PNGEncoderOptions)
 				file.upload();
 			}
+			
+			mCurrData = XML(file_XML.bytes);
+			this.doUpdateShopPurchaseList(mCurrData)
+				
 		}
 		
 		private function doFlush() : void{
@@ -342,6 +345,7 @@ package models {
 				purchaseVo.numPages = item.@numPages
 				purchaseVo.name = item.@name
 				purchaseVo.thumbnail = purchaseVo.id + ".png"
+				
 				purchaseVo.checkCoverCache();
 				mShopPurchaseMap[purchaseVo.id] = purchaseVo
 				ii = 0
