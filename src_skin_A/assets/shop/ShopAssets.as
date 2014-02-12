@@ -38,5 +38,6 @@ package assets.shop
 		
 		[Embed(source="img/common/titlebar.png")] public static const titlebar:Class
 		[Embed(source="img/common/free.png")] public static const free:Class
+		[Embed(source="img/common/free_A.png")] public static const free_A:Class
 	}
 }

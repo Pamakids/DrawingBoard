@@ -41,6 +41,7 @@ package models
 			
 			if(Agony.isMoblieDevice){
 				UMSocial.instance.init("52b1868656240b557713090e", false)
+				UserBehaviorAnalysis.init();
 			}
 		}
 		

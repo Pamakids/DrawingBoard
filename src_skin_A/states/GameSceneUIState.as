@@ -4,6 +4,7 @@ package states
 	import com.greensock.easing.Back;
 	import com.greensock.easing.Cubic;
 	
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.PNGEncoderOptions;
@@ -39,6 +40,8 @@ package states
 	import org.agony2d.input.ATouchEvent;
 	import org.agony2d.input.Touch;
 	import org.agony2d.input.TouchManager;
+	import org.agony2d.loader.ILoader;
+	import org.agony2d.loader.LoaderManager;
 	import org.agony2d.media.ISound;
 	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
@@ -171,6 +174,9 @@ package states
 		private var mThemeVo:ThemeVo
 		private var mBgImg:ImagePuppet
 		private var mReadyToDraw:SpritePuppet
+		
+		private var mLocalCachedBg:BitmapData
+		
 
 
 		private function doAddPaper():void
@@ -198,6 +204,10 @@ package states
 					if (mThemeVo)
 					{
 						mBgImg.load(mThemeVo.dataUrl, false)
+						var loader:ILoader = LoaderManager.getInstance().getLoader(mThemeVo.dataUrl)
+						loader.addEventListener(AEvent.COMPLETE, function(e:AEvent):void{
+							mLocalCachedBg = loader.data.bitmapData;
+						})
 					}
 
 
@@ -557,7 +567,7 @@ package states
 			var BA:BitmapData, BA_A:BitmapData
 			var scale:Number
 			var matrix:Matrix
-			var file:IFile, file_A:IFile
+			var file:IFile, file_A:IFile, bgFile:IFile
 			var folder:IFolder
 
 			if (mPasterFusion)
@@ -618,6 +628,10 @@ package states
 			file_A.bytes=BA_A.encode(BA_A.rect, new PNGEncoderOptions)
 			file_A.upload()
 			
+			bgFile = folder.createFile("bg" + fileName, "png")
+			bgFile.bytes=mLocalCachedBg.encode(mLocalCachedBg.rect, new PNGEncoderOptions)
+			bgFile.upload()
+				
 			// 分享图片.
 			var u:URLRequest=new URLRequest('http://up.qiniu.com'); 
 			u.method=URLRequestMethod.POST;
@@ -649,15 +663,15 @@ package states
 			
 			// final img
 			bytes.writeUTF(file_A.url)
+				
+			// bg img
+			bytes.writeUTF(bgFile.url);
 
-			trace("thumbnail: " + file.path)
+//			trace("thumbnail: " + file.path)
 //			cachedBytesA = BA.getPixels(BA.rect)
 //			bytes.writeUnsignedInt(cachedBytesA.length)
 //			bytes.writeBytes(cachedBytesA)
 //			cachedBytesA.length = 0
-
-			// bg
-			bytes.writeUTF(mThemeVo.dataUrl)
 
 			// paster
 			this.doAddPasterData(bytes)

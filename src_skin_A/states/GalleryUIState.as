@@ -3,23 +3,23 @@ package states
 	import com.google.analytics.debug.Layout;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-
+	
 	import flash.filesystem.File;
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
-
+	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
 	import assets.theme.ThemeAssets;
-
+	
 	import models.Config;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -44,7 +44,7 @@ package states
 	import org.agony2d.view.layouts.VertiLayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
-
+	
 	import states.renderers.GalleryItem;
 	import states.renderers.ThemeListItem;
 
@@ -364,7 +364,7 @@ package states
 			var folder:IFolder
 			var i:int, l:int
 			var img:ImagePuppet
-			var thumbnail:String, finalUrl:String
+			var thumbnail:String, finalUrl:String, bgUrl:String
 			var rawFile:File
 
 			SfxManager.getInstance().loadAndPlay(SoundAssets.url_del)
@@ -411,7 +411,12 @@ package states
 			{
 				rawFile.deleteFile()
 			}
-
+			bgUrl=mRemovedBytes.readUTF()
+			rawFile=new File(bgUrl)
+			if (rawFile.exists)
+			{
+				rawFile.deleteFile()
+			}
 			mRemovedFile.destroy()
 			mRemovedFile=null
 

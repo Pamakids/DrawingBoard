@@ -30,6 +30,8 @@ package states.renderers
 	public class ShopItem extends ListItem
 	{
 		
+		private var mImg:ImagePuppet
+		
 		override public function init():void
 		{
 			var image:ImagePuppet
@@ -56,10 +58,13 @@ package states.renderers
 			this.addElement(image, 20, 188)
 			image.load(vo.localTitleURL);
 				
+			mImg = new ImagePuppet
+			this.addElement(mImg, 241, 188)
 			if(ShopManager.getInstance().containsTheme(vo.id)){
-				image = new ImagePuppet
-				this.addElement(image, 241, 188)
-				image.embed(ShopAssets.downloaded_A)
+				mImg.embed(ShopAssets.downloaded_A)
+			}
+			else{
+				mImg.embed(ShopAssets.free_A)
 			}
 			this.userData=vo
 			
@@ -100,11 +105,7 @@ package states.renderers
 		}
 		
 		private function onComplete(e:AEvent):void{
-			var image:ImagePuppet
-			
-			image = new ImagePuppet
-			this.addElement(image, 241, 187)
-			image.embed(ShopAssets.downloaded_A)
+			mImg.embed(ShopAssets.downloaded_A)
 		}
 		
 		private function onCancel(e:AEvent):void{
