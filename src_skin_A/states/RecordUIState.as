@@ -1,14 +1,14 @@
 package states
 {
 	import flash.utils.getTimer;
-
+	
 	import assets.ImgAssets;
 	import assets.player.PlayerAssets;
-
+	
 	import models.Config;
 	import models.RecordManager;
 	import models.StateManager;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -48,7 +48,7 @@ package states
 //			AgonyUI.addImageButtonData(PlayerAssets.btn_closeRecord, "record_closeRecord", ImageButtonType.BUTTON_RELEASE_PRESS)
 			//AgonyUI.addImageButtonData(PlayerAssets.btn_pressToRecord, "record_pressToRecord", ImageButtonType.BUTTON_RELEASE)
 			AgonyUI.addImageButtonData(PlayerAssets.btn_reRecord, "reRecord", ImageButtonType.BUTTON_RELEASE)
-			AgonyUI.addImageButtonData(PlayerAssets.btn_playRecord, "playRecord", ImageButtonType.BUTTON_RELEASE)
+//			AgonyUI.addImageButtonData(PlayerAssets.btn_playRecord, "playRecord", ImageButtonType.BUTTON_RELEASE)
 
 			this.fusion.spaceWidth=AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight=AgonyUI.fusion.spaceHeight
@@ -122,7 +122,8 @@ package states
 
 			// play
 			{
-				mBtn_C=new ImageButton("playRecord")
+				mBtn_C=new ImagePuppet
+				mBtn_C.embed(PlayerAssets.btn_playRecord)
 				fusion_A.addElement(mBtn_C, 156, 238)
 				mBtn_C.addEventListener(AEvent.CLICK, onPlayRecord)
 				mBtn_C.visible=hasRecord
@@ -157,7 +158,7 @@ package states
 		private var mCurrTime:Number=0
 		private var mBtn_A:ImagePuppet
 		private var mBtn_B:ImageButton
-		private var mBtn_C:ImageButton
+		private var mBtn_C:ImagePuppet
 		private var mImg:ImagePuppet
 
 
@@ -192,7 +193,7 @@ package states
 			RecordManager.getInstance().stopRecord()
 
 		}
-
+		
 		private function onComplete(e:AEvent):void
 		{
 			mBtn_A.embed(PlayerAssets.btn_pressToRecord)
@@ -200,6 +201,7 @@ package states
 			mBtn_A.visible=false
 			mBtn_B.visible=true
 			mBtn_C.visible=true
+			
 		}
 
 		private function onProgress(e:DataEvent):void
@@ -216,7 +218,9 @@ package states
 			//			}
 			//			trace(mTime)
 			mPb.range.value=Number(e.data)
-
+			if(mPb.range.value >= 0.95){
+				mBtn_C.embed(PlayerAssets.btn_playRecord)
+			}
 		}
 
 		private function onPlayRecord(e:AEvent):void
@@ -226,6 +230,7 @@ package states
 			mIsPlaying=true
 			mCurrTime=0
 
+			mBtn_C.embed(PlayerAssets.btn_playRecord_A)
 			UserBehaviorAnalysis.trackEvent('F', '121');
 //			RecordManager.getInstance().addEventListener(RecordManager.PLAY_COMPLETE, onPlayComplete)
 		}
@@ -271,6 +276,7 @@ package states
 			mBtn_C.visible=false
 			this.doStopPlay()
 			mImg.embed(PlayerAssets.noRecord)
+			mBtn_C.embed(PlayerAssets.btn_playRecord)
 		}
 	}
 }

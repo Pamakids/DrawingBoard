@@ -21,7 +21,7 @@ package models
 				themeVo.thumbnail = Config.shopBaseLocalURL + purchaseVo.list[i]
 				themeVo.index = i
 				result[i++] = themeVo
-			}
+			} 
 			return result
 		}
 

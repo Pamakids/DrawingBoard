@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<drawBoard version = "1.0.0">
+<drawBoard version = "1.0.1">
 	
 	<theme id = "traffic" name = "交通" numPages = "15">
 		<data>img/thumbnail/traffic/1.jpg</data>
@@ -31,9 +31,6 @@
 		<data>img/thumbnail/food/10.jpg</data>
 		<data>img/thumbnail/food/11.jpg</data>
 		<data>img/thumbnail/food/12.jpg</data>
-		<data>img/thumbnail/food/13.jpg</data>
-		<data>img/thumbnail/food/14.jpg</data>
-		<data>img/thumbnail/food/15.jpg</data>
 	</theme>
 	
 	<theme id = "movie" name = "电影" numPages = "15">
