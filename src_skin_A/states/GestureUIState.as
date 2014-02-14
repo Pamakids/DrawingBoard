@@ -88,14 +88,33 @@ package states
 	
 //			TouchManager.getInstance().velocityEnabled = true
 			TouchManager.getInstance().addEventListener(ATouchEvent.NEW_TOUCH, onNewTouch, 2000000)
+			Agony.process.addEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 		}
 
 		override public function exit():void
 		{
-			TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, onNewTouch)
+			if(mCount>=2){
+				TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, onNewTouch)
+			}
+			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onEnterFrame)
 //			TouchManager.getInstance().velocityEnabled = false
-			if(mDelayID >= 0){
+			if(mFlag_B){
 				DelayManager.getInstance().removeDelayedCall(mDelayID)
+			}
+			if(mTouch_A){
+				mTouch_A.removeEventListener(AEvent.RELEASE, onRelease)
+			}
+			if(mTouch_B){
+				mTouch_B.removeEventListener(AEvent.RELEASE, onRelease)
+			}
+		}
+		
+		private function onEnterFrame(e:AEvent):void{
+			if(mFlag_B && mTouch_A && mTouch_B && doCheckVelocity(mTouch_A) && doCheckVelocity(mTouch_B)){
+//			if(mTouch_A && doCheckVelocity(mTouch_A)){
+				Agony.process.dispatchDirectEvent(GESTRUE_COMPLETE)
+				trace("GESTRUE_COMPLETE")
+				StateManager.setGesture(false)
 			}
 		}
 
@@ -103,26 +122,34 @@ package states
 		private var mImg:ImagePuppet
 		private var mType:int // left : 1, right : 2, up : 3, down : 4
 		private var mCount:int
-		private var mDelayID:int = -1
-		private var mDelayTime:Number = 0.8
-		private var mVelocity:Number = 4.0
+		private var mDelayID:int = -1 // 第一次觸摸后的有效時間.
+		private var mDelayID_A:int = -1
+		private var mDelayTime:Number = 1.2
+		private var mVelocity:Number = 2.0
 		private var mFlag_A:Boolean
 		private var mFlag_B:Boolean // touch數目超過2次.
+		private var mTouch_A:Touch
+		private var mTouch_B:Touch
+//		private var mTouchList:Array = []
 		
 		
 		private function onNewTouch(e:ATouchEvent):void{
 //			if(mImg.hitTestPoint(e.touch.stageX / Agony.pixelRatio, e.touch.stageY / Agony.pixelRatio)){
 //				trace("on gesture.")
 				
+//				mTouchList.push(e.touch)
 				e.touch.addEventListener(AEvent.RELEASE, onRelease, 2000000)
-				if(mDelayID >= 0){
-					DelayManager.getInstance().removeDelayedCall(mDelayID)
-					mDelayID = -1
-				}
-				if(++mCount>=2 && !mFlag_B){
+				
+				// 超過一定時間將失效.
+				if(++mCount>=2){
+					mTouch_B = e.touch
 					mFlag_B = true;
+					mDelayID = DelayManager.getInstance().delayedCall(mDelayTime, onFinish)
+					TouchManager.getInstance().removeEventListener(ATouchEvent.NEW_TOUCH, onNewTouch)
 				}
-				mFlag_A = false
+				else{
+					mTouch_A = e.touch;
+				}
 //			}
 		}
 		
@@ -130,37 +157,38 @@ package states
 		private function onRelease(e:AEvent):void{
 			var touch:Touch
 
-			trace("Gesture release")
-			touch = e.target as Touch
+			Agony.process.dispatchDirectEvent(GESTRUE_CLOSE)
+			StateManager.setGesture(false)
+//			trace("Gesture release")
+//			touch = e.target as Touch
 //			touch.removeEventListener(AEvent.RELEASE, onRelease)
 //			trace(touch)
-			--mCount
-			if(mCount == 0 && mFlag_B){
-				if(mFlag_A && this.doCheckVelocity(touch)){
-					Agony.process.dispatchDirectEvent(GESTRUE_COMPLETE)
-					trace("GESTRUE_COMPLETE")
-					StateManager.setGesture(false)
-				}
-				else{
-					this.onClose(null)
-				}
-				trace("numTouchs : " + TouchManager.getInstance().numTouchs)
-			}
-			else if(mCount == 1 && this.doCheckVelocity(touch)){
-				mDelayID = DelayManager.getInstance().delayedCall(mDelayTime, onFinish)
-				mFlag_A = true
-				trace("mFlag_A : " + mFlag_A)
-			}
+//			--mCount
+//			if(mCount == 0 && mFlag_B){
+//				if(mFlag_A && this.doCheckVelocity(touch)){
+//					Agony.process.dispatchDirectEvent(GESTRUE_COMPLETE)
+//					trace("GESTRUE_COMPLETE")
+//					StateManager.setGesture(false)
+//				}
+//				else{
+//					this.onClose(null)
+//				}
+//				trace("numTouchs : " + TouchManager.getInstance().numTouchs)
+//			}
+//			else if(mCount == 1 && this.doCheckVelocity(touch)){
+//				mDelayID = DelayManager.getInstance().delayedCall(mDelayTime, onFinish)
+//				mFlag_A = true
+//				trace("mFlag_A : " + mFlag_A)
+//			}
 		}
 		
 		private function onFinish():void{
-			mDelayID = -1
-			mFlag_A = false
+			mFlag_B = false
 		}
 		
 		private function onClose(e:AEvent):void{
 			Agony.process.dispatchDirectEvent(GESTRUE_CLOSE)
-			trace("GESTRUE_CLOSE")
+//			trace("GESTRUE_CLOSE")
 			StateManager.setGesture(false)
 		}
 		

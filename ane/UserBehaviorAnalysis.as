@@ -39,6 +39,7 @@ package
 			if (Capabilities.os.indexOf("Windows") >= 0)
 				return;
 			UMeng.instance.init("52b1868656240b557713090e");
+//			UMeng.instance.init("52b1868656240b557713090e", "91");
 			UID=UMeng.instance.getUDID();
 			var analytics:Analytics=Analytics.getInstance();
 			tracker=analytics.getTracker(GA_ID);
