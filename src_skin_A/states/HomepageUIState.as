@@ -2,9 +2,14 @@ package states
 {
 	import com.greensock.TweenLite;
 	
+	import flash.events.MouseEvent;
+	import flash.events.TouchEvent;
+	
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.homepage.HomepageAssets;
+	
+	import components.Recommends;
 	
 	import models.Config;
 	import models.ShopManager;
@@ -17,6 +22,7 @@ package states
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.media.SfxManager;
 	import org.agony2d.notify.AEvent;
+	import org.agony2d.notify.DataEvent;
 	import org.agony2d.utils.MathUtil;
 	import org.agony2d.view.AgonyUI;
 	import org.agony2d.view.Fusion;
@@ -170,8 +176,33 @@ package states
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, onNextFrame)
 			Agony.process.addEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
 			Agony.process.addEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
+				
+			mRecommend = new Recommends(768, 1024)
+			Agony.stage.addChild(mRecommend)
+			mRecommend.addEventListener(MouseEvent.CLICK, onRecommend)
+			
 		}
-
+		
+		private function onRecommend(e:MouseEvent):void{
+			mRadioList.scroll.locked = true
+			this.fusion.interactive = false
+//			TweenLite.to(this.fusion, 0.8, {y:-this.fusion.spaceHeight})
+			mStateUUType = "recommend"
+			StateManager.setGesture(true)
+//			TouchManager.getInstance().clear();
+			
+//			mRecommend.toggle();
+//			onTweenOutHomepage()
+//			mRecommend.toggle()
+			mRecommend.mouseEnabled = false
+		}
+		
+		private function onTweenOutHomepage():void{
+			TweenLite.to(this.fusion, 0.8, {y:-this.fusion.spaceHeight})
+		}
+		private function onTweenInHomepage(e:AEvent):void{
+			TweenLite.to(this.fusion, 0.8, {y:0})
+		}
 		override public function exit():void
 		{
 //			TouchManager.getInstance().velocityEnabled = false
@@ -188,9 +219,10 @@ package states
 			{
 				TweenLite.killTweensOf(mThemeList[l])
 			}
-
+			mRecommend.removeEventListener(MouseEvent.CLICK, onRecommend)
+			Agony.stage.removeChild(mRecommend)
 		}
-
+		
 		private function onNextFrame(e:AEvent):void
 		{
 			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onNextFrame)
@@ -211,10 +243,13 @@ package states
 		private var mNumitems:int
 		private var mScrolling:Boolean
 		private var mIndex:int
+		private var mStateUUType:String
 		
 		private var mShopNewItem:ImagePuppet
 		
 		private var mRemoveThemeBtn:ImagePuppet
+		
+		private var mRecommend:Recommends
 
 
 		private function onRadioListReset(e:AEvent):void
@@ -371,17 +406,28 @@ package states
 			mRadioList.scroll.locked = true
 			this.fusion.interactive = false
 			StateManager.setGesture(true)
+			mStateUUType = "toParent"
 		}
 		
 		private function onGestureComplete(e:AEvent):void{
-			StateManager.setHomepage(false)
-			StateManager.setToParent(true)
+			if(mStateUUType == "toParent"){
+				StateManager.setHomepage(false)
+				StateManager.setToParent(true)
+			}
+			else if(mStateUUType == "recommend"){
+				mRecommend.toggle();
+			}
 			UserBehaviorAnalysis.trackEvent('A', '003');
 		}
 		
 		private function onGestureClose(e:AEvent):void{
 			mRadioList.scroll.locked = false
 			this.fusion.interactive = true
+//			this.fusion.y = 0
+//			TweenLite.to(this.fusion, 0.8, {y:200})
+//			trace("onGestureClose")
+			mRecommend.mouseEnabled = true
+			this.doTweenOnScaleItem(mIndex)
 		}
 	}
 }

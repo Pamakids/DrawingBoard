@@ -4,13 +4,13 @@ package org.agony2d.input {
 	import flash.events.TouchEvent;
 	import flash.ui.Multitouch;
 	
-	import org.agony2d.core.IProcess
+	import org.agony2d.core.IProcess;
 	import org.agony2d.core.ProcessManager;
+	import org.agony2d.core.agony_internal;
 	import org.agony2d.debug.Logger;
-	import org.agony2d.notify.AEvent;
 	import org.agony2d.input.ATouchEvent;
+	import org.agony2d.notify.AEvent;
 	import org.agony2d.notify.Notifier;
-	import org.agony2d.core.agony_internal
 	
 	use namespace agony_internal
 	
@@ -111,6 +111,16 @@ public class TouchManager extends Notifier implements IProcess {
 	
 	public function set isLocked( b:Boolean ) : void {
 		g_isLocked = b
+		
+	}
+	
+	public function clear() : void{
+		var key:*
+		var touch:Touch;
+		for (key in g_touchList) {
+			g_touchList[key].dispose()
+			delete g_touchList[key]
+		}
 	}
 	
 	public function setVelocityLimit( invalidCount:int = 7, maxVelocity:int = 44 ) : void {
