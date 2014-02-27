@@ -2,14 +2,14 @@ package states.renderers
 {
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
-
+	
 	import assets.gallery.GalleryAssets;
 	import assets.theme.ThemeAssets;
-
+	
 	import models.Config;
 	import models.StateManager;
 	import models.ThemeVo;
-
+	
 	import org.agony2d.Agony;
 	import org.agony2d.air.file.IFile;
 	import org.agony2d.notify.AEvent;
@@ -104,7 +104,7 @@ package states.renderers
 			mBytes.position=4
 			mBytes.readUTF()
 			thumbnail=mBytes.readUTF()
-			mImg.load(thumbnail, false)
+			mImg.load(Config.thumbBaseLocalURL + thumbnail, false)
 
 
 			this.addEventListener(AEvent.CLICK, onClick)

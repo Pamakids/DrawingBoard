@@ -33,9 +33,7 @@ public class FolderType {
 		}
 		else if(type == APP_STORAGE) {
 			file = File.applicationStorageDirectory
-		}
-		else if(type == APP_STORAGE) {
-			file = File.applicationStorageDirectory
+//			file = File.documentsDirectory
 		}
 		else if(type == DESKTOP) {
 			file = File.desktopDirectory

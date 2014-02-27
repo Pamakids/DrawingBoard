@@ -89,10 +89,10 @@ public class PlayerSceneUIState extends UIState
 		bytes.readUTF()
 			
 		// final img
-		finalUrl = bytes.readUTF()
+		finalUrl = Config.thumbBaseLocalURL + bytes.readUTF()
 			
 		// bg
-		bgUrl = bytes.readUTF()
+		bgUrl = Config.thumbBaseLocalURL + bytes.readUTF()
 		
 		// paster
 		offsetA = bytes.position + 6

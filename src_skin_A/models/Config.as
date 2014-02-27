@@ -14,6 +14,7 @@ package models
 //		public static const SHOP_BASE_REMOTE_URL:String = "D:/pama3/shopRemoteAssets/";
 		
 		public static var shopBaseLocalURL:String
+		public static var thumbBaseLocalURL:String
 		
 		public static var shopFolder:IFolder
 		
@@ -26,7 +27,9 @@ package models
 			
 			folder = AgonyAir.createFolder("shop", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
 			shopBaseLocalURL = folder.url + "/";
-			
+			folder = AgonyAir.createFolder("dbThumb", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
+			thumbBaseLocalURL = folder.url + "/";
+			trace("[shopBaseLocalURL] : " + shopBaseLocalURL)			
 			shopFolder = folder;
 		}
 		
@@ -41,6 +44,8 @@ package models
 		public static const SHOP_CONFIG:String      =  "shopConfig"
 		public static const SHOP_CONTENT:String     =  "shopContent"
 		public static const SHOP_THUMBNAIL:String   =  "shopThumbnail"
+			
+			
 		
 		// record...	
 		public static const MAX_RECORD_TIME:int = 15

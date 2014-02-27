@@ -57,6 +57,7 @@ public class FileProxy extends FileCore implements IFile {
 	public function upload() : void {
 		var stream:FileStream
 		
+		trace("[upload URL]: " + this.url)
 		stream = new FileStream
 		try {
 			stream.open(m_file, FileMode.WRITE)

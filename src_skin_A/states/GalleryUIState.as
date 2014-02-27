@@ -75,9 +75,19 @@ package states
 			var img:ImagePuppet
 			var imgBtn:ImageButton
 			var folder:IFolder
-
+			
 //			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
-
+			
+//			if (Agony.isMoblieDevice)
+//			{
+//				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.APP_STORAGE)
+//			}
+//			else
+//			{
+//				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
+//			}
+//			mFiles=folder.getAllFiles()
+			
 			if (Agony.isMoblieDevice)
 			{
 				folder=AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)

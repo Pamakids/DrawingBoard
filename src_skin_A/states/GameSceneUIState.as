@@ -610,7 +610,7 @@ package states
 			{
 				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
 			}
-			file=folder.createFile("thumb" + fileName, "png")
+			file=folder.createFile("thumb" + fileName, "img")
 			file.bytes=BA.encode(BA.rect, new PNGEncoderOptions)
 			file.upload()
 			
@@ -624,11 +624,11 @@ package states
 
 //			mBgImg.visible = true
 			
-			file_A=folder.createFile("final" + fileName, "png")
+			file_A=folder.createFile("final" + fileName, "img")
 			file_A.bytes=BA_A.encode(BA_A.rect, new PNGEncoderOptions)
 			file_A.upload()
 			
-			bgFile = folder.createFile("bg" + fileName, "png")
+			bgFile = folder.createFile("bg" + fileName, "img")
 			bgFile.bytes=mLocalCachedBg.encode(mLocalCachedBg.rect, new PNGEncoderOptions)
 			bgFile.upload()
 				
@@ -659,13 +659,13 @@ package states
 			bytes.writeUTF("http://drawingboard.u.qiniudn.com/" + file_A.name)
 				
 			// thumbnail
-			bytes.writeUTF(file.url)
+			bytes.writeUTF(file.name)
 			
 			// final img
-			bytes.writeUTF(file_A.url)
+			bytes.writeUTF(file_A.name)
 				
 			// bg img
-			bytes.writeUTF(bgFile.url);
+			bytes.writeUTF(bgFile.name);
 
 //			trace("thumbnail: " + file.path)
 //			cachedBytesA = BA.getPixels(BA.rect)
