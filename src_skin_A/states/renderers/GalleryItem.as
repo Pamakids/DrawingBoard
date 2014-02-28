@@ -39,21 +39,21 @@ package states.renderers
 
 
 			image=new ImagePuppet
-			image.embed(GalleryAssets.galleryItemBg)
+			image.embed(GalleryAssets.galleryItemBg_A)
 			this.addElement(image)
-
+ 
 			mImg=new ImagePuppet
 //		mImg.scaleX = 1.2
 //		mImg.scaleY = 1.23
 
 //		this.spaceWidth = 238
 //		this.spaceHeight = 148
-			this.addElement(mImg, 7, 7)
+			this.addElement(mImg, 2, 2)
 
-			image=new ImagePuppet
-			this.position=0
-			image.embed(GalleryAssets.galleryHalo)
-			this.addElement(image, 1, -2, 1, LayoutType.BA)
+//			image=new ImagePuppet
+//			this.position=0
+//			image.embed(GalleryAssets.galleryHalo)
+//			this.addElement(image, 1, -2, 1, LayoutType.BA)
 
 			mFile=this.itemArgs["file"]
 			mFile.download()

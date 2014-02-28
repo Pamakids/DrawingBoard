@@ -610,7 +610,7 @@ package states
 			{
 				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
 			}
-			file=folder.createFile("thumb" + fileName, "img")
+			file=folder.createFile("thumb" + fileName, "png")
 			file.bytes=BA.encode(BA.rect, new PNGEncoderOptions)
 			file.upload()
 			
@@ -621,14 +621,14 @@ package states
 			matrix.setTo(mContentRatio, 0, 0, mContentRatio, 0, 0)
 			BA_A.draw(mContent.displayObject, matrix)
 			trace("[final rect] : " + BA_A.rect)
-
+ 
 //			mBgImg.visible = true
 			
-			file_A=folder.createFile("final" + fileName, "img")
+			file_A=folder.createFile("final" + fileName, "png")
 			file_A.bytes=BA_A.encode(BA_A.rect, new PNGEncoderOptions)
 			file_A.upload()
 			
-			bgFile = folder.createFile("bg" + fileName, "img")
+			bgFile = folder.createFile("bg" + fileName, "png")
 			bgFile.bytes=mLocalCachedBg.encode(mLocalCachedBg.rect, new PNGEncoderOptions)
 			bgFile.upload()
 				

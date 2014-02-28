@@ -67,6 +67,7 @@ package models
 			m_pencilBrush.color = 0x000000
 			m_crayonBrush.color = 0xffc621
 			m_pinkBrush.color = 0xfe5377
+			m_pinkBrush.alpha = 0.2
 			m_makerBrush.color = 0x74bd4b
 			m_eraserBrush.color = 0x30a1dd
 		}

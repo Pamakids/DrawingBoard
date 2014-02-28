@@ -33,10 +33,10 @@ package states.renderers
 //		image.scaleY = 138 / 158
 			this.userData=vo
 
-			image=new ImagePuppet
-			this.position=0
-			image.embed(GalleryAssets.galleryHalo)
-			this.addElement(image, 1, -2, 1, LayoutType.BA)
+//			image=new ImagePuppet
+//			this.position=0
+//			image.embed(GalleryAssets.galleryHalo)
+//			this.addElement(image, 1, -2, 1, LayoutType.BA)
 
 			this.addEventListener(AEvent.CLICK, onClick)
 		}

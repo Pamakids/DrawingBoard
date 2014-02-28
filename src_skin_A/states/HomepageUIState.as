@@ -2,6 +2,7 @@ package states
 {
 	import com.greensock.TweenLite;
 	
+	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.events.TouchEvent;
 	
@@ -177,12 +178,20 @@ package states
 			Agony.process.addEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
 			Agony.process.addEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
 				
-			mRecommend = new Recommends(768, 1024)
-			Agony.stage.addChild(mRecommend)
+			sp = new Sprite
+			Agony.stage.addChild(sp)
+			sp.scaleX = sp.scaleY = Agony.pixelRatio
+				
+			mRecommend = new Recommends(768, 1024, 3)
+			sp.addChild(mRecommend)
 			mRecommend.addEventListener(MouseEvent.CLICK, onRecommend)
+//			mRecommend.scaleX = mRecommend.scaleY = Agony.pixelRatio
 			
 		}
 		
+		
+		private var sp:Sprite = new Sprite
+			
 		private function onRecommend(e:MouseEvent):void{
 			mRadioList.scroll.locked = true
 			this.fusion.interactive = false
@@ -220,7 +229,8 @@ package states
 				TweenLite.killTweensOf(mThemeList[l])
 			}
 			mRecommend.removeEventListener(MouseEvent.CLICK, onRecommend)
-			Agony.stage.removeChild(mRecommend)
+			Agony.stage.removeChild(sp)
+			sp.removeChild(mRecommend)
 		}
 		
 		private function onNextFrame(e:AEvent):void

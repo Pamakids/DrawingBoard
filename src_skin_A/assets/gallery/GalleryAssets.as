@@ -13,6 +13,7 @@ package assets.gallery
 		[Embed(source="img/common/back.png")] public static const galleryBack:Class
 		
 		[Embed(source="img/common/itemBg.png")] public static const galleryItemBg:Class
+		[Embed(source="img/common/itemBg_A.png")] public static const galleryItemBg_A:Class
 		[Embed(source="img/common/halo.png")] public static const galleryHalo:Class
 	}
 }

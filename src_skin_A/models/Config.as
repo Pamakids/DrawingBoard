@@ -27,10 +27,12 @@ package models
 			
 			folder = AgonyAir.createFolder("shop", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
 			shopBaseLocalURL = folder.url + "/";
+			shopFolder = folder;
+			
 			folder = AgonyAir.createFolder("dbThumb", Agony.isMoblieDevice ? FolderType.APP_STORAGE : FolderType.DOCUMENT);
 			thumbBaseLocalURL = folder.url + "/";
 			trace("[shopBaseLocalURL] : " + shopBaseLocalURL)			
-			shopFolder = folder;
+			
 		}
 		
 		///////////////////////////////////////////////////////////////////////
@@ -69,10 +71,11 @@ package models
 		public static const PASTER_PRESS_CREATE_TIME:Number = 0.21
 		public static const PASTER_HORIZ_DISABLE_OFFSET:Number = 13
 			
-		public static const FILE_THUMBNAIL_WIDTH:int = 289
-		public static const FILE_THUMBNAIL_HEIGHT:int = 216
+//		public static const FILE_THUMBNAIL_WIDTH:int = 289
+//		public static const FILE_THUMBNAIL_HEIGHT:int = 216
 			
-			
+		public static const FILE_THUMBNAIL_WIDTH:int = 300
+		public static const FILE_THUMBNAIL_HEIGHT:int = 225
 			
 		//public static const INIT_BRUSH_COLOR:uint = 0xe10e0e
 			

@@ -335,7 +335,7 @@ package states
 
 				{
 					image=new ImagePuppet
-					image.embed(GalleryAssets.galleryItemBg)
+					image.embed(GalleryAssets.galleryItemBg_A)
 					mRemoveItemFusion.addElement(image)
 				}
 
@@ -350,19 +350,19 @@ package states
 					mImg=new ImagePuppet
 //					mImg.scaleX = 0.96
 //					mImg.scaleY = 0.77
-					mRemoveItemFusion.addElement(mImg, 7, 6)
+					mRemoveItemFusion.addElement(mImg, 2, 2)
 					mRemovedBytes.position=4
 					mRemovedBytes.readUTF()
-					thumbnail=mRemovedBytes.readUTF()
+					thumbnail=Config.thumbBaseLocalURL + mRemovedBytes.readUTF()
 					mImg.load(thumbnail, false)
 
 				}
 				
 				{
-					image=new ImagePuppet
-					mRemoveItemFusion.position=0
-					image.embed(GalleryAssets.galleryHalo)
-					mRemoveItemFusion.addElement(image, 1, -1, 1, LayoutType.BA)
+//					image=new ImagePuppet
+//					mRemoveItemFusion.position=0
+//					image.embed(GalleryAssets.galleryHalo)
+//					mRemoveItemFusion.addElement(image, 1, -1, 1, LayoutType.BA)
 				}
 				
 				this.fusion.addElement(mRemoveItemFusion, 0, 200, LayoutType.F__A__F_ALIGN)
@@ -410,19 +410,19 @@ package states
 
 //			AgonyAir.createFolder(
 
-			rawFile=new File(thumbnail)
+			rawFile=new File(Config.thumbBaseLocalURL + thumbnail)
 			if (rawFile.exists)
 			{
 				rawFile.deleteFile()
 			}
 			finalUrl=mRemovedBytes.readUTF()
-			rawFile=new File(finalUrl)
+			rawFile=new File(Config.thumbBaseLocalURL + finalUrl)
 			if (rawFile.exists)
 			{
 				rawFile.deleteFile()
 			}
 			bgUrl=mRemovedBytes.readUTF()
-			rawFile=new File(bgUrl)
+			rawFile=new File(Config.thumbBaseLocalURL + bgUrl)
 			if (rawFile.exists)
 			{
 				rawFile.deleteFile()

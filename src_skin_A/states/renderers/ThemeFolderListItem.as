@@ -30,7 +30,7 @@ package states.renderers
 			var css:TextFormat
 			var shopVo:ShopVo
 
-			css=new TextFormat("weiruanyahei", 25, 0xFFFFFFF, true)
+			css=new TextFormat("weiruanyahei", 25, 0x6aceb1, true)
 			if (this.id == 0)
 			{
 				// everyday bg
@@ -53,9 +53,9 @@ package states.renderers
 
 				// halo.
 				{
-					img=new ImagePuppet(5)
-					img.embed(HomepageAssets.everydayHalo)
-					this.addElement(img, -6.5, 124)
+//					img=new ImagePuppet(5)
+//					img.embed(HomepageAssets.everydayHalo)
+//					this.addElement(img, -6.5, 124)
 				}
 
 				// txt.
