@@ -1,24 +1,29 @@
 package states
 {
 	import com.greensock.TweenLite;
-	
+
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TouchEvent;
-	
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.homepage.HomepageAssets;
-	
+
+	import components.RecommendEvent;
+	import components.RecommendHint;
 	import components.Recommends;
-	
+
 	import models.Config;
 	import models.ShopManager;
 	import models.ShopVo;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
-	
+
 	import org.agony2d.Agony;
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.media.SfxManager;
@@ -34,7 +39,7 @@ package states
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.layouts.ILayout;
 	import org.agony2d.view.puppet.ImagePuppet;
-	
+
 	import states.renderers.ThemeFolderListItem;
 
 	public class HomepageUIState extends UIState
@@ -49,8 +54,8 @@ package states
 			var imgBtn:ImageButton
 			var item:Fusion
 
-			
-			
+
+
 			this.fusion.spaceWidth=AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight=AgonyUI.fusion.spaceHeight
 
@@ -135,12 +140,13 @@ package states
 
 
 			// remove theme.
-			if(Config.shopEnabled) {
+			if (Config.shopEnabled)
+			{
 				mRemoveThemeBtn=new ImagePuppet
 				mRemoveThemeBtn.embed(HomepageAssets.btn_removeTheme)
 				this.fusion.addElement(mRemoveThemeBtn, 330, 633)
 				mRemoveThemeBtn.addEventListener(AEvent.CLICK, onRemoveTheme)
-					
+
 				mRemoveThemeBtn.interactive = false
 				mRemoveThemeBtn.alpha = 0.4
 			}
@@ -152,22 +158,24 @@ package states
 				img.addEventListener(AEvent.CLICK, onGoIntoGallery)
 			}
 			// shop.
-			if(Config.shopEnabled) {
+			if (Config.shopEnabled)
+			{
 				img=new ImagePuppet
 				img.embed(HomepageAssets.btn_shop)
 				this.fusion.addElement(img, 634, 633)
 				img.addEventListener(AEvent.CLICK, onGoIntoShop)
-				
+
 				// shop new item.
 				mShopNewItem=new ImagePuppet
 				mShopNewItem.embed(HomepageAssets.home_new_small)
 				this.fusion.addElement(mShopNewItem, 686, 635)
 				mShopNewItem.interactive = false
-				if(!ShopManager.getInstance().firstLogin)
+				if (!ShopManager.getInstance().firstLogin)
 				{
-					mShopNewItem.visible = false	
+					mShopNewItem.visible = false
 				}
-				else{
+				else
+				{
 					ShopManager.getInstance().firstLogin = false
 				}
 			}
@@ -177,46 +185,60 @@ package states
 			Agony.process.addEventListener(AEvent.ENTER_FRAME, onNextFrame)
 			Agony.process.addEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
 			Agony.process.addEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
-				
+
+//			TweenLite.delayedCall(.1, function():void
+//			{
+
 			sp = new Sprite
 			Agony.stage.addChild(sp)
 			sp.scaleX = sp.scaleY = Agony.pixelRatio
-				
+			sp.x=(Agony.fullWidth-1024*Agony.pixelRatio)/2;
+
+//			AgonyUI.getModule("Homepage").spParent.addChild(sp);
+
 			mRecommend = new Recommends(768, 1024, 3)
 			sp.addChild(mRecommend)
-			mRecommend.addEventListener(MouseEvent.CLICK, onRecommend)
+			mRecommend.addEventListener(Recommends.ACTIVE, onRecommendActive)
+			mRecommend.addEventListener(Recommends.DEACTIVE, onRecommendDeActive)
+//			mRecommend.addEventListener(RecommendEvent.RECOMMENDEVENT, onRecommendClick);
 //			mRecommend.scaleX = mRecommend.scaleY = Agony.pixelRatio
-			
+//			});
+
 		}
-		
-		
-		private var sp:Sprite = new Sprite
-			
-		private function onRecommend(e:MouseEvent):void{
+
+		protected function onRecommendDeActive(event:Event):void
+		{
+			trace("recommendclose")
+			mRadioList.scroll.locked = false
+			this.fusion.interactive = true
+			this.doTweenOnScaleItem(mIndex)
+		}
+
+		private var crtUrl:String
+		private static var sp:Sprite = new Sprite
+
+		private function onRecommendActive(e:Event):void
+		{
+			trace("recommendopen")
 			mRadioList.scroll.locked = true
 			this.fusion.interactive = false
-//			TweenLite.to(this.fusion, 0.8, {y:-this.fusion.spaceHeight})
-			mStateUUType = "recommend"
-			StateManager.setGesture(true)
-//			TouchManager.getInstance().clear();
-			
-//			mRecommend.toggle();
-//			onTweenOutHomepage()
-//			mRecommend.toggle()
-			mRecommend.mouseEnabled = false
 		}
-		
-		private function onTweenOutHomepage():void{
+
+		private function onTweenOutHomepage():void
+		{
 			TweenLite.to(this.fusion, 0.8, {y:-this.fusion.spaceHeight})
 		}
-		private function onTweenInHomepage(e:AEvent):void{
+
+		private function onTweenInHomepage(e:AEvent):void
+		{
 			TweenLite.to(this.fusion, 0.8, {y:0})
 		}
+
 		override public function exit():void
 		{
 //			TouchManager.getInstance().velocityEnabled = false
 			Agony.process.removeEventListener(GestureUIState.GESTRUE_COMPLETE, onGestureComplete)
-			Agony.process.removeEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
+//			Agony.process.removeEventListener(GestureUIState.GESTRUE_CLOSE, onGestureClose)
 			var l:int
 			if (!mIsStartRecordComplete)
 			{
@@ -228,11 +250,11 @@ package states
 			{
 				TweenLite.killTweensOf(mThemeList[l])
 			}
-			mRecommend.removeEventListener(MouseEvent.CLICK, onRecommend)
+			mRecommend.removeEventListener(Recommends.ACTIVE, onRecommendActive)
 			Agony.stage.removeChild(sp)
 			sp.removeChild(mRecommend)
 		}
-		
+
 		private function onNextFrame(e:AEvent):void
 		{
 			Agony.process.removeEventListener(AEvent.ENTER_FRAME, onNextFrame)
@@ -254,11 +276,11 @@ package states
 		private var mScrolling:Boolean
 		private var mIndex:int
 		private var mStateUUType:String
-		
+
 		private var mShopNewItem:ImagePuppet
-		
+
 		private var mRemoveThemeBtn:ImagePuppet
-		
+
 		private var mRecommend:Recommends
 
 
@@ -329,24 +351,28 @@ package states
 
 				mIndex=Math.round(N * (mNumitems - 1))
 			}
-			
-			
+
+
 			trace("theme index : " + mIndex)
-			
-			
+
+
 			this.doCheckStateForRemoveTheme()
 			this.doTweenOnScaleItem(mIndex)
 		}
-		
+
 		private var mCurrShopVo:ShopVo
-		private function doCheckStateForRemoveTheme() : void {
+
+		private function doCheckStateForRemoveTheme():void
+		{
 			var shopVo:ShopVo = mThemeList[mIndex].userData as ShopVo
-			if(shopVo && !mCurrShopVo){
+			if (shopVo && !mCurrShopVo)
+			{
 				mRemoveThemeBtn.interactive = true
 				mRemoveThemeBtn.alpha = 1
 				mCurrShopVo = shopVo;
 			}
-			else if(!shopVo && mCurrShopVo){
+			else if (!shopVo && mCurrShopVo)
+			{
 				mCurrShopVo = null
 				mRemoveThemeBtn.interactive = false
 				mRemoveThemeBtn.alpha = 0.4
@@ -381,12 +407,13 @@ package states
 		{
 			mScrolling=false
 		}
-		
+
 		// 移除主題.
-		private function onRemoveTheme(e:AEvent):void{
+		private function onRemoveTheme(e:AEvent):void
+		{
 //			ShopManager.getInstance().removeTheme("science");
 //			StateManager.setHomepage(true)
-			
+
 			mRadioList.scroll.locked = true
 			this.fusion.interactive = false
 			StateManager.setRemoveTheme(true, mCurrShopVo.type)
@@ -400,9 +427,10 @@ package states
 			StateManager.setGallery(true);
 			UserBehaviorAnalysis.trackEvent('A', '004');
 		}
-		
+
 		// 商店
-		private function onGoIntoShop(e:AEvent):void{
+		private function onGoIntoShop(e:AEvent):void
+		{
 			StateManager.setHomepage(false)
 			StateManager.setShop(true)
 		}
@@ -412,32 +440,40 @@ package states
 //			StateManager.setHomepage(false)
 //			StateManager.setToParent(true)
 //			UserBehaviorAnalysis.trackEvent('A', '003');
-			
+
 			mRadioList.scroll.locked = true
 			this.fusion.interactive = false
 			StateManager.setGesture(true)
 			mStateUUType = "toParent"
 		}
-		
-		private function onGestureComplete(e:AEvent):void{
-			if(mStateUUType == "toParent"){
+
+		private function onGestureComplete(e:AEvent):void
+		{
+			if (mStateUUType == "toParent")
+			{
 				StateManager.setHomepage(false)
 				StateManager.setToParent(true)
+				mRecommend.mouseEnabled = false;
+//				this.doTweenOnScaleItem(mIndex)
 			}
-			else if(mStateUUType == "recommend"){
-				mRecommend.toggle();
+			else if (mStateUUType == "recommend")
+			{
+//				mRecommend.toggle();
+//				mRecommend.mouseEnabled = true;
+//				navigateToURL(new URLRequest(crtUrl));
 			}
 			UserBehaviorAnalysis.trackEvent('A', '003');
 		}
-		
-		private function onGestureClose(e:AEvent):void{
+
+		private function onGestureClose(e:AEvent):void
+		{
 			mRadioList.scroll.locked = false
 			this.fusion.interactive = true
 //			this.fusion.y = 0
 //			TweenLite.to(this.fusion, 0.8, {y:200})
 //			trace("onGestureClose")
 			mRecommend.mouseEnabled = true
-			this.doTweenOnScaleItem(mIndex)
+//			this.doTweenOnScaleItem(mIndex)
 		}
 	}
 }

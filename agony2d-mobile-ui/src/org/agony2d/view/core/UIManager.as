@@ -45,7 +45,7 @@ package org.agony2d.view.core {
 public class UIManager {
 
 	public static function initialize( hasMaskForAspectRatio:Boolean ) : void {
-		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number, moduleOffsetX:Number, moduleOffsetY:Number, standardWidth:Number, standardHeight:Number
+		var ratioHoriz:Number, ratioVerti:Number, width:Number, height:Number, pixelRatio:Number, standardWidth:Number, standardHeight:Number
 		var mask:Shape
 		
 		pixelRatio    =  ComponentProxy.m_pixelRatio  =  Agony.g_pixelRatio
@@ -55,29 +55,32 @@ public class UIManager {
 		height        =  Agony.g_height
 		ratioHoriz    =  Agony.g_ratioHoriz
 		ratioVerti    =  Agony.g_ratioVerti
-		if (Multitouch.maxTouchPoints == 0 || !hasMaskForAspectRatio || ratioHoriz == ratioVerti) {
-			hasMaskForAspectRatio = false
-		}
-		else {
+//		if (Multitouch.maxTouchPoints == 0 || !hasMaskForAspectRatio || ratioHoriz == ratioVerti) {
+//			hasMaskForAspectRatio = false
+//		}
+//		else 
+		{
 			standardWidth = Agony.g_standardWidth
 			standardHeight = Agony.g_standardHeight
 			mask = new Shape
 			mask.graphics.beginFill(0x0, 0)
 			if (ratioHoriz > ratioVerti) {
-				m_rootFusion.paddingLeft = m_rootFusion.paddingRight = moduleOffsetX = (width - height * (standardWidth / standardHeight)) * .5 / pixelRatio
-				width -= moduleOffsetX * 2 * pixelRatio
-				mask.graphics.drawRect(moduleOffsetX * pixelRatio, 0, width * pixelRatio, height * pixelRatio)
+				m_rootFusion.paddingLeft = m_rootFusion.paddingRight = Agony.offsetX;
+//				width -= moduleOffsetX * 2 * pixelRatio
+				mask.graphics.drawRect(Agony.offsetX*pixelRatio, 0, width, height)
 			}
 			else {
-				m_rootFusion.paddingTop = m_rootFusion.paddingBottom = moduleOffsetY = (height - width * (standardHeight / standardWidth)) * .5 / pixelRatio
-				height -= moduleOffsetY * 2 * pixelRatio
-				mask.graphics.drawRect(0, moduleOffsetY * pixelRatio, width * pixelRatio, height * pixelRatio)
+				m_rootFusion.paddingTop = m_rootFusion.paddingBottom = Agony.offsetY
+//				moduleOffsetY = (height - width * (standardHeight / standardWidth)) * .5 / pixelRatio
+//				height -= moduleOffsetY * 2 * pixelRatio
+				mask.graphics.drawRect(0, Agony.offsetY*pixelRatio, width/pixelRatio, height/pixelRatio)
 			}
+			mask.graphics.endFill();
 			m_stage.addChild(mask)
 			m_monitor.mask = mask
 		}
-		m_rootFusion.m_spaceWidth = width
-		m_rootFusion.m_spaceHeight = height
+		m_rootFusion.m_spaceWidth = width/pixelRatio
+		m_rootFusion.m_spaceHeight = height/pixelRatio
 		AgonySprite.cachedPoint = ComponentProxy.cachedPoint = cachedPoint = new Point
 		m_monitor.mouseEnabled = m_monitor.mouseChildren = m_monitor.tabEnabled = m_monitor.tabChildren = false
 		m_stage.addChild(m_monitor)
@@ -422,6 +425,8 @@ public class UIManager {
 	}
 }
 }
+import flash.display.Sprite;
+
 import org.agony2d.core.INextUpdater;
 import org.agony2d.core.NextUpdaterManager;
 import org.agony2d.core.agony_internal;
@@ -455,6 +460,10 @@ final class Module extends Notifier implements IModule, INextUpdater {
 			return
 		}
 		this.doRender(b)
+	}
+	
+	public function get spParent():Sprite{
+		return m_stateFusion.displayObject as Sprite;
 	}
 	
 	public function init( layer:int = -1, stateArgs:Array = null, 

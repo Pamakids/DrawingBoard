@@ -1,20 +1,20 @@
 package states
 {
 	import com.greensock.TweenLite;
-	
+
 	import flash.display.BitmapData;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
-	
+
 	import drawing.DrawingPlayer;
-	
+
 	import models.Config;
 	import models.DrawingManager;
 	import models.PasterManager;
 	import models.RecordManager;
 	import models.StateManager;
-	
+
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -33,260 +33,285 @@ package states
 	import org.agony2d.view.UIState;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.bytearray.micrecorder.MicRecorder;
-	
-public class PlayerSceneUIState extends UIState
-{
-	
-	public static const FINAL_IMG_LOADED:String = "finalImgLoaded"
-	
-	public static const PLAYER_HIDE_OR_APPEAR:String = "playerHideOrAppear"
-		
-	
-	override public function enter():void
-	{
-		mFileBytes = this.stateArgs ? this.stateArgs[0] : null
-		this.doAddPlayer()
-		this.doAddView()
-		this.doAddListeners()
-		this.fusion.visible = false
-	}
-	
 
-	private function doAddPlayer() : void{
-		var bytes_A:ByteArray
-		var BA:ByteArray
-		var offsetA:int, offsetB:int
-		var img:ImagePuppet
-		var data:BitmapData
-		var drawingBgIndex:int
-		var bgUrl:String, finalUrl:String
-		var AY:Array
-		
-		// 录像.
-		if(mFileBytes){
-			AY = BytesUtil.unmerge(mFileBytes)
-			bytes = AY[0]
-			RecordManager.getInstance().bytes = AY[1]
-			trace("db len: " + bytes.length)
-			trace("rec len: " + RecordManager.getInstance().bytes.length)
-			RecordManager.getInstance().canRecord = false
-		}
-		// 刚画完.
-		else {
-			RecordManager.getInstance().canRecord = true
-			bytes_A = DrawingManager.getInstance().bytes
-			bytes = new ByteArray
-			bytes.writeBytes(bytes_A)
-		}
-		
-		
-		bytes.position = 0
-		
-		// shared
-		mSharedUrl = bytes.readUTF()
-			
-		// thumbnail
-		bytes.readUTF()
-			
-		// final img
-		finalUrl = Config.thumbBaseLocalURL + bytes.readUTF()
-			
-		// bg
-		bgUrl = Config.thumbBaseLocalURL + bytes.readUTF()
-		
-		// paster
-		offsetA = bytes.position + 6
-		offsetB = bytes.readUnsignedInt()
-		mPasterLength = bytes.readShort()
-		mPasterData = new ByteArray
-		mPasterData.writeBytes(bytes, offsetA, offsetB)
-		
-		// draw
-		BA = new ByteArray()
-		BA.writeBytes(bytes, offsetA + offsetB)
-		mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, Boolean(this.stateArgs[1]), doStartAddPaster)
-		DrawingManager.getInstance().setPlayer(mPlayer)
-		Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)
-		
-		// drawing bg...
+	public class PlayerSceneUIState extends UIState
+	{
+
+		public static const FINAL_IMG_LOADED:String = "finalImgLoaded"
+
+		public static const PLAYER_HIDE_OR_APPEAR:String = "playerHideOrAppear"
+
+
+		override public function enter():void
 		{
-			img = new ImagePuppet
-			img.load(bgUrl, false)
-			img.interactive = false
-			this.fusion.addElement(img)	
+			mFileBytes = this.stateArgs ? this.stateArgs[0] : null
+			this.doAddPlayer()
+			this.doAddView()
+			this.doAddListeners()
+			this.fusion.visible = false
 		}
-		
-		mFinalImgLoader = LoaderManager.getInstance().getLoader(finalUrl)
-		mFinalImgLoader.addEventListener(AEvent.COMPLETE, onFinalImgLoaded)
-			
-		TouchManager.getInstance().isLocked = true
-	}
-	
-	private var mFinalImgLoader:ILoader
-	private function onFinalImgLoaded(e:AEvent):void{
-		var BA:BitmapData
-		
-		BA = (e.target.data).bitmapData as BitmapData
+
+
+		private function doAddPlayer():void
+		{
+			var bytes_A:ByteArray
+			var BA:ByteArray
+			var offsetA:int, offsetB:int
+			var img:ImagePuppet
+			var data:BitmapData
+			var drawingBgIndex:int
+			var bgUrl:String, finalUrl:String
+			var AY:Array
+
+			// 录像.
+			if (mFileBytes)
+			{
+				AY = BytesUtil.unmerge(mFileBytes)
+				bytes = AY[0]
+				RecordManager.getInstance().bytes = AY[1]
+				trace("db len: " + bytes.length)
+				trace("rec len: " + RecordManager.getInstance().bytes.length)
+				RecordManager.getInstance().canRecord = false
+			}
+			// 刚画完.
+			else
+			{
+				RecordManager.getInstance().canRecord = true
+				bytes_A = DrawingManager.getInstance().bytes
+				bytes = new ByteArray
+				bytes.writeBytes(bytes_A)
+			}
+
+
+			bytes.position = 0
+
+			// shared
+			mSharedUrl = bytes.readUTF()
+
+			// thumbnail
+			bytes.readUTF()
+
+			// final img
+			finalUrl = Config.thumbBaseLocalURL + bytes.readUTF()
+
+			// bg
+			bgUrl = Config.thumbBaseLocalURL + bytes.readUTF()
+
+			// paster
+			offsetA = bytes.position + 6
+			offsetB = bytes.readUnsignedInt()
+			mPasterLength = bytes.readShort()
+			mPasterData = new ByteArray
+			mPasterData.writeBytes(bytes, offsetA, offsetB)
+
+			// draw
+			BA = new ByteArray()
+			BA.writeBytes(bytes, offsetA + offsetB)
+			mPlayer = new DrawingPlayer(DrawingManager.getInstance().paper, BA, 8.0, Boolean(this.stateArgs[1]), doStartAddPaster)
+			DrawingManager.getInstance().setPlayer(mPlayer)
+			Logger.reportMessage(this, "总时间: " + mPlayer.totalTime)
+
+			// drawing bg...
+			{
+				img = new ImagePuppet
+				img.load(bgUrl, false)
+				img.interactive = false
+				this.fusion.addElement(img)
+			}
+
+			mFinalImgLoader = LoaderManager.getInstance().getLoader(finalUrl)
+			mFinalImgLoader.addEventListener(AEvent.COMPLETE, onFinalImgLoaded)
+
+			TouchManager.getInstance().isLocked = true
+		}
+
+		private var mFinalImgLoader:ILoader
+
+		private function onFinalImgLoaded(e:AEvent):void
+		{
+			var BA:BitmapData
+
+			BA = (e.target.data).bitmapData as BitmapData
 //		var matrix:Matrix = new Matrix(DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio, 
 //									0,0,
 //										DrawingManager.getInstance().paper.fitRatio / Agony.pixelRatio)
 //		var matrix:Matrix = new Matrix(1, 0,0,1)
 //		trace("[player]+ " + matrix)
 //		mImg.bitmapData.draw(BA, matrix)
-		mImg.bitmapData.copyPixels(BA, BA.rect, new Point)
-			
-		trace(mImg.bitmapData.rect, BA.rect)
-		mFinalImgLoader = null
-			
-		TouchManager.getInstance().isLocked = false
-		Agony.process.dispatchDirectEvent(FINAL_IMG_LOADED)
-		this.fusion.visible = true
-	}
-	
-	private function doAddView():void{
-		
+			mImg.bitmapData.copyPixels(BA, BA.rect, new Point)
+
+			trace(mImg.bitmapData.rect, BA.rect)
+			mFinalImgLoader = null
+
+			TouchManager.getInstance().isLocked = false
+			Agony.process.dispatchDirectEvent(FINAL_IMG_LOADED)
+			this.fusion.visible = true
+		}
+
+		private function doAddView():void
 		{
-			mImg = new ImagePuppet
-			mImg.bitmapData = mPlayer.content
+
+			{
+				mImg = new ImagePuppet
+				mImg.bitmapData = mPlayer.content
 //			mImg.interactive = false
-			mImg.scaleX = mImg.scaleY = 1 / DrawingManager.getInstance().paper.contentRatio /// DrawingManager.getInstance().paper.fitRatio
-			this.fusion.addElement(mImg)	
-				
-			mImg.addEventListener(AEvent.CLICK, onClickImg)
+				mImg.scaleX = mImg.scaleY = 1 / DrawingManager.getInstance().paper.contentRatio /// DrawingManager.getInstance().paper.fitRatio
+				this.fusion.addElement(mImg)
+
+				mImg.addEventListener(AEvent.CLICK, onClickImg)
+			}
 		}
-	}
-	
-	private function doAddListeners():void{
-		Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
-		Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
-		Agony.process.addEventListener(PlayerTopAndBottomUIState.MERGE_FILE,  onMergeFile)
-		Agony.process.addEventListener(PlayerTopAndBottomUIState.SHARED,      onShared)
-	}
-	
-	override public function exit():void{
-		mPlayer.dispose()
-		DrawingManager.getInstance().setPlayer(null)
-		Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
-		Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
-		Agony.process.removeEventListener(PlayerTopAndBottomUIState.MERGE_FILE, onMergeFile)
-		Agony.process.removeEventListener(PlayerTopAndBottomUIState.SHARED,      onShared)
-		if(mPaster){
-			TweenLite.killTweensOf(mPaster)
+
+		private function doAddListeners():void
+		{
+			Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
+			Agony.process.addEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
+			Agony.process.addEventListener(PlayerTopAndBottomUIState.MERGE_FILE, onMergeFile)
+			Agony.process.addEventListener(PlayerTopAndBottomUIState.SHARED, onShared)
 		}
-		if(mFinalImgLoader){
-			mFinalImgLoader.kill()
+
+		override public function exit():void
+		{
+			mPlayer.dispose()
+			DrawingManager.getInstance().setPlayer(null)
+			Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_BACK, onBack)
+			Agony.process.removeEventListener(PlayerTopAndBottomUIState.PLAYER_PLAY, onPlay)
+			Agony.process.removeEventListener(PlayerTopAndBottomUIState.MERGE_FILE, onMergeFile)
+			Agony.process.removeEventListener(PlayerTopAndBottomUIState.SHARED, onShared)
+			if (mPaster)
+			{
+				TweenLite.killTweensOf(mPaster)
+			}
+			if (mFinalImgLoader)
+			{
+				mFinalImgLoader.kill()
+			}
+			RecordManager.getInstance().reset()
 		}
-		RecordManager.getInstance().reset()
-	}
-	
-	
-	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////
-	
-	private var mPlayer:DrawingPlayer
-	private var mPasterData:ByteArray
-	private var mPasterLength:int
-	private var mPasterLayer:Fusion
-	private var mPaster:PivotFusion
-	private var mPasterTweenedIndex:int
-	public static var bytes:ByteArray
-	private var mFileBytes:ByteArray
-	private var mRecordBytes:ByteArray
-	private var mImg:ImagePuppet
-	private var mSharedUrl:String
-	
-	
-	private function onBack(e:AEvent):void{
-		StateManager.setPlayer(false, true)
-		StateManager.setGameScene(true)
-	}
-	
-	private function doStartAddPaster():void{
+
+
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+
+		private var mPlayer:DrawingPlayer
+		private var mPasterData:ByteArray
+		private var mPasterLength:int
+		private var mPasterLayer:Fusion
+		private var mPaster:PivotFusion
+		private var mPasterTweenedIndex:int
+		public static var bytes:ByteArray
+		private var mFileBytes:ByteArray
+		private var mRecordBytes:ByteArray
+		private var mImg:ImagePuppet
+		private var mSharedUrl:String
+
+
+		private function onBack(e:AEvent):void
+		{
+			StateManager.setPlayer(false, true)
+			StateManager.setGameScene(true)
+		}
+
+		private function doStartAddPaster():void
+		{
 //		trace("$##@$@#$#(*()*(&(")
-		var i:int
-		var ges:PivotFusion
-		var img:ImagePuppet
-		
-		if(mPasterLength > 0){
-			mPasterData.position = 0
-			mPasterTweenedIndex = -1
-			// paster layer
+			var i:int
+			var ges:PivotFusion
+			var img:ImagePuppet
+
+			if (mPasterLength > 0)
 			{
-				mPasterLayer = new Fusion
-				this.fusion.addElement(mPasterLayer)	
+				mPasterData.position = 0
+				mPasterTweenedIndex = -1
+				// paster layer
+				{
+					mPasterLayer = new Fusion
+					this.fusion.addElement(mPasterLayer)
+				}
+
+				this.doTweenAddPaster()
 			}
-			
-			this.doTweenAddPaster()
 		}
-	}
-	
-	private function doTweenAddPaster():void{
-		var img:ImagePuppet
-		
-		if(++mPasterTweenedIndex < mPasterLength){
-			mPaster = new GestureFusion(0)
+
+		private function doTweenAddPaster():void
+		{
+			var img:ImagePuppet
+
+			if (++mPasterTweenedIndex < mPasterLength)
 			{
-				img = new ImagePuppet(5)
-				img.embed(PasterManager.getInstance().getPasterRefByIndex(mPasterData.readShort()))
-				mPaster.addElement(img)
+				mPaster = new GestureFusion(0)
+				{
+					img = new ImagePuppet(5)
+					img.embed(PasterManager.getInstance().getPasterRefByIndex(mPasterData.readShort()))
+					mPaster.addElement(img)
+				}
+
+				mPaster.pivotX = mPasterData.readShort() * .1
+				mPaster.pivotY = mPasterData.readShort() * .1
+				mPaster.x = mPasterData.readShort() * .1
+				mPaster.y = mPasterData.readShort() * .1
+				mPaster.rotation = mPasterData.readShort() * .01
+				mPaster.scaleX = mPaster.scaleY = mPasterData.readShort() * .001
+				mPasterLayer.addElement(mPaster)
+				//ges = mPasterList[mPasterTweenedIndex]
+				TweenLite.from(mPaster, 0.5, {alpha:0.05,onComplete:doTweenAddPaster})
 			}
-			
-			mPaster.pivotX = mPasterData.readShort() * .1
-			mPaster.pivotY = mPasterData.readShort() * .1
-			mPaster.x = mPasterData.readShort() * .1
-			mPaster.y = mPasterData.readShort() * .1
-			mPaster.rotation = mPasterData.readShort() * .01
-			mPaster.scaleX = mPaster.scaleY = mPasterData.readShort() * .001
-			mPasterLayer.addElement(mPaster)
-			//ges = mPasterList[mPasterTweenedIndex]
-			TweenLite.from(mPaster, 0.5,{alpha:0.05,onComplete:doTweenAddPaster})
+			else
+			{
+				mPaster = null
+				Logger.reportMessage(this, "All paster completed...!!")
+			}
 		}
-		else{
-			mPaster = null
-			Logger.reportMessage(this, "All paster completed...!!")
+
+		private function onPlay(e:AEvent):void
+		{
+			if (mPaster)
+			{
+				TweenLite.killTweensOf(mPaster)
+			}
+			if (mPasterLayer)
+			{
+				mPasterLayer.kill()
+				mPasterLayer = null
+			}
+			mPlayer.play()
 		}
-	}
-	
-	private function onPlay(e:AEvent):void{
-		if(mPaster){
-			TweenLite.killTweensOf(mPaster)
-		}
-		if(mPasterLayer){
-			mPasterLayer.kill()
-			mPasterLayer = null
-		}
-		mPlayer.play()
-	}
-	
-	private function onMergeFile(e:AEvent):void{
-		var folder:IFolder 
-		if(Agony.isMoblieDevice){
-			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
-		}
-		else{
-			folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
-		}
-		var dateStr:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND],"")
+
+		private function onMergeFile(e:AEvent):void
+		{
+			var folder:IFolder
+			if (Agony.isMoblieDevice)
+			{
+				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
+			}
+			else
+			{
+				folder = AgonyAir.createFolder(Config.DB_FOLDER, FolderType.DOCUMENT)
+			}
+			var dateStr:String = DateUtil.toString([DateUtil.FULL_YEAR, DateUtil.MONTH, DateUtil.DAY, DateUtil.HOUR, DateUtil.MINUTE, DateUtil.SECOND], "")
 //		bytes.compress()
-		var file:IFile = folder.createFile(dateStr, "db")
-		file.bytes = BytesUtil.merge([bytes, RecordManager.getInstance().bytes])
-		trace("db len: " + bytes.length)
-		trace("rec len: " + RecordManager.getInstance().bytes.length)
-		trace("db: " + file.url)
-		file.upload()
-		bytes = null
-		RecordManager.getInstance().reset()
-	}
-	
-	private function onClickImg(e:AEvent ) : void{
-		Agony.process.dispatchDirectEvent(PLAYER_HIDE_OR_APPEAR)
-	}
-	
-	private function onShared(e:AEvent):void{
-		if(Agony.isMoblieDevice){
-			UMSocial.instance.share(UMeng.instance.getUDID(), "我正在使用“一起画画”创作我的作品，大家喜欢吗？@斑马骑士", mSharedUrl)
+			var file:IFile = folder.createFile(dateStr, "db")
+			file.bytes = BytesUtil.merge([bytes, RecordManager.getInstance().bytes])
+			trace("db len: " + bytes.length)
+			trace("rec len: " + RecordManager.getInstance().bytes.length)
+			trace("db: " + file.url)
+			file.upload()
+			bytes = null
+			RecordManager.getInstance().reset()
+		}
+
+		private function onClickImg(e:AEvent):void
+		{
+			Agony.process.dispatchDirectEvent(PLAYER_HIDE_OR_APPEAR)
+		}
+
+		private function onShared(e:AEvent):void
+		{
+			if (Agony.isMoblieDevice)
+			{
+				UMSocial.instance.share(UMeng.instance.getUDID(), "我正在使用“一起画画”创作我的作品，大家喜欢吗？@斑马骑士", mSharedUrl)
+			}
 		}
 	}
-}
 }
