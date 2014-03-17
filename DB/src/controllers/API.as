@@ -31,6 +31,11 @@ package controllers
 			return Singleton.getInstance(API);
 		}
 
+		public function getUploadToken(callback:Function):void
+		{
+			getSB('/upload/token', 'GET').call(callback);
+		}
+
 		public function userUpdate(update:Object, callback:Function):void
 		{
 			getSB('/user/update').call(callback, update);
