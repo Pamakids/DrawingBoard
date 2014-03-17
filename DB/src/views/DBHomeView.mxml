@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="HomeView"
+		creationComplete="inited(event)"
+		xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+
+			[Bindable]
+			private var paintsAC:ArrayCollection;
+
+			protected function inited(event:FlexEvent):void
+			{
+				paintsAC=new ArrayCollection();
+
+//				getPaints();
+			}
+
+			private var host:String='http://drawingboard.u.qiniudn.com/';
+
+			private function getPaints():void
+			{
+				var o:Object;
+				var arr:Array=[];
+				for (var i:int; i < 10; i++)
+				{
+					var r:Number=Math.random();
+					var bu:String=r > 0.5 ? host + '2.jpg' : host + '7.jpg';
+					var su:String=r > 0.5 ? host + '4.jpg' : host + '5.jpg';
+					if (i == 0 || i == 9)
+					{
+						o={big: true, url: bu};
+						paintsAC.addItem(o);
+					}
+					else
+					{
+						if (arr.length != 4)
+						{
+							arr.push(su);
+							if (arr.length == 4)
+							{
+								o={big: false, urls: arr};
+								paintsAC.addItem(o);
+								arr=[];
+							}
+						}
+					}
+				}
+			}
+
+			private function getPaintsBefore():void
+			{
+				var o:Object;
+				var arr:Array=[];
+
+				for (var i:int; i < 10; i++)
+				{
+					var r:Number=Math.random();
+					var bu:String=r > 0.5 ? host + '2.jpg' : host + '7.jpg';
+					var su:String=r > 0.5 ? host + '4.jpg' : host + '5.jpg';
+					if (i == 0 || i == 9)
+					{
+						o={big: true, url: bu};
+						paintsAC.addItemAt(o, 0);
+					}
+					else
+					{
+						if (arr.length != 4)
+						{
+							arr.push(su);
+							if (arr.length == 4)
+							{
+								o={big: false, urls: arr};
+								paintsAC.addItemAt(o, 0);
+								arr=[];
+							}
+						}
+					}
+				}
+			}
+
+			protected function paints_mouseMoveHandler(event:MouseEvent):void
+			{
+				if (!paints.scroller.verticalScrollBar)
+					return;
+				var vScroll:Number=paints.scroller.verticalScrollBar.value;
+				if (vScroll < -20)
+				{
+					trace(vScroll);
+					if (!updateNew.visible)
+					{
+						updateNew.visible=true;
+						updateNew.alpha=0;
+						TweenLite.to(updateNew, 0.5, {alpha: 1});
+					}
+					updateNew.y=vScroll * -1 - 60;
+
+					if (vScroll < -90)
+					{
+						updateNew.text='松开刷新';
+					}
+					else
+					{
+						updateNew.text='下拉刷新';
+					}
+				}
+				else
+				{
+					updateNew.visible=false;
+				}
+			}
+
+			protected function paints_mouseUpHandler(event:MouseEvent):void
+			{
+				if (!paints.scroller.verticalScrollBar)
+					return;
+				if (paints.scroller.verticalScrollBar.value < -90)
+				{
+					updateNew.visible=false;
+					getPaintsBefore();
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:List id="paints"
+			dataProvider="{paintsAC}"
+			itemRenderer="views.itemrenderers.PaintRenderer"
+			mouseMove="paints_mouseMoveHandler(event)"
+			mouseUp="paints_mouseUpHandler(event)"
+			width="100%"
+			height="100%">
+		<s:layout>
+			<s:TileLayout requestedColumnCount="2"
+						  horizontalGap="18"
+						  verticalGap="18"
+						  paddingTop="30"
+						  paddingBottom="30"
+						  paddingLeft="30"
+						  paddingRight="30"/>
+		</s:layout>
+	</s:List>
+
+	<s:Label text="下拉刷新"
+			 id="updateNew"
+			 horizontalCenter="0"
+			 y="10"
+			 visible="false"/>
+	<s:Label text="上拉刷新"
+			 id="updateOlder"
+			 horizontalCenter="0"
+			 bottom="10"
+			 visible="false"/>
+
+	<mx:UIComponent id="ui"/>
+
+</s:View>
