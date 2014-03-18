@@ -20,10 +20,10 @@ package controllers
 		public function API()
 		{
 			serviceDic=new Dictionary();
-			if (Capabilities.isDebugger)
-				ServiceBase.HOST='http://localhost:8000';
-			else
-				ServiceBase.HOST='http://db.pamakids.com';
+//			if (Capabilities.isDebugger)
+//				ServiceBase.HOST='http://localhost:8000';
+//			else
+			ServiceBase.HOST='http://db.pamakids.com';
 		}
 
 		public static function get instance():API

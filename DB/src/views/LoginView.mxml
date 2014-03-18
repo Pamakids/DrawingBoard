@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="374" height="561"
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 clipAndEnableScrolling="true" mouseEnabledWhereTransparent="true">
+
+	<fx:Script>
+		<![CDATA[
+
+			import com.greensock.TweenLite;
+			import com.pamakids.models.ResultVO;
+
+			import mx.events.FlexEvent;
+
+			import spark.events.TextOperationEvent;
+
+			import controllers.API;
+
+			import models.UserVO;
+
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				loginView.mouseChildren=loginView.mouseEnabled=false;
+				registView.mouseChildren=registView.mouseEnabled=true;
+
+				TweenLite.to(loginView, .5, {left: -374});
+				TweenLite.to(registView, .5, {left: 0});
+			}
+
+			protected function image2_clickHandler(event:MouseEvent):void
+			{
+				loginView.mouseChildren=loginView.mouseEnabled=true;
+				registView.mouseChildren=registView.mouseEnabled=false;
+
+				TweenLite.to(loginView, .5, {left: 0});
+				TweenLite.to(registView, .5, {left: 374});
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+			}
+
+			private function changMark(img:Image, checked:Boolean):void
+			{
+				img.source=(checked ? CHECKSRC : "assets/login/error.png");
+
+				if (checked)
+				{
+					crtHint="";
+				}
+
+				var b:Boolean=(String(registNamecheck.source) == String(CHECKSRC) &&
+					String(registMailcheck.source) == String(CHECKSRC) &&
+					String(registPWcheck.source) == String(CHECKSRC) &&
+					String(registPWcheck2.source) == String(CHECKSRC));
+
+				registBtn.enabled=b;
+			}
+
+			private static const CHECKSRC:String='assets/login/check.png';
+
+			[Bindable]
+			private var crtHint:String;
+
+			protected function registNameInput_focusOutHandler(event:FocusEvent):void
+			{
+				var t:String=registNameInput.text;
+				if (t && t.length > 0)
+					API.instance.userExist({username: t}, function(o:ResultVO):void {
+						if (o.results == true) {
+							changMark(registNamecheck, false);
+							crtHint="用户名已被占用";
+						} else if (o.results == false) {
+							changMark(registNamecheck, true);
+						}
+					});
+				else
+				{
+					changMark(registNamecheck, false);
+					crtHint="请输入用户名！";
+				}
+
+			}
+
+			protected function registMailInput_focusOutHandler(event:FocusEvent):void
+			{
+				var t:String=registMailInput.text
+				if (t)
+				{
+					if (t.indexOf("@") > 0 && t.indexOf(".") > 0)
+					{
+						API.instance.userExist({email: t}, function(o:ResultVO):void {
+							if (o.results == true) {
+								changMark(registMailcheck, false);
+								crtHint="邮箱已被占用";
+							} else {
+								changMark(registMailcheck, true);
+							}
+						});
+						return;
+					}
+				}
+				changMark(registMailcheck, false);
+				crtHint="邮件格式错误！";
+			}
+
+			protected function registPWInput_focusOutHandler(event:FocusEvent):void
+			{
+				var t:String=registPWInput.text;
+				if (t)
+				{
+					if (t.length >= 6)
+					{
+						changMark(registPWcheck, true);
+					}
+					else
+					{
+						changMark(registPWcheck, false);
+						crtHint="密码过短！"
+					}
+				}
+				else
+				{
+					changMark(registPWcheck, false);
+					crtHint="请输入密码！"
+				}
+			}
+
+			protected function registPWInput2_changeHandler(event:TextOperationEvent):void
+			{
+				var match:Boolean=(registPWInput.text == registPWInput2.text);
+				changMark(registPWcheck2, match);
+				if (!match)
+					crtHint="两次输入的密码不一致！";
+			}
+
+			protected function registBtn_clickHandler(event:MouseEvent):void
+			{
+				registBtn.enabled=false;
+				var o:UserVO=new UserVO();
+				o.email=registMailInput.text;
+				o.username=registNameInput.text;
+				o.password=registPWInput.text;
+				o.come_from=VO.APPNAME;
+				API.instance.signup(o, registCallback);
+			}
+
+			private function registCallback(o:ResultVO):void
+			{
+				registBtn.enabled=true;
+				trace(o.results, o.status)
+			}
+
+			protected function image3_clickHandler(event:MouseEvent):void
+			{
+				var username:String=mailInput.text;
+				var pw:String=passwordInput.text;
+				if (username && username.length > 0)
+				{
+					loginHint="";
+				}
+				else
+				{
+					loginHint="用户名过短";
+					return;
+				}
+
+				if (pw && pw.length >= 6)
+				{
+					loginHint="";
+				}
+				else
+				{
+					loginHint="密码过短";
+					return;
+				}
+
+				loginBtn.enabled=false;
+				API.instance.login(username, pw, loginCallback);
+
+			}
+
+			[Bindable]
+			private var loginHint:String;
+
+			private function loginCallback(o:ResultVO):void
+			{
+				loginBtn.enabled=true;
+
+				if (o.status == true)
+				{
+					loginHint="登陆成功!!"
+				}
+				else
+				{
+					loginHint=o.results as String;
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="@Embed('assets/login/popupbg.png')" mouseChildren="false"
+			 mouseEnabled="false"/>
+	<s:Group id="loginView" width="100%">
+		<s:Group top="0">
+			<s:Image source="@Embed('assets/login/close.png')" left="9" top="17"/>
+			<s:Image source="@Embed('assets/login/login-title.png')" top="15"
+					 left="146"/>
+			<s:Image source="@Embed('assets/login/switch-regist.png')" top="25"
+					 left="322" click="image1_clickHandler(event)"/>
+		</s:Group>
+
+		<s:Group top="114">
+			<s:Label text="邮箱:" color="white" fontSize="14" left="39"/>
+			<s:Image source="@Embed('assets/login/line.png')" left="29" top="20"/>
+			<s:Label text="密码:" color="white" fontSize="14" left="39" top="60"/>
+			<s:Image source="@Embed('assets/login/line.png')" top="80" left="29"/>
+
+			<s:TextInput id="mailInput" top="-10" left="85" width="250"
+						 height="30"/>
+			<s:TextInput id="passwordInput" left="85" top="55" width="250"
+						 height="30" displayAsPassword="true"/>
+		</s:Group>
+
+		<s:Label left="30" top="210" fontSize="14" text="{loginHint}"
+				 color="0xff7766"/>
+
+		<s:Image source="@Embed('assets/login/loginbtn.png')" top="286"
+				 left="30" click="image3_clickHandler(event)" id="loginBtn"/>
+
+	</s:Group>
+
+	<s:Group id="registView" visible="true" width="100%" left="374">
+		<s:Group top="0">
+			<s:Image source="@Embed('assets/login/regist-title.png')" top="15"
+					 left="146"/>
+			<s:Image source="@Embed('assets/login/switch-login.png')" top="25"
+					 left="322" click="image2_clickHandler(event)"/>
+		</s:Group>
+
+		<s:VGroup top="100" gap="26" left="29">
+			<s:Group>
+				<s:Label text="用户名:" left="10" fontSize="14" color="white"/>
+				<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+				<s:TextInput id="registNameInput" top="-10" left="75"
+							 width="230" maxChars="10" height="30"
+							 focusOut="registNameInput_focusOutHandler(event)"/>
+				<s:Image left="290" top="-3" id="registNamecheck"/>
+			</s:Group>
+			<s:Group>
+				<s:Label text="邮箱:" color="white" fontSize="14" left="10"/>
+				<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+				<s:TextInput id="registMailInput" top="-10" left="75"
+							 width="230" height="30"
+							 focusOut="registMailInput_focusOutHandler(event)"/>
+				<s:Image left="290" top="-3" id="registMailcheck"/>
+			</s:Group>
+			<s:Group>
+				<s:Label text="密码:" color="white" fontSize="14" left="10"/>
+				<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+				<s:TextInput id="registPWInput" top="-10" left="75" width="230"
+							 height="30" maxChars="20" displayAsPassword="true"
+							 focusOut="registPWInput_focusOutHandler(event)"/>
+				<s:Image left="290" top="-3" id="registPWcheck"/>
+			</s:Group>
+
+			<s:Group>
+				<s:Label text="密码确认:" color="white" fontSize="14" left="10"/>
+				<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+				<s:TextInput id="registPWInput2" top="-10" left="75" width="230"
+							 height="30" maxChars="20" displayAsPassword="true"
+							 change="registPWInput2_changeHandler(event)"/>
+				<s:Image left="290" top="-3" id="registPWcheck2"/>
+			</s:Group>
+		</s:VGroup>
+
+		<s:Label text="{crtHint}" top="318" left="34" mouseChildren="false"
+				 color="0xff7766" fontSize="14" mouseEnabled="false"/>
+
+		<s:Image source="@Embed('assets/login/registbtn.png')" left="30"
+				 enabled="false" top="402" id="registBtn"
+				 click="registBtn_clickHandler(event)"/>
+	</s:Group>
+</s:Group>

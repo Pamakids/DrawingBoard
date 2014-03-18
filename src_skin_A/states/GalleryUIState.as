@@ -1,25 +1,24 @@
 package states
 {
-	import com.google.analytics.debug.Layout;
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-	
+
 	import flash.filesystem.File;
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
-	
+
 	import assets.ImgAssets;
 	import assets.SoundAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
 	import assets.theme.ThemeAssets;
-	
+
 	import models.Config;
 	import models.StateManager;
 	import models.ThemeFolderVo;
 	import models.ThemeManager;
 	import models.ThemeVo;
-	
+
 	import org.agony2d.Agony;
 	import org.agony2d.air.AgonyAir;
 	import org.agony2d.air.file.FolderType;
@@ -44,7 +43,7 @@ package states
 	import org.agony2d.view.layouts.VertiLayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
-	
+
 	import states.renderers.GalleryItem;
 	import states.renderers.ThemeListItem;
 
@@ -75,9 +74,9 @@ package states
 			var img:ImagePuppet
 			var imgBtn:ImageButton
 			var folder:IFolder
-			
+
 //			AgonyUI.addImageButtonData(ImgAssets.btn_menu, "btn_menu", ImageButtonType.BUTTON_RELEASE_PRESS)
-			
+
 //			if (Agony.isMoblieDevice)
 //			{
 //				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.APP_STORAGE)
@@ -87,7 +86,7 @@ package states
 //				folder=AgonyAir.createFolder(Config.DB_THUMB, FolderType.DOCUMENT)
 //			}
 //			mFiles=folder.getAllFiles()
-			
+
 			if (Agony.isMoblieDevice)
 			{
 				folder=AgonyAir.createFolder(Config.DB_FOLDER, FolderType.APP_STORAGE)
@@ -357,14 +356,14 @@ package states
 					mImg.load(thumbnail, false)
 
 				}
-				
+
 				{
 //					image=new ImagePuppet
 //					mRemoveItemFusion.position=0
 //					image.embed(GalleryAssets.galleryHalo)
 //					mRemoveItemFusion.addElement(image, 1, -1, 1, LayoutType.BA)
 				}
-				
+
 				this.fusion.addElement(mRemoveItemFusion, 0, 200, LayoutType.F__A__F_ALIGN)
 			}
 		}

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
-		xmlns:s="library://ns.adobe.com/flex/spark"
-		title="HomeView"
-		creationComplete="inited(event)"
-		xmlns:mx="library://ns.adobe.com/flex/mx">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="inited(event)"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script>
 		<![CDATA[
+			import com.greensock.TweenLite;
+
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 
@@ -156,4 +157,4 @@
 
 	<mx:UIComponent id="ui"/>
 
-</s:View>
+</s:Group>
