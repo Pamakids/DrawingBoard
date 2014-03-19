@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="374" height="561"
+		 clipAndEnableScrolling="true" mouseEnabledWhereTransparent="true"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+			}
+
+			[Bindable]
+			private var currentUser:String="name";
+
+			[Bindable]
+			private var currentMail:String="aa@bb.cc";
+
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image source="@Embed('assets/popupbg.png')" mouseChildren="false"
+			 mouseEnabled="false"/>
+
+	<s:Image source="@Embed('assets/close.png')" left="9" top="17"/>
+	<s:Image source="@Embed('assets/userinfo/userinfo-title.png')" left="105"
+			 top="15"/>
+	<s:Image source="@Embed('assets/userinfo/info-ok.png')" left="330" top="15"/>
+
+	<s:Group left="29" top="100">
+		<s:Label text="用户名:" left="10"/>
+		<s:Label text="{currentUser}" left="75"/>
+		<s:Image source="@Embed('assets/line.png')" top="20"/>
+
+		<s:Label text="邮箱:" left="10" top="120"/>
+		<s:Label text="{currentMail}" left="75" top="120"/>
+		<s:Image source="@Embed('assets/line.png')" top="140"/>
+	</s:Group>
+
+	<s:Image source="@Embed('assets/userinfo/pwchange-btn.png')" top="264"
+			 click="image1_clickHandler(event)"/>
+
+	<s:Group id="pwChangeArea" visible="false" left="29" top="304">
+
+	</s:Group>
+
+</s:Group>
