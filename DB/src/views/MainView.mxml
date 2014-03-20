@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 xmlns:views="views.*"
+		 creationComplete="group1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			import models.DataManager;
+			import models.FontManager;
+
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				DataManager.getInstance().initialize();
+				FontManager.initialize();
+			}
+
+		]]>
+	</fx:Script>
+
+
+	<s:Image width="100%" height="100%" top="0" left="0"
+			 source="@Embed('assets/homepage/img/common/homepageBg_B.png')"
+			 mouseEnabled="false"/>
+
+	<s:Image source="@Embed('assets/homepage/img/common/parents.png')" left="16"
+			 top="21" click="image1_clickHandler(event)"/>
+
+	<s:Image source="@Embed('assets/homepage/img/common/title.png')" top="62"
+			 left="396" mouseEnabled="false"/>
+
+	<views:ThemeFolderList top="188" left="238" id="foldersList"/>
+
+	<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
+			 left="330" top="633"/>
+	<s:Image source="@Embed('assets/homepage/btn/btn_gallery.png')" left="512"
+			 top="633"/>
+	<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
+			 top="633"/>
+
+</s:Group>

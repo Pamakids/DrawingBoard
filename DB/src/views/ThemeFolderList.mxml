@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="hgroup1_creationCompleteHandler(event)"
+		 width="{1024-238}" xmlns:views="views.*"
+		 mouseDown="group1_mouseDownHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			import models.ThemeFolderVo;
+			import models.ThemeManager;
+
+			private var mThemeList:Array;
+
+			protected function hgroup1_creationCompleteHandler(event:FlexEvent):void
+			{
+//				if (!scroller.horizontalScrollBar)
+//					scroller.horizontalScrollBar=new HScrollBar();
+//				scroller.horizontalScrollBar.setStyle("skinClass", MyHSBSkin);
+
+				ThemeManager.getInstance().initialize();
+				initializeData();
+			}
+
+			public function initializeData():void
+			{
+				var dirList:Array=ThemeManager.getInstance().getThemeList();
+
+				for each (var dir:ThemeFolderVo in dirList)
+				{
+					var tfItem:ThemeFolderItem=new ThemeFolderItem();
+					tfItem.mouseEnabled=tfItem.mouseChildren=false;
+					tfItem.setIMG_src(dir.thumbnail, dir.getThemeTxt());
+					tfItem.setContentScale(dirList.indexOf(dir) == 0 ? 1 : ITEM_SCALE, true);
+					list.addElement(tfItem);
+				}
+			}
+
+			private static var ITEM_SCALE:Number=0.5;
+
+			public function get crtIndex():int
+			{
+				return 0;
+			}
+
+			private var dx:Number;
+			private var startX:Number;
+
+			protected function group1_mouseDownHandler(event:MouseEvent):void
+			{
+				for (var i:int=0; i < list.numChildren; i++)
+				{
+					ThemeFolderItem(list.getElementAt(i)).setContentScale(ITEM_SCALE);
+				}
+
+				dx=event.stageX;
+				startX=list.x;
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+				stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+			}
+
+			protected function onMouseMove(event:MouseEvent):void
+			{
+//				var dx:Number= - lastX;
+				list.x=startX + (event.stageX - dx);
+
+				if (list.x > 0)
+				{
+					list.x=0;
+				}
+				else if (list.x < this.width - list.width)
+				{
+					list.x=this.width - list.width
+				}
+			}
+
+			protected function onMouseUp(event:MouseEvent):void
+			{
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:HGroup id="list" gap="-150"/>
+</s:Group>

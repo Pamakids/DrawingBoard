@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drawBoard>
+	
+	<theme type = "life" thumbnail = "assets/theme/img/cover/life.png">
+		<data>assets/theme/img/thumbnail/life/amburance.jpg</data>
+		<data>assets/theme/img/thumbnail/life/archery.jpg</data>
+		<data>assets/theme/img/thumbnail/life/basketball.jpg</data>
+		<data>assets/theme/img/thumbnail/life/bathe.jpg</data>
+		<data>assets/theme/img/thumbnail/life/camping.jpg</data>
+		<data>assets/theme/img/thumbnail/life/chonglang.jpg</data>
+		<data>assets/theme/img/thumbnail/life/christmasEve.jpg</data>
+		<data>assets/theme/img/thumbnail/life/christmasGifts.jpg</data>
+		<data>assets/theme/img/thumbnail/life/favoritesFood.jpg</data>
+		<data>assets/theme/img/thumbnail/life/favoritesToy.jpg</data>
+		<data>assets/theme/img/thumbnail/life/firecracker.jpg</data>
+		<data>assets/theme/img/thumbnail/life/myDream.jpg</data>
+		<data>assets/theme/img/thumbnail/life/myRoom.jpg</data>
+		<data>assets/theme/img/thumbnail/life/newYear.jpg</data>
+		<data>assets/theme/img/thumbnail/life/qiqiao.jpg</data>
+		<data>assets/theme/img/thumbnail/life/rope.jpg</data>
+		<data>assets/theme/img/thumbnail/life/soccer.jpg</data>
+		<data>assets/theme/img/thumbnail/life/theDragon.jpg</data>
+		<data>assets/theme/img/thumbnail/life/xigua.jpg</data>
+	</theme>
+	
+	
+	<theme type = "animal" thumbnail = "assets/theme/img/cover/animal.png">
+		<data>assets/theme/img/thumbnail/animal/chicken.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/dog.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/dogdinner.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/Hatched.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/Hiding.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/kite.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/konglong.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/peacock.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/snake.jpg</data>
+		<data>assets/theme/img/thumbnail/animal/watering-flower.jpg</data>
+	</theme>
+	
+	<theme type = "people" thumbnail = "assets/theme/img/cover/people.png">
+		<data>assets/theme/img/thumbnail/people/cook.jpg</data>
+		<data>assets/theme/img/thumbnail/people/docoter.jpg</data>
+		<data>assets/theme/img/thumbnail/people/draw.jpg</data>
+		<data>assets/theme/img/thumbnail/people/father.jpg</data>
+		<data>assets/theme/img/thumbnail/people/film.jpg</data>
+		<data>assets/theme/img/thumbnail/people/fire.jpg</data>
+		<data>assets/theme/img/thumbnail/people/flower.jpg</data>
+		<data>assets/theme/img/thumbnail/people/grandfather.jpg</data>
+		<data>assets/theme/img/thumbnail/people/loveYou.jpg</data>
+		<data>assets/theme/img/thumbnail/people/makeFriend.jpg</data>
+		<data>assets/theme/img/thumbnail/people/maternalGrandfather.jpg</data>
+		<data>assets/theme/img/thumbnail/people/myFather.jpg</data>
+		<data>assets/theme/img/thumbnail/people/myMother.jpg</data>
+		<data>assets/theme/img/thumbnail/people/post.jpg</data>
+		<data>assets/theme/img/thumbnail/people/saySorry.jpg</data>
+		<data>assets/theme/img/thumbnail/people/wedding.jpg</data>
+	</theme>
+	
+	<theme type = "design" thumbnail = "assets/theme/img/cover/design.png">
+		<data>assets/theme/img/thumbnail/design/car1.jpg</data>
+		<data>assets/theme/img/thumbnail/design/car2.jpg</data>
+		<data>assets/theme/img/thumbnail/design/chrismas.jpg</data>
+		<data>assets/theme/img/thumbnail/design/drink.jpg</data>
+		<data>assets/theme/img/thumbnail/design/futureCar.jpg</data>
+		<data>assets/theme/img/thumbnail/design/futureCity.jpg</data>
+		<data>assets/theme/img/thumbnail/design/futureComputer.jpg</data>
+		<data>assets/theme/img/thumbnail/design/porcelain.jpg</data>
+		<data>assets/theme/img/thumbnail/design/room.jpg</data>
+		<data>assets/theme/img/thumbnail/design/sea.jpg</data>
+		<data>assets/theme/img/thumbnail/design/sheep.jpg</data>
+		<data>assets/theme/img/thumbnail/design/swim.jpg</data>
+		<data>assets/theme/img/thumbnail/design/windmill.jpg</data>
+		
+	</theme>
+	
+	<theme type = "fantasty" thumbnail = "assets/theme/img/cover/fantasty.png">
+		<data>assets/theme/img/thumbnail/fantasty/bottle.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/dream.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/football.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/jiaozi.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/king.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/knight1.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/knight2.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/space.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/spaceShip.jpg</data>
+		<data>assets/theme/img/thumbnail/fantasty/witch.jpg</data>
+	</theme>
+
+</drawBoard>

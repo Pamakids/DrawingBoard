@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<drawBoard version = "1.0.1">
+	
+	<theme id = "traffic" name = "交通" numPages = "15">
+		<data>img/thumbnail/traffic/1.jpg</data>
+		<data>img/thumbnail/traffic/2.jpg</data>
+		<data>img/thumbnail/traffic/3.jpg</data>
+		<data>img/thumbnail/traffic/4.jpg</data>
+		<data>img/thumbnail/traffic/5.jpg</data>
+		<data>img/thumbnail/traffic/6.jpg</data>
+		<data>img/thumbnail/traffic/7.jpg</data>
+		<data>img/thumbnail/traffic/8.jpg</data>
+		<data>img/thumbnail/traffic/9.jpg</data>
+		<data>img/thumbnail/traffic/10.jpg</data>
+		<data>img/thumbnail/traffic/11.jpg</data>
+		<data>img/thumbnail/traffic/12.jpg</data>
+		<data>img/thumbnail/traffic/13.jpg</data>
+		<data>img/thumbnail/traffic/14.jpg</data>
+		<data>img/thumbnail/traffic/15.jpg</data>
+	</theme>
+	<theme id = "food" name = "食物" numPages = "12">
+		<data>img/thumbnail/food/1.jpg</data>
+		<data>img/thumbnail/food/2.jpg</data>
+		<data>img/thumbnail/food/3.jpg</data>
+		<data>img/thumbnail/food/4.jpg</data>
+		<data>img/thumbnail/food/5.jpg</data>
+		<data>img/thumbnail/food/6.jpg</data>
+		<data>img/thumbnail/food/7.jpg</data>
+		<data>img/thumbnail/food/8.jpg</data>
+		<data>img/thumbnail/food/9.jpg</data>
+		<data>img/thumbnail/food/10.jpg</data>
+		<data>img/thumbnail/food/11.jpg</data>
+		<data>img/thumbnail/food/12.jpg</data>
+	</theme>
+	
+	<theme id = "movie" name = "电影" numPages = "15">
+		<data>img/thumbnail/movie/1.jpg</data>
+		<data>img/thumbnail/movie/2.jpg</data>
+		<data>img/thumbnail/movie/3.jpg</data>
+		<data>img/thumbnail/movie/4.jpg</data>
+		<data>img/thumbnail/movie/5.jpg</data>
+		<data>img/thumbnail/movie/6.jpg</data>
+		<data>img/thumbnail/movie/7.jpg</data>
+		<data>img/thumbnail/movie/8.jpg</data>
+		<data>img/thumbnail/movie/9.jpg</data>
+		<data>img/thumbnail/movie/10.jpg</data>
+		<data>img/thumbnail/movie/11.jpg</data>
+		<data>img/thumbnail/movie/12.jpg</data>
+		<data>img/thumbnail/movie/13.jpg</data>
+		<data>img/thumbnail/movie/14.jpg</data>
+		<data>img/thumbnail/movie/15.jpg</data>
+	</theme>
+	
+	<theme id = "city" name = "城市" numPages = "15">
+		<data>img/thumbnail/city/1.jpg</data>
+		<data>img/thumbnail/city/2.jpg</data>
+		<data>img/thumbnail/city/3.jpg</data>
+		<data>img/thumbnail/city/4.jpg</data>
+		<data>img/thumbnail/city/5.jpg</data>
+		<data>img/thumbnail/city/6.jpg</data>
+		<data>img/thumbnail/city/7.jpg</data>
+		<data>img/thumbnail/city/8.jpg</data>
+		<data>img/thumbnail/city/9.jpg</data>
+		<data>img/thumbnail/city/10.jpg</data>
+		<data>img/thumbnail/city/11.jpg</data>
+		<data>img/thumbnail/city/12.jpg</data>
+		<data>img/thumbnail/city/13.jpg</data>
+		<data>img/thumbnail/city/14.jpg</data>
+		<data>img/thumbnail/city/15.jpg</data>
+	</theme>
+</drawBoard>
