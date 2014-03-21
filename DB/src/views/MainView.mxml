@@ -2,19 +2,29 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 xmlns:views="views.*"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
 
 	<fx:Script>
 		<![CDATA[
 
 			import mx.events.FlexEvent;
 
+			import components.Recommends;
+
 			import models.DataManager;
 			import models.FontManager;
+			import models.ThemeFolderVo;
+			import models.ThemeManager;
+			import models.ThemeVo;
+
+			private var themelist:ThemeList;
+
+			private var themListArr:Array;
+
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
 
 			}
 
@@ -22,29 +32,89 @@
 			{
 				DataManager.getInstance().initialize();
 				FontManager.initialize();
+
+				foldersList.addEventListener("openThemeList", onOpenList);
+
+				var recommend:Recommends=new Recommends(768, 1024);
+
+				recommendHodler.addChild(recommend);
+			}
+
+			protected function onOpenList(event:Event):void
+			{
+				var arr:Array=ThemeManager.getInstance().getThemeList();
+				var dir:ThemeFolderVo=arr[foldersList.crtIndex];
+
+				themListArr=dir.themeList;
+
+				if (themelist)
+				{
+					if (contentLayer.containsElement(themelist))
+						contentLayer.removeElement(themelist);
+
+					themelist.removeEventListener("themeClicked", playTheme);
+					themelist.removeEventListener("themeListClose", closeTheme);
+					themelist.dispose();
+					themelist=null;
+				}
+
+				themelist=new ThemeList();
+				themelist.setData(themListArr, dir.getTitleRef());
+				contentLayer.addElement(themelist);
+				themelist.addEventListener("themeClicked", playTheme);
+				themelist.addEventListener("themeListClose", closeTheme);
+			}
+
+			protected function playTheme(event:Event):void
+			{
+				var vo:ThemeVo=themListArr[themelist.crtIndex];
+				trace(vo)
+			}
+
+			protected function closeTheme(event:Event):void
+			{
+				if (themelist)
+				{
+					themelist.dispose();
+					if (contentLayer.containsElement(themelist))
+						contentLayer.removeElement(themelist);
+
+					themelist.removeEventListener("themeClicked", playTheme);
+					themelist.removeEventListener("themeListClose", closeTheme);
+					themelist=null;
+				}
 			}
 
 		]]>
 	</fx:Script>
 
+	<s:Group width="100%" height="100%">
+		<s:Image width="100%" height="100%" top="0" left="0"
+				 source="@Embed('assets/homepage/img/common/homepageBg_B.png')"
+				 mouseEnabled="false"/>
 
-	<s:Image width="100%" height="100%" top="0" left="0"
-			 source="@Embed('assets/homepage/img/common/homepageBg_B.png')"
-			 mouseEnabled="false"/>
+		<s:Image source="@Embed('assets/homepage/img/common/titleBg.png')"
+				 mouseEnabled="false"/>
 
-	<s:Image source="@Embed('assets/homepage/img/common/parents.png')" left="16"
-			 top="21" click="image1_clickHandler(event)"/>
+		<s:Image source="@Embed('assets/homepage/img/common/parents.png')"
+				 left="16" top="21" click="image1_clickHandler(event)"/>
 
-	<s:Image source="@Embed('assets/homepage/img/common/title.png')" top="62"
-			 left="396" mouseEnabled="false"/>
+		<s:Image source="@Embed('assets/homepage/img/common/title.png')"
+				 top="62" left="368" mouseEnabled="false"/>
 
-	<views:ThemeFolderList top="188" left="238" id="foldersList"/>
+		<views:ThemeFolderList top="188" left="219" id="foldersList"/>
 
-	<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
-			 left="330" top="633"/>
-	<s:Image source="@Embed('assets/homepage/btn/btn_gallery.png')" left="512"
-			 top="633"/>
-	<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
-			 top="633"/>
+		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
+				 left="330" top="633"/>
+		<s:Image source="@Embed('assets/homepage/btn/btn_gallery.png')"
+				 left="512" top="633"/>
+		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
+				 top="633"/>
+
+		<mx:UIComponent id="recommendHodler"/>
+
+	</s:Group>
+	<s:Group width="100%" height="100%" id="contentLayer"/>
+	<s:Group width="100%" height="100%" id="drawerLayer"/>
 
 </s:Group>

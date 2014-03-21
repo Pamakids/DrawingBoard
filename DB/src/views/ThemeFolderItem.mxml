@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="586" height="425"
-		 cacheAsBitmap="true">
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="{ITEM_WIDTH}"
+		 height="425" cacheAsBitmap="true">
 
 	<fx:Script>
 		<![CDATA[
 
 			import com.greensock.TweenLite;
 
+			public static const ITEM_WIDTH:Number=586;
+
+			[Bindable]
+			private var dx:Number=586 / 4;
+			[Bindable]
+			private var dy:Number=425 / 4;
+
 			protected function content_clickHandler(event:MouseEvent):void
 			{
-
 			}
 
 			public function setContentScale(value:Number, ime:Boolean=false):void
@@ -19,9 +25,13 @@
 				if (content.scaleX == value)
 					return;
 				if (ime)
+				{
 					content.scaleX=content.scaleY=value;
+					content.left=value == 1 ? 0 : dx;
+					content.top=value == 1 ? 0 : dy;
+				}
 				else
-					TweenLite.to(content, .5, {scaleX: value, scaleY: value});
+					TweenLite.to(content, .3, {scaleX: value, scaleY: value, left: value == 1 ? 0 : dx, top: value == 1 ? 0 : dy});
 			}
 
 			public function setIMG_src(src:String, name_src:String):void
@@ -30,14 +40,10 @@
 				themeName.source=name_src;
 			}
 
-			protected function image1_completeHandler(event:Event):void
-			{
-			}
-
 		]]>
 	</fx:Script>
-	<s:Group id="content" verticalCenter="0" horizontalCenter="0" width="586"
-			 height="425" scaleX=".5" scaleY=".5">
+	<s:Group id="content" left="{dx}" top="{dy}" width="586" height="425"
+			 scaleX=".5" scaleY=".5">
 		<s:Image source="@Embed('assets/homepage/img/common/themeBg.png')"/>
 		<s:Image id="img" left="15" top="6"/>
 		<s:Image id="themeName" left="430" top="294"/>

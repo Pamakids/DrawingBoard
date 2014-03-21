@@ -7,37 +7,38 @@
 		<![CDATA[
 
 			import mx.events.FlexEvent;
-			import mx.utils.HSBColor;
 
-			import spark.components.HScrollBar;
 			import spark.components.Image;
 			import spark.components.VScrollBar;
 
-			import skins.MyHSBSkin;
+			import models.ThemeVo;
+
 			import skins.MyVSBSkin;
 
-			public var data:Object;
+			public var data:Array;
 
-			public function setData(_data:Array):void
+			public function setData(_data:Array, _src:String):void
 			{
+				title.source=_src;
+
 				data=_data;
-				for each (var s:String in data)
+				for each (var o:ThemeVo in data)
 				{
-					var img:Image=new Image();
-					img.source=s;
-					img.width=304;
-					img.height=233;
-					list.addElement(img);
-					img.addEventListener(MouseEvent.CLICK, onClick);
+					var item:ThemeListItem=new ThemeListItem();
+					item.src=o.thumbnail;
+					list.addElement(item);
+					item.addEventListener(MouseEvent.CLICK, onClick);
+					item.index=data.indexOf(o);
 				}
 			}
 
+			public var crtIndex:int;
+
 			protected function onClick(event:MouseEvent):void
 			{
-				var img:Image=event.currentTarget as Image;
-				var index:int=list.getElementIndex(img);
-				if (index >= 0)
-					dispatchEvent(new Event("", true));
+				var item:ThemeListItem=event.currentTarget as ThemeListItem;
+				crtIndex=item.index;
+				dispatchEvent(new Event("themeClicked"));
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -47,23 +48,45 @@
 				scroller.verticalScrollBar.setStyle("skinClass", MyVSBSkin);
 			}
 
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("themeListClose"));
+			}
+
+			protected function scroller_enterFrameHandler(event:Event):void
+			{
+				trace(list.verticalScrollPosition);
+			}
+
+			public function dispose():void
+			{
+				while (list.numElements > 0)
+				{
+					var item:ThemeListItem=ThemeListItem(list.getElementAt(0));
+					list.removeElement(item);
+					item.removeEventListener(MouseEvent.CLICK, onClick);
+					item.dispose();
+					item=null;
+				}
+
+				removeAllElements();
+			}
+
 		]]>
 	</fx:Script>
+
+	<s:Image source="@Embed('assets/data/images/publicBg.png')"
+			 mouseEnabled="false"/>
+
+	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
+			 top="21" click="image1_clickHandler(event)"/>
+
+	<s:Image id="title" left="448" top="44"/>
 
 	<s:Scroller width="967" height="620" left="30" top="147" id="scroller"
 				horizontalScrollPolicy="off" verticalScrollPolicy="auto">
 		<s:TileGroup id="list" requestedColumnCount="3" horizontalGap="24"
 					 verticalGap="13">
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
-			<s:BorderContainer width="304" height="233"/>
 		</s:TileGroup>
 	</s:Scroller>
 </s:Group>

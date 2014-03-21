@@ -21,6 +21,7 @@ package components
 	import flash.geom.Point;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
+	import flash.system.Capabilities;
 	import flash.utils.Dictionary;
 
 	import org.agony2d.Agony;
@@ -92,14 +93,14 @@ package components
 			{
 				case 0:
 				{
-					r.x=2*width;
+					r.x=2 * width;
 					r.y=0;
 					break;
 				}
 
 				case 1:
 				{
-					r.x=2*width;
+					r.x=2 * width;
 					r.y=height - r.height;
 					break;
 				}
@@ -144,8 +145,19 @@ package components
 				parent.addChild(hint);
 				stage.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);
 				stage.addEventListener(TouchEvent.TOUCH_END, onTouchEnd);
+
+				if (Capabilities.isDebugger)
+				{
+					stage.addEventListener(MouseEvent.CLICK, onClick);
+				}
 			}
 			hint.getRandomGesture();
+		}
+
+		protected function onClick(event:MouseEvent):void
+		{
+			// TODO Auto-generated method stub
+
 		}
 
 		private var hint:RecommendHint;
@@ -175,25 +187,25 @@ package components
 			{
 				case "up":
 				{
-					if (event.stageY<tcDic[event.touchPointID].y)
+					if (event.stageY < tcDic[event.touchPointID].y)
 						check=true;
 					break;
 				}
 				case "down":
 				{
-					if (event.stageY>tcDic[event.touchPointID].y)
+					if (event.stageY > tcDic[event.touchPointID].y)
 						check=true;
 					break;
 				}
 				case "left":
 				{
-					if (event.stageX<tcDic[event.touchPointID].x)
+					if (event.stageX < tcDic[event.touchPointID].x)
 						check=true;
 					break;
 				}
 				case "right":
 				{
-					if (event.stageX>tcDic[event.touchPointID].x)
+					if (event.stageX > tcDic[event.touchPointID].x)
 						check=true;
 					break;
 				}
@@ -206,7 +218,7 @@ package components
 
 			delete tcDic[event.touchPointID];
 
-			if (count<2)
+			if (count < 2)
 			{
 				clearCheck();
 				clearHint();
@@ -239,7 +251,7 @@ package components
 			count=0;
 			for each (var i:int in tcDic)
 			{
-				delete 	tcDic[i];
+				delete tcDic[i];
 			}
 
 			checkArr[0]=false;
@@ -248,7 +260,7 @@ package components
 		protected function onTouchBegin(event:TouchEvent):void
 		{
 			count++;
-			if (count<=2)
+			if (count <= 2)
 				tcDic[event.touchPointID]=new Point(event.stageX, event.stageY);
 		}
 
@@ -324,7 +336,7 @@ package components
 			if (hint)
 			{
 				TweenLite.to(maskS, 0.5, {alpha: 0, onComplete: removeMask});
-				if (parent&&parent.contains(parent))
+				if (parent && parent.contains(parent))
 					parent.removeChild(hint);
 				hint=null;
 			}
@@ -334,7 +346,7 @@ package components
 
 		private function removeMask():void
 		{
-			if (parent&&parent.contains(parent))
+			if (parent && parent.contains(parent))
 				parent.removeChild(maskS);
 		}
 

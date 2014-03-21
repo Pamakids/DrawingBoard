@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="304" height="233">
+	<fx:Script>
+		<![CDATA[
+
+			public function loadContent(src:String):void
+			{
+				content.source=src;
+			}
+
+			public var index:int;
+			public var src:String;
+
+			protected function content_addedToStageHandler(event:Event):void
+			{
+				content.source=src;
+			}
+
+			public function dispose():void
+			{
+				content.removeEventListener(Event.ADDED_TO_STAGE, content_addedToStageHandler);
+				removeAllElements();
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="@Embed('assets/gallery/img/common/itemBg.png')"
+			 mouseEnabled="false"/>
+	<s:Image id="content" addedToStage="content_addedToStageHandler(event)"/>
+</s:Group>
