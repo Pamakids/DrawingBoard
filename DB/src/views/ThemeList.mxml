@@ -43,9 +43,9 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				if (!scroller.verticalScrollBar)
-					scroller.verticalScrollBar=new VScrollBar();
-				scroller.verticalScrollBar.setStyle("skinClass", MyVSBSkin);
+//				if (!scroller.verticalScrollBar)
+//					scroller.verticalScrollBar=new VScrollBar();
+//				scroller.verticalScrollBar.setStyle("skinClass", MyVSBSkin);
 			}
 
 			protected function image1_clickHandler(event:MouseEvent):void
@@ -83,7 +83,7 @@
 
 	<s:Image id="title" left="448" top="44"/>
 
-	<s:Scroller width="967" height="620" left="30" top="147" id="scroller"
+	<s:Scroller width="983" height="600" left="30" top="147" id="scroller"
 				horizontalScrollPolicy="off" verticalScrollPolicy="auto">
 		<s:TileGroup id="list" requestedColumnCount="3" horizontalGap="24"
 					 verticalGap="13">

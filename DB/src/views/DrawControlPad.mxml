@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 clipAndEnableScrolling="true"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import com.greensock.TweenLite;
+
+			import mx.events.FlexEvent;
+
+			import assets.game.GameAssets;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				for (var i:int=0; i < brushArr.length; i++)
+				{
+					var s:String=brushArr[i];
+					var cls:Class=GameAssets["img_brush_" + s];
+					var img0:Image=new Image();
+					img0.source=cls;
+					img0.left=brushPosXArr[i];
+					brushGroup.addElement(img0);
+					img0.addEventListener(MouseEvent.CLICK, brush_clickHandler);
+				}
+
+				var arr:Array=GameAssets.colorImgList;
+				for each (var c:Class in arr)
+				{
+					var img:Image=new Image();
+					img.source=c;
+					img.addEventListener(MouseEvent.CLICK, onColorClick);
+
+					colorGroup.addElement(img);
+				}
+			}
+
+			protected function onColorClick(e:MouseEvent):void
+			{
+				var img:Image=e.currentTarget as Image;
+				var index:int=colorGroup.getElementIndex(img);
+				trace(index)
+			}
+
+			protected function brush_clickHandler(e:MouseEvent):void
+			{
+				var crtImg:Image=e.currentTarget as Image;
+				var index:int=0;
+				for (var i:int=0; i < brushGroup.numElements; i++)
+				{
+					var img:Image=brushGroup.getElementAt(i) as Image;
+					TweenLite.killTweensOf(img);
+					if (img == crtImg)
+					{
+						index=i;
+						if (img.top != -30)
+							TweenLite.to(img, .3, {top: -30});
+					}
+					else
+					{
+						if (img.top != 0)
+							TweenLite.to(img, .3, {top: 0});
+					}
+				}
+
+				changeBrush(index);
+			}
+
+			private var brushArr:Array=["eraser", "waterColor",
+				"crayon", "pink", "maker", "pencil"];
+
+			private var brushPosXArr:Array=[91, 182, 261, 350, 425, 497];
+
+			private function changeBrush(index:int):void
+			{
+				// TODO Auto Generated method stub
+
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group width="100%">
+
+	</s:Group>
+
+	<s:Group width="100%" bottom="0" height="109">
+		<s:Image source="{GameAssets.bottomBg}"/>
+		<s:Image id="pencil_btn" source="{GameAssets.pen_selected}" left="22"
+				 top="10"/>
+		<s:Image id="paster_btn" source="{GameAssets.paster_selected}" left="14"
+				 top="60"/>
+
+		<s:Group top="15" id="brushGroup">
+		</s:Group>
+
+		<s:Image id="colorPicker" source="{GameAssets.img_bigCircleB}"
+				 left="606" top="7"/>
+
+		<s:TileGroup left="724" top="6" id="colorGroup" requestedColumnCount="6"
+					 verticalGap="14" horizontalGap="10">
+
+		</s:TileGroup>
+
+	</s:Group>
+</s:Group>

@@ -12,6 +12,8 @@
 
 			import components.Recommends;
 
+			import controllers.DBPopUp;
+
 			import models.DataManager;
 			import models.FontManager;
 			import models.ThemeFolderVo;
@@ -25,11 +27,17 @@
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{
-
+				DBPopUp.addGusturePopUp(openParent);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
+				popupLayer.graphics.beginFill(0, .6)
+				popupLayer.graphics.drawRect(0, 0, 1024, 768);
+				popupLayer.graphics.endFill();
+
+				DBPopUp.root=popupLayer;
+
 				DataManager.getInstance().initialize();
 				FontManager.initialize();
 
@@ -85,6 +93,20 @@
 				}
 			}
 
+			private function openParent():void
+			{
+				if (!pv)
+				{
+					pv=new ParentView();
+					pv.addEventListener("parentsClose", function(e:Event):void {
+						contentLayer.removeElement(pv);
+					});
+				}
+				contentLayer.addElement(pv);
+			}
+
+			private var pv:ParentView;
+
 		]]>
 	</fx:Script>
 
@@ -116,5 +138,11 @@
 	</s:Group>
 	<s:Group width="100%" height="100%" id="contentLayer"/>
 	<s:Group width="100%" height="100%" id="drawerLayer"/>
+
+	<views:DrawControlPad>
+
+	</views:DrawControlPad>
+
+	<mx:UIComponent id="popupLayer" width="1024" height="768" visible="false"/>
 
 </s:Group>

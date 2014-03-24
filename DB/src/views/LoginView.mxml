@@ -223,6 +223,11 @@
 				lrView.visible=false;
 			}
 
+			protected function image5_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("loginClose"));
+			}
+
 		]]>
 	</fx:Script>
 
@@ -230,7 +235,8 @@
 			 mouseEnabled="false"/>
 
 	<s:Group visible="true" id="enterView">
-		<s:Image source="@Embed('assets/close.png')" left="9" top="17"/>
+		<s:Image source="@Embed('assets/close.png')" left="9" top="17"
+				 click="image5_clickHandler(event)"/>
 		<s:VGroup left="68" top="147" gap="24">
 			<s:Image source="@Embed('assets/login/loginbtn-qq.png')" id="qqBtn"
 					 click="qqBtn_clickHandler(event)"/>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import flash.net.navigateToURL;
+
+			import mx.events.FlexEvent;
+
+			import spark.components.VScrollBar;
+
+			import assets.gallery.GalleryAssets;
+			import assets.homepage.HomepageAssets;
+
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+//				if (!scroll.verticalScrollBar)
+//					scroll.verticalScrollBar=new VScrollBar();
+//				scroll.verticalScrollBar.setStyle("skinClass", MyVSBSkin2);
+//				scroll.verticalScrollBar.setStyle("fixedThumbSize", true);
+			}
+
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("parentsClose"));
+			}
+
+			protected function image2_clickHandler(event:MouseEvent):void
+			{
+				navigateToURL(new URLRequest("http://privacy.pamakids.com/"));
+			}
+
+			protected function image3_clickHandler(event:MouseEvent):void
+			{
+				navigateToURL(new URLRequest("mailto:privacy@pamakids.com"));
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="@Embed('assets/data/images/publicBg.png')"
+			 mouseEnabled="false"/>
+
+	<s:Image source="{HomepageAssets.toParent_A}" left="383" top="48"
+			 mouseEnabled="false"/>
+
+	<s:Image source="{GalleryAssets.galleryBack}"
+			 click="image1_clickHandler(event)" left="22" top="22"/>
+
+	<s:Scroller id="scroll" horizontalScrollPolicy="off" left="108" top="176"
+				width="850" height="562" verticalScrollPolicy="on">
+		<s:Group width="811">
+			<s:Image source="{HomepageAssets.toParent_B}"/>
+			<s:Image source="{HomepageAssets.toParent_link}" top="934"
+					 click="image2_clickHandler(event)"/>
+			<s:Image source="{HomepageAssets.toParent_mail}" top="1060"
+					 click="image3_clickHandler(event)"/>
+		</s:Group>
+
+	</s:Scroller>
+</s:Group>

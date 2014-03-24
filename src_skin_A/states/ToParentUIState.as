@@ -2,19 +2,19 @@ package states
 {
 	import com.greensock.TweenLite;
 	import com.greensock.easing.Cubic;
-	
+
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
-	
+
 	import assets.ImgAssets;
 	import assets.gallery.GalleryAssets;
 	import assets.homepage.HomepageAssets;
-	
+
 	import models.StateManager;
-	
+
 	import org.agony2d.input.TouchManager;
 	import org.agony2d.notify.AEvent;
 	import org.agony2d.view.AgonyUI;
@@ -26,7 +26,7 @@ package states
 	import org.agony2d.view.layouts.HorizLayout;
 	import org.agony2d.view.puppet.ImagePuppet;
 	import org.agony2d.view.puppet.SpritePuppet;
-	
+
 	import states.renderers.GalleryItem;
 
 	public class ToParentUIState extends UIState
@@ -40,7 +40,7 @@ package states
 
 			this.fusion.spaceWidth=AgonyUI.fusion.spaceWidth
 			this.fusion.spaceHeight=AgonyUI.fusion.spaceHeight
-			TouchManager.getInstance().velocityEnabled= true
+			TouchManager.getInstance().velocityEnabled=true
 
 			// bg.
 			{
@@ -63,14 +63,14 @@ package states
 				mScroll.horizReboundFactor=1
 				mScroll.vertiReboundFactor=0.5
 				mScroll.contentHeight=1080
-					
+
 				// text.
 				{
 					img=new ImagePuppet
 					img.embed(HomepageAssets.toParent_B)
 					mContent.addElement(img, 108, 0)
 				}
-				
+
 				// link.
 				{
 					img=new ImagePuppet
@@ -83,7 +83,7 @@ package states
 					img=new ImagePuppet
 					img.embed(HomepageAssets.toParent_mail)
 					mContent.addElement(img, 108, 1060)
-					img.addEventListener(AEvent.CLICK,onMail)
+					img.addEventListener(AEvent.CLICK, onMail)
 				}
 				this.fusion.addElement(mScroll, 0, 176)
 				mScroll.addEventListener(AEvent.BEGINNING, onScrollStart)
@@ -132,7 +132,7 @@ package states
 
 		private function onBackToHomepage(e:AEvent):void
 		{
-			
+
 			StateManager.setHomepage(true)
 			StateManager.setToParent(false)
 		}
@@ -184,14 +184,14 @@ package states
 				{
 					correctionY=mScroll.correctionY
 //					mThumb.y = mScroll.vertiRatio * (END_Y - START_Y) + START_Y;
-					TweenLite.to(mThumb, 0.1, {y:mScroll.vertiRatio * (END_Y - START_Y) + START_Y, overwrite:1})
+					TweenLite.to(mThumb, 0.1, {y: mScroll.vertiRatio * (END_Y - START_Y) + START_Y, overwrite: 1})
 					if (correctionY != 0)
 					{
 						mContent.y=mContent.y + correctionY
 						TweenLite.killTweensOf(mContent, true)
-						
+
 					}
-					
+
 				}, onComplete: onTweenBack})
 			}
 			else
@@ -209,18 +209,19 @@ package states
 		private function onScrolling(e:AEvent):void
 		{
 			//trace(e.type)
-			TweenLite.to(mThumb, 0.1, {y:mScroll.vertiRatio * (END_Y - START_Y) + START_Y, overwrite:1})
+			TweenLite.to(mThumb, 0.1, {y: mScroll.vertiRatio * (END_Y - START_Y) + START_Y, overwrite: 1})
 //			mThumb.y=mScroll.vertiRatio * (END_Y - START_Y) + START_Y
 		}
 
-		
-		private function onLink(e:AEvent):void{
+
+		private function onLink(e:AEvent):void
+		{
 			navigateToURL(new URLRequest("http://privacy.pamakids.com/"))
 		}
-		
-		private function onMail(e:AEvent):void{
+
+		private function onMail(e:AEvent):void
+		{
 			navigateToURL(new URLRequest("mailto:privacy@pamakids.com"))
-			
 		}
 	}
 }

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="476" height="313"
+		 addedToStage="group1_addedToStageHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import assets.gesture.GestureAssets;
+			private var direction:int;
+			private var dirArr:Array=["up", "down", "left", "right"];
+
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				direction=Math.random() * 4;
+				var cls:Class;
+				cls=GestureAssets["gesture_" + dirArr[direction]];
+				dirImg.source=new cls();
+
+				stage.addEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);
+				stage.addEventListener(TouchEvent.TOUCH_END, onTouchEnd);
+
+				if (Capabilities.isDebugger)
+					stage.addEventListener(MouseEvent.MIDDLE_CLICK, onClick);
+			}
+
+			protected function onTouchBegin(event:TouchEvent):void
+			{
+				count++;
+				if (count <= 2)
+					tcDic[event.touchPointID]=new Point(event.stageX, event.stageY);
+			}
+
+			private var tcDic:Dictionary;
+
+			protected function onTouchEnd(event:TouchEvent):void
+			{
+				if (!tcDic[event.touchPointID])
+					return;
+				var check:Boolean=false;
+				switch (dirArr[direction])
+				{
+					case "up":
+					{
+						if (event.stageY < tcDic[event.touchPointID].y)
+							check=true;
+						break;
+					}
+					case "down":
+					{
+						if (event.stageY > tcDic[event.touchPointID].y)
+							check=true;
+						break;
+					}
+					case "left":
+					{
+						if (event.stageX < tcDic[event.touchPointID].x)
+							check=true;
+						break;
+					}
+					case "right":
+					{
+						if (event.stageX > tcDic[event.touchPointID].x)
+							check=true;
+						break;
+					}
+
+					default:
+					{
+						break;
+					}
+				}
+
+				delete tcDic[event.touchPointID];
+
+				if (count < 2)
+				{
+					closeHandler();
+				}
+
+				if (check)
+				{
+					if (!checkArr[0])
+						checkArr[0]=true;
+					else
+					{
+						if (callback != null)
+							callback();
+						closeHandler();
+					}
+
+				}
+				else
+				{
+					closeHandler();
+				}
+			}
+
+			private var checkArr:Vector.<Boolean>=new Vector.<Boolean>(2);
+
+			public var callback:Function;
+			private var count:int;
+
+			protected function onClick(event:MouseEvent):void
+			{
+				if (callback != null)
+					callback();
+				closeHandler();
+			}
+
+			private function closeHandler(e:MouseEvent=null):void
+			{
+				if (stage)
+				{
+					stage.removeEventListener(MouseEvent.MIDDLE_CLICK, onClick);
+					stage.removeEventListener(TouchEvent.TOUCH_BEGIN, onTouchBegin);
+					stage.removeEventListener(TouchEvent.TOUCH_END, onTouchEnd);
+				}
+				removeAllElements();
+				callback=null;
+				dispatchEvent(new Event("gestureClose"));
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="{GestureAssets.gesture_bg}"/>
+
+	<s:Image id="dirImg" left="50" top="125"/>
+
+	<s:Image source="@Embed('assets/close.png')" left="415" top="16"
+			 click="closeHandler(event)"/>
+
+</s:Group>
