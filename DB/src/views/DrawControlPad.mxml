@@ -12,6 +12,8 @@
 
 			import assets.game.GameAssets;
 
+			import models.Config;
+
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
 				for (var i:int=0; i < brushArr.length; i++)
@@ -34,6 +36,33 @@
 
 					colorGroup.addElement(img);
 				}
+
+				doChangeColorPicker(Config.colorDataList[0])
+				locateHalo(0);
+			}
+
+			private var mPickerColorTransform:ColorTransform;
+
+			private function doChangeColorPicker(color:uint):void
+			{
+				var r:Number, g:Number, b:Number
+
+				r=((color >> 16) & 255) / 255.0;
+				g=((color >> 8) & 255) / 255.0;
+				b=(color & 255) / 255.0;
+				if (!mPickerColorTransform)
+					mPickerColorTransform=new ColorTransform();
+				mPickerColorTransform.redMultiplier=r
+				mPickerColorTransform.greenMultiplier=g
+				mPickerColorTransform.blueMultiplier=b
+
+				//			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
+				//			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
+				colorPicker.transform.colorTransform=mPickerColorTransform
+
+//				var cc:IComponent=mColopMap[color]
+//				mColorHalo.x=cc.x
+//				mColorHalo.y=cc.y
 			}
 
 			protected function onColorClick(e:MouseEvent):void
@@ -41,30 +70,16 @@
 				var img:Image=e.currentTarget as Image;
 				var index:int=colorGroup.getElementIndex(img);
 				trace(index)
+
+				doChangeColorPicker(Config.colorDataList[index])
+				locateHalo(index);
 			}
 
 			protected function brush_clickHandler(e:MouseEvent):void
 			{
 				var crtImg:Image=e.currentTarget as Image;
-				var index:int=0;
-				for (var i:int=0; i < brushGroup.numElements; i++)
-				{
-					var img:Image=brushGroup.getElementAt(i) as Image;
-					TweenLite.killTweensOf(img);
-					if (img == crtImg)
-					{
-						index=i;
-						if (img.top != -30)
-							TweenLite.to(img, .3, {top: -30});
-					}
-					else
-					{
-						if (img.top != 0)
-							TweenLite.to(img, .3, {top: 0});
-					}
-				}
-
-				changeBrush(index);
+				crtBrushIndex=brushGroup.getElementIndex(crtImg);
+				changeBrush();
 			}
 
 			private var brushArr:Array=["eraser", "waterColor",
@@ -72,10 +87,59 @@
 
 			private var brushPosXArr:Array=[91, 182, 261, 350, 425, 497];
 
-			private function changeBrush(index:int):void
+			private function changeBrush():void
 			{
-				// TODO Auto Generated method stub
+				for (var i:int=0; i < brushGroup.numElements; i++)
+				{
+					var img:Image=brushGroup.getElementAt(i) as Image;
+					TweenLite.killTweensOf(img);
+					if (crtBrushIndex == i)
+					{
+						if (img.top != -30)
+							TweenLite.to(img, .3, {y: 94 - img.height + 10});
+					}
+					else
+					{
+						if (img.top != 0)
+							TweenLite.to(img, .3, {y: 0});
+					}
+				}
+			}
 
+			private function locateHalo(index:int):void
+			{
+				halo.x=colorGroup.x + (41 + colorGroup.horizontalGap) * (index % colorGroup.requestedColumnCount) - 4;
+				halo.y=colorGroup.y + (41 + colorGroup.verticalGap) * int(index / colorGroup.requestedColumnCount) - 4;
+			}
+
+			protected function upBtn_clickHandler(event:MouseEvent):void
+			{
+				TweenLite.killTweensOf(bottomGroup);
+				TweenLite.to(bottomGroup, .5, {bottom: 0});
+				upBtn.visible=false;
+
+				changeBrush();
+
+			}
+
+			protected function downBtn_clickHandler(event:MouseEvent):void
+			{
+				TweenLite.killTweensOf(bottomGroup);
+				TweenLite.to(bottomGroup, .5, {bottom: -109});
+				upBtn.visible=true;
+
+				hideBrush();
+			}
+
+			private var crtBrushIndex:int=0;
+
+			private var crtColorIndex:int=0;
+
+			private function hideBrush():void
+			{
+				var img:Image=brushGroup.getElementAt(crtBrushIndex) as Image;
+				TweenLite.killTweensOf(img);
+				TweenLite.to(img, .3, {y: 0});
 			}
 
 		]]>
@@ -84,14 +148,22 @@
 
 	</s:Group>
 
-	<s:Group width="100%" bottom="0" height="109">
+	<s:Group width="100%" bottom="-109" height="109" id="bottomGroup">
 		<s:Image source="{GameAssets.bottomBg}"/>
+
+		<s:Image id="upBtn" source="{GameAssets.btn_game_bottom_up}"
+				 visible="true" right="25" bottom="109"
+				 click="upBtn_clickHandler(event)"/>
+		<s:Image id="downBtn" source="{GameAssets.btn_game_bottom_down}"
+				 click="downBtn_clickHandler(event)" visible="{!upBtn.visible}"
+				 right="25" bottom="109"/>
+
 		<s:Image id="pencil_btn" source="{GameAssets.pen_selected}" left="22"
 				 top="10"/>
 		<s:Image id="paster_btn" source="{GameAssets.paster_selected}" left="14"
 				 top="60"/>
 
-		<s:Group top="15" id="brushGroup">
+		<s:Group top="15" id="brushGroup" height="94">
 		</s:Group>
 
 		<s:Image id="colorPicker" source="{GameAssets.img_bigCircleB}"
@@ -101,6 +173,9 @@
 					 verticalGap="14" horizontalGap="10">
 
 		</s:TileGroup>
+
+		<s:Image source="{GameAssets.img_colorHalo}" mouseEnabled="false"
+				 mouseChildren="false" id="halo"/>
 
 	</s:Group>
 </s:Group>
