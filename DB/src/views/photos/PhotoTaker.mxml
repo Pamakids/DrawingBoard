@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 clipAndEnableScrolling="true" xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			private var v:Video;
+
+			private var crtCamIndex:int=0;
+
+			private var camArr:Array;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+//				cameraView.graphics.beginFill(0);
+//				cameraView.graphics.drawRect(0, 0, 400, 300);
+//				cameraView.graphics.endFill();
+
+				camArr=Camera.names;
+				camSwitcher.visible=camArr.length >= 2;
+
+				var cam:Camera=Camera.getCamera(crtCamIndex.toString());
+
+				if (cam)
+				{
+					v=new Video(1024, 768);
+					cameraView.addChild(v);
+					v.attachCamera(cam);
+				}
+				else
+				{
+					shotBtn.visible=false;
+				}
+			}
+
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				var bd:BitmapData=new BitmapData(1024, 768);
+				bd.draw(cameraView);
+			}
+
+			protected function camSwitcher_clickHandler(event:MouseEvent):void
+			{
+				if (crtCamIndex == 0)
+					crtCamIndex++;
+				else
+					crtCamIndex--;
+
+				var cam:Camera=Camera.getCamera(crtCamIndex.toString());
+				if (cam)
+					v.attachCamera(cam);
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image source="assets/avatar/avatar-bg.png" mouseEnabled="false"/>
+	<s:Group width="221" height="293" top="8" id="takePhoto">
+		<mx:UIComponent id="cameraView" width="1024" height="768"
+						scaleX="0.390625" scaleY="0.390625" left="-90"/>
+		<s:Image source="assets/avatar/cam-switch.png" left="193" top="1"
+				 id="camSwitcher" click="camSwitcher_clickHandler(event)"/>
+		<s:Image source="assets/avatar/camera-btn.png" horizontalCenter="0"
+				 id="shotBtn" bottom="3" click="image1_clickHandler(event)"/>
+	</s:Group>
+</s:Group>

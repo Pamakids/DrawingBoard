@@ -7,6 +7,7 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.adobe.serialization.json.JSON;
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
 
@@ -17,6 +18,8 @@
 			import controllers.API;
 
 			import models.UserVO;
+
+			import service.SOService;
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{
@@ -136,7 +139,7 @@
 
 			protected function registBtn_clickHandler(event:MouseEvent):void
 			{
-				registBtn.enabled=false;
+				registView.enabled=false;
 				var o:UserVO=new UserVO();
 				o.email=registMailInput.text;
 				o.username=registNameInput.text;
@@ -145,10 +148,21 @@
 				API.instance.signup(o, registCallback);
 			}
 
+			private var registerName:String;
+			private var registerPW:String;
+
 			private function registCallback(o:ResultVO):void
 			{
-				registBtn.enabled=true;
-				trace(o.results, o.status)
+				if (o.status == true)
+				{
+					API.instance.login(registerName, registerPW, loginCallback);
+				}
+				else
+				{
+					crtHint=o.results as String;
+					registView.enabled=true;
+				}
+//				trace(o.results, o.status)
 			}
 
 			protected function image3_clickHandler(event:MouseEvent):void
@@ -177,7 +191,7 @@
 
 				loginBtn.enabled=false;
 				API.instance.login(username, pw, loginCallback);
-
+				SOService.setValue("lastPlatForm", "mail");
 			}
 
 			[Bindable]
@@ -185,14 +199,14 @@
 
 			private function loginCallback(o:ResultVO):void
 			{
-				loginBtn.enabled=true;
-
 				if (o.status == true)
 				{
 					loginHint="登陆成功!!"
+					close_clickHandler(null);
 				}
 				else
 				{
+					loginBtn.enabled=true;
 					loginHint=o.results as String;
 				}
 			}
@@ -201,6 +215,17 @@
 			{
 				UMSocial.instance.login("tencent", function(result:String):void {
 					trace(result);
+
+					parsePlatformData(result);
+
+					SOService.setValue("lastPlatForm", "qq");
+
+//					accessToken="2.00twwPQC03t9ZI6ef9cf7509eaFhTB";
+//					iconURL="http://tp4.sinaimg.cn/2072488563/180/40012495145/1";
+//					platformName=sina;
+//					profileURL="http://www.weibo.com/u/2072488563";
+//					userName="\U6298\U7ffc\U4f34\U4f60\U884c";
+//					usid=2072488563;
 				});
 			}
 
@@ -208,7 +233,34 @@
 			{
 				UMSocial.instance.login("sina", function(result:String):void {
 					trace(result);
+
+					parsePlatformData(result);
+
+					SOService.setValue("lastPlatForm", "sina");
 				});
+			}
+
+			private function parsePlatformData(s:String):void
+			{
+				var obj:Object=com.adobe.serialization.json.JSON.decode(s);
+				var token:String=obj.accessToken;
+				var portrait:String=obj.iconURL;
+				var platform:String=obj.platformName;
+				var username:String=obj.userName;
+				var usid:int=obj.usid;
+
+				UserVO.instance().username=username;
+				UserVO.instance().portrait=portrait;
+				UserVO.instance().paltform=platform;
+
+				API.instance.loginFromPlatform({
+						"come_from": VO.APPNAME,
+						"access_token": token,
+						"platform": platform,
+						"usid": usid,
+						"portrait": portrait,
+						"nickname": username
+					}, loginCallback);
 			}
 
 			protected function mailBtn_clickHandler(event:MouseEvent):void
@@ -223,7 +275,7 @@
 				lrView.visible=false;
 			}
 
-			protected function image5_clickHandler(event:MouseEvent):void
+			protected function close_clickHandler(event:MouseEvent):void
 			{
 				dispatchEvent(new Event("loginClose"));
 			}
@@ -236,7 +288,7 @@
 
 	<s:Group visible="true" id="enterView">
 		<s:Image source="@Embed('assets/close.png')" left="9" top="17"
-				 click="image5_clickHandler(event)"/>
+				 click="close_clickHandler(event)"/>
 		<s:VGroup left="68" top="147" gap="24">
 			<s:Image source="@Embed('assets/login/loginbtn-qq.png')" id="qqBtn"
 					 click="qqBtn_clickHandler(event)"/>
