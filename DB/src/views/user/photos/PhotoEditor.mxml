@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301">
+	<fx:Script>
+		<![CDATA[
+
+			private var minScale:Number;
+
+			private var crtW:Number;
+			private var crtH:Number;
+
+			public var comeFrom:String;
+
+			public function initPhoto(bd:BitmapData, from:String):void
+			{
+				comeFrom=from;
+				photo.source=bd;
+
+				crtW=bd.width;
+				crtH=bd.height;
+
+				minScale=Math.max(175 / crtW, 175 / crtH);
+
+				photo.scaleX=minScale;
+
+				photo.x=175 - crtW * minScale >> 1;
+				photo.y=175 - crtH * minScale >> 1;
+			}
+
+			protected function photoContainer_gestureZoomHandler(event:TransformGestureEvent):void
+			{
+				photo.scaleX*=event.scaleX;
+
+				if (photo.scaleX > 1)
+					photo.scaleX=1;
+				else if (photo.scaleX < minScale)
+					photo.scaleX=minScale;
+
+				resizePhoto();
+			}
+
+			protected function photoContainer_gestureSwipeHandler(event:TransformGestureEvent):void
+			{
+				photo.x+=event.offsetX;
+				photo.y+=event.offsetY;
+
+				resizePhoto();
+			}
+
+			private function resizePhoto():void
+			{
+				if (photo.x > 0)
+					photo.x=0;
+				else if (photo.x < 175 - crtW * photo.scaleX)
+					photo.x=175 - crtW * photo.scaleX;
+
+				if (photo.y > 0)
+					photo.y=0;
+				else if (photo.y < 175 - crtH * photo.scaleX)
+					photo.y=175 - crtH * photo.scaleX;
+			}
+
+			public function getBD():BitmapData
+			{
+				var bd:BitmapData=new BitmapData(175, 175);
+				bd.draw(photoContainer);
+				return bd;
+			}
+
+			protected function photoContainer_mouseWheelHandler(event:MouseEvent):void
+			{
+				photo.scaleX+=event.delta / 100;
+
+				if (photo.scaleX > 1)
+					photo.scaleX=1;
+				else if (photo.scaleX < minScale)
+					photo.scaleX=minScale;
+
+				resizePhoto();
+			}
+
+			private var dpt:Point;
+
+			private var startPt:Point;
+
+			protected function photoContainer_mouseDownHandler(e:MouseEvent):void
+			{
+				dpt=new Point(e.stageX, e.stageY);
+				startPt=new Point(photo.x, photo.y);
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			}
+
+			protected function onMove(e:MouseEvent):void
+			{
+				var pt:Point=new Point(e.stageX, e.stageY);
+				photo.x=startPt.x + pt.x - dpt.x;
+				photo.y=startPt.y + pt.y - dpt.y;
+
+				resizePhoto();
+			}
+
+			protected function onUp(event:MouseEvent):void
+			{
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+
+				dpt=null;
+			}
+
+			protected function backBtn_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("return"));
+			}
+
+			protected function confirm_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("confirm"));
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group id="photoContainer" clipAndEnableScrolling="true" width="175"
+			 height="175" gestureZoom="photoContainer_gestureZoomHandler(event)"
+			 mouseDown="photoContainer_mouseDownHandler(event)"
+			 mouseWheel="photoContainer_mouseWheelHandler(event)" left="23"
+			 top="73">
+
+		<s:Image id="photo" mouseEnabled="false" scaleY="{photo.scaleX}"/>
+
+	</s:Group>
+
+	<s:Group id="navi" width="100%" top="22">
+		<s:Image left="14" top="22" source="assets/avatar/spit-line.png"
+				 mouseEnabled="false"/>
+		<s:Image id="title" source="assets/avatar/pick-title.png"
+				 mouseEnabled="false" horizontalCenter="0"/>
+		<s:Image id="backBtn" source="assets/avatar/back-btn.png"
+				 click="backBtn_clickHandler(event)" left="3"/>
+		<s:Image id="confirm" source="assets/avatar/confirm-btn.png"
+				 click="confirm_clickHandler(event)" right="3"/>
+	</s:Group>
+
+</s:Group>

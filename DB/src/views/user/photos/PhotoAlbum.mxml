@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			public var bd:BitmapData;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var f:File=File.documentsDirectory;
+				var list:Array=f.getDirectoryListing();
+				for each (var cf:File in list)
+				{
+					trace(cf.nativePath)
+				}
+			}
+
+			protected function backBtn_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("albumreturn"));
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Group id="navi" top="22" width="100%">
+		<s:Image source="assets/avatar/album-title.png" horizontalCenter="0"
+				 mouseEnabled="false"/>
+		<s:Image id="backBtn" source="assets/avatar/back-btn.png"
+				 click="backBtn_clickHandler(event)" left="3"/>
+	</s:Group>
+
+</s:Group>

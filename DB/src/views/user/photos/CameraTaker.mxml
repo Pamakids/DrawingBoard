@@ -14,12 +14,10 @@
 
 			private var camArr:Array;
 
+			public var bd:BitmapData;
+
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-//				cameraView.graphics.beginFill(0);
-//				cameraView.graphics.drawRect(0, 0, 400, 300);
-//				cameraView.graphics.endFill();
-
 				camArr=Camera.names;
 				camSwitcher.visible=camArr.length >= 2;
 
@@ -39,8 +37,13 @@
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{
-				var bd:BitmapData=new BitmapData(1024, 768);
+				if (bd)
+					bd.dispose();
+				bd=null;
+				bd=new BitmapData(1024, 768);
 				bd.draw(cameraView);
+
+				dispatchEvent(new Event("camerashoted"));
 			}
 
 			protected function camSwitcher_clickHandler(event:MouseEvent):void
@@ -55,9 +58,13 @@
 					v.attachCamera(cam);
 			}
 
+			protected function returnBtn_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("cameraReturn"));
+			}
+
 		]]>
 	</fx:Script>
-	<s:Image source="assets/avatar/avatar-bg.png" mouseEnabled="false"/>
 	<s:Group width="221" height="293" top="8" id="takePhoto">
 		<mx:UIComponent id="cameraView" width="1024" height="768"
 						scaleX="0.390625" scaleY="0.390625" left="-90"/>
@@ -66,4 +73,7 @@
 		<s:Image source="assets/avatar/camera-btn.png" horizontalCenter="0"
 				 id="shotBtn" bottom="3" click="image1_clickHandler(event)"/>
 	</s:Group>
+
+	<s:Image source="assets/avatar/back-btn.png" id="returnBtn" left="3"
+			 top="22" click="returnBtn_clickHandler(event)"/>
 </s:Group>

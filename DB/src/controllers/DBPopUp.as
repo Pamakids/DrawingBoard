@@ -6,7 +6,7 @@ package controllers
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
 
-	import views.GesturePopUp;
+	import views.components.GesturePopUp;
 
 	public class DBPopUp
 	{

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 clipAndEnableScrolling="true" xmlns:photos="views.user.photos.*"
+		 creationComplete="group1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			public var bd:BitmapData;
+
+			protected function selector_clickHandler(event:MouseEvent):void
+			{
+				selector.visible=false;
+				editor.visible=false;
+				if (event.localY < selector.height >> 1) //拍照
+				{
+					camera.visible=true;
+					album.visible=false;
+				}
+				else //相册
+				{
+					camera.visible=false;
+					album.visible=true;
+				}
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				camera.addEventListener("cameraReturn", onCameraReturn);
+				camera.addEventListener("camerashoted", onCameraShoted);
+				album.addEventListener("albumSelected", onAlbumSelected);
+				album.addEventListener("albumreturn", onAlibumReturn);
+				editor.addEventListener("return", onEditRetrun);
+				editor.addEventListener("confirm", onConfirm);
+			}
+
+			protected function onCameraShoted(event:Event):void
+			{
+				camera.visible=false;
+				album.visible=false;
+
+				editor.initPhoto(camera.bd, "camera");
+
+				editor.visible=true;
+			}
+
+			protected function onAlbumSelected(event:Event):void
+			{
+				camera.visible=false;
+				album.visible=false;
+
+				editor.initPhoto(album.bd, "album");
+
+				editor.visible=true;
+			}
+
+			protected function onEditRetrun(event:Event):void
+			{
+				editor.visible=false;
+				if (editor.comeFrom == "camera")
+				{
+					camera.visible=true;
+				}
+				else
+				{
+					album.visible=true;
+				}
+			}
+
+			protected function onConfirm(event:Event):void
+			{
+				bd=editor.getBD();
+			}
+
+			protected function onCameraReturn(event:Event):void
+			{
+				selector.visible=true;
+				camera.visible=false;
+			}
+
+			protected function onAlibumReturn(event:Event):void
+			{
+				selector.visible=true;
+				album.visible=false;
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image id="selector" source="assets/avatar/picstyler-drop.png"
+			 horizontalCenter="0" click="selector_clickHandler(event)"/>
+
+	<s:Group visible="{!selector.visible}">
+		<s:Image id="mainBG" source="assets/avatar/avatar-bg.png"/>
+		<photos:CameraTaker id="camera" visible="false"/>
+		<photos:PhotoAlbum id="album" visible="false"/>
+		<photos:PhotoEditor id="editor" visible="false"/>
+	</s:Group>
+</s:Group>
