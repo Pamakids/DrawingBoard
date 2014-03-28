@@ -1,6 +1,7 @@
 package models
 {
 	import com.pamakids.models.BaseVO;
+	import vo.VO;
 
 	public class UserVO extends BaseVO
 	{

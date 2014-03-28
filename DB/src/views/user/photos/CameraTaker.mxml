@@ -25,6 +25,7 @@
 
 				if (cam)
 				{
+					cam.setMode(1024, 768, 24);
 					v=new Video(1024, 768);
 					cameraView.addChild(v);
 					v.attachCamera(cam);
@@ -55,7 +56,10 @@
 
 				var cam:Camera=Camera.getCamera(crtCamIndex.toString());
 				if (cam)
+				{
+					cam.setMode(1024, 768, 24);
 					v.attachCamera(cam);
+				}
 			}
 
 			protected function returnBtn_clickHandler(event:MouseEvent):void

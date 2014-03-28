@@ -18,12 +18,12 @@
 				if (event.localY < selector.height >> 1) //拍照
 				{
 					camera.visible=true;
-					album.visible=false;
 				}
 				else //相册
 				{
 					camera.visible=false;
-					album.visible=true;
+					album.browse();
+//					album.visible=true;
 				}
 			}
 
@@ -32,7 +32,7 @@
 				camera.addEventListener("cameraReturn", onCameraReturn);
 				camera.addEventListener("camerashoted", onCameraShoted);
 				album.addEventListener("albumSelected", onAlbumSelected);
-				album.addEventListener("albumreturn", onAlibumReturn);
+				album.addEventListener("albumreturn", onAlbumReturn);
 				editor.addEventListener("return", onEditRetrun);
 				editor.addEventListener("confirm", onConfirm);
 			}
@@ -40,7 +40,6 @@
 			protected function onCameraShoted(event:Event):void
 			{
 				camera.visible=false;
-				album.visible=false;
 
 				editor.initPhoto(camera.bd, "camera");
 
@@ -50,7 +49,6 @@
 			protected function onAlbumSelected(event:Event):void
 			{
 				camera.visible=false;
-				album.visible=false;
 
 				editor.initPhoto(album.bd, "album");
 
@@ -66,7 +64,7 @@
 				}
 				else
 				{
-					album.visible=true;
+					album.browse();
 				}
 			}
 
@@ -81,10 +79,9 @@
 				camera.visible=false;
 			}
 
-			protected function onAlibumReturn(event:Event):void
+			protected function onAlbumReturn(event:Event):void
 			{
 				selector.visible=true;
-				album.visible=false;
 			}
 
 		]]>

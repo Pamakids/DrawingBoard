@@ -1,4 +1,4 @@
-package
+package vo
 {
 
 	public class VO

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 gestureRotate="group1_gestureRotateHandler(event)"
+		 gestureZoom="group1_gestureZoomHandler(event)"
+		 mouseDown="group1_mouseDownHandler(event)" scaleX="{scale}"
+		 mouseWheel="group1_mouseWheelHandler(event)" scaleY="{scale}"
+		 rotation="{mRotation}" doubleClickEnabled="true"
+		 doubleClick="group1_doubleClickHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+
+			import com.greensock.TweenLite;
+
+			private var bp:Bitmap;
+
+			protected function group1_gestureZoomHandler(e:TransformGestureEvent):void
+			{
+				scale*=e.scaleX;
+				scale=Math.max(.3, Math.min(1, scale));
+			}
+
+			protected function group1_gestureRotateHandler(e:TransformGestureEvent):void
+			{
+				mRotation+=e.rotation;
+			}
+
+			protected function group1_mouseDownHandler(event:MouseEvent):void
+			{
+				Group(this.parent).setElementIndex(this, this.parent.numChildren - 1);
+				this.startDrag();
+				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			}
+
+			public function setSource(c:Class):void
+			{
+				bp=new c();
+				img.source=bp;
+				pivotX=bp.width >> 1;
+				pivotY=bp.height >> 1;
+
+				this.cacheAsBitmap=true;
+			}
+
+			[Bindable]
+			private var scale:Number=.5;
+			[Bindable]
+			private var pivotX:Number=0;
+			[Bindable]
+			private var pivotY:Number=0;
+			[Bindable]
+			private var mRotation:Number=0;
+
+			protected function img_completeHandler(e:Event):void
+			{
+			}
+
+			protected function onUp(event:MouseEvent):void
+			{
+				this.stopDrag();
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+			}
+
+			protected function group1_mouseWheelHandler(e:MouseEvent):void
+			{
+				if (e.ctrlKey)
+					mRotation+=e.delta * 3;
+				else
+				{
+					scale+=e.delta / 100;
+					scale=Math.max(.3, Math.min(1, scale));
+				}
+			}
+
+			protected function group1_doubleClickHandler(event:MouseEvent):void
+			{
+				this.mouseChildren=this.mouseChildren=false;
+				TweenLite.to(this, .5, {alpha: 0, onComplete: dispose});
+
+			}
+
+			private function dispose():void
+			{
+				if (bp)
+					bp.bitmapData.dispose();
+				this.removeAllElements();
+				Group(this.parent).removeElement(this);
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group x="{-pivotX}" y="{-pivotY}">
+		<s:Image id="img" complete="img_completeHandler(event)"/>
+	</s:Group>
+
+</s:Group>

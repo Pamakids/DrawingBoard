@@ -3,11 +3,13 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 xmlns:views="views.*"
 		 creationComplete="group1_creationCompleteHandler(event)"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:photos="views.user.photos.*"
-		 xmlns:theme="views.theme.*" xmlns:draw="views.draw.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:photos="views.user.photos.*" xmlns:theme="views.theme.*"
+		 xmlns:draw="views.draw.*">
 
 	<fx:Script>
 		<![CDATA[
+
 			import views.user.LoginView;
 
 			import views.theme.ThemeList;
@@ -126,7 +128,7 @@
 		]]>
 	</fx:Script>
 
-	<photos:PhotoSelector/>
+	<photos:PhotoSelector left="512" top="200"/>
 
 	<s:Group width="100%" height="100%" visible="false">
 		<s:Image width="100%" height="100%" top="0" left="0"

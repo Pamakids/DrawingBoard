@@ -29,12 +29,19 @@
 
 			protected function photoContainer_gestureZoomHandler(event:TransformGestureEvent):void
 			{
+				var pscale:Number=photo.scaleX;
+
 				photo.scaleX*=event.scaleX;
 
 				if (photo.scaleX > 1)
 					photo.scaleX=1;
 				else if (photo.scaleX < minScale)
 					photo.scaleX=minScale;
+
+				var ds:Number=photo.scaleX - pscale;
+
+				photo.x-=ds * crtW * photo.scaleX;
+				photo.y-=ds * crtH * photo.scaleX;
 
 				resizePhoto();
 			}
@@ -69,12 +76,19 @@
 
 			protected function photoContainer_mouseWheelHandler(event:MouseEvent):void
 			{
+				var pscale:Number=photo.scaleX;
+
 				photo.scaleX+=event.delta / 100;
 
 				if (photo.scaleX > 1)
 					photo.scaleX=1;
 				else if (photo.scaleX < minScale)
 					photo.scaleX=minScale;
+
+				var ds:Number=photo.scaleX - pscale;
+
+				photo.x-=ds * crtW * photo.scaleX;
+				photo.y-=ds * crtH * photo.scaleX;
 
 				resizePhoto();
 			}

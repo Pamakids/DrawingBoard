@@ -1,37 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 addedToStage="group1_addedToStageHandler(event)">
 	<fx:Script>
 		<![CDATA[
 
-			import mx.events.FlexEvent;
-
 			public var bd:BitmapData;
 
-			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			private var cameraRoll:CameraRoll;
+			private var option:CameraRollBrowseOptions;
+
+			public function browse():void
 			{
-				var f:File=File.documentsDirectory;
-				var list:Array=f.getDirectoryListing();
-				for each (var cf:File in list)
+				if (bd)
 				{
-					trace(cf.nativePath)
+					bd.dispose();
+					bd=null;
 				}
+				if (!cameraRoll)
+				{
+					cameraRoll=new CameraRoll();
+					cameraRoll.addEventListener(ErrorEvent.ERROR, function(e:ErrorEvent):void {
+						dispatchEvent(new Event("albumreturn"));
+					});
+					cameraRoll.addEventListener(Event.CANCEL, function(e:Event):void {
+						dispatchEvent(new Event("albumreturn"));
+					});
+					cameraRoll.addEventListener(MediaEvent.SELECT, onSelected);
+				}
+				cameraRoll.browseForImage(option);
 			}
 
-			protected function backBtn_clickHandler(event:MouseEvent):void
+			protected function onSelected(e:MediaEvent):void
+			{
+				var mp:MediaPromise=e.data;
+				var ld:Loader=new Loader();
+				ld.contentLoaderInfo.addEventListener(Event.COMPLETE, onLoadComplete);
+				ld.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onError);
+				ld.loadFilePromise(mp);
+			}
+
+			protected function onLoadComplete(event:Event):void
+			{
+				var bp:Bitmap=LoaderInfo(event.currentTarget).content as Bitmap;
+				bd=bp.bitmapData;
+
+				dispatchEvent(new Event("albumSelected"));
+			}
+
+			protected function onError(event:IOErrorEvent):void
 			{
 				dispatchEvent(new Event("albumreturn"));
 			}
 
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				var sp:Point=this.localToGlobal(new Point(221 / 2, 0));
+
+				option=new CameraRollBrowseOptions();
+				option.width=320;
+				option.height=301;
+
+				var rect:Rectangle=new Rectangle();
+				rect.x=option.width >> 1;
+				rect.width=sp.x;
+				rect.height=sp.y;
+
+				option.origin=rect;
+			}
+
 		]]>
 	</fx:Script>
-
-	<s:Group id="navi" top="22" width="100%">
-		<s:Image source="assets/avatar/album-title.png" horizontalCenter="0"
-				 mouseEnabled="false"/>
-		<s:Image id="backBtn" source="assets/avatar/back-btn.png"
-				 click="backBtn_clickHandler(event)" left="3"/>
-	</s:Group>
 
 </s:Group>

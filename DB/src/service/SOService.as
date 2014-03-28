@@ -1,6 +1,7 @@
 package service
 {
 	import flash.net.SharedObject;
+	import vo.VO;
 
 	public class SOService
 	{

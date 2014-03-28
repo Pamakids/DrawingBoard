@@ -2,7 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 clipAndEnableScrolling="true"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 xmlns:draw="views.draw.*">
 	<fx:Script>
 		<![CDATA[
 
@@ -13,6 +14,7 @@
 			import assets.game.GameAssets;
 
 			import models.Config;
+			import models.PasterManager;
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -39,6 +41,8 @@
 
 				doChangeColorPicker(Config.colorDataList[0])
 				locateHalo(0);
+
+				textureBar.addEventListener("textureSelected", onTextrueSelected);
 			}
 
 			private var mPickerColorTransform:ColorTransform;
@@ -142,6 +146,29 @@
 				TweenLite.to(img, .3, {y: 0});
 			}
 
+			protected function pencil_btn_clickHandler(event:MouseEvent):void
+			{
+				isPencilDown=true;
+			}
+
+			protected function paster_btn_clickHandler(event:MouseEvent):void
+			{
+				isPencilDown=false;
+			}
+
+			[Bindable]
+			private var isPencilDown:Boolean=true;
+
+			protected function onTextrueSelected(event:Event):void
+			{
+				var item:TextureItem=new TextureItem();
+				var cls:Class=PasterManager.getInstance().getPasterRefByIndex(textureBar.index);
+				item.setSource(cls);
+				addElement(item);
+				item.x=Math.random() * 1024;
+				item.y=Math.random() * 768;
+			}
+
 		]]>
 	</fx:Script>
 	<s:Group width="100%">
@@ -158,24 +185,32 @@
 				 click="downBtn_clickHandler(event)" visible="{!upBtn.visible}"
 				 right="25" bottom="109"/>
 
-		<s:Image id="pencil_btn" source="{GameAssets.pen_selected}" left="22"
-				 top="10"/>
-		<s:Image id="paster_btn" source="{GameAssets.paster_selected}" left="14"
-				 top="60"/>
+		<s:Image id="pencil_btn"
+				 source="{isPencilDown?GameAssets.pen_selected:GameAssets.pen_unselected}"
+				 left="22" top="10" click="pencil_btn_clickHandler(event)"/>
+		<s:Image id="paster_btn"
+				 source="{isPencilDown?GameAssets.paster_unselected:GameAssets.paster_selected}"
+				 left="14" top="60" click="paster_btn_clickHandler(event)"/>
 
-		<s:Group top="15" id="brushGroup" height="94">
+		<s:Group id="drawBar" visible="{isPencilDown}">
+			<s:Group top="15" id="brushGroup" height="94">
+			</s:Group>
+
+			<s:Image id="colorPicker" source="{GameAssets.img_bigCircleB}"
+					 left="606" top="7"/>
+
+			<s:TileGroup left="724" top="6" id="colorGroup"
+						 requestedColumnCount="6" verticalGap="14"
+						 horizontalGap="10">
+
+			</s:TileGroup>
+
+			<s:Image source="{GameAssets.img_colorHalo}" mouseEnabled="false"
+					 mouseChildren="false" id="halo"/>
 		</s:Group>
 
-		<s:Image id="colorPicker" source="{GameAssets.img_bigCircleB}"
-				 left="606" top="7"/>
-
-		<s:TileGroup left="724" top="6" id="colorGroup" requestedColumnCount="6"
-					 verticalGap="14" horizontalGap="10">
-
-		</s:TileGroup>
-
-		<s:Image source="{GameAssets.img_colorHalo}" mouseEnabled="false"
-				 mouseChildren="false" id="halo"/>
+		<draw:DrawTextureBar id="textureBar" visible="{!isPencilDown}" left="91"
+							 right="0" height="109"/>
 
 	</s:Group>
 </s:Group>
