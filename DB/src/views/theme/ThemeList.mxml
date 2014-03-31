@@ -8,17 +8,13 @@
 
 			import mx.events.FlexEvent;
 
-			import spark.components.Image;
-			import spark.components.VScrollBar;
-
 			import models.ThemeVo;
-
-			import skins.MyVSBSkin;
 
 			public var data:Array;
 
 			public function setData(_data:Array, _src:String):void
 			{
+				dispose();
 				title.source=_src;
 
 				data=_data;
@@ -68,8 +64,6 @@
 					item.dispose();
 					item=null;
 				}
-
-				removeAllElements();
 			}
 
 		]]>

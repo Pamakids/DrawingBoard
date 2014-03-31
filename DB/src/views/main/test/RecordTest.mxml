@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="400" height="300"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import flash.utils.setTimeout;
+
+			import mx.events.FlexEvent;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				var rec:RecordAudio=RecordAudio.instance;
+				rec.startRecord("test");
+				setTimeout(function():void {
+					rec.stopRecord(function(u:String):void {
+						trace(u)
+						rec.playAmr(u);
+						rec.toAmr(function(u2:String):void {
+							trace(u2)
+						});
+					});
+				}, 5000);
+			}
+
+		]]>
+	</fx:Script>
+
+</s:Group>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 click="group1_clickHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import events.GalleryItemEvent;
+
+			import models.PaintVO;
+			private var _data:PaintVO
+
+			/**
+			 *
+			 * 0 : 大, 1: 小
+			 * */
+			public function set type(type:int):void
+			{
+				if (type == 0)
+				{
+					bg.source="assets/gallery/online/bigBg.png";
+					img.width=441;
+					img.height=332;
+					img.left=16;
+					img.top=11;
+				}
+				else
+				{
+					bg.source="assets/gallery/online/smallBg.png";
+					img.width=213;
+					img.height=160;
+					img.left=9;
+					img.top=6;
+
+				}
+			}
+
+			public function set data(o:PaintVO):void
+			{
+				_data=o;
+				img.source=_data.cover;
+			}
+
+			public function get data():PaintVO
+			{
+				return _data;
+			}
+
+			protected function group1_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new GalleryItemEvent(data));
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image id="bg"/>
+	<s:Image id="img"/>
+</s:Group>

@@ -8,6 +8,8 @@ package controllers
 
 	import views.components.GesturePopUp;
 
+	import vo.PosVO;
+
 	public class DBPopUp
 	{
 		public function DBPopUp()
@@ -19,8 +21,14 @@ package controllers
 		public static function addPopUp(window:IFlexDisplayObject):void
 		{
 			root.visible=root.mouseEnabled=root.mouseChildren=true;
+			var dx:Number=1024 - window.width >> 1;
+			var dy:Number=768 - window.height >> 1;
+
+			window.x=dx * PosVO.scale + PosVO.offsetX;
+			window.y=dy * PosVO.scale + PosVO.offsetY;
+
+			window.scaleX=window.scaleY=PosVO.scale;
 			PopUpManager.addPopUp(window, root, true);
-			PopUpManager.centerPopUp(window);
 		}
 
 		public static function removePopUp(window:IFlexDisplayObject):void
@@ -31,15 +39,14 @@ package controllers
 
 		public static function addGusturePopUp(callback:Function):void
 		{
-			root.visible=root.mouseEnabled=root.mouseChildren=true;
 			var ges:GesturePopUp=new GesturePopUp();
 			ges.callback=callback;
 			ges.addEventListener("gestureClose", function(e:Event):void
 			{
 				removePopUp(ges);
 			});
-			PopUpManager.addPopUp(ges, root, true);
-			PopUpManager.centerPopUp(ges);
+
+			addPopUp(ges);
 		}
 	}
 }

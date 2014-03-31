@@ -6,7 +6,8 @@
 		 mouseDown="group1_mouseDownHandler(event)" scaleX="{scale}"
 		 mouseWheel="group1_mouseWheelHandler(event)" scaleY="{scale}"
 		 rotation="{mRotation}" doubleClickEnabled="true"
-		 doubleClick="group1_doubleClickHandler(event)">
+		 doubleClick="group1_doubleClickHandler(event)"
+		 addedToStage="group1_addedToStageHandler(event)">
 
 	<fx:Script>
 		<![CDATA[
@@ -17,12 +18,15 @@
 
 			protected function group1_gestureZoomHandler(e:TransformGestureEvent):void
 			{
+				this.stopDrag();
 				scale*=e.scaleX;
 				scale=Math.max(.3, Math.min(1, scale));
 			}
 
 			protected function group1_gestureRotateHandler(e:TransformGestureEvent):void
 			{
+				trace(e.stageX, e.localX)
+				this.stopDrag();
 				mRotation+=e.rotation;
 			}
 
@@ -30,7 +34,6 @@
 			{
 				Group(this.parent).setElementIndex(this, this.parent.numChildren - 1);
 				this.startDrag();
-				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
 			}
 
 			public function setSource(c:Class):void
@@ -59,7 +62,6 @@
 			protected function onUp(event:MouseEvent):void
 			{
 				this.stopDrag();
-				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
 			}
 
 			protected function group1_mouseWheelHandler(e:MouseEvent):void
@@ -82,10 +84,22 @@
 
 			private function dispose():void
 			{
+				img.source=null;
 				if (bp)
+				{
 					bp.bitmapData.dispose();
+				}
 				this.removeAllElements();
+
+				if (stage)
+					stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+
 				Group(this.parent).removeElement(this);
+			}
+
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
 			}
 
 		]]>

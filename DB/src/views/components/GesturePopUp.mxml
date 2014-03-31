@@ -127,7 +127,7 @@
 
 	<s:Image id="dirImg" left="50" top="125"/>
 
-	<s:Image source="@Embed('assets/close.png')" left="415" top="16"
+	<s:Image source="@Embed('assets/global/close.png')" left="415" top="16"
 			 click="closeHandler(event)"/>
 
 </s:Group>

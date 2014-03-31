@@ -5,14 +5,11 @@
 		 creationComplete="group1_creationCompleteHandler(event)"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:photos="views.user.photos.*" xmlns:theme="views.theme.*"
-		 xmlns:draw="views.draw.*">
+		 xmlns:draw="views.draw.*" xmlns:user="views.user.*"
+		 xmlns:gallery="views.gallery.*" xmlns:test="views.main.test.*">
 
 	<fx:Script>
 		<![CDATA[
-
-			import views.user.LoginView;
-
-			import views.theme.ThemeList;
 
 			import mx.events.FlexEvent;
 
@@ -26,7 +23,8 @@
 			import models.ThemeManager;
 			import models.ThemeVo;
 
-			private var themelist:ThemeList;
+			import views.theme.ThemeList;
+			import views.user.LoginView;
 
 			private var themListArr:Array;
 
@@ -48,6 +46,13 @@
 				FontManager.initialize();
 
 				foldersList.addEventListener("openThemeList", onOpenList);
+
+				themelist.addEventListener("themeClicked", playTheme);
+				themelist.addEventListener("themeListClose", closeTheme);
+
+				gallery.addEventListener("galleryClose", function(e:Event):void {
+					gallery.visible=false;
+				});
 
 				var recommend:Recommends=new Recommends(768, 1024);
 
@@ -73,22 +78,9 @@
 
 				themListArr=dir.themeList;
 
-				if (themelist)
-				{
-					if (contentLayer.containsElement(themelist))
-						contentLayer.removeElement(themelist);
-
-					themelist.removeEventListener("themeClicked", playTheme);
-					themelist.removeEventListener("themeListClose", closeTheme);
-					themelist.dispose();
-					themelist=null;
-				}
-
-				themelist=new ThemeList();
+				this.setElementIndex(themelist, this.numChildren - 1);
+				themelist.visible=true;
 				themelist.setData(themListArr, dir.getTitleRef());
-				contentLayer.addElement(themelist);
-				themelist.addEventListener("themeClicked", playTheme);
-				themelist.addEventListener("themeListClose", closeTheme);
 			}
 
 			protected function playTheme(event:Event):void
@@ -99,16 +91,7 @@
 
 			protected function closeTheme(event:Event):void
 			{
-				if (themelist)
-				{
-					themelist.dispose();
-					if (contentLayer.containsElement(themelist))
-						contentLayer.removeElement(themelist);
-
-					themelist.removeEventListener("themeClicked", playTheme);
-					themelist.removeEventListener("themeListClose", closeTheme);
-					themelist=null;
-				}
+				themelist.visible=false;
 			}
 
 			private function openParent():void
@@ -117,20 +100,25 @@
 				{
 					pv=new ParentView();
 					pv.addEventListener("parentsClose", function(e:Event):void {
-						contentLayer.removeElement(pv);
+						mainGroup.removeElement(pv);
 					});
 				}
-				contentLayer.addElement(pv);
+				mainGroup.addElement(pv);
 			}
 
 			private var pv:ParentView;
 
+			protected function gallery_clickHandler(event:MouseEvent):void
+			{
+				gallery.visible=true;
+			}
+
 		]]>
 	</fx:Script>
 
-	<photos:PhotoSelector left="512" top="200"/>
+	<!--<photos:PhotoSelector left="512" top="200"/>-->
 
-	<s:Group width="100%" height="100%" visible="false">
+	<s:Group width="100%" height="100%" id="mainGroup">
 		<s:Image width="100%" height="100%" top="0" left="0"
 				 source="@Embed('assets/homepage/img/common/homepageBg_B.png')"
 				 mouseEnabled="false"/>
@@ -149,20 +137,28 @@
 		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
 				 left="330" top="633"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_gallery.png')"
-				 left="512" top="633"/>
+				 left="512" top="633" click="gallery_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
 				 top="633"/>
 
 		<mx:UIComponent id="recommendHodler"/>
 
 	</s:Group>
-	<s:Group width="100%" height="100%" id="contentLayer"/>
-	<s:Group width="100%" height="100%" id="drawerLayer"/>
+
+	<theme:ThemeList id="themelist" visible="false"/>
+
+	<user:UserCenterView id="usercenter" visible="false"/>
+	<gallery:GalleryViewOnline id="gallery" visible="false"/>
+
+	<s:Group width="100%" height="100%" id="drawerLayer" visible="false"/>
 
 	<draw:DrawControlPad>
 
 	</draw:DrawControlPad>
 
 	<mx:UIComponent id="popupLayer" width="1024" height="768" visible="false"/>
+
+	<test:RecordTest>
+	</test:RecordTest>
 
 </s:Group>

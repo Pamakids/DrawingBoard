@@ -12,7 +12,7 @@ package models
 
 		private static var _instance:UserVO;
 
-		public static function instance():UserVO
+		public static function crtUser():UserVO
 		{
 			if (!_instance)
 				_instance=new UserVO();
