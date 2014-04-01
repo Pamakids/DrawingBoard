@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="324" height="246"
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 xmlns:ns="http://flex.apache.org/experimental/ns">
+
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			private var _status:int;
+
+			public function get status():int
+			{
+				return _status;
+			}
+
+			public function set status(value:int):void
+			{
+				_status=value;
+
+				for (var i:int=0; i < statusGroup.numChildren; i++)
+				{
+					var img:Image=statusGroup.getElementAt(i);
+					img.visible=i == _status;
+				}
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				status=0;
+			}
+
+			protected function statusGroup_clickHandler(event:MouseEvent):void
+			{
+				switch (status)
+				{
+					case 0: //上传
+					{
+
+						break;
+					}
+
+					case 1: //取消
+					{
+
+						break;
+					}
+
+					case 2: //完成
+					{
+
+						break;
+					}
+
+					default:
+					{
+						break;
+					}
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="@Embed('assets/usercenter/paint/paintBG.png')"/>
+	<s:Image id="img" width="300" height="225" left="300" right="225"/>
+
+	<ns:ProgressBar id="progress"/>
+
+	<s:Group left="268" top="191" id="statusGroup"
+			 click="statusGroup_clickHandler(event)">
+		<s:Image source="@Embed('assets/usercenter/paint/uploadBtn.png')"/>
+		<s:Image source="@Embed('assets/usercenter/paint/cancelBtn.png')"/>
+		<s:Image source="@Embed('assets/usercenter/paint/finish.png')"/>
+	</s:Group>
+</s:Group>

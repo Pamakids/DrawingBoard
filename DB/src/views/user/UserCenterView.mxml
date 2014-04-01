@@ -1,5 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768">
-	
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 creationComplete="group1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			protected function close_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("usercenterClose"));
+			}
+
+			protected function gallery_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("usercentertogallery"));
+			}
+
+			private var _naviIndex:int;
+
+			public function get naviIndex():int
+			{
+				return _naviIndex;
+			}
+
+			public function set naviIndex(value:int):void
+			{
+				_naviIndex=value;
+
+				for (var i:int=0; i < naviGroup.numChildren; i++)
+				{
+					var img:Image=naviGroup.getElementAt(i) as Image;
+					img.visible=_naviIndex == i;
+
+					var ta:TextArea=naviTextGroup.getElementAt(i) as TextArea;
+					ta.setStyle("color", _naviIndex == i ? 0xffffff : 0x60cdb5);
+				}
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				naviIndex=0;
+
+				refreshNaviText();
+			}
+
+			protected function navi_clickHandler(event:MouseEvent):void
+			{
+				var dx:Number=naviGroup.mouseX;
+				var index:int=dx / userBar.width * 3;
+				naviIndex=Math.max(0, Math.min(index, 2));
+			}
+
+			[Bindable]
+			private var paintText:String;
+			[Bindable]
+			private var followedText:String;
+			[Bindable]
+			private var befollowedText:String;
+
+			private function refreshNaviText():void
+			{
+				paintText="我的作品\n" + "9999";
+				followedText="关注\n" + "9999";
+				befollowedText="粉丝\n" + "9999";
+			}
+
+			[Bindable]
+			private var messageCount:String="99+";
+
+			[Bindable]
+			private var crtUsername:String="bobo";
+
+		]]>
+	</fx:Script>
+
+
+	<s:Image source="@Embed('assets/data/images/publicBg.png')"
+			 mouseEnabled="false"/>
+
+	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
+			 top="21" click="close_clickHandler(event)"/>
+
+	<s:Image source="@Embed('assets/global/galleryBtn.png')" right="42" top="21"
+			 click="gallery_clickHandler(event)"/>
+
+	<s:Group id="userBar" top="132" left="29" width="965">
+		<s:Group width="100%" top="172" click="navi_clickHandler(event)">
+			<s:Image source="@Embed('assets/usercenter/navi/naviBG.png')"/>
+
+			<s:HGroup id="naviGroup" gap="1" left="1">
+				<s:Image source="@Embed('assets/usercenter/navi/navi0.png')"/>
+				<s:Image source="@Embed('assets/usercenter/navi/navi1.png')"/>
+				<s:Image source="@Embed('assets/usercenter/navi/navi2.png')"/>
+			</s:HGroup>
+
+			<s:HGroup top="19" id="naviTextGroup" gap="1" left="1">
+				<s:TextArea text="{paintText}" width="320" textAlign="center"
+							editable="false"/>
+				<s:TextArea text="{followedText}" width="318" textAlign="center"
+							editable="false"/>
+				<s:TextArea text="{befollowedText}" width="322"
+							textAlign="center" editable="false"/>
+			</s:HGroup>
+
+		</s:Group>
+		<s:Group>
+			<s:Image source="@Embed('assets/usercenter/userinfo/bannerBG.png')"
+					 mouseEnabled="false"/>
+			<s:Image id="avatar" left="151" top="12" width="157" height="157"/>
+			<s:Label text="{crtUsername}" left="362" top="45"
+					 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
+
+			<s:Image source="@Embed('assets/usercenter/userinfo/message.png')"
+					 left="363" top="123"/>
+
+			<s:Group left="392" top="134" visible="{messageCount!='0'}">
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
+				<s:TextArea text="{messageCount}" textAlign="center" top="5"
+							left="-4" width="40" color="0xffffff" fontSize="14"
+							editable="false" fontWeight="normal"/>
+			</s:Group>
+
+			<s:Image 
+					 source="@Embed('assets/usercenter/userinfo/addFriend.png')"
+					 left="460" top="123"/>
+
+			<s:Image source="@Embed('assets/usercenter/userinfo/editBtn.png')"
+					 left="845" top="129"/>
+		</s:Group>
+	</s:Group>
+
 </s:Group>

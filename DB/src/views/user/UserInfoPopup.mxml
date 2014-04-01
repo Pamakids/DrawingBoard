@@ -26,26 +26,29 @@
 
 		]]>
 	</fx:Script>
-	<s:Image source="@Embed('assets/popupbg.png')" mouseChildren="false"
+	<s:Image source="@Embed('assets/global/popupbg.png')" mouseChildren="false"
 			 mouseEnabled="false"/>
 
-	<s:Image source="@Embed('assets/close.png')" left="9" top="17"/>
-	<s:Image source="@Embed('assets/userinfo/userinfo-title.png')" left="105"
-			 top="15"/>
-	<s:Image source="@Embed('assets/userinfo/info-ok.png')" left="330" top="15"/>
+	<s:Image source="@Embed('assets/global/close.png')" left="9" top="17"/>
+	<s:Image 
+			 source="@Embed('assets/usercenter/userinfo/edit/userinfo-title.png')"
+			 left="105" top="15"/>
+	<s:Image source="@Embed('assets/usercenter/userinfo/edit/info-ok.png')"
+			 left="330" top="15"/>
 
 	<s:Group left="29" top="100">
 		<s:Label text="用户名:" left="10"/>
 		<s:Label text="{currentUser}" left="75"/>
-		<s:Image source="@Embed('assets/line.png')" top="20"/>
+		<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 
 		<s:Label text="邮箱:" left="10" top="120"/>
 		<s:Label text="{currentMail}" left="75" top="120"/>
-		<s:Image source="@Embed('assets/line.png')" top="140"/>
+		<s:Image source="@Embed('assets/global/line.png')" top="140"/>
 	</s:Group>
 
-	<s:Image source="@Embed('assets/userinfo/pwchange-btn.png')" top="264"
-			 click="image1_clickHandler(event)"/>
+	<s:Image 
+			 source="@Embed('assets/usercenter/userinfo/edit/pwchange-btn.png')"
+			 top="264" click="image1_clickHandler(event)"/>
 
 	<s:Group id="pwChangeArea" visible="false" left="29" top="304">
 

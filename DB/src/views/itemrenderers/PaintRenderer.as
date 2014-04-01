@@ -41,6 +41,8 @@ package views.itemrenderers
 					smalls[i].data=po;
 					smalls[i].visible=true;
 				}
+
+				big.visible=false;
 			}
 			else
 			{

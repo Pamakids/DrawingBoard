@@ -6,7 +6,10 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:photos="views.user.photos.*" xmlns:theme="views.theme.*"
 		 xmlns:draw="views.draw.*" xmlns:user="views.user.*"
-		 xmlns:gallery="views.gallery.*" xmlns:test="views.main.test.*">
+		 xmlns:gallery="views.gallery.*" xmlns:test="views.main.test.*"
+		 xmlns:ns="http://flex.apache.org/experimental/ns"
+		 xmlns:controls="com.pamakids.components.controls.*"
+		 xmlns:components="views.components.*">
 
 	<fx:Script>
 		<![CDATA[
@@ -50,9 +53,7 @@
 				themelist.addEventListener("themeClicked", playTheme);
 				themelist.addEventListener("themeListClose", closeTheme);
 
-				gallery.addEventListener("galleryClose", function(e:Event):void {
-					gallery.visible=false;
-				});
+				initListeners();
 
 				var recommend:Recommends=new Recommends(768, 1024);
 
@@ -69,6 +70,25 @@
 //					removeElement(login);
 //					login=null;
 //				});
+			}
+
+			private function initListeners():void
+			{
+				gallery.addEventListener("galleryClose", function(e:Event):void {
+					gallery.visible=false;
+				});
+				gallery.addEventListener("gallerytousercenter", function(e:Event):void {
+					gallery.visible=false;
+					usercenter.visible=true;
+				});
+
+				usercenter.addEventListener("usercenterClose", function(e:Event):void {
+					usercenter.visible=false;
+				});
+				usercenter.addEventListener("usercentertogallery", function(e:Event):void {
+					gallery.visible=true;
+					usercenter.visible=false;
+				});
 			}
 
 			protected function onOpenList(event:Event):void
@@ -113,6 +133,11 @@
 				gallery.visible=true;
 			}
 
+			protected function usercenter_clickHandler(event:MouseEvent):void
+			{
+				usercenter.visible=true;
+			}
+
 		]]>
 	</fx:Script>
 
@@ -129,6 +154,9 @@
 		<s:Image source="@Embed('assets/homepage/img/common/parents.png')"
 				 left="16" top="21" click="image1_clickHandler(event)"/>
 
+		<s:Image source="@Embed('assets/global/usercenterBtn.png')" right="42"
+				 top="21" click="usercenter_clickHandler(event)"/>
+
 		<s:Image source="@Embed('assets/homepage/img/common/title.png')"
 				 top="62" left="368" mouseEnabled="false"/>
 
@@ -136,8 +164,8 @@
 
 		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
 				 left="330" top="633"/>
-		<s:Image source="@Embed('assets/homepage/btn/btn_gallery.png')"
-				 left="512" top="633" click="gallery_clickHandler(event)"/>
+		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="512"
+				 top="633" click="gallery_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
 				 top="633"/>
 

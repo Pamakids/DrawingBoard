@@ -7,18 +7,16 @@
 	<fx:Script>
 		<![CDATA[
 
-			import events.GalleryItemEvent;
-
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
 
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 
+			import events.GalleryItemEvent;
+
 			import models.PaintVO;
 			import models.UserVO;
-
-			import views.gallery.online.OnlineItem;
 
 			protected function close_clickHandler(event:MouseEvent):void
 			{
@@ -40,8 +38,6 @@
 //				var q:PaintQuery=new PaintQuery();
 //				q.page=0;
 //				API.instance.paintGet(refreshData, q);
-
-//				getPaints();
 			}
 
 			private function getTestArr():void
@@ -51,7 +47,7 @@
 				for (var i:int=0; i < 5; i++)
 				{
 					var po:PaintVO=new PaintVO();
-					po.cover="http://ww4.sinaimg.cn/bmiddle/72306782jw1eevu71ifa6j20b40963yw.jpg";
+					po.cover="http://cdn.ifanr.cn/wp-content/uploads/2014/04/DSCF1328.jpg";
 					var uo:UserVO=new UserVO();
 					uo.nickname="bobo";
 					uo.email="123@abc.com";
@@ -83,69 +79,6 @@
 				else
 				{
 
-				}
-			}
-
-			private var host:String='http://drawingboard.u.qiniudn.com/';
-
-			private function getPaints():void
-			{
-				var o:Object;
-				var arr:Array=[];
-				for (var i:int; i < 10; i++)
-				{
-					var r:Number=Math.random();
-					var bu:String=r > 0.5 ? host + '2.jpg' : host + '7.jpg';
-					var su:String=r > 0.5 ? host + '4.jpg' : host + '5.jpg';
-					if (i == 0 || i == 9)
-					{
-						o={big: true, url: bu};
-						paintsAC.addItem(o);
-					}
-					else
-					{
-						if (arr.length != 4)
-						{
-							arr.push(su);
-							if (arr.length == 4)
-							{
-								o={big: false, urls: arr};
-								paintsAC.addItem(o);
-								arr=[];
-							}
-						}
-					}
-				}
-			}
-
-			private function getPaintsBefore():void
-			{
-				var o:Object;
-				var arr:Array=[];
-
-				for (var i:int; i < 10; i++)
-				{
-					var r:Number=Math.random();
-					var bu:String=r > 0.5 ? host + '2.jpg' : host + '7.jpg';
-					var su:String=r > 0.5 ? host + '4.jpg' : host + '5.jpg';
-					if (i == 0 || i == 9)
-					{
-						o={big: true, url: bu};
-						paintsAC.addItemAt(o, 0);
-					}
-					else
-					{
-						if (arr.length != 4)
-						{
-							arr.push(su);
-							if (arr.length == 4)
-							{
-								o={big: false, urls: arr};
-								paintsAC.addItemAt(o, 0);
-								arr=[];
-							}
-						}
-					}
 				}
 			}
 
@@ -197,6 +130,11 @@
 				trace(event.data)
 			}
 
+			protected function usercenter_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("gallerytousercenter"));
+			}
+
 		]]>
 	</fx:Script>
 
@@ -206,20 +144,28 @@
 	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
 			 top="21" click="close_clickHandler(event)"/>
 
-	<s:List id="paints" dataProvider="{paintsAC}" top="133" bottom="0"
-			itemRenderer="views.itemrenderers.PaintRenderer"
-			mouseMove="paints_mouseMoveHandler(event)"
-			mouseUp="paints_mouseUpHandler(event)" width="100%">
-		<s:layout>
-			<s:TileLayout requestedColumnCount="2" horizontalGap="18"
-						  verticalGap="18" paddingTop="30" paddingBottom="30"
-						  paddingLeft="30" paddingRight="30"/>
-		</s:layout>
-	</s:List>
+	<s:Image source="@Embed('assets/global/usercenterBtn.png')" right="42"
+			 top="21" click="usercenter_clickHandler(event)"/>
 
-	<s:Label text="下拉刷新" id="updateNew" horizontalCenter="0" y="10"
-			 visible="false"/>
-	<s:Label text="上拉刷新" id="updateOlder" horizontalCenter="0" bottom="10"
-			 visible="false"/>
+	<s:Group clipAndEnableScrolling="true" top="133" bottom="0" width="100%">
+
+		<s:List id="paints" dataProvider="{paintsAC}" top="0" bottom="0"
+				itemRenderer="views.itemrenderers.PaintRenderer"
+				mouseMove="paints_mouseMoveHandler(event)"
+				mouseUp="paints_mouseUpHandler(event)" width="100%">
+			<s:layout>
+				<s:TileLayout requestedColumnCount="2" horizontalGap="18"
+							  verticalGap="18" paddingTop="30"
+							  paddingBottom="30" paddingLeft="30"
+							  paddingRight="30"/>
+			</s:layout>
+		</s:List>
+
+		<s:Label text="下拉刷新" id="updateNew" horizontalCenter="0" y="10"
+				 visible="false"/>
+		<s:Label text="上拉刷新" id="updateOlder" horizontalCenter="0" bottom="10"
+				 visible="false"/>
+
+	</s:Group>
 
 </s:Group>

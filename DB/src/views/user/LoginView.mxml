@@ -314,11 +314,11 @@
 
 			<s:Group top="114">
 				<s:Label text="邮箱:" color="white" fontSize="14" left="39"/>
-				<s:Image source="@Embed('assets/login/line.png')" left="29"
+				<s:Image source="@Embed('assets/global/line.png')" left="29"
 						 top="20"/>
 				<s:Label text="密码:" color="white" fontSize="14" left="39"
 						 top="60"/>
-				<s:Image source="@Embed('assets/login/line.png')" top="80"
+				<s:Image source="@Embed('assets/global/line.png')" top="80"
 						 left="29"/>
 
 				<s:TextInput id="mailInput" top="-10" left="85" width="250"
@@ -346,7 +346,7 @@
 			<s:VGroup top="100" gap="26" left="29">
 				<s:Group>
 					<s:Label text="用户名:" left="10" fontSize="14" color="white"/>
-					<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+					<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 					<s:TextInput id="registNameInput" top="-10" left="75"
 								 width="230" maxChars="10" height="30"
 								 focusOut="registNameInput_focusOutHandler(event)"/>
@@ -354,7 +354,7 @@
 				</s:Group>
 				<s:Group>
 					<s:Label text="邮箱:" color="white" fontSize="14" left="10"/>
-					<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+					<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 					<s:TextInput id="registMailInput" top="-10" left="75"
 								 width="230" height="30"
 								 focusOut="registMailInput_focusOutHandler(event)"/>
@@ -362,7 +362,7 @@
 				</s:Group>
 				<s:Group>
 					<s:Label text="密码:" color="white" fontSize="14" left="10"/>
-					<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+					<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 					<s:TextInput id="registPWInput" top="-10" left="75"
 								 width="230" height="30" maxChars="20"
 								 displayAsPassword="true"
@@ -372,7 +372,7 @@
 
 				<s:Group>
 					<s:Label text="密码确认:" color="white" fontSize="14" left="10"/>
-					<s:Image source="@Embed('assets/login/line.png')" top="20"/>
+					<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 					<s:TextInput id="registPWInput2" top="-10" left="75"
 								 width="230" height="30" maxChars="20"
 								 displayAsPassword="true"

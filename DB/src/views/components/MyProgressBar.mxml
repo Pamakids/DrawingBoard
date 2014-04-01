@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   backgroundColor="white" borderVisible="false"
+				   creationComplete="group1_creationCompleteHandler(event)"
+				   xmlns:mx="library://ns.adobe.com/flex/mx" width="232"
+				   height="10">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				progress.graphics.beginFill(0xb2ffee);
+				progress.graphics.drawRect(.5, .5, this.width - 1, this.height - 1);
+				progress.graphics.endFill();
+
+				setProgress(0, 100)
+			}
+
+			public function setProgress(value:Number, max:Number=100):void
+			{
+				progress.scaleX=Math.max(0, Math.min(1, value / max));
+			}
+
+			public function get currentProgress():Number
+			{
+				return progress.scaleX;
+			}
+
+		]]>
+	</fx:Script>
+
+	<mx:UIComponent id="progress"/>
+
+</s:BorderContainer>
