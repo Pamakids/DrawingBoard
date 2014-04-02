@@ -2,12 +2,15 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="324" height="246"
 		 creationComplete="group1_creationCompleteHandler(event)"
-		 xmlns:ns="http://flex.apache.org/experimental/ns">
+		 xmlns:ns="http://flex.apache.org/experimental/ns"
+		 xmlns:components="views.components.*">
 
 	<fx:Script>
 		<![CDATA[
 
 			import mx.events.FlexEvent;
+
+			import models.PaintVO;
 
 			private var _status:int;
 
@@ -32,19 +35,49 @@
 				status=0;
 			}
 
+			private var _data:PaintVO;
+
+			public function set data(o:PaintVO):void
+			{
+				_data=o;
+			}
+
+			public function get data():PaintVO
+			{
+				return _data;
+			}
+
+			private function startUpload():void
+			{
+				status=1;
+				loading=true;
+			}
+
+			private function stopUpload():void
+			{
+				status=0;
+				loading=false;
+			}
+
+			private function uploadComplete():void
+			{
+				status=2;
+				loading=false;
+			}
+
 			protected function statusGroup_clickHandler(event:MouseEvent):void
 			{
 				switch (status)
 				{
 					case 0: //上传
 					{
-
+						startUpload();
 						break;
 					}
 
 					case 1: //取消
 					{
-
+						stopUpload();
 						break;
 					}
 
@@ -61,13 +94,25 @@
 				}
 			}
 
+			[Bindable]
+			private var loading:Boolean;
+
+			protected function img_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
 		]]>
 	</fx:Script>
 
 	<s:Image source="@Embed('assets/usercenter/paint/paintBG.png')"/>
-	<s:Image id="img" width="300" height="225" left="300" right="225"/>
+	<s:Image id="img" width="300" height="225" click="img_clickHandler(event)"/>
 
-	<ns:ProgressBar id="progress"/>
+	<s:Group visible="{loading}">
+		<components:MyProgressBar width="232" height="10" left="20" top="217"/>
+		<s:Label text="正在上传" left="180" top="198" color="white" fontSize="18"/>
+	</s:Group>
 
 	<s:Group left="268" top="191" id="statusGroup"
 			 click="statusGroup_clickHandler(event)">

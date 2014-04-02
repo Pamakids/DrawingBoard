@@ -75,14 +75,14 @@ package states
 				{
 					img=new ImagePuppet
 					img.embed(HomepageAssets.toParent_link)
-					mContent.addElement(img, 108, 934)
+					mContent.addElement(img, 2, 944)
 					img.addEventListener(AEvent.CLICK, onLink)
 				}
 				// mail.
 				{
 					img=new ImagePuppet
 					img.embed(HomepageAssets.toParent_mail)
-					mContent.addElement(img, 108, 1060)
+					mContent.addElement(img, 62, 1020)
 					img.addEventListener(AEvent.CLICK, onMail)
 				}
 				this.fusion.addElement(mScroll, 0, 176)
