@@ -8,6 +8,13 @@
 
 			import mx.events.FlexEvent;
 
+			import spark.components.TileGroup;
+
+			import controllers.DBPopUp;
+
+			import views.user.list.FollowList;
+			import views.user.list.PaintList;
+
 			protected function close_clickHandler(event:MouseEvent):void
 			{
 				dispatchEvent(new Event("usercenterClose"));
@@ -37,6 +44,8 @@
 					var ta:TextArea=naviTextGroup.getElementAt(i) as TextArea;
 					ta.setStyle("color", _naviIndex == i ? 0xffffff : 0x60cdb5);
 				}
+
+				showList(_naviIndex);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -44,6 +53,8 @@
 				naviIndex=0;
 
 				refreshNaviText();
+
+				addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 
 			protected function navi_clickHandler(event:MouseEvent):void
@@ -73,64 +84,153 @@
 			[Bindable]
 			private var crtUsername:String="bobo";
 
+			protected function editClickHandler(event:MouseEvent):void
+			{
+				DBPopUp.addUserInfoPopup(refreshInfo);
+			}
+
+			private function refreshInfo():void
+			{
+
+			}
+
+			private function showList(i:int):void
+			{
+				listContainer.removeAllElements();
+				switch (i)
+				{
+					case 0:
+					{
+						if (!paintList)
+						{
+							paintList=new PaintList();
+						}
+						listContainer.addElement(paintList);
+						break;
+					}
+
+					case 1:
+					{
+						if (!followList)
+						{
+							followList=new FollowList();
+						}
+						listContainer.addElement(followList);
+						break;
+					}
+
+					case 2:
+					{
+						if (!fanList)
+						{
+							fanList=new Fanlist();
+						}
+						listContainer.addElement(fanList);
+
+						break;
+					}
+
+					default:
+					{
+						break;
+					}
+				}
+			}
+
+			private var paintList:PaintList;
+			private var followList:FollowList;
+			private var fanList:Fanlist;
+
+			protected function onEnterFrame(event:Event):void
+			{
+				if (listContainer.numChildren == 0)
+					return;
+				if (!listContainer.verticalScrollBar)
+					return;
+				var offY:Number=listContainer.verticalScrollBar.value;
+
+				checkPos(offY);
+			}
+
+			private function checkPos(offY:Number):void
+			{
+				userBar.top=offY;
+			}
+
 		]]>
 	</fx:Script>
 
 
 	<s:Image source="@Embed('assets/data/images/publicBg.png')"
 			 mouseEnabled="false"/>
+	<s:Image source="@Embed('assets/global/galleryBtn.png')" right="42" top="21"
+			 click="gallery_clickHandler(event)"/>
 
 	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
 			 top="21" click="close_clickHandler(event)"/>
 
-	<s:Image source="@Embed('assets/global/galleryBtn.png')" right="42" top="21"
-			 click="gallery_clickHandler(event)"/>
+	<s:Group clipAndEnableScrolling="true" top="132" width="100%">
 
-	<s:Group id="userBar" top="132" left="29" width="965">
-		<s:Group width="100%" top="172" click="navi_clickHandler(event)">
-			<s:Image source="@Embed('assets/usercenter/navi/naviBG.png')"/>
+		<s:Group id="userBar" left="29" width="965">
+			<s:Group width="100%" top="172" click="navi_clickHandler(event)">
+				<s:Image source="@Embed('assets/usercenter/navi/naviBG.png')"/>
 
-			<s:HGroup id="naviGroup" gap="1" left="1">
-				<s:Image source="@Embed('assets/usercenter/navi/navi0.png')"/>
-				<s:Image source="@Embed('assets/usercenter/navi/navi1.png')"/>
-				<s:Image source="@Embed('assets/usercenter/navi/navi2.png')"/>
-			</s:HGroup>
+				<s:HGroup id="naviGroup" gap="1" left="1">
+					<s:Image 
+							 source="@Embed('assets/usercenter/navi/navi0.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/navi/navi1.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/navi/navi2.png')"/>
+				</s:HGroup>
 
-			<s:HGroup top="19" id="naviTextGroup" gap="1" left="1">
-				<s:TextArea text="{paintText}" width="320" textAlign="center"
-							editable="false"/>
-				<s:TextArea text="{followedText}" width="318" textAlign="center"
-							editable="false"/>
-				<s:TextArea text="{befollowedText}" width="322"
-							textAlign="center" editable="false"/>
-			</s:HGroup>
+				<s:HGroup top="19" id="naviTextGroup" gap="1" left="1">
+					<s:TextArea text="{paintText}" width="320"
+								textAlign="center" editable="false"/>
+					<s:TextArea text="{followedText}" width="318"
+								textAlign="center" editable="false"/>
+					<s:TextArea text="{befollowedText}" width="322"
+								textAlign="center" editable="false"/>
+				</s:HGroup>
 
-		</s:Group>
-		<s:Group>
-			<s:Image source="@Embed('assets/usercenter/userinfo/bannerBG.png')"
-					 mouseEnabled="false"/>
-			<s:Image id="avatar" left="151" top="12" width="157" height="157"/>
-			<s:Label text="{crtUsername}" left="362" top="45"
-					 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
-
-			<s:Image source="@Embed('assets/usercenter/userinfo/message.png')"
-					 left="363" top="123"/>
-
-			<s:Group left="392" top="134" visible="{messageCount!='0'}">
-				<s:Image 
-						 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
-				<s:TextArea text="{messageCount}" textAlign="center" top="5"
-							left="-4" width="40" color="0xffffff" fontSize="14"
-							editable="false" fontWeight="normal"/>
 			</s:Group>
+			<s:Group>
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/bannerBG.png')"
+						 mouseEnabled="false"/>
+				<s:Image id="avatar" left="151" top="12" width="157"
+						 height="157"/>
+				<s:Label text="{crtUsername}" left="362" top="45"
+						 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
 
-			<s:Image 
-					 source="@Embed('assets/usercenter/userinfo/addFriend.png')"
-					 left="460" top="123"/>
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/message.png')"
+						 left="363" top="123"/>
 
-			<s:Image source="@Embed('assets/usercenter/userinfo/editBtn.png')"
-					 left="845" top="129"/>
+				<s:Group left="392" top="134" visible="{messageCount!='0'}">
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
+					<s:TextArea text="{messageCount}" textAlign="center" top="5"
+								left="-4" width="40" color="0xffffff"
+								fontSize="14" editable="false"
+								fontWeight="normal"/>
+				</s:Group>
+
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/addFriend.png')"
+						 left="460" top="123"/>
+
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"
+						 left="845" top="129" click="editClickHandler(event)"/>
+			</s:Group>
 		</s:Group>
+
+		<s:Scroller id="listContainer" top="" horizontalScrollPolicy="off"
+					verticalScrollPolicy="on">
+
+		</s:Scroller>
+
 	</s:Group>
 
 </s:Group>

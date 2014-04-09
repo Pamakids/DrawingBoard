@@ -7,6 +7,7 @@ package controllers
 	import mx.managers.PopUpManager;
 
 	import views.components.GesturePopUp;
+	import views.user.UserInfoPopup;
 
 	import vo.PosVO;
 
@@ -41,12 +42,29 @@ package controllers
 		{
 			var ges:GesturePopUp=new GesturePopUp();
 			ges.callback=callback;
-			ges.addEventListener("gestureClose", function(e:Event):void
-			{
-				removePopUp(ges);
-			});
 
+			function remove(e:Event):void {
+				ges.removeEventListener("gestureClose", remove);
+				removePopUp(ges);
+				ges=null;
+			}
+			ges.addEventListener("gestureClose", remove);
 			addPopUp(ges);
+		}
+
+		public static function addUserInfoPopup(callback:Function):void
+		{
+			var ui:UserInfoPopup=new UserInfoPopup();
+			ui.callback=callback;
+
+			function remove(e:Event):void {
+				ui.removeEventListener("uiClose", remove);
+				removePopUp(ui);
+				ui.dispose();
+				ui=null;
+			}
+			ui.addEventListener("uiClose", remove);
+			addPopUp(ui);
 		}
 	}
 }

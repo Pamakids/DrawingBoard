@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="400" height="300">
+	<fx:Script>
+		<![CDATA[
+
+			import models.UserVO;
+			private var user:UserVO;
+
+			public function setData(o:UserVO):void
+			{
+				user=o;
+				avatar.source=user.portrait;
+				username.text=user.username;
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image id="avatar"/>
+	<s:Group id="infoGroup">
+		<s:Label id="username"/>
+	</s:Group>
+</s:Group>

@@ -6,6 +6,8 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.greensock.TweenLite;
+
 			import mx.events.FlexEvent;
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -23,35 +25,150 @@
 				// TODO Auto-generated method stub
 
 			}
+			public var callback:Function;
+
+			public function dispose():void
+			{
+				removeAllElements();
+			}
+
+			protected function confirmClickHandler(event:MouseEvent):void
+			{
+				if (callback != null)
+					callback();
+				callback=null;
+				dispatchEvent(new Event("uiClose"));
+			}
+
+			protected function closeHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("uiClose"));
+			}
+
+			private function switchView(isMain:Boolean):void
+			{
+				exitConfirm.visible=false;
+
+				TweenLite.killTweensOf(main);
+				TweenLite.killTweensOf(pwChangeArea);
+
+				main.mouseEnabled=main.mouseChildren=isMain;
+				pwChangeArea.mouseEnabled=pwChangeArea.mouseChildren=!isMain;
+
+				TweenLite.to(main, .3, {left: isMain ? 0 : -374});
+				TweenLite.to(pwChangeArea, .3, {left: isMain ? 374 : 0});
+			}
+
+			protected function exitHandler(event:MouseEvent):void
+			{
+				exitConfirm.visible=!exitConfirm.visible;
+			}
+
+			protected function pwClickHandler(event:MouseEvent):void
+			{
+				switchView(false);
+			}
+
+			protected function backToMain(event:MouseEvent):void
+			{
+				switchView(true);
+			}
+
+			protected function exitCancel(event:MouseEvent):void
+			{
+				exitConfirm.visible=false;
+			}
+
+			protected function logoutConfirm(event:MouseEvent):void
+			{
+
+			}
+
+			[Bindable]
+			private var avatarUrl:String;
+
+			protected function savePW(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
 
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('assets/global/popupbg.png')" mouseChildren="false"
 			 mouseEnabled="false"/>
+	<s:Group width="100%" height="100%" id="main">
 
-	<s:Image source="@Embed('assets/global/close.png')" left="9" top="17"/>
-	<s:Image 
-			 source="@Embed('assets/usercenter/userinfo/edit/userinfo-title.png')"
-			 left="105" top="15"/>
-	<s:Image source="@Embed('assets/usercenter/userinfo/edit/info-ok.png')"
-			 left="330" top="15"/>
+		<s:Image source="@Embed('assets/global/close.png')" left="9" top="17"
+				 click="closeHandler(event)"/>
+		<s:Image 
+				 source="@Embed('assets/usercenter/userinfo/edit/userinfo-title.png')"
+				 left="105" top="15"/>
+		<s:Image source="@Embed('assets/usercenter/userinfo/edit/info-ok.png')"
+				 left="330" top="15" click="confirmClickHandler(event)"/>
 
-	<s:Group left="29" top="100">
-		<s:Label text="用户名:" left="10"/>
-		<s:Label text="{currentUser}" left="75"/>
-		<s:Image source="@Embed('assets/global/line.png')" top="20"/>
+		<s:Group left="29" top="100">
+			<s:Label text="用户名:" left="10"/>
+			<s:Label text="{currentUser}" left="75"/>
+			<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 
-		<s:Label text="邮箱:" left="10" top="120"/>
-		<s:Label text="{currentMail}" left="75" top="120"/>
-		<s:Image source="@Embed('assets/global/line.png')" top="140"/>
+			<s:Label text="邮箱:" left="10" top="120"/>
+			<s:Label text="{currentMail}" left="75" top="120"/>
+			<s:Image source="@Embed('assets/global/line.png')" top="140"/>
+
+			<s:Label text="头像:" top="60" left="10"/>
+			<s:Image source="{avatarUrl}" width="53" height="53" left="127"
+					 top="128"/>
+		</s:Group>
+
+
+		<s:Image source="@Embed('assets/usercenter/userinfo/edit/pwBtn.png')"
+				 left="96" top="351" click="pwClickHandler(event)"/>
+
+		<s:Image source="@Embed('assets/usercenter/userinfo/edit/exitBtn.png')"
+				 left="96" top="391" click="exitHandler(event)"/>
+
+		<s:Group id="exitConfirm" visible="false" left="82" top="421">
+			<s:Image 
+					 source="@Embed('assets/usercenter/userinfo/edit/exitBG.png')"
+					 mouseEnabled="false"/>
+			<s:Image left="26" top="87" click="exitCancel(event)"
+					 source="@Embed('assets/usercenter/userinfo/edit/exitCancel.png')"
+					 mouseEnabled="false"/>
+			<s:Image left="117" top="87" click="logoutConfirm(event)"
+					 source="@Embed('assets/usercenter/userinfo/edit/exitConfirm.png')"
+					 mouseEnabled="false"/>
+		</s:Group>
 	</s:Group>
 
-	<s:Image 
-			 source="@Embed('assets/usercenter/userinfo/edit/pwchange-btn.png')"
-			 top="264" click="image1_clickHandler(event)"/>
+	<s:Group id="pwChangeArea" left="374" width="100%" height="100%">
+		<s:Image source="@Embed('assets/usercenter/userinfo/edit/back.png')"
+				 click="backToMain(event)" left="16" top="14"/>
 
-	<s:Group id="pwChangeArea" visible="false" left="29" top="304">
+		<s:VGroup top="100" gap="26" left="29">
+			<s:Group>
+				<s:Label text="原密码:" left="10" fontSize="14" color="white"/>
+				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
+				<s:TextInput id="originPW" top="-10" left="75" width="230"
+							 maxChars="10" height="30"/>
+			</s:Group>
+			<s:Group>
+				<s:Label text="新密码:" color="white" fontSize="14" left="10"/>
+				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
+				<s:TextInput id="newPW" top="-10" left="75" width="230"
+							 height="30" maxChars="20" displayAsPassword="true"/>
+			</s:Group>
 
+			<s:Group>
+				<s:Label text="密码确认:" color="white" fontSize="14" left="10"/>
+				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
+				<s:TextInput id="newPWConfirm" top="-10" left="75" width="230"
+							 height="30" maxChars="20" displayAsPassword="true"/>
+			</s:Group>
+		</s:VGroup>
+
+		<s:Image source="@Embed('assets/usercenter/userinfo/edit/save.png')"
+				 click="savePW(event)" top="305" left="96"/>
 	</s:Group>
 
 </s:Group>

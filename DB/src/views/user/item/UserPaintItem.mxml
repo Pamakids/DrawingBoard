@@ -25,7 +25,7 @@
 
 				for (var i:int=0; i < statusGroup.numChildren; i++)
 				{
-					var img:Image=statusGroup.getElementAt(i);
+					var img:Image=statusGroup.getElementAt(i) as Image;
 					img.visible=i == _status;
 				}
 			}
