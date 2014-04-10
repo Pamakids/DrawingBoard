@@ -6,17 +6,14 @@
 		<![CDATA[
 
 			import models.PaintVO;
-			import models.UserVO;
 
-			import views.user.item.UserItem;
 			import views.user.item.UserPaintItem;
 
-			private var user:UserVO;
+			private var data:Array;
 
-			public function initData(_user:UserVO):void
+			public function initData(arr:Array):void
 			{
-				user=_user;
-				user.username;
+				data=arr;
 			}
 
 			private function refreshList(arr:Array):void
@@ -26,7 +23,6 @@
 					var item:UserPaintItem=new UserPaintItem();
 					addElement(item);
 				}
-
 			}
 
 		]]>

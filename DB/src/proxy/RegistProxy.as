@@ -21,7 +21,7 @@ package proxy
 			{
 				case "mail":
 				{
-API.instance.signup(
+//API.instance.signup( 
 					break;
 				}
 

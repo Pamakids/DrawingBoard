@@ -112,5 +112,23 @@ package controllers
 			serviceDic[uri + method]=s;
 			return s;
 		}
+
+		public function getPaintList(user:UserVO, paintCB:Function):void
+		{
+			var pq:PaintQuery=new PaintQuery();
+			pq.author=user._id;
+			getSB('/paint/get', 'GET').call(paintCB, pq);
+//			getSB('/user/paints').call(paintCB, user);
+		}
+
+		public function getFollowList(user:UserVO, followCB:Function):void
+		{
+			getSB('/user/follows').call(followCB, user);
+		}
+
+		public function getFanList(user:UserVO, fanCB:Function):void
+		{
+			getSB('/user/fans').call(fanCB, user);
+		}
 	}
 }

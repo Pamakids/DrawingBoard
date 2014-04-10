@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 mouseUp="group1_mouseUpHandler(event)">
 
 	<fx:Script>
 		<![CDATA[
 
+			import com.greensock.TweenLite;
+
 			import mx.events.FlexEvent;
 
-			import spark.components.TileGroup;
+			import spark.components.Image;
+			import spark.components.TextArea;
 
 			import controllers.DBPopUp;
+
+			import models.UserVO;
+
+			import proxy.UserProxy;
 
 			import views.user.list.FollowList;
 			import views.user.list.PaintList;
@@ -52,9 +60,66 @@
 			{
 				naviIndex=0;
 
-				refreshNaviText();
-
 				addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			}
+
+			private var user:UserVO;
+			private var uproxy:UserProxy;
+
+			private var isGuest:Boolean;
+
+			public function initData(_user:UserVO):void
+			{
+				user=_user;
+
+				uproxy=new UserProxy();
+				uproxy.user=user;
+				uproxy.getPaintList(paintListLoaded);
+				uproxy.getFollowList(followListLoaded);
+				uproxy.getFanList(fanListLoaded);
+			}
+
+			private var paintArr:Array;
+			private var followArr:Array;
+			private var fanArr:Array;
+
+			private function paintListLoaded(arr:Object):void
+			{
+				if (arr is Array)
+				{
+					paintArr=arr as Array;
+					paintText="我的作品\n" + paintArr.length;
+				}
+				else
+				{
+
+				}
+			}
+
+			private function followListLoaded(arr:Object):void
+			{
+				if (arr is Array)
+				{
+					followArr=arr as Array;
+					followedText="关注\n" + followArr.length;
+				}
+				else
+				{
+
+				}
+			}
+
+			private function fanListLoaded(arr:Object):void
+			{
+				if (arr is Array)
+				{
+					fanArr=arr as Array;
+					befollowedText="粉丝\n" + fanArr.length;
+				}
+				else
+				{
+
+				}
 			}
 
 			protected function navi_clickHandler(event:MouseEvent):void
@@ -70,13 +135,6 @@
 			private var followedText:String;
 			[Bindable]
 			private var befollowedText:String;
-
-			private function refreshNaviText():void
-			{
-				paintText="我的作品\n" + "9999";
-				followedText="关注\n" + "9999";
-				befollowedText="粉丝\n" + "9999";
-			}
 
 			[Bindable]
 			private var messageCount:String="99+";
@@ -96,6 +154,7 @@
 
 			private function showList(i:int):void
 			{
+				return;
 				listContainer.removeAllElements();
 				switch (i)
 				{
@@ -104,6 +163,7 @@
 						if (!paintList)
 						{
 							paintList=new PaintList();
+							paintList.initData(paintArr);
 						}
 						listContainer.addElement(paintList);
 						break;
@@ -143,18 +203,55 @@
 
 			protected function onEnterFrame(event:Event):void
 			{
+//				dragging=checkPos();
+				if (!dragging)
+					return;
 				if (listContainer.numChildren == 0)
 					return;
 				if (!listContainer.verticalScrollBar)
 					return;
 				var offY:Number=listContainer.verticalScrollBar.value;
 
-				checkPos(offY);
+				resetPos(offY);
 			}
 
-			private function checkPos(offY:Number):void
+			private function resetPos(offY:Number):void
 			{
-				userBar.top=offY;
+
+				trace(offY);
+				userBar.top=Math.min(0, Math.max(maxOffY, dy - offY));
+			}
+
+			private var maxOffY:Number=-182;
+			private var dragging:Boolean;
+
+			protected function group1_mouseUpHandler(event:MouseEvent):void
+			{
+				dragging=false;
+				var top:Number=userBar.top as Number;
+				if (top != 0 || top != maxOffY)
+				{
+					var ty:Number=0;
+					if (listContainer.verticalScrollBar)
+						ty=listContainer.verticalScrollBar.value > 0 ? maxOffY : 0;
+					TweenLite.killTweensOf(userBar);
+					TweenLite.to(userBar, .5, {top: ty});
+				}
+			}
+
+			private var dy:Number=0;
+
+			protected function listContainer_mouseDownHandler(event:MouseEvent):void
+			{
+				dy=userBar.top as Number;
+				dragging=true;
+				TweenLite.killTweensOf(userBar);
+			}
+
+			private function checkPos():Boolean
+			{
+//				if()
+				return false;
 			}
 
 		]]>
@@ -224,13 +321,31 @@
 						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"
 						 left="845" top="129" click="editClickHandler(event)"/>
 			</s:Group>
+
+			<s:Scroller id="listContainer" top="263"
+						mouseDown="listContainer_mouseDownHandler(event)"
+						horizontalScrollPolicy="off" verticalScrollPolicy="on"
+						width="990" height="550">
+				<s:TileGroup width="972" requestedColumnCount="1"
+							 horizontalGap="18" verticalGap="100">
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+					<s:Image 
+							 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
+				</s:TileGroup>
+			</s:Scroller>
+
 		</s:Group>
-
-		<s:Scroller id="listContainer" top="" horizontalScrollPolicy="off"
-					verticalScrollPolicy="on">
-
-		</s:Scroller>
-
 	</s:Group>
 
 </s:Group>
