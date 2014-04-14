@@ -4,7 +4,7 @@ package drawing
 	import flash.display.BitmapData;
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
-	//import flash.net.FileReference;
+	import flash.utils.ByteArray;
 	import flash.utils.Timer;
 
 	public class ControlBase
@@ -118,7 +118,7 @@ package drawing
 					setBrush("waterColor");
 					break;
 			}
-			setBrushColor(Enum.colorArray[arrIndexs]);
+			setBrushColor(Enum.colorArray[arrIndex]);
 			if (Enum.recordPointArray[arrIndex].length == 1)
 			{
 				BrushFactory.getBrushFactory().brush.drawPoint(Enum.recordPointArray[arrIndex].x, Enum.recordPointArray[arrIndex].y);

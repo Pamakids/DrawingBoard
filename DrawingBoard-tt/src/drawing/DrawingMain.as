@@ -5,12 +5,12 @@ package drawing
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	
-	import drawing.brushs.BrushBase;
-	
+
+	import drawing.brushsClass.BrushBase;
+
 	public class DrawingMain extends Sprite
 	{
-		
+
 		private var bgBmp:Bitmap;
 
 		private var brush:BrushBase;
@@ -23,7 +23,7 @@ package drawing
 		private var control:ControlBase;
 
 		private var index:int;
-		
+
 		public function DrawingMain()
 		{
 			super();
@@ -39,7 +39,7 @@ package drawing
 			Canvas.getCanvas().initCanvas();
 			//启动笔刷工厂
 			BrushFactory.getBrushFactory();
-			
+
 			control=new ControlBase();
 			control.disToBitmap();
 			control.setBrush("pencil");
@@ -47,18 +47,23 @@ package drawing
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
+
 		//切换背景的链接函数
-		public function changeBG(_displayObject:DisplayObject=null):void{
-			if(_displayObject!=null){
+		public function changeBG(_displayObject:DisplayObject=null):void
+		{
+			if (_displayObject != null)
+			{
 				bgBmp=_displayObject as Bitmap;
 				bgBmp.width=Enum.width;
 				bgBmp.height=Enum.height;
 				addChild(bgBmp);
 			}
 		}
+
 		//控制按钮与对应功能的连接函数
-		public function controlBtn(_str:String):void{
-			switch(_str)
+		public function controlBtn(_str:String):void
+		{
+			switch (_str)
 			{
 				case "pencil":
 					control.setBrush("pencil");
@@ -108,16 +113,19 @@ package drawing
 					Enum.isOperata=false;
 					Enum.isEraser=false;
 					control.playback();
-					break; 
+					break;
 				case "reserve":
 					control.drawingReserve();
 					break;
 			}
 		}
+
 		//颜色选择按钮与设置对应颜色的链接函数
-		public function controlColor(_color:uint):void{
+		public function controlColor(_color:uint):void
+		{
 			control.setBrushColor(_color);
 		}
+
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
