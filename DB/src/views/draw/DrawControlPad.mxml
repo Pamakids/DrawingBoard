@@ -7,6 +7,8 @@
 	<fx:Script>
 		<![CDATA[
 
+			import spark.components.Group;
+
 			import com.greensock.TweenLite;
 
 			import mx.events.FlexEvent;
@@ -138,6 +140,7 @@
 			private var crtBrushIndex:int=0;
 
 			private var crtColorIndex:int=0;
+			public var layer:Group;
 
 			private function hideBrush():void
 			{
@@ -164,7 +167,7 @@
 				var item:TextureItem=new TextureItem();
 				var cls:Class=PasterManager.getInstance().getPasterRefByIndex(textureBar.index);
 				item.setSource(cls);
-				addElement(item);
+				layer.addElement(item);
 				item.x=Math.random() * 1024;
 				item.y=Math.random() * 768;
 			}

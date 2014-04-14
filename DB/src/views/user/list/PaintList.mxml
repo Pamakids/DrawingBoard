@@ -21,6 +21,7 @@
 				for each (var pv:PaintVO in arr)
 				{
 					var item:UserPaintItem=new UserPaintItem();
+					item.data=pv;
 					addElement(item);
 				}
 			}

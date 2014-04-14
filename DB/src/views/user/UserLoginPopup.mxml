@@ -251,9 +251,9 @@
 				var username:String=obj.userName;
 				var usid:int=obj.usid;
 
-				UserVO.crtUser().username=username;
-				UserVO.crtUser().portrait=portrait;
-				UserVO.crtUser().paltform=platform;
+//				UserVO.crtUser.username=username;
+//				UserVO.crtUser.portrait=portrait;
+//				UserVO.crtUser.paltform=platform;
 
 				API.instance.loginFromPlatform({
 						"come_from": VO.APPNAME,

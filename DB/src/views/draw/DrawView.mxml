@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 xmlns:drawing="drawing.*" xmlns:draw="views.draw.*"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="group1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			import drawing.DrawingMain;
+
+			import models.ThemeVo;
+
+			public function dispose():void
+			{
+			}
+
+			public function initData(vo:ThemeVo):void
+			{
+			}
+
+			private var dm:DrawingMain;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				dm=new DrawingMain();
+				dbLayer.addChild(dm);
+
+				controlPad.layer=textureLayer;
+			}
+
+		]]>
+	</fx:Script>
+	<s:Group id="drawBoard" width="100%" height="100%">
+		<mx:UIComponent id="dbLayer">
+		</mx:UIComponent>
+		<s:Group id="textureLayer"/>
+	</s:Group>
+	<draw:DrawControlPad id="controlPad">
+
+	</draw:DrawControlPad>
+</s:Group>

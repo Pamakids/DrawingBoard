@@ -1,10 +1,12 @@
 package models
 {
+	import com.pamakids.models.BaseVO;
 
-	public class PaintVO
+	public class PaintVO extends BaseVO
 	{
 		public function PaintVO()
 		{
+			super();
 		}
 
 		public static function copy(o:Object):PaintVO
@@ -41,6 +43,5 @@ package models
 		public var favorites:Number //收藏数	
 		public var agrees:Number //赞数	
 		public var shares:Number //分享数	
-		public var created_at:Date //创建日期
 	}
 }

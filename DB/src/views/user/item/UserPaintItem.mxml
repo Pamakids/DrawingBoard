@@ -40,6 +40,7 @@
 			public function set data(o:PaintVO):void
 			{
 				_data=o;
+				img.source=o.cover;
 			}
 
 			public function get data():PaintVO
@@ -50,19 +51,19 @@
 			private function startUpload():void
 			{
 				status=1;
-				loading=true;
+				uploading=true;
 			}
 
 			private function stopUpload():void
 			{
 				status=0;
-				loading=false;
+				uploading=false;
 			}
 
 			private function uploadComplete():void
 			{
 				status=2;
-				loading=false;
+				uploading=false;
 			}
 
 			protected function statusGroup_clickHandler(event:MouseEvent):void
@@ -95,11 +96,17 @@
 			}
 
 			[Bindable]
-			private var loading:Boolean;
+			private var uploading:Boolean;
 
 			protected function img_clickHandler(event:MouseEvent):void
 			{
 				// TODO Auto-generated method stub
+
+			}
+
+			public function render(pv:PaintVO):void
+			{
+				// TODO Auto Generated method stub
 
 			}
 
@@ -109,7 +116,7 @@
 	<s:Image source="@Embed('assets/usercenter/paint/paintBG.png')"/>
 	<s:Image id="img" width="300" height="225" click="img_clickHandler(event)"/>
 
-	<s:Group visible="{loading}">
+	<s:Group visible="{uploading}">
 		<components:MyProgressBar width="232" height="10" left="20" top="217"/>
 		<s:Label text="正在上传" left="180" top="198" color="white" fontSize="18"/>
 	</s:Group>

@@ -10,14 +10,7 @@ package models
 			super();
 		}
 
-		private static var _instance:UserVO;
-
-		public static function crtUser():UserVO
-		{
-			if (!_instance)
-				_instance=new UserVO();
-			return _instance;
-		}
+		public static var crtUser:UserVO;
 
 		public var username:String;
 		public var password:String;

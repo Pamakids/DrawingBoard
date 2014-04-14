@@ -11,9 +11,10 @@
 			import views.user.item.UserItem;
 			private var user:UserVO;
 
-			public function initData(_user:UserVO):void
+			public function initData(arr:Array):void
 			{
-				user=_user;
+				refreshList(arr);
+//				user=_user;
 			}
 
 			private function refreshList(arr:Array):void
@@ -21,6 +22,7 @@
 				for each (var u:UserVO in arr)
 				{
 					var item:UserItem=new UserItem();
+					item.render(u);
 					addElement(item);
 				}
 

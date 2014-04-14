@@ -6,6 +6,7 @@ package controllers
 	import flash.system.Capabilities;
 	import flash.utils.Dictionary;
 
+	import models.PaintVO;
 	import models.UserVO;
 	import models.query.PaintQuery;
 
@@ -18,6 +19,9 @@ package controllers
 	{
 		private var serviceDic:Dictionary;
 
+		/**
+		 *
+		 */
 		public function API()
 		{
 			serviceDic=new Dictionary();
@@ -27,6 +31,10 @@ package controllers
 			ServiceBase.HOST='http://db.pamakids.com';
 		}
 
+		/**
+		 *
+		 * @return
+		 */
 		public static function get instance():API
 		{
 			return Singleton.getInstance(API);
@@ -49,21 +57,40 @@ package controllers
 			getSB('/paint/get', 'GET').call(callback, query);
 		}
 
+		/**
+		 *
+		 * @param callback
+		 * @param paint
+		 */
 		public function paintAdd(callback:Function, paint:Object):void
 		{
 			getSB('/paint/add').call(callback, paint);
 		}
 
+		/**
+		 *
+		 * @param callback
+		 */
 		public function getUploadToken(callback:Function):void
 		{
 			getSB('/upload/token', 'GET').call(callback);
 		}
 
+		/**
+		 *
+		 * @param update
+		 * @param callback
+		 */
 		public function userUpdate(update:Object, callback:Function):void
 		{
 			getSB('/user/update').call(callback, update);
 		}
 
+		/**
+		 *
+		 * @param usernameOrEmailOrUSid
+		 * @param callback
+		 */
 		public function userExist(usernameOrEmailOrUSid:Object, callback:Function):void
 		{
 			getSB('/user/exist', 'GET').call(callback, usernameOrEmailOrUSid);
@@ -98,6 +125,12 @@ package controllers
 			getSB('/user/login/platform').call(callback, info);
 		}
 
+		/**
+		 *
+		 * @param usernameOrEmail
+		 * @param password
+		 * @param callback
+		 */
 		public function login(usernameOrEmail:String, password:String, callback:Function):void
 		{
 			getSB('/user/login').call(callback, {username: usernameOrEmail, password: password});
@@ -113,22 +146,70 @@ package controllers
 			return s;
 		}
 
+		/**
+		 *
+		 * @param user
+		 * @param paintCB results:[PaintVO]
+		 */
 		public function getPaintList(user:UserVO, paintCB:Function):void
 		{
 			var pq:PaintQuery=new PaintQuery();
 			pq.author=user._id;
-			getSB('/paint/get', 'GET').call(paintCB, pq);
-//			getSB('/user/paints').call(paintCB, user);
+			pq.result_type=2;
+			getSB('/paint/list', 'GET').call(paintCB, pq);
 		}
 
-		public function getFollowList(user:UserVO, followCB:Function):void
+		/**
+		 *
+		 * @param oldPW
+		 * @param newPW
+		 * @param cb status:boolean
+		 */
+		public function changePW(oldPW:String, newPW:String, cb:Function):void
 		{
-			getSB('/user/follows').call(followCB, user);
+			getSB('/user/update/password').call(cb, {"old": oldPW, "new": newPW});
 		}
 
-		public function getFanList(user:UserVO, fanCB:Function):void
+		/**
+		 *
+		 * @param user
+		 * @param cb results: [RelationshipVO]
+		 */
+		public function getFollowList(user:UserVO, cb:Function):void
 		{
-			getSB('/user/fans').call(fanCB, user);
+			getSB('/user/friends', "GET").call(cb, {"user_id": user._id, "followed": true});
+		}
+
+		/**
+		 *
+		 * @param user
+		 * @param cb results: [RelationshipVO]
+		 */
+		public function getFanList(user:UserVO, cb:Function):void
+		{
+			getSB('/user/friends', "GET").call(cb, {"user_id": user._id, "follow ": false});
+		}
+
+		/**
+		 *
+		 * @param friendID
+		 * @param followed
+		 * @param cb staus:boolean
+		 */
+		public function followFriend(friendID:String, followed:Boolean, cb:Function):void
+		{
+			getSB('/user/relationship').call(cb, {"friend": friendID, "follow": followed});
+		}
+
+		/**
+		 *
+		 * @param paint
+		 * @param status
+		 * @param cb staus:boolean
+		 */
+		public function praisePaint(paint:PaintVO, status:Boolean, cb:Function):void
+		{
+			getSB('/paint/praise').call(cb, {"paint": paint._id, "status": status});
 		}
 	}
 }

@@ -21,7 +21,8 @@ package controllers
 
 		public static function addPopUp(window:IFlexDisplayObject):void
 		{
-			root.visible=root.mouseEnabled=root.mouseChildren=true;
+			root.visible=true;
+			root.mouseEnabled=root.mouseChildren=true;
 			var dx:Number=1024 - window.width >> 1;
 			var dy:Number=768 - window.height >> 1;
 
@@ -34,7 +35,8 @@ package controllers
 
 		public static function removePopUp(window:IFlexDisplayObject):void
 		{
-			root.visible=root.mouseEnabled=root.mouseChildren=false;
+			root.visible=false;
+//			root.mouseEnabled=root.mouseChildren=false;
 			PopUpManager.removePopUp(window);
 		}
 

@@ -13,10 +13,17 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 
+			import controllers.API;
+
 			import events.GalleryItemEvent;
 
 			import models.PaintVO;
 			import models.UserVO;
+			import models.query.PaintQuery;
+
+
+
+
 
 			protected function close_clickHandler(event:MouseEvent):void
 			{
@@ -30,14 +37,29 @@
 
 			protected function inited(event:FlexEvent):void
 			{
-
 				addEventListener(GalleryItemEvent.EVENT_ID, onItemClick);
-//				paintsAC=new ArrayCollection();
-				getTestArr();
 
-//				var q:PaintQuery=new PaintQuery();
-//				q.page=0;
-//				API.instance.paintGet(refreshData, q);
+//				getTestArr();
+				getPaints();
+			}
+
+			public function getPaints(index:int=1):void
+			{
+				var q:PaintQuery=new PaintQuery();
+				q.page=index;
+
+				API.instance.paintGet(getCB, q);
+			}
+
+			private function getCB(o:ResultVO):void
+			{
+				if (o.status)
+				{
+					var arr:Array=o.results as Array;
+					paintsAC=new ArrayCollection(arr);
+				}
+				else
+					getTestArr();
 			}
 
 			private function getTestArr():void
