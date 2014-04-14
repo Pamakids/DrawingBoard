@@ -1,4 +1,4 @@
-package drawing.brushs
+package drawing.brushsClass
 {
 	import flash.display.IBitmapDrawable;
 	

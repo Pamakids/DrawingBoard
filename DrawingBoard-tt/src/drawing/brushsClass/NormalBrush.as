@@ -1,11 +1,10 @@
-package drawing.brushs
+package drawing.brushsClass
 {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
 	
-	import drawing.Canvas;
-	
+	import drawing.Canvas
 	
 	public class NormalBrush extends BrushBase
 	{
@@ -23,14 +22,15 @@ package drawing.brushs
 			switch(_str){
 				case "pencil":
 					m_data=new Pencil as DisplayObject;
-					m_density=15;
+					m_density=9;
 					m_fitRatio=0.4;
 					m_color=0x000000;
 					break;
 				case "pink":
 					m_data=new Pink as DisplayObject;
-					m_density=6;
-					m_color=0x881100
+					m_density=3;
+					m_color=0x881100;
+					m_fitRatio=0.4;
 					break;
 				case "waterColor":
 					m_data=new WaterColor as DisplayObject;

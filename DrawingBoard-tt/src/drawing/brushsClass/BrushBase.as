@@ -1,6 +1,6 @@
-package drawing.brushs
+package drawing.brushsClass
 {
-	import flash.display.Bitmap;
+	
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
@@ -32,22 +32,19 @@ package drawing.brushs
 		[Embed(source="../assets/brush/waterColor.png")]
 		public static const WaterColor:Class;
 		
-		public var canvasBitmap:Bitmap;
-		public var canvasBitmapData:BitmapData;
+		public var brushBitmapData:BitmapData;//笔刷的bitmapdata
 		
-		public var brushBitmapData:BitmapData;
+		public var m_data:DisplayObject;//笔刷对象
 		
-		public var m_data:DisplayObject;
+		public var m_density:Number=3;//画线点的密度
+		public var m_fitRatio:Number=1;//画线点的大小
+		public var m_scale:Number=1;//画线点的缩放
 		
-		public var m_density:Number=3;
-		public var m_fitRatio:Number=.7;
-		public var m_scale:Number=1;
+		public var m_color:uint=0x00000;//线条颜色
+		public var m_alpha:Number=1;//线条透明度度
+		public var cachedColorTransform:ColorTransform=new ColorTransform;//获取到的颜色通道
 		
-		public var m_color:uint=0x00000;
-		public var m_alpha:Number=1;
-		public var cachedColorTransform:ColorTransform=new ColorTransform;
-		
-		public var cachedMatrix:Matrix=new Matrix;
+		public var cachedMatrix:Matrix=new Matrix;//当前bitmapData变形所用的矩阵
 		
 		public function BrushBase(){
 			

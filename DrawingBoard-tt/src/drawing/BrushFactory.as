@@ -1,8 +1,6 @@
 package drawing
 {
-	import drawing.brushs.BrushBase;
-	import drawing.brushs.EraserBrush;
-	import drawing.brushs.NormalBrush;
+	import drawing.brushs.*;
 	
 	/*
 		笔刷工厂，用来设置笔刷的样式
@@ -28,9 +26,8 @@ package drawing
 			return brushFactory;
 		}
 		
-		//设置笔刷
-		public function setBrush(_str:String):void{
-			Enum.brushType=_str;
+		//生成笔刷
+		public function createBrush(_str:String):void{
 			switch(_str){
 				case "pencil":
 					brush=new NormalBrush("pencil");

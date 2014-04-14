@@ -5,32 +5,13 @@ package drawing
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-
+	
 	import drawing.brushs.BrushBase;
-	import drawing.brushsbutton.BrushPencil;
-	import drawing.brushsbutton.BrushPink;
-	import drawing.controlbuttons.ButtonBack;
-	import drawing.controlbuttons.ButtonDelete;
-	import drawing.controlbuttons.ButtonErsaer;
-	import drawing.controlbuttons.ButtonPlayBack;
-	import drawing.controlbuttons.ButtonRecover;
-	import drawing.controlbuttons.ButtonReserve;
-
+	
 	public class DrawingMain extends Sprite
 	{
-
-		[Embed(source="assets/bg.png")]
-		private static const BG:Class;
-
-		private var btnEraser:ButtonErsaer;
-		private var btnDelete:ButtonDelete;
-		private var btnBack:ButtonBack;
-		private var btnRecover:ButtonRecover;
-		private var btnReserve:ButtonReserve;
-		private var btnPlayback:ButtonPlayBack;
-
-		private var brushPink:BrushPink;
-		private var brushPencil:BrushPencil;
+		
+		private var bgBmp:Bitmap;
 
 		private var brush:BrushBase;
 
@@ -41,10 +22,8 @@ package drawing
 
 		private var control:ControlBase;
 
-		private var display_object:DisplayObject;
-
 		private var index:int;
-
+		
 		public function DrawingMain()
 		{
 			super();
@@ -53,109 +32,70 @@ package drawing
 
 		private function init(e:Event):void
 		{
-			var bgbmp:Bitmap=new BG;
-			bgbmp.width=1024;
-			bgbmp.height=768;
-			addChild(bgbmp);
-
-			Enum.width=1024;
-			Enum.height=768;
+			changeBG();
 
 			addChild(Canvas.getCanvas());
+			//初始画布
 			Canvas.getCanvas().initCanvas();
+			//启动笔刷工厂
 			BrushFactory.getBrushFactory();
-			BrushFactory.getBrushFactory().setBrush("pencil");
-			BrushFactory.getBrushFactory().brush.m_color=0x00ff00
-
+			
 			control=new ControlBase();
 			control.disToBitmap();
-			addChild(control);
-
-			addButton();
+			control.setBrush("pencil");
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
-
-		private function addButton():void
-		{
-			//橡皮擦按钮
-			btnEraser=new ButtonErsaer;
-			btnEraser.addEventListener(MouseEvent.CLICK, clickHandler);
-			btnEraser.name="1"
-			addChild(btnEraser);
-			//删除图层按钮
-			btnDelete=new ButtonDelete;
-			btnDelete.x=btnEraser.width + 20;
-			btnDelete.name="2";
-			btnDelete.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(btnDelete);
-			//撤销按钮
-			btnBack=new ButtonBack;
-			btnBack.x=btnEraser.width * 2 + 40;
-			btnBack.name="3";
-			btnBack.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(btnBack);
-			//恢复按钮
-			btnRecover=new ButtonRecover;
-			btnRecover.x=btnEraser.width * 3 + 60;
-			btnRecover.name="4"
-			btnRecover.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(btnRecover);
-			//回放按钮
-			btnPlayback=new ButtonPlayBack;
-			btnPlayback.x=btnEraser.width * 4 + 80;
-			btnPlayback.name="5";
-			btnPlayback.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(btnPlayback);
-			//保存按钮
-			btnReserve=new ButtonReserve;
-			btnReserve.x=btnEraser.width * 5 + 100;
-			btnReserve.name="6";
-			btnReserve.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(btnReserve);
-			//pink笔刷按钮
-			brushPink=new BrushPink;
-			brushPink.y=btnEraser.height * 1.5;
-			brushPink.name="7";
-			brushPink.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(brushPink);
-			//pencil笔刷
-			brushPencil=new BrushPencil;
-			brushPencil.alpha=.6;
-			brushPencil.x=btnEraser.width + 20;
-			brushPencil.y=btnEraser.height * 1.5;
-			brushPencil.name="8";
-			brushPencil.addEventListener(MouseEvent.CLICK, clickHandler);
-			addChild(brushPencil);
+		//切换背景的链接函数
+		public function changeBG(_displayObject:DisplayObject=null):void{
+			if(_displayObject!=null){
+				bgBmp=_displayObject as Bitmap;
+				bgBmp.width=Enum.width;
+				bgBmp.height=Enum.height;
+				addChild(bgBmp);
+			}
 		}
-
-		private function clickHandler(event:MouseEvent):void
-		{
-			switch (event.target.name)
+		//控制按钮与对应功能的连接函数
+		public function controlBtn(_str:String):void{
+			switch(_str)
 			{
-				case "1":
-					BrushFactory.getBrushFactory().setBrush("eraser");
+				case "pencil":
+					control.setBrush("pencil");
+					break;
+				case "pink":
+					control.setBrush("pink");
+					break;
+				case "maker":
+					control.setBrush("maker");
+					break;
+				case "crayon":
+					control.setBrush("crayon");
+					break;
+				case "waterColor":
+					control.setBrush("waterColor");
+					break;
+				case "eraser":
+					control.setBrush("eraser");
 					Enum.isEraser=true;
 					break;
-				case "2":
+				case "delete":
 					if (Enum.isDelete == true)
 					{
-						Canvas.getCanvas().clearCanvas();
-						Canvas.getCanvas().allInit();
+						control.clearCanvas();
+						control.allInit();
 						control.disToBitmap();
 					}
 					break;
-				case "3":
+				case "back":
 					index--;
 					if (index <= 1)
 					{
 						index=1
 					}
 					control.backASRecover(index);
-
 					break;
-				case "4":
+				case "recover":
 					index++;
 					if (index >= Enum.bitmapArray.length)
 					{
@@ -163,30 +103,28 @@ package drawing
 					}
 					control.backASRecover(index);
 					break;
-				case "5":
+				case "playback":
 					Enum.isDelete=false;
 					Enum.isOperata=false;
+					Enum.isEraser=false;
 					control.playback();
-					break;
-				case "6":
-					break;
-				case "7":
-					BrushFactory.getBrushFactory().setBrush("pink"); //点击按钮，改变笔刷形态
-					break;
-				case "8":
-					BrushFactory.getBrushFactory().setBrush("pencil");
-					break;
-				case "9":
+					break; 
+				case "reserve":
+					control.drawingReserve();
 					break;
 			}
 		}
-
+		//颜色选择按钮与设置对应颜色的链接函数
+		public function controlColor(_color:uint):void{
+			control.setBrushColor(_color);
+		}
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
 			control.memoryArray();
 			control.disToBitmap();
 			index=Enum.bitmapArray.length;
+			Enum.colorArray.push(BrushFactory.getBrushFactory().brush.m_color);
 		}
 
 		private function onDownHandler(event:MouseEvent):void
