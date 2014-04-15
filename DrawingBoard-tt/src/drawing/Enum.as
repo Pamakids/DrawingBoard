@@ -1,7 +1,11 @@
 package drawing
 {
 	import flash.utils.ByteArray;
-
+	
+	/*
+		数据存储的静态类
+	*/
+	
 	public class Enum
 	{
 		public static var width:Number=1024;//适配舞台的宽

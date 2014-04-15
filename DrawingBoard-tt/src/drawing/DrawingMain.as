@@ -8,6 +8,9 @@ package drawing
 	import flash.utils.ByteArray;
 	
 	import drawing.brushs.BrushBase;
+	/*
+		画布的接口类
+	*/
 	
 	public class DrawingMain extends Sprite
 	{

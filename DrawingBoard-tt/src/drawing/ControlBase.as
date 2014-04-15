@@ -7,6 +7,9 @@ package drawing
 	//import flash.net.FileReference;
 	import flash.utils.ByteArray;
 	import flash.utils.Timer;
+	/*
+		功能面板控制类
+	*/
 	
 	public class ControlBase{
 		
@@ -14,16 +17,17 @@ package drawing
 		
 		private var currentPoint:Point;
 		
-		private var playbackTimer:Timer;
+		private var playbackTimer:Timer;//用于回放的TIMER事件
 		
-		private var timerRate:int=10;
+		private var timerRate:int=10;//回放节奏控制
 		
 		private var backIndex:int;
 		
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
 		
-		private var reserveObject:Object;
+		private var reserveObject:Object;//用于记录回放数据的储存对象
+		
 		public function ControlBase(){
 			
 		}
@@ -91,7 +95,7 @@ package drawing
 			}
 			if(Enum.recordPointArray[arrIndex].length==1){
 				BrushFactory.getBrushFactory().brush.drawPoint(Enum.recordPointArray[arrIndex].x,Enum.recordPointArray[arrIndex].y);
-			}else{
+			}else if(Enum.recordPointArray[arrIndex].length>1){
 				BrushFactory.getBrushFactory().brush.drawLine(Enum.recordPointArray[arrIndex][pointIndex].x,Enum.recordPointArray[arrIndex][pointIndex].y,
 					Enum.recordPointArray[arrIndex][pointIndex+1].x,Enum.recordPointArray[arrIndex][pointIndex+1].y);
 			}
@@ -110,6 +114,7 @@ package drawing
 				}
 			}
 		}
+		//设置回放中的笔刷形态及笔刷颜色
 		private function playBackSet(_index:int):void{
 			switch(Enum.brushTypeArray[_index]){
 				case "pencil":
@@ -177,9 +182,9 @@ package drawing
 		//回放数据的储存
 		public function reservePlayBack():Object{
 			reserveObject=new Object;
-			reserveObject.point=Enum.recordPointArray;
-			reserveObject.brush=Enum.brushTypeArray;
-			reserveObject.brushColor=Enum.colorArray;
+			reserveObject.point=Enum.recordPointArray;//对象的point键，对应键值是储存对象记录点的二维数组
+			reserveObject.brush=Enum.brushTypeArray;//对象的brush键，对应键值是储存对象的笔刷形态的一维数组
+			reserveObject.brushColor=Enum.colorArray;//对象的brushColor键，对应键值是储存对象的笔刷颜色的一维数组
 			
 			return reserveObject;
 		}

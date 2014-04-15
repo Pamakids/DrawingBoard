@@ -31,6 +31,7 @@ package drawing.brushsClass
 			cachedMatrix.scale(m_scale*m_fitRatio,m_scale*m_fitRatio);
 			cachedMatrix.translate(destX-m_offsetX,destY-m_offsetY);
 			Canvas.getCanvas().canvasBitmapData.draw(m_data,cachedMatrix,null,BlendMode.ERASE,null,false);
+			//方块类型橡皮擦
 			/*if(Enum.isEraser==true){
 				Canvas.getCanvas().canvasBitmapData.fillRect(new Rectangle(destX - size/2, destY - size/2, size,size),0x0)
 			}*/
