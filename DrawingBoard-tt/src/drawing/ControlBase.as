@@ -5,6 +5,7 @@ package drawing
 	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	//import flash.net.FileReference;
+	import flash.utils.ByteArray;
 	import flash.utils.Timer;
 	
 	public class ControlBase{
@@ -34,18 +35,18 @@ package drawing
 		}
 		//在画布清除时，让画布状态回到初始值
 		public function allInit():void{
-			Enum.bitmapArray=[];
+			//Enum.bitmapArray=[];
 			Enum.pointArray=[];
 			Enum.brushTypeArray=[];
 			Enum.recordPointArray=[];
 			Enum.colorArray=[];
 			Enum.isEraser=false;
-			Enum.isOperata=false;
+			//Enum.isOperata=false;
 			Enum.isPlayBack=false;
 			Enum.isDelete=true;
 		}
 		//设置笔刷
-		public function setBrush(_brushType:String):void{
+		public function setBrush(_brushType:String,_color:uint):void{
 			Enum.brushType=_brushType;
 			switch(_brushType){
 				case "eraser":
@@ -67,23 +68,49 @@ package drawing
 					BrushFactory.getBrushFactory().createBrush("waterColor");
 					break;
 			}
+			setBrushColor(_color);
 		}
 		//设置笔刷颜色
 		public function setBrushColor(_brushColor:uint):void{
 			BrushFactory.getBrushFactory().brush.m_color=_brushColor;
 		}
 		//绘画回放，依据记录的点按一定时间进行重绘
-		public function playback():void{
+		/*public function playback():void{
 			if(Enum.isPlayBack==true&&memoryArray!=null){
 				clearCanvas();
 				playbackTimer=new Timer(timerRate);
 				playbackTimer.addEventListener(TimerEvent.TIMER,onTimer);
 				playbackTimer.start();
 			}
-		}
+		}*/
 		
 		private function onTimer(event:TimerEvent):void{
-			switch(Enum.brushTypeArray[arrIndex]){
+			if(arrIndex==0){
+				playBackSet(arrIndex);
+			}
+			if(Enum.recordPointArray[arrIndex].length==1){
+				BrushFactory.getBrushFactory().brush.drawPoint(Enum.recordPointArray[arrIndex].x,Enum.recordPointArray[arrIndex].y);
+			}else{
+				BrushFactory.getBrushFactory().brush.drawLine(Enum.recordPointArray[arrIndex][pointIndex].x,Enum.recordPointArray[arrIndex][pointIndex].y,
+					Enum.recordPointArray[arrIndex][pointIndex+1].x,Enum.recordPointArray[arrIndex][pointIndex+1].y);
+			}
+			pointIndex+=1;
+			if(pointIndex+1>=Enum.recordPointArray[arrIndex].length){
+				pointIndex=0;
+				arrIndex+=1;
+				playBackSet(arrIndex);
+				if(arrIndex+1>Enum.recordPointArray.length){
+					playbackTimer.stop();
+					playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
+					arrIndex=0;
+					pointIndex=0;
+					Enum.isDelete=true;
+					//Enum.isOperata=true;
+				}
+			}
+		}
+		private function playBackSet(_index:int):void{
+			switch(Enum.brushTypeArray[_index]){
 				case "pencil":
 					setBrush("pencil");
 					break;
@@ -102,29 +129,11 @@ package drawing
 					setBrush("waterColor");
 					break;
 			}
-			setBrushColor(Enum.colorArray[arrIndexs]);
-			if(Enum.recordPointArray[arrIndex].length==1){
-				BrushFactory.getBrushFactory().brush.drawPoint(Enum.recordPointArray[arrIndex].x,Enum.recordPointArray[arrIndex].y);
-			}else{
-				BrushFactory.getBrushFactory().brush.drawLine(Enum.recordPointArray[arrIndex][pointIndex].x,Enum.recordPointArray[arrIndex][pointIndex].y,
-					Enum.recordPointArray[arrIndex][pointIndex+1].x,Enum.recordPointArray[arrIndex][pointIndex+1].y);
-			}
-			pointIndex+=1;
-			if(pointIndex+1>=Enum.recordPointArray[arrIndex].length){
-				pointIndex=0;
-				arrIndex+=1;
-				if(arrIndex+1>Enum.recordPointArray.length){
-					playbackTimer.stop();
-					playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
-					arrIndex=0;
-					pointIndex=0;
-					Enum.isDelete=true;
-					Enum.isOperata=true;
-				}
-			}
+			setBrushColor(Enum.colorArray[_index]);
 		}
+		
 		//画布的撤销和恢复
-		public function backASRecover(_index:int):void{
+		/*public function backASRecover(_index:int):void{
 			backIndex=_index-1;
 			if(Enum.bitmapArray!=null&&Enum.isOperata==true){
 				clearCanvas();	
@@ -132,7 +141,7 @@ package drawing
 				Canvas.getCanvas().canvasBitmapData.draw(Enum.bitmapArray[backIndex]);
 				Canvas.getCanvas().canvasBitmap.bitmapData=Canvas.getCanvas().canvasBitmapData;
 			}
-		}
+		}*/
 		//记录画线的点，用于回放功能
 		public function  memoryArray():void{
 			Enum.recordPointArray.push(Enum.pointArray);
@@ -148,11 +157,11 @@ package drawing
 		}
 		
 		//显示位图转存储位图
-		public function disToBitmap():void{
+		/*public function disToBitmap():void{
 			transBitmap=new Bitmap(new BitmapData(Enum.width,Enum.height,true,0x0));
 			transBitmap.bitmapData.draw(Canvas.getCanvas().canvasBitmap);
 			Enum.bitmapArray.push(transBitmap);
-		}
+		}*/
 		
 		//画图储存
 		public function drawingReserve():ByteArray{

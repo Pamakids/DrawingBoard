@@ -5,6 +5,7 @@ package drawing
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.utils.ByteArray;
 	
 	import drawing.brushs.BrushBase;
 	
@@ -30,10 +31,7 @@ package drawing
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
-		private function init(e:Event):void
-		{
-			changeBG();
-
+		private function init(e:Event):void{
 			addChild(Canvas.getCanvas());
 			//初始画布
 			Canvas.getCanvas().initCanvas();
@@ -41,13 +39,13 @@ package drawing
 			BrushFactory.getBrushFactory();
 			
 			control=new ControlBase();
-			control.disToBitmap();
+			//control.disToBitmap();
 			control.setBrush("pencil");
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
-			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
+			stage.addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
-		//切换背景的链接函数
+		//切换背景的连接函数
 		public function changeBG(_displayObject:DisplayObject=null):void{
 			if(_displayObject!=null){
 				bgBmp=_displayObject as Bitmap;
@@ -56,27 +54,32 @@ package drawing
 				addChild(bgBmp);
 			}
 		}
+		//储存位图数据的连接函数
+		public function reserveByte():ByteArray{
+			return control.drawingReserve();
+		}
+		
 		//控制按钮与对应功能的连接函数
-		public function controlBtn(_str:String):void{
+		public function controlBtn(_str:String,_setColor:uint=0x000000):void{
 			switch(_str)
 			{
 				case "pencil":
-					control.setBrush("pencil");
+					control.setBrush("pencil",_setColor);
 					break;
 				case "pink":
-					control.setBrush("pink");
+					control.setBrush("pink",_setColor);
 					break;
 				case "maker":
-					control.setBrush("maker");
+					control.setBrush("maker",_setColor);
 					break;
 				case "crayon":
-					control.setBrush("crayon");
+					control.setBrush("crayon",_setColor);
 					break;
 				case "waterColor":
-					control.setBrush("waterColor");
+					control.setBrush("waterColor",_setColor);
 					break;
 				case "eraser":
-					control.setBrush("eraser");
+					control.setBrush("eraser",_setColor);
 					Enum.isEraser=true;
 					break;
 				case "delete":
@@ -87,7 +90,7 @@ package drawing
 						control.disToBitmap();
 					}
 					break;
-				case "back":
+				/*case "back":
 					index--;
 					if (index <= 1)
 					{
@@ -102,7 +105,7 @@ package drawing
 						index=Enum.bitmapArray.length
 					}
 					control.backASRecover(index);
-					break;
+					break;*/
 				case "playback":
 					Enum.isDelete=false;
 					Enum.isOperata=false;
@@ -122,7 +125,7 @@ package drawing
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
 			control.memoryArray();
-			control.disToBitmap();
+			//control.disToBitmap();
 			index=Enum.bitmapArray.length;
 			Enum.colorArray.push(BrushFactory.getBrushFactory().brush.m_color);
 		}

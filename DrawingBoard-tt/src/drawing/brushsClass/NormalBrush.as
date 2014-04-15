@@ -23,23 +23,29 @@ package drawing.brushsClass
 				case "pencil":
 					m_data=new Pencil as DisplayObject;
 					m_density=9;
-					m_fitRatio=0.4;
-					m_color=0x000000;
+					m_fitRatio=0.2;
 					break;
 				case "pink":
 					m_data=new Pink as DisplayObject;
 					m_density=3;
-					m_color=0x881100;
-					m_fitRatio=0.4;
+					m_fitRatio=0.5;
+					m_alpha=0.2;
 					break;
 				case "waterColor":
 					m_data=new WaterColor as DisplayObject;
+					m_alpha=0.1;
+					m_density=4;
+					m_fitRatio=0.5;
 					break;
 				case "maker":
 					m_data=new Maker as DisplayObject;
+					m_fitRatio=0.3;
+					m_density=3;
 					break;
 				case "crayon":
 					m_data=new Crayon as DisplayObject;
+					m_fitRatio=0.4;
+					m_density=8;
 					break;
 				default:
 					break;
