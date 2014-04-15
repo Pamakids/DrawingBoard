@@ -121,6 +121,10 @@ package drawing
 		public function controlColor(_color:uint):void{
 			control.setBrushColor(_color);
 		}
+		//储存回放数据的Object
+		public function reserveObject():void{
+			control.reservePlayBack();
+		}
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);

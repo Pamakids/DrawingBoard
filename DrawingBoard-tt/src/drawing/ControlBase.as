@@ -23,6 +23,7 @@ package drawing
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
 		
+		private var reserveObject:Object;
 		public function ControlBase(){
 			
 		}
@@ -171,6 +172,16 @@ package drawing
 			return Enum.recordByte;
 			//外部自定义二进制数据保存格式保存
 			//new FileReference().save(Enum.recordByte,"image.bmd");
+		}
+		
+		//回放数据的储存
+		public function reservePlayBack():Object{
+			reserveObject=new Object;
+			reserveObject.point=Enum.recordPointArray;
+			reserveObject.brush=Enum.brushTypeArray;
+			reserveObject.brushColor=Enum.colorArray;
+			
+			return reserveObject;
 		}
 	}
 }
