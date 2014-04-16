@@ -8,13 +8,17 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.pamakids.manager.FileManager;
+
 			import mx.events.FlexEvent;
+			import mx.graphics.codec.JPEGEncoder;
 
 			import drawing.DrawingMain;
 
 			import events.BrushEvent;
 			import events.ColorEvent;
 
+			import models.PaintData;
 			import models.ThemeVo;
 
 			public function dispose():void
@@ -31,6 +35,9 @@
 				{
 					controlPad.removeEventListener("changeToTexture", onTexture);
 					controlPad.removeEventListener("changeToDraw", onDraw);
+					controlPad.removeEventListener("exitDraw", onExit);
+					controlPad.removeEventListener("clearDrawBorad", onClear);
+					controlPad.removeEventListener("saveDraw", onSave);
 					controlPad.removeEventListener(ColorEvent.EVENT_ID, onColor);
 					controlPad.removeEventListener(BrushEvent.EVENT_ID, onBrush);
 				}
@@ -39,6 +46,7 @@
 
 			public function initData(vo:ThemeVo):void
 			{
+				paintData.theme=vo;
 				bg.source=vo.dataUrl;
 			}
 
@@ -52,6 +60,9 @@
 
 				controlPad.addEventListener("changeToTexture", onTexture);
 				controlPad.addEventListener("changeToDraw", onDraw);
+				controlPad.addEventListener("exitDraw", onExit);
+				controlPad.addEventListener("clearDrawBorad", onClear);
+				controlPad.addEventListener("saveDraw", onSave);
 				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
 
@@ -83,6 +94,36 @@
 			{
 				var brush:String=e.brush;
 				dm.controlBtn(brush);
+			}
+
+			protected function onExit(event:Event):void
+			{
+				dispatchEvent(new Event("exitDraw"));
+			}
+
+			private var paintData:PaintData;
+
+			protected function onClear(event:Event):void
+			{
+				if (dm)
+				{
+					dbLayer.removeChild(dm);
+//					dm.dispose();
+				}
+				dm=null;
+
+				dm=new DrawingMain();
+				dbLayer.addChild(dm);
+
+				textureLayer.removeAllElements();
+			}
+
+			protected function onSave(event:Event):void
+			{
+//				paintData.drawData=dm.getData();
+				var thumb:BitmapData=new BitmapData(1024, 768);
+				thumb.drawWithQuality(drawBoard);
+				var ba:ByteArray=new JPEGEncoder().encode(thumb);
 			}
 
 		]]>

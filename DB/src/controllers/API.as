@@ -1,14 +1,16 @@
 package controllers
 {
+	import com.pamakids.models.ResultVO;
 	import com.pamakids.services.ServiceBase;
 	import com.pamakids.utils.Singleton;
 
-	import flash.system.Capabilities;
 	import flash.utils.Dictionary;
 
 	import models.PaintVO;
 	import models.UserVO;
 	import models.query.PaintQuery;
+
+	import proxy.FileProxy;
 
 	/**
 	 * Service Controller
@@ -210,6 +212,24 @@ package controllers
 		public function praisePaint(paint:PaintVO, status:Boolean, cb:Function):void
 		{
 			getSB('/paint/praise').call(cb, {"paint": paint._id, "status": status});
+		}
+
+		public function initToken():void
+		{
+			getSB('/upload/token', "GET").call(saveToken);
+			getSB('/upload/audio/token', "GET").call(saveAudioToken);
+		}
+
+		private function saveToken(o:ResultVO):void
+		{
+			if (o.status)
+				FileProxy.token=o.results as String;
+		}
+
+		private function saveAudioToken(o:ResultVO):void
+		{
+			if (o.status)
+				FileProxy.audioToken=o.results as String;
 		}
 	}
 }
