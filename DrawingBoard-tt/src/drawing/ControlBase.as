@@ -2,7 +2,6 @@ package drawing
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	//import flash.net.FileReference;
 	import flash.utils.ByteArray;
