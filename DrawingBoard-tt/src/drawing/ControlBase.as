@@ -92,13 +92,16 @@ package drawing
 		}
 
 		//记录画线所经过的点
-		public function memoryPoint(currX:Number, currY:Number):void
+		public function memoryPoint(currX:Number,currY:Number):void{
+			Enum.pointArray.push(currX,currY);
+		}
+		/*public function memoryPoint(currX:Number, currY:Number):void
 		{
 			currentPoint=new Point;
 			currentPoint.x=currX;
 			currentPoint.y=currY;
 			Enum.pointArray.push(currentPoint);
-		}
+		}*/
 
 		//显示位图转存储位图
 		/*public function disToBitmap():void{

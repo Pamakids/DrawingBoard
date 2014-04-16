@@ -63,8 +63,30 @@ package playback
 		public function pause():void{
 			playbackTimer.stop();
 		}
-		
 		private function onTimer(event:TimerEvent):void{
+			if(arrIndex==0){
+				playBackSet(arrIndex);
+			}
+			if(EnumBack.PointArray[arrIndex].length==2){
+				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.PointArray[arrIndex],EnumBack.PointArray[arrIndex+1]);
+			}else if(EnumBack.PointArray[arrIndex].length>2){
+				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.PointArray[arrIndex][pointIndex],EnumBack.PointArray[arrIndex][pointIndex+1],
+					EnumBack.PointArray[arrIndex][pointIndex+2],EnumBack.PointArray[arrIndex][pointIndex+3]);
+			}
+			pointIndex+=2;
+			if(pointIndex+3>=EnumBack.PointArray[arrIndex].length){
+				pointIndex=0;
+				arrIndex+=1;
+				playBackSet(arrIndex);
+				if(arrIndex+1>EnumBack.PointArray.length){
+					playbackTimer.stop();
+					playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
+					arrIndex=0;
+					pointIndex=0;
+				}
+			}
+		}
+		/*private function onTimer(event:TimerEvent):void{
 			if(arrIndex==0){
 				playBackSet(arrIndex);
 			}
@@ -86,7 +108,7 @@ package playback
 					pointIndex=0;
 				}
 			}
-		}
+		}*/
 		private function playBackSet(_index:int):void{
 			switch(EnumBack.brushArray[_index]){
 				case "pencil":
