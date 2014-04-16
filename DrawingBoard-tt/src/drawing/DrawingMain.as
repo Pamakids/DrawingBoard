@@ -5,7 +5,7 @@ package drawing
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-<<<<<<< HEAD
+
 	import flash.utils.ByteArray;
 	
 	import drawing.brushs.BrushBase;
@@ -13,15 +13,8 @@ package drawing
 		画布的接口类
 	*/
 	
-=======
-
-	import drawing.brushsClass.BrushBase;
-
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
 	public class DrawingMain extends Sprite
 	{
-
-		private var bgBmp:Bitmap;
 
 		private var brush:BrushBase;
 
@@ -31,8 +24,6 @@ package drawing
 		private var brushFactory:BrushFactory;
 
 		private var control:ControlBase;
-
-		private var index:int;
 
 		public function DrawingMain()
 		{
@@ -48,52 +39,18 @@ package drawing
 			BrushFactory.getBrushFactory();
 
 			control=new ControlBase();
-			//control.disToBitmap();
+			
 			control.setBrush("pencil");
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
-<<<<<<< HEAD
-		//切换背景的连接函数
-		public function changeBG(_displayObject:DisplayObject=null):void{
-			if(_displayObject!=null){
-=======
-
-		//切换背景的链接函数
-		public function changeBG(_displayObject:DisplayObject=null):void
-		{
-			if (_displayObject != null)
-			{
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
-				bgBmp=_displayObject as Bitmap;
-				bgBmp.width=Enum.width;
-				bgBmp.height=Enum.height;
-				addChild(bgBmp);
-			}
-		}
-<<<<<<< HEAD
-		//储存位图数据的连接函数
-		public function reserveByte():ByteArray{
-			return control.drawingReserve();
-		}
-		
-		//控制按钮与对应功能的连接函数
+		//设置笔刷按钮与对应功能的连接函数
 		public function controlBtn(_str:String,_setColor:uint=0x000000):void{
 			switch(_str)
 			{
 				case "pencil":
 					control.setBrush("pencil",_setColor);
-=======
-
-		//控制按钮与对应功能的连接函数
-		public function controlBtn(_str:String):void
-		{
-			switch (_str)
-			{
-				case "pencil":
-					control.setBrush("pencil");
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
 					break;
 				case "pink":
 					control.setBrush("pink",_setColor);
@@ -109,40 +66,10 @@ package drawing
 					break;
 				case "eraser":
 					control.setBrush("eraser",_setColor);
-					Enum.isEraser=true;
 					break;
 				case "delete":
-					if (Enum.isDelete == true)
-					{
-						control.clearCanvas();
-						control.allInit();
-						control.disToBitmap();
-					}
-					break;
-				/*case "back":
-					index--;
-					if (index <= 1)
-					{
-						index=1
-					}
-					control.backASRecover(index);
-					break;
-				case "recover":
-					index++;
-					if (index >= Enum.bitmapArray.length)
-					{
-						index=Enum.bitmapArray.length
-					}
-					control.backASRecover(index);
-					break;*/
-				case "playback":
-					Enum.isDelete=false;
-					Enum.isOperata=false;
-					Enum.isEraser=false;
-					control.playback();
-					break;
-				case "reserve":
-					control.drawingReserve();
+					control.clearCanvas();
+					control.allInit();
 					break;
 			}
 		}
@@ -152,20 +79,20 @@ package drawing
 		{
 			control.setBrushColor(_color);
 		}
-<<<<<<< HEAD
-		//储存回放数据的Object
-		public function reserveObject():void{
-			control.reservePlayBack();
+		
+		//储存位图数据的连接函数
+		public function reserveByte():ByteArray{
+			return control.drawingReserve();
 		}
-=======
-
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
+		//储存回放数据的Object
+		public function reserveObject():Object{
+			return control.reservePlayBack();
+		}
+		
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
 			control.memoryArray();
-			//control.disToBitmap();
-			index=Enum.bitmapArray.length;
 			Enum.colorArray.push(BrushFactory.getBrushFactory().brush.m_color);
 		}
 
@@ -175,15 +102,6 @@ package drawing
 			lastY=this.mouseY;
 
 			control.memoryPoint(this.mouseX, this.mouseY);
-
-			if (Enum.isPlayBack == false)
-			{
-				Enum.isPlayBack=true
-			}
-			if (Enum.isOperata == false)
-			{
-				Enum.isOperata=true
-			}
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
 		}
 

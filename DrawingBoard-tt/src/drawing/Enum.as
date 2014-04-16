@@ -19,10 +19,10 @@ package drawing
 		
 		public static var brushType:String="";//笔刷类型
 		
-		public static var isEraser:Boolean=false;//是否调用橡皮擦
+//		public static var isEraser:Boolean=false;//是否调用橡皮擦
 		//public static var isOperata:Boolean=false;//是否能执行撤销、恢复操作
-		public static var isPlayBack:Boolean=false;//是否执行回放功能
-		public static var isDelete:Boolean=true;//是否执行画布清理
+//		public static var isPlayBack:Boolean=false;//是否执行回放功能
+//		public static var isDelete:Boolean=true;//是否执行画布清理
 		
 		public static var recordByte:ByteArray;//储存保存图片的二进制数据
 	}
