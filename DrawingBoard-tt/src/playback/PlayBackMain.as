@@ -14,7 +14,7 @@ package playback
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
 		
-		public function PlayBackMain(_data:Object,_timerRate:int=10)
+		public function PlayBackMain(_data:Object)
 		{	
 			if(_data!=null){
 				EnumBack.PointArray=_data.point;
@@ -29,7 +29,25 @@ package playback
 				playbackTimer=new Timer(timerRate);
 				playbackTimer.addEventListener(TimerEvent.TIMER,onTimer);
 			}
-			
+		}
+		//改变回放速度
+		public function changeTimerRate(_timerrate:int=1):void{
+			switch(_timerrate){
+				case "1":
+					timerRate=80;
+					break;
+				case "2":
+					timerRate=40;
+					break;
+				case "3":
+					timerRate=5;
+					break;
+			}
+			playbackTimer.stop();
+			playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
+			playbackTimer=new Timer(timerRate);
+			playbackTimer.addEventListener(TimerEvent.TIMER,onTimer);
+			start();
 		}
 		//清除回放记录数据
 		public function clearData():void{
