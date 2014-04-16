@@ -7,16 +7,24 @@
 	<fx:Script>
 		<![CDATA[
 
-			import spark.components.Group;
-
 			import com.greensock.TweenLite;
 
 			import mx.events.FlexEvent;
 
+			import spark.components.Group;
+
 			import assets.game.GameAssets;
+
+			import events.BrushEvent;
+			import events.ColorEvent;
 
 			import models.Config;
 			import models.PasterManager;
+
+
+
+
+
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -65,7 +73,7 @@
 				//			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
 				//			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
 				colorPicker.transform.colorTransform=mPickerColorTransform
-
+				dispatchEvent(new ColorEvent(color));
 //				var cc:IComponent=mColopMap[color]
 //				mColorHalo.x=cc.x
 //				mColorHalo.y=cc.y
@@ -86,6 +94,8 @@
 				var crtImg:Image=e.currentTarget as Image;
 				crtBrushIndex=brushGroup.getElementIndex(crtImg);
 				changeBrush();
+
+				dispatchEvent(new BrushEvent(brushArr[crtBrushIndex]));
 			}
 
 			private var brushArr:Array=["eraser", "waterColor",
@@ -152,11 +162,14 @@
 			protected function pencil_btn_clickHandler(event:MouseEvent):void
 			{
 				isPencilDown=true;
+				dispatchEvent(new Event("changeToDraw"));
+
 			}
 
 			protected function paster_btn_clickHandler(event:MouseEvent):void
 			{
 				isPencilDown=false;
+				dispatchEvent(new Event("changeToTexture"));
 			}
 
 			[Bindable]
