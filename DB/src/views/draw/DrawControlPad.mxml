@@ -285,16 +285,19 @@
 				{
 					case 0:
 					{
+						dispatchEvent(new Event("exitDraw"));
 						break;
 					}
 
 					case 1:
 					{
+						dispatchEvent(new Event("clearDrawBorad"));
 						break;
 					}
 
 					case 2:
 					{
+						dispatchEvent(new Event("saveDraw"));
 						break;
 					}
 
