@@ -15,14 +15,26 @@
 			import events.BrushEvent;
 			import events.ColorEvent;
 
-			import models.Config;
 			import models.ThemeVo;
-
-
-
 
 			public function dispose():void
 			{
+				removeAllElements();
+				if (dm)
+				{
+//					dm.dispose();
+					dbLayer.removeChild(dm);
+				}
+				dm=null;
+
+				if (controlPad)
+				{
+					controlPad.removeEventListener("changeToTexture", onTexture);
+					controlPad.removeEventListener("changeToDraw", onDraw);
+					controlPad.removeEventListener(ColorEvent.EVENT_ID, onColor);
+					controlPad.removeEventListener(BrushEvent.EVENT_ID, onBrush);
+				}
+				controlPad=null;
 			}
 
 			public function initData(vo:ThemeVo):void

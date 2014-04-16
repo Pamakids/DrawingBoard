@@ -142,8 +142,13 @@
 
 			}
 
-			protected function downBtn_clickHandler(event:MouseEvent):void
+			protected function downBtn_clickHandler(event:MouseEvent=null):void
 			{
+				if (tl)
+				{
+					tl.kill();
+					tl=null;
+				}
 				TweenLite.killTweensOf(topGroup);
 				TweenLite.to(topGroup, .5, {top: -120});
 				confirmIndex=-1;
@@ -157,7 +162,7 @@
 
 			public function playEnter():void
 			{
-				downBtn_clickHandler(null);
+				tl=TweenLite.delayedCall(1, downBtn_clickHandler);
 			}
 
 			private var _crtBrushIndex:int;
@@ -189,6 +194,8 @@
 			private var brushColorArr:Vector.<uint>;
 			private var colorPickerArr:Array;
 
+			private var tl:TweenLite;
+
 			private function hideBrush():void
 			{
 				var img:Image=brushGroup.getElementAt(crtBrushIndex) as Image;
@@ -200,7 +207,6 @@
 			{
 				isPencilDown=true;
 				dispatchEvent(new Event("changeToDraw"));
-
 			}
 
 			protected function paster_btn_clickHandler(event:MouseEvent):void
