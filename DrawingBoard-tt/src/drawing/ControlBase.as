@@ -34,7 +34,7 @@ package drawing
 		}
 
 		//在画布清除时，让画布状态回到初始值
-		public function allInit():void{
+		public function allDataInit():void{
 			Enum.pointArray=[];
 			Enum.brushTypeArray=[];
 			Enum.recordPointArray=[];
