@@ -4,6 +4,10 @@ package drawing
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	
+	/*
+		画布单例类
+	*/
+	
 	public class Canvas extends Sprite
 	{
 		

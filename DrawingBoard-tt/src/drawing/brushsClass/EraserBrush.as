@@ -9,8 +9,6 @@ package drawing.brushsClass
 	public class EraserBrush extends BrushBase
 	{
 		
-		private var size:Number=20;
-		
 		private var m_offsetX:Number=0;
 		private var m_offsetY:Number=0;
 		
@@ -24,7 +22,8 @@ package drawing.brushsClass
 			bounds=m_data.getBounds(m_data);
 			m_offsetX=(bounds.left+bounds.right)/2;
 			m_offsetY=(bounds.top+bounds.bottom)/2;
-			m_density=0.5;
+			m_density=5;
+			m_fitRatio=0.7;
 		}
 		
 		final override public function drawPoint(destX:Number,destY:Number):void{
@@ -32,6 +31,7 @@ package drawing.brushsClass
 			cachedMatrix.scale(m_scale*m_fitRatio,m_scale*m_fitRatio);
 			cachedMatrix.translate(destX-m_offsetX,destY-m_offsetY);
 			Canvas.getCanvas().canvasBitmapData.draw(m_data,cachedMatrix,null,BlendMode.ERASE,null,false);
+			//方块类型橡皮擦
 			/*if(Enum.isEraser==true){
 				Canvas.getCanvas().canvasBitmapData.fillRect(new Rectangle(destX - size/2, destY - size/2, size,size),0x0)
 			}*/
