@@ -5,7 +5,7 @@ package drawing
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-<<<<<<< HEAD
+
 	import flash.utils.ByteArray;
 	
 	import drawing.brushs.BrushBase;
@@ -13,11 +13,6 @@ package drawing
 		画布的接口类
 	*/
 	
-=======
-
-	import drawing.brushsClass.BrushBase;
-
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
 	public class DrawingMain extends Sprite
 	{
 
@@ -54,25 +49,15 @@ package drawing
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
-<<<<<<< HEAD
 		//切换背景的连接函数
 		public function changeBG(_displayObject:DisplayObject=null):void{
 			if(_displayObject!=null){
-=======
-
-		//切换背景的链接函数
-		public function changeBG(_displayObject:DisplayObject=null):void
-		{
-			if (_displayObject != null)
-			{
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
 				bgBmp=_displayObject as Bitmap;
 				bgBmp.width=Enum.width;
 				bgBmp.height=Enum.height;
 				addChild(bgBmp);
 			}
 		}
-<<<<<<< HEAD
 		//储存位图数据的连接函数
 		public function reserveByte():ByteArray{
 			return control.drawingReserve();
@@ -84,16 +69,6 @@ package drawing
 			{
 				case "pencil":
 					control.setBrush("pencil",_setColor);
-=======
-
-		//控制按钮与对应功能的连接函数
-		public function controlBtn(_str:String):void
-		{
-			switch (_str)
-			{
-				case "pencil":
-					control.setBrush("pencil");
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
 					break;
 				case "pink":
 					control.setBrush("pink",_setColor);
@@ -152,14 +127,12 @@ package drawing
 		{
 			control.setBrushColor(_color);
 		}
-<<<<<<< HEAD
+
 		//储存回放数据的Object
 		public function reserveObject():void{
 			control.reservePlayBack();
 		}
-=======
-
->>>>>>> e2b979c88fa0ac35b1aa4f093788aa80029a2488
+		
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
