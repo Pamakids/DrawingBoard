@@ -80,14 +80,14 @@ package drawing
 			BrushFactory.getBrushFactory().brush.m_color=_brushColor;
 		}
 		//绘画回放，依据记录的点按一定时间进行重绘
-		/*public function playback():void{
+		public function playback():void{
 			if(Enum.isPlayBack==true&&memoryArray!=null){
 				clearCanvas();
 				playbackTimer=new Timer(timerRate);
 				playbackTimer.addEventListener(TimerEvent.TIMER,onTimer);
 				playbackTimer.start();
 			}
-		}*/
+		}
 		
 		private function onTimer(event:TimerEvent):void{
 			if(arrIndex==0){
