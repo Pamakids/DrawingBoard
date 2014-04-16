@@ -21,13 +21,13 @@
 			import models.Config;
 			import models.PasterManager;
 
-
-
-
-
-
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
+				brushArr=Config.brushArr;
+
+				brushColorArr=Config.brushColorArr;
+				colorPickerArr=Config.colorDataList;
+
 				for (var i:int=0; i < brushArr.length; i++)
 				{
 					var s:String=brushArr[i];
@@ -85,7 +85,10 @@
 				var index:int=colorGroup.getElementIndex(img);
 				trace(index)
 
-				doChangeColorPicker(Config.colorDataList[index])
+				var color:uint=colorPickerArr[index];
+				brushColorArr[crtBrushIndex]=color;
+
+				doChangeColorPicker(color);
 				locateHalo(index);
 			}
 
@@ -93,15 +96,13 @@
 			{
 				var crtImg:Image=e.currentTarget as Image;
 				crtBrushIndex=brushGroup.getElementIndex(crtImg);
-				changeBrush();
-
-				dispatchEvent(new BrushEvent(brushArr[crtBrushIndex]));
 			}
 
-			private var brushArr:Array=["eraser", "waterColor",
-				"crayon", "pink", "maker", "pencil"];
+			private var brushArr:Array;
+//			=["eraser", "waterColor",
+//				"crayon", "pink", "maker", "pencil"];
 
-			private var brushPosXArr:Array=[91, 182, 261, 350, 425, 497];
+			private var brushPosXArr:Array=[91, 165, 261, 350, 425, 497];
 
 			private function changeBrush():void
 			{
@@ -130,6 +131,9 @@
 
 			protected function upBtn_clickHandler(event:MouseEvent):void
 			{
+				TweenLite.killTweensOf(topGroup);
+				TweenLite.to(topGroup, .5, {top: 0});
+
 				TweenLite.killTweensOf(bottomGroup);
 				TweenLite.to(bottomGroup, .5, {bottom: 0});
 				upBtn.visible=false;
@@ -138,8 +142,17 @@
 
 			}
 
-			protected function downBtn_clickHandler(event:MouseEvent):void
+			protected function downBtn_clickHandler(event:MouseEvent=null):void
 			{
+				if (tl)
+				{
+					tl.kill();
+					tl=null;
+				}
+				TweenLite.killTweensOf(topGroup);
+				TweenLite.to(topGroup, .5, {top: -120});
+				confirmIndex=-1;
+
 				TweenLite.killTweensOf(bottomGroup);
 				TweenLite.to(bottomGroup, .5, {bottom: -109});
 				upBtn.visible=true;
@@ -147,10 +160,41 @@
 				hideBrush();
 			}
 
-			private var crtBrushIndex:int=0;
+			public function playEnter():void
+			{
+				tl=TweenLite.delayedCall(1, downBtn_clickHandler);
+			}
+
+			private var _crtBrushIndex:int;
+
+			public function get crtBrushIndex():int
+			{
+				return _crtBrushIndex;
+			}
+
+			public function set crtBrushIndex(value:int):void
+			{
+				_crtBrushIndex=value;
+
+				changeBrush();
+
+				var color:uint=brushColorArr[_crtBrushIndex];
+
+				var index:int=colorPickerArr.indexOf(color);
+				doChangeColorPicker(color);
+				locateHalo(index);
+
+				dispatchEvent(new BrushEvent(brushArr[_crtBrushIndex]));
+				dispatchEvent(new ColorEvent(color));
+			}
+
 
 			private var crtColorIndex:int=0;
 			public var layer:Group;
+			private var brushColorArr:Vector.<uint>;
+			private var colorPickerArr:Array;
+
+			private var tl:TweenLite;
 
 			private function hideBrush():void
 			{
@@ -163,7 +207,6 @@
 			{
 				isPencilDown=true;
 				dispatchEvent(new Event("changeToDraw"));
-
 			}
 
 			protected function paster_btn_clickHandler(event:MouseEvent):void
@@ -185,17 +228,103 @@
 				item.y=Math.random() * 768;
 			}
 
+			protected function backClick(event:MouseEvent):void
+			{
+				if (confirmIndex == 0)
+				{
+					confirmIndex=-1;
+				}
+				else
+				{
+					confirmIndex=0;
+					confirmBtn.source=GameAssets.game_Back;
+					confirmBtn.x=22 + 11;
+//					confirmBtn.y=112 + 4;
+				}
+			}
+
+			protected function deleteClick(event:MouseEvent):void
+			{
+				if (confirmIndex == 1)
+				{
+					confirmIndex=-1;
+				}
+				else
+				{
+					confirmIndex=1;
+					confirmBtn.source=GameAssets.game_Clear;
+					confirmBtn.x=419 + 36;
+//					confirmBtn.y=112 + 4;
+				}
+			}
+
+			protected function confirmClick(event:MouseEvent):void
+			{
+				if (confirmIndex == 2)
+				{
+					confirmIndex=-1;
+				}
+				else
+				{
+					confirmIndex=2;
+					confirmBtn.source=GameAssets.game_complete;
+
+					confirmBtn.x=864 + 14;
+//					confirmBtn.y=112 + 4;
+				}
+			}
+
+			[Bindable]
+			private var confirmIndex:int=-1;
+
+			protected function confirmBtn_clickHandler(event:MouseEvent):void
+			{
+				var i:int=confirmIndex;
+				confirmIndex=-1;
+				switch (i)
+				{
+					case 0:
+					{
+						break;
+					}
+
+					case 1:
+					{
+						break;
+					}
+
+					case 2:
+					{
+						break;
+					}
+
+					default:
+					{
+						break;
+					}
+				}
+			}
+
 		]]>
 	</fx:Script>
-	<s:Group width="100%">
+	<s:Group width="100%" id="topGroup" top="0">
+		<s:Image id="confirmBtn" visible="{confirmIndex!=-1}"
+				 click="confirmBtn_clickHandler(event)" top="110"/>
+
+		<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
+				 top="21" click="backClick(event)"/>
+		<s:Image source="{GameAssets.game_pre_trash}" left="463" top="21"
+				 click="deleteClick(event)"/>
+		<s:Image source="{GameAssets.game_pre_complete}" left="885" top="21"
+				 click="confirmClick(event)"/>
 
 	</s:Group>
 
-	<s:Group width="100%" bottom="-109" height="109" id="bottomGroup">
+	<s:Group width="100%" bottom="0" height="109" id="bottomGroup">
 		<s:Image source="{GameAssets.bottomBg}"/>
 
 		<s:Image id="upBtn" source="{GameAssets.btn_game_bottom_up}"
-				 visible="true" right="25" bottom="109"
+				 visible="false" right="25" bottom="109"
 				 click="upBtn_clickHandler(event)"/>
 		<s:Image id="downBtn" source="{GameAssets.btn_game_bottom_down}"
 				 click="downBtn_clickHandler(event)" visible="{!upBtn.visible}"

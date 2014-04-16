@@ -17,11 +17,24 @@
 
 			import models.ThemeVo;
 
-
-
-
 			public function dispose():void
 			{
+				removeAllElements();
+				if (dm)
+				{
+//					dm.dispose();
+					dbLayer.removeChild(dm);
+				}
+				dm=null;
+
+				if (controlPad)
+				{
+					controlPad.removeEventListener("changeToTexture", onTexture);
+					controlPad.removeEventListener("changeToDraw", onDraw);
+					controlPad.removeEventListener(ColorEvent.EVENT_ID, onColor);
+					controlPad.removeEventListener(BrushEvent.EVENT_ID, onBrush);
+				}
+				controlPad=null;
 			}
 
 			public function initData(vo:ThemeVo):void
@@ -41,17 +54,22 @@
 				controlPad.addEventListener("changeToDraw", onDraw);
 				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
+
+				controlPad.crtBrushIndex=0;
+				controlPad.playEnter();
 			}
 
 			protected function onTexture(event:Event):void
 			{
 				textureLayer.mouseChildren=textureLayer.mouseEnabled=true;
+				dbLayer.mouseChildren=dbLayer.mouseEnabled=false;
 				textureLayer.alpha=1;
 			}
 
 			protected function onDraw(event:Event):void
 			{
 				textureLayer.mouseChildren=textureLayer.mouseEnabled=false;
+				dbLayer.mouseChildren=dbLayer.mouseEnabled=true;
 				textureLayer.alpha=.3;
 			}
 
@@ -77,6 +95,5 @@
 				 alpha=".3"/>
 	</s:Group>
 	<draw:DrawControlPad id="controlPad">
-
 	</draw:DrawControlPad>
 </s:Group>

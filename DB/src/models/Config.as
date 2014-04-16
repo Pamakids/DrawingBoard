@@ -99,5 +99,20 @@ package models
 				0x000000
 				]
 		}
+
+		public static function get brushColorArr():Vector.<uint>
+		{
+			var arr:Vector.<uint>=new Vector.<uint>();
+			arr.push(0x30a1dd,
+				0x000000
+				, 0xffc621
+				, 0xfe5377
+				, 0x74bd4b
+				, 0x30a1dd);
+			return arr;
+		}
+
+		public static var brushArr:Array=["waterColor", "pencil",
+			"crayon", "pink", "maker", "eraser"];
 	}
 }
