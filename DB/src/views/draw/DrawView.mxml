@@ -5,13 +5,14 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="group1_creationCompleteHandler(event)">
 
+	<fx:Declarations>
+		<s:DateTimeFormatter id="df" dateTimePattern="yyyyMMddHHmmss/"/>
+	</fx:Declarations>
+
 	<fx:Script>
 		<![CDATA[
 
-			import com.pamakids.manager.FileManager;
-
 			import mx.events.FlexEvent;
-			import mx.graphics.codec.JPEGEncoder;
 
 			import drawing.DrawingMain;
 
@@ -20,6 +21,8 @@
 
 			import models.PaintData;
 			import models.ThemeVo;
+
+			import proxy.FileProxy;
 
 			public function dispose():void
 			{
@@ -46,14 +49,20 @@
 
 			public function initData(vo:ThemeVo):void
 			{
+				paintData=new PaintData();
 				paintData.theme=vo;
 				bg.source=vo.dataUrl;
 			}
 
 			private var dm:DrawingMain;
 
+			private var fproxy:FileProxy;
+
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
+				fproxy=new FileProxy();
+				fproxy.path=df.format(new Date());
+
 				dm=new DrawingMain();
 				dbLayer.addChild(dm);
 				controlPad.layer=textureLayer;
@@ -120,10 +129,13 @@
 
 			protected function onSave(event:Event):void
 			{
-//				paintData.drawData=dm.getData();
+				paintData.drawData=dm.reserveObject();
+				paintData.textureData=controlPad.getTextureData();
+
 				var thumb:BitmapData=new BitmapData(1024, 768);
-				thumb.drawWithQuality(drawBoard);
-				var ba:ByteArray=new JPEGEncoder().encode(thumb);
+				thumb.draw(drawBoard);
+				fproxy.saveThumb(thumb);
+				fproxy.saveConfig(paintData);
 			}
 
 		]]>

@@ -62,7 +62,7 @@ package proxy
 		public function saveThumb(bd:BitmapData):void
 		{
 			var ba:ByteArray=new JPEGEncoder().encode(bd);
-			FileManager.saveFile(username + "/" + path + "/thumb.jpg", ba);
+			FileManager.saveFile(username + "/" + path + "thumb.jpg", ba);
 		}
 
 		/**
@@ -73,7 +73,8 @@ package proxy
 		{
 			obj.path=path;
 			var str:String=com.adobe.serialization.json.JSON.encode(obj);
-			FileManager.saveFile(username + "/" + path + "/config.json", str);
+			var f:File=FileManager.saveFile(username + "/" + path + "config.json", str) as File;
+			trace(f.nativePath)
 		}
 
 		/**
@@ -152,7 +153,7 @@ package proxy
 			if (!token)
 				return;
 			var f:File=File.applicationStorageDirectory.resolvePath((fromDefault ? "defaultUser" : username) +
-				"/" + path + "/" + name);
+				"/" + path + name);
 			if (!f.exists)
 				return;
 			var u:URLRequest=new URLRequest(REMOTE);
@@ -160,7 +161,7 @@ package proxy
 			u.requestHeaders=[new URLRequestHeader('enctype', 'multipart/form-data')];
 			var ur:URLVariables=new URLVariables();
 
-			ur.key=username + "/" + path + "/" + name;
+			ur.key=username + "/" + path + name;
 			ur.token=audio ? audioToken : token;
 			ur['x:param']='Your custom param and value';
 

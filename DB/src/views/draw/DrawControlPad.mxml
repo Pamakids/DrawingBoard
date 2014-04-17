@@ -20,6 +20,7 @@
 
 			import models.Config;
 			import models.PasterManager;
+			import models.TextureVO;
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -226,6 +227,19 @@
 				layer.addElement(item);
 				item.x=Math.random() * 1024;
 				item.y=Math.random() * 768;
+				item.index=textureBar.index;
+			}
+
+			public function getTextureData():Array
+			{
+				var arr:Array=[];
+				for (var i:int=0; i < layer.numElements; i++)
+				{
+					var t:TextureItem=layer.getElementAt(i) as TextureItem;
+					var o:TextureVO=new TextureVO(t);
+					arr.push(o);
+				}
+				return arr;
 			}
 
 			protected function backClick(event:MouseEvent):void

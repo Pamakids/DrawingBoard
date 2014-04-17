@@ -8,7 +8,7 @@ package models
 		}
 
 		public var theme:ThemeVo;
-		public var drawData:Array;
+		public var drawData:Object;
 		public var textureData:Array;
 
 		public var path:String;

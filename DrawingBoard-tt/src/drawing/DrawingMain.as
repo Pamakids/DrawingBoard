@@ -1,18 +1,16 @@
 package drawing
 {
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-
 	import flash.utils.ByteArray;
-	
-	import drawing.brushs.BrushBase;
+
+	import playback.brushs.BrushBase;
+
 	/*
 		画布的接口类
 	*/
-	
+
 	public class DrawingMain extends Sprite
 	{
 
@@ -31,7 +29,8 @@ package drawing
 			addEventListener(Event.ADDED_TO_STAGE, init);
 		}
 
-		private function init(e:Event):void{
+		private function init(e:Event):void
+		{
 			addChild(Canvas.getCanvas());
 			//初始画布
 			Canvas.getCanvas().initCanvas();
@@ -39,33 +38,35 @@ package drawing
 			BrushFactory.getBrushFactory();
 
 			control=new ControlBase();
-			
-			control.setBrush("pencil");
+
+//			control.setBrush("pencil");
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
+
 		//设置笔刷按钮与对应功能的连接函数
-		public function controlBtn(_str:String,_setColor:uint=0x000000):void{
-			switch(_str)
+		public function controlBtn(_str:String, _setColor:uint=0x000000):void
+		{
+			switch (_str)
 			{
 				case "pencil":
-					control.setBrush("pencil",_setColor);
+					control.setBrush("pencil", _setColor);
 					break;
 				case "pink":
-					control.setBrush("pink",_setColor);
+					control.setBrush("pink", _setColor);
 					break;
 				case "maker":
-					control.setBrush("maker",_setColor);
+					control.setBrush("maker", _setColor);
 					break;
 				case "crayon":
-					control.setBrush("crayon",_setColor);
+					control.setBrush("crayon", _setColor);
 					break;
 				case "waterColor":
-					control.setBrush("waterColor",_setColor);
+					control.setBrush("waterColor", _setColor);
 					break;
 				case "eraser":
-					control.setBrush("eraser",_setColor);
+					control.setBrush("eraser", _setColor);
 					break;
 				case "delete":
 					control.clearCanvas();
@@ -79,16 +80,19 @@ package drawing
 		{
 			control.setBrushColor(_color);
 		}
-		
+
 		//储存位图数据的连接函数
-		public function reserveByte():ByteArray{
+		public function reserveByte():ByteArray
+		{
 			return control.drawingReserve();
 		}
+
 		//储存回放数据的Object
-		public function reserveObject():Object{
+		public function reserveObject():Object
+		{
 			return control.reservePlayBack();
 		}
-		
+
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
