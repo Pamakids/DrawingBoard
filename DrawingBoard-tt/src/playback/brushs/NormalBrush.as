@@ -23,14 +23,14 @@ package playback.brushs
 				case "pencil":
 					m_data=new Pencil as DisplayObject;
 					m_density=9;
-					m_fitRatio=0.2;
+					m_fitRatio=0.1;
 					m_color=0x000000;
 					break;
 				case "pink":
 					m_data=new Pink as DisplayObject;
 					m_density=3;
 					m_color=0x881100;
-					m_fitRatio=0.5;
+					m_fitRatio=0.7;
 					m_alpha=0.2;
 					break;
 				case "waterColor":

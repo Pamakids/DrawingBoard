@@ -23,8 +23,8 @@ package playback.brushs
 			bounds=m_data.getBounds(m_data);
 			m_offsetX=(bounds.left+bounds.right)/2;
 			m_offsetY=(bounds.top+bounds.bottom)/2;
-			m_density=5;
-			m_fitRatio=.7;
+			m_density=3;
+			m_fitRatio=1;
 		}
 		
 		final override public function drawPoint(destX:Number,destY:Number):void{

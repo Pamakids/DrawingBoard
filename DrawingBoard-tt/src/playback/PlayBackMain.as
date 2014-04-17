@@ -14,7 +14,7 @@ package playback
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
 		
-		public function PlayBackMain(_data:Object,_timerRate:int=10)
+		public function PlayBackMain(_data:Object)
 		{	
 			if(_data!=null){
 				EnumBack.PointArray=_data.point;
@@ -29,7 +29,25 @@ package playback
 				playbackTimer=new Timer(timerRate);
 				playbackTimer.addEventListener(TimerEvent.TIMER,onTimer);
 			}
-			
+		}
+		//改变回放速度
+		public function changeTimerRate(_timerrate:int=1):void{
+			switch(_timerrate){
+				case "1":
+					timerRate=80;
+					break;
+				case "2":
+					timerRate=40;
+					break;
+				case "3":
+					timerRate=5;
+					break;
+			}
+			playbackTimer.stop();
+			playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
+			playbackTimer=new Timer(timerRate);
+			playbackTimer.addEventListener(TimerEvent.TIMER,onTimer);
+			start();
 		}
 		//清除回放记录数据
 		public function clearData():void{
@@ -45,8 +63,30 @@ package playback
 		public function pause():void{
 			playbackTimer.stop();
 		}
-		
 		private function onTimer(event:TimerEvent):void{
+			if(arrIndex==0){
+				playBackSet(arrIndex);
+			}
+			if(EnumBack.PointArray[arrIndex].length==2){
+				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.PointArray[arrIndex],EnumBack.PointArray[arrIndex+1]);
+			}else if(EnumBack.PointArray[arrIndex].length>2){
+				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.PointArray[arrIndex][pointIndex],EnumBack.PointArray[arrIndex][pointIndex+1],
+					EnumBack.PointArray[arrIndex][pointIndex+2],EnumBack.PointArray[arrIndex][pointIndex+3]);
+			}
+			pointIndex+=2;
+			if(pointIndex+3>=EnumBack.PointArray[arrIndex].length){
+				pointIndex=0;
+				arrIndex+=1;
+				playBackSet(arrIndex);
+				if(arrIndex+1>EnumBack.PointArray.length){
+					playbackTimer.stop();
+					playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
+					arrIndex=0;
+					pointIndex=0;
+				}
+			}
+		}
+		/*private function onTimer(event:TimerEvent):void{
 			if(arrIndex==0){
 				playBackSet(arrIndex);
 			}
@@ -68,7 +108,7 @@ package playback
 					pointIndex=0;
 				}
 			}
-		}
+		}*/
 		private function playBackSet(_index:int):void{
 			switch(EnumBack.brushArray[_index]){
 				case "pencil":

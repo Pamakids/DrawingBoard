@@ -2,7 +2,6 @@ package drawing
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	//import flash.net.FileReference;
 	import flash.utils.ByteArray;
@@ -34,7 +33,7 @@ package drawing
 		}
 
 		//在画布清除时，让画布状态回到初始值
-		public function allInit():void{
+		public function allDataInit():void{
 			Enum.pointArray=[];
 			Enum.brushTypeArray=[];
 			Enum.recordPointArray=[];
@@ -93,13 +92,16 @@ package drawing
 		}
 
 		//记录画线所经过的点
-		public function memoryPoint(currX:Number, currY:Number):void
+		public function memoryPoint(currX:Number,currY:Number):void{
+			Enum.pointArray.push(currX,currY);
+		}
+		/*public function memoryPoint(currX:Number, currY:Number):void
 		{
 			currentPoint=new Point;
 			currentPoint.x=currX;
 			currentPoint.y=currY;
 			Enum.pointArray.push(currentPoint);
-		}
+		}*/
 
 		//显示位图转存储位图
 		/*public function disToBitmap():void{

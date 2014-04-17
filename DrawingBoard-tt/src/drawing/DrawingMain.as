@@ -42,7 +42,7 @@ package drawing
 //			control.setBrush("pencil");
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
-			stage.addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
+			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
 
 		//设置笔刷按钮与对应功能的连接函数
@@ -68,13 +68,14 @@ package drawing
 				case "eraser":
 					control.setBrush("eraser", _setColor);
 					break;
-				case "delete":
-					control.clearCanvas();
-					control.allInit();
-					break;
 			}
 		}
-
+		//画布清除的连接函数
+		public function clearAll():void{
+			control.clearCanvas();
+			control.allDataInit();
+		}
+		
 		//颜色选择按钮与设置对应颜色的链接函数
 		public function controlColor(_color:uint):void
 		{
