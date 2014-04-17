@@ -63,13 +63,13 @@
 				recommendHodler.addChild(recommend);
 
 //				DBPopUp.addUserInfoPopup(null);
-				callLater(function():void {
-					var login:UserLoginPopup=new UserLoginPopup();
-					login.addEventListener("loginClose", function():void {
-						DBPopUp.removePopUp(login);
-					});
-					DBPopUp.addPopUp(login);
-				});
+//				callLater(function():void {
+//					var login:UserLoginPopup=new UserLoginPopup();
+//					login.addEventListener("loginClose", function():void {
+//						DBPopUp.removePopUp(login);
+//					});
+//					DBPopUp.addPopUp(login);
+//				});
 
 //				addElement(login);
 //				login.addEventListener("loginClose", function():void {

@@ -42,7 +42,7 @@ package drawing
 //			control.setBrush("pencil");
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
-			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
+//			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
 
 		//设置笔刷按钮与对应功能的连接函数
@@ -70,12 +70,14 @@ package drawing
 					break;
 			}
 		}
+
 		//画布清除的连接函数
-		public function clearAll():void{
+		public function clearAll():void
+		{
 			control.clearCanvas();
 			control.allDataInit();
 		}
-		
+
 		//颜色选择按钮与设置对应颜色的链接函数
 		public function controlColor(_color:uint):void
 		{
@@ -97,6 +99,7 @@ package drawing
 		private function onUpHandler(event:MouseEvent):void
 		{
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 			control.memoryArray();
 			Enum.colorArray.push(BrushFactory.getBrushFactory().brush.m_color);
 		}
@@ -108,6 +111,7 @@ package drawing
 
 			control.memoryPoint(this.mouseX, this.mouseY);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
+			stage.addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
 
 		private function onMoveHandler(event:MouseEvent):void
@@ -116,6 +120,17 @@ package drawing
 			BrushFactory.getBrushFactory().brush.drawLine(lastX, lastY, this.mouseX, this.mouseY);
 			lastX=this.mouseX;
 			lastY=this.mouseY;
+		}
+
+		public function dispose():void
+		{
+			Canvas.getCanvas().dispose();
+			Canvas.getCanvas().removeEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
+			if (stage)
+			{
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onUpHandler);
+			}
 		}
 	}
 }

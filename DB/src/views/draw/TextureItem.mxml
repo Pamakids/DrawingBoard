@@ -14,6 +14,8 @@
 
 			import com.greensock.TweenLite;
 
+			import models.TextureVO;
+
 			private var bp:Bitmap;
 
 			protected function group1_gestureZoomHandler(e:TransformGestureEvent):void
@@ -56,10 +58,6 @@
 			private var pivotY:Number=0;
 			[Bindable]
 			private var mRotation:Number=0;
-
-			protected function img_completeHandler(e:Event):void
-			{
-			}
 
 			protected function onUp(event:MouseEvent):void
 			{
@@ -104,10 +102,19 @@
 				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
 			}
 
+			public function setPos(to:TextureVO):void
+			{
+				x=to.mx;
+				y=to.my;
+				mRotation=to.mrotaion;
+				scale=to.mscale;
+				alpha=0;
+			}
+
 		]]>
 	</fx:Script>
 	<s:Group x="{-pivotX}" y="{-pivotY}">
-		<s:Image id="img" complete="img_completeHandler(event)"/>
+		<s:Image id="img"/>
 	</s:Group>
 
 </s:Group>

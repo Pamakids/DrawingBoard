@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 xmlns:player="views.player.*" xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<fx:Script>
+		<![CDATA[
+
+			import com.greensock.TweenLite;
+
+			import models.PaintData;
+			import models.PasterManager;
+			import models.TextureVO;
+
+			import playback.PlayBackMain;
+
+			import views.draw.TextureItem;
+
+			private var data:PaintData;
+			private var player:PlayBackMain;
+
+			public function initData(_data:PaintData):void
+			{
+				data=_data;
+
+				bg.source=data.theme.dataUrl;
+
+				player=new PlayBackMain(data.drawData);
+				player.start();
+				player.changeTimerRate(3);
+				dbLayer.addChild(player);
+
+				replayTexture(data.textureData);
+			}
+
+			private function replayTexture(arr:Array):void
+			{
+				for (var i:int=0; i < arr.length; i++)
+				{
+					var to:TextureVO=arr[i];
+					playTI(to, delay * i);
+				}
+			}
+
+			private var delay:Number=1;
+
+			public function dispose():void
+			{
+
+			}
+
+			private function playTI(to:TextureVO, d:Number):void
+			{
+				TweenLite.delayedCall(d, function():void {
+					var ti:TextureItem=new TextureItem();
+					var cls:Class=PasterManager.getInstance().getPasterRefByIndex(to.index);
+					ti.setSource(cls);
+					ti.setPos(to);
+
+					textureLayer.addElement(ti);
+					TweenLite.to(ti, delay, {alpha: 1});
+				});
+			}
+
+			protected function drawBoard_clickHandler(event:MouseEvent):void
+			{
+				controller.playBars();
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Group id="drawBoard" width="100%" height="100%"
+			 click="drawBoard_clickHandler(event)">
+		<s:Image id="bg"/>
+		<mx:UIComponent id="dbLayer">
+		</mx:UIComponent>
+		<s:Group id="textureLayer" mouseEnabled="false" mouseChildren="false"/>
+	</s:Group>
+	<player:ReplayControlBar id="controller">
+
+	</player:ReplayControlBar>
+</s:Group>

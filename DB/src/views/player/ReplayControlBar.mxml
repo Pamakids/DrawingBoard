@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="400" height="300"
+		 xmlns:components="views.components.*"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import com.greensock.TweenLite;
+
+			import mx.events.FlexEvent;
+
+			import assets.player.PlayerAssets;
+
+			import controllers.DBPopUp;
+
+			import views.components.RecordPopup;
+			private var playing:Boolean;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				playButton.setImg(PlayerAssets.btn_playAndPause);
+
+				for (var i:int=0; i < speedGroup.numElements; i++)
+				{
+					var ib:ImageButton=speedGroup.getElementAt(i) as ImageButton;
+					ib.setImg(PlayerAssets["btn_speed_" + (i + 1).toString()]);
+				}
+
+				changeSpeed(0, false);
+			}
+
+			protected function playButton_clickHandler(event:MouseEvent):void
+			{
+				playButton.isDown=!playButton.isDown;
+
+				playing=playButton.isDown;
+				if (playing)
+					dispatchEvent(new Event("play"));
+				else
+					dispatchEvent(new Event("pause"));
+			}
+
+			public var speed:int=1;
+
+			protected function speed_clickHandler(event:MouseEvent):void
+			{
+				var ib:ImageButton=event.currentTarget as ImageButton;
+				var index:int=speedGroup.getElementIndex(ib);
+
+				changeSpeed(index);
+			}
+
+			private function changeSpeed(index:int, click:Boolean=true):void
+			{
+				if (index == speed - 1 && click)
+					return;
+
+				for (var i:int=0; i < speedGroup.numElements; i++)
+				{
+					var ibx:ImageButton=speedGroup.getElementAt(i) as ImageButton;
+					ibx.isDown=i == index;
+				}
+
+				speed=index + 1;
+				dispatchEvent(new Event("changeSpeed"));
+			}
+
+			public function setProgress(_progress:Number):void
+			{
+				progress.setProgress(_progress);
+			}
+
+			protected function backClick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function shareClick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function recordClick(event:MouseEvent):void
+			{
+				var rec:RecordPopup=new RecordPopup();
+				rec.addEventListener("close", function(e:Event):void {
+					DBPopUp.removePopUp(rec);
+				});
+				DBPopUp.addPopUp(rec);
+			}
+
+			[Bindable]
+			private var recorded:Boolean=false;
+
+			protected function galleryClick(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			private var isHide:Boolean=false;
+
+
+			public function playBars():void
+			{
+				TweenLite.killTweensOf(topGroup);
+				TweenLite.killTweensOf(bottomGroup);
+
+				isHide=!isHide;
+
+				TweenLite.to(topGroup, .5, {alpha: isHide ? 0 : 1, top: isHide ? -120 : 0});
+				TweenLite.to(bottomGroup, .5, {alpha: isHide ? 0 : 1, top: isHide ? 768 : 646});
+			}
+
+//			public function showBars():void
+//			{
+//				isHide=false;
+//				TweenLite.killTweensOf(topGroup);
+//				TweenLite.killTweensOf(bottomGroup);
+//				TweenLite.to(topGroup, .5, {alpha: 1, top: 0});
+//				TweenLite.to(bottomGroup, .5, {alpha: 1, top: 646});
+//			}
+
+		]]>
+	</fx:Script>
+
+	<s:Group width="100%" id="topGroup" top="0">
+		<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
+				 top="21" click="backClick(event)"/>
+		<s:Image 
+				 source="{recorded?PlayerAssets.top_has_record:PlayerAssets.top_no_record}"
+				 left="463" top="21" click="recordClick(event)"/>
+		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="885"
+				 top="21" click="galleryClick(event)"/>
+
+	</s:Group>
+
+	<s:Group top="646" left="52" id="bottomGroup">
+		<s:Image source="{PlayerAssets.bottomBg}"/>
+		<components:ImageButton id="playButton" left="34" top="29"
+								click="playButton_clickHandler(event)"/>
+
+		<components:MyProgressBar width="507" height="15" id="progress" top="41"
+								  left="94"/>
+
+		<s:Group id="speedGroup" left="590" top="39">
+			<components:ImageButton id="speed1x" left="0"
+									click="speed_clickHandler(event)"/>
+			<components:ImageButton id="speed2x" left="75"
+									click="speed_clickHandler(event)"/>
+			<components:ImageButton id="speed3x" left="150"
+									click="speed_clickHandler(event)"/>
+		</s:Group>
+		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)"
+				 left="847"/>
+	</s:Group>
+</s:Group>

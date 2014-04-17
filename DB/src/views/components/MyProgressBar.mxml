@@ -21,7 +21,7 @@
 
 			public function setProgress(value:Number, max:Number=100):void
 			{
-				progress.scaleX=Math.max(0, Math.min(1, value / max));
+				progress.scaleX=Math.max(.01, Math.min(1, value / max));
 			}
 
 			public function get currentProgress():Number

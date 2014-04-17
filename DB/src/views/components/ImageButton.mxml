@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark">
+	<fx:Script>
+		<![CDATA[
+
+			public function setImg(c:Class):void
+			{
+				bp=new c();
+				container.width=bp.width >> 1;
+				container.height=bp.height;
+				img.source=bp;
+			}
+
+			[Bindable]
+			public var isDown:Boolean;
+
+			public function dispose():void
+			{
+				removeAllElements();
+				if (bp)
+					bp.bitmapData.dispose();
+				bp=null;
+			}
+
+			private var bp:Bitmap;
+
+		]]>
+	</fx:Script>
+	<s:Group clipAndEnableScrolling="true" id="container">
+		<s:Image id="img" x="{isDown ? -container.width : 0}"/>
+	</s:Group>
+</s:Group>

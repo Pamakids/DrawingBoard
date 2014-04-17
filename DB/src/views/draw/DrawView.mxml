@@ -3,7 +3,8 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 xmlns:drawing="drawing.*" xmlns:draw="views.draw.*"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 xmlns:player="views.player.*">
 
 	<fx:Declarations>
 		<s:DateTimeFormatter id="df" dateTimePattern="yyyyMMddHHmmss/"/>
@@ -24,14 +25,16 @@
 
 			import proxy.FileProxy;
 
+			import views.player.ReplayView;
+
 			public function dispose():void
 			{
-				removeAllElements();
 				if (dm)
 				{
-//					dm.dispose();
+					dm.dispose();
 					dbLayer.removeChild(dm);
 				}
+				removeAllElements();
 				dm=null;
 
 				if (controlPad)
@@ -116,8 +119,8 @@
 			{
 				if (dm)
 				{
+					dm.dispose();
 					dbLayer.removeChild(dm);
-//					dm.dispose();
 				}
 				dm=null;
 
@@ -136,11 +139,23 @@
 				thumb.draw(drawBoard);
 				fproxy.saveThumb(thumb);
 				fproxy.saveConfig(paintData);
+
+				dispose();
+
+				var player:ReplayView=new ReplayView();
+				player.initData(paintData);
+				addElement(player);
+			}
+
+			protected function drawBoard_clickHandler(event:MouseEvent):void
+			{
+				replay.playBars();
 			}
 
 		]]>
 	</fx:Script>
-	<s:Group id="drawBoard" width="100%" height="100%">
+	<s:Group id="drawBoard" width="100%" height="100%"
+			 click="drawBoard_clickHandler(event)">
 		<s:Image id="bg"/>
 		<mx:UIComponent id="dbLayer">
 		</mx:UIComponent>
@@ -149,4 +164,8 @@
 	</s:Group>
 	<draw:DrawControlPad id="controlPad">
 	</draw:DrawControlPad>
+
+	<player:ReplayControlBar id="replay">
+
+	</player:ReplayControlBar>
 </s:Group>
