@@ -75,7 +75,6 @@ package drawing
 		public function clearAll():void
 		{
 			control.clearCanvas();
-			control.allDataInit();
 		}
 
 		//颜色选择按钮与设置对应颜色的链接函数
@@ -131,6 +130,7 @@ package drawing
 				stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 			}
+			control.allDataInit();
 		}
 	}
 }

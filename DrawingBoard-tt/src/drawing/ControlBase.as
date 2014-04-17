@@ -38,6 +38,7 @@ package drawing
 			Enum.brushTypeArray=[];
 			Enum.recordPointArray=[];
 			Enum.colorArray=[];
+			Enum.brushType="";
 		}
 
 		//设置笔刷

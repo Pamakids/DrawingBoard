@@ -143,6 +143,7 @@ package playback
 					break;
 				case "maker":
 					setBrush("maker");
+					break;
 				case "crayon":
 					setBrush("crayon");
 					break;
