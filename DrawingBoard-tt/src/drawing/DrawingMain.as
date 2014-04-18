@@ -75,6 +75,7 @@ package drawing
 		public function clearAll():void
 		{
 			control.clearCanvas();
+			control.allDataInit();
 		}
 
 		//颜色选择按钮与设置对应颜色的链接函数

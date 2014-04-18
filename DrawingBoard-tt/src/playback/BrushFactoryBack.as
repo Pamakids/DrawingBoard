@@ -42,7 +42,7 @@ package playback
 					brush=new NormalBrush("pink");
 					break;
 				case "crayon":
-					brush=new NormalBrush("crayon");
+					brush=new RotateBrush();
 					break;
 				case "maker":
 					brush=new NormalBrush("maker");
