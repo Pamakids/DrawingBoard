@@ -19,7 +19,7 @@ package drawing.brushs
 			m_data=new Crayon as DisplayObject;
 			m_color=0x000000;
 			m_density=8.5;
-			m_fitRatio=1.6;
+			m_fitRatio=1.4;
 			
 			wh=m_data.width;
 		}

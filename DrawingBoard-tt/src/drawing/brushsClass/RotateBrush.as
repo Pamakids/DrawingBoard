@@ -18,7 +18,7 @@ package drawing.brushsClass
 			super();
 			m_data=new Crayon as DisplayObject;
 			m_density=8.5;
-			m_fitRatio=1.6;
+			m_fitRatio=1.4;
 			
 			wh=m_data.width;
 		}
