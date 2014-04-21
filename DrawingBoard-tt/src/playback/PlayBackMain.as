@@ -1,20 +1,23 @@
 package playback
 {
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 
 	public class PlayBackMain extends Sprite
 	{
 
-		private var playbackTimer:Timer
+		private var playbackTimer:Timer;
 
 		private var timerRate:int; //回放节奏的控制
 
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
+		
+		private var isOperate:Boolean=false;
 
-		public function PlayBackMain(_data:Object)
+		public function PlayBackMain(_data:Object=null)
 		{
 			if (_data != null)
 			{
@@ -26,6 +29,9 @@ package playback
 				addChild(CanvasBack.getCanvas());
 				CanvasBack.getCanvas().initCanvas();
 				BrushFactoryBack.getBrushFactory();
+				
+				isOperate=true;
+				
 				//用于绘画回放的Timer事件
 				playbackTimer=new Timer(timerRate);
 				playbackTimer.addEventListener(TimerEvent.TIMER, onTimer);
@@ -35,23 +41,26 @@ package playback
 		//改变回放速度
 		public function changeTimerRate(_timerrate:int=1):void
 		{
-			switch (_timerrate)
-			{
-				case "1":
-					timerRate=40;
-					break;
-				case "2":
-					timerRate=30;
-					break;
-				case "3":
-					timerRate=20;
-					break;
+			if(isOperate==true){
+				switch (_timerrate)
+				{
+					case "1":
+						timerRate=40;
+						break;
+					case "2":
+						timerRate=30;
+						break;
+					case "3":
+						timerRate=20;
+						break;
+				}
+				playbackTimer.stop();
+				playbackTimer.removeEventListener(TimerEvent.TIMER, onTimer);
+				playbackTimer=new Timer(timerRate);
+				playbackTimer.addEventListener(TimerEvent.TIMER, onTimer);
+				start();
 			}
-			playbackTimer.stop();
-			playbackTimer.removeEventListener(TimerEvent.TIMER, onTimer);
-			playbackTimer=new Timer(timerRate);
-			playbackTimer.addEventListener(TimerEvent.TIMER, onTimer);
-			start();
+			
 		}
 
 		//清除回放记录数据
@@ -65,13 +74,17 @@ package playback
 		//回放开始
 		public function start():void
 		{
-			playbackTimer.start();
+			if(isOperate==true){
+				playbackTimer.start();
+			}
 		}
 
 		//回放暂停
 		public function pause():void
 		{
-			playbackTimer.stop();
+			if(isOperate==true){
+				playbackTimer.stop();
+			}
 		}
 
 		private function onTimer(event:TimerEvent):void
@@ -101,6 +114,8 @@ package playback
 					playbackTimer.removeEventListener(TimerEvent.TIMER, onTimer);
 					arrIndex=0;
 					pointIndex=0;
+					isOperate=false;
+					this.dispatchEvent(new Event("playback_over"));
 				}
 			}
 		}
