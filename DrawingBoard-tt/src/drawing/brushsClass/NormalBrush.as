@@ -32,13 +32,14 @@ package drawing.brushsClass
 					break;
 				case "waterColor":
 					m_data=new WaterColor as DisplayObject;
-					m_density=6;
+					m_density=9;
 					m_fitRatio=0.4;
+					m_alpha=0.6;
 					break;
 				case "maker":
 					m_data=new Maker as DisplayObject;
 					m_fitRatio=0.3;
-					m_density=6;
+					m_density=9;
 					break;
 				default:
 					break;
