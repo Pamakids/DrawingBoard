@@ -26,7 +26,7 @@ package playback.brushs
 					break;
 				case "pink":
 					m_data=new Pink as DisplayObject;
-					m_density=3;
+					m_density=4;
 					m_fitRatio=0.7;
 					m_alpha=0.2;
 					break;
@@ -39,11 +39,6 @@ package playback.brushs
 					m_data=new Maker as DisplayObject;
 					m_fitRatio=0.3;
 					m_density=6;
-					break;
-				case "crayon":
-					m_data=new Crayon as DisplayObject;
-					m_fitRatio=0.4;
-					m_density=16;
 					break;
 				default:
 					break;
