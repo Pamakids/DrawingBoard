@@ -21,7 +21,7 @@ package playback
 		{
 			if (_data != null)
 			{
-				EnumBack.PointArray=_data.point;
+				EnumBack.pointArray=_data.point;
 				EnumBack.brushArray=_data.brush;
 				EnumBack.colorArray=_data.brushColor;
 				timerRate=40
@@ -66,7 +66,7 @@ package playback
 		//清除回放记录数据
 		public function clearData():void
 		{
-			EnumBack.PointArray=[];
+			EnumBack.pointArray=[];
 			EnumBack.brushArray=[];
 			EnumBack.colorArray=[];
 		}
@@ -93,22 +93,22 @@ package playback
 			{
 				playBackSet(arrIndex);
 			}
-			if (EnumBack.PointArray[arrIndex].length == 2)
+			if (EnumBack.pointArray[arrIndex].length == 2)
 			{
-				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.PointArray[arrIndex], EnumBack.PointArray[arrIndex + 1]);
+				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex], EnumBack.pointArray[arrIndex + 1]);
 			}
-			else if (EnumBack.PointArray[arrIndex].length > 2)
+			else if (EnumBack.pointArray[arrIndex].length > 2)
 			{
-				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.PointArray[arrIndex][pointIndex], EnumBack.PointArray[arrIndex][pointIndex + 1],
-					EnumBack.PointArray[arrIndex][pointIndex + 2], EnumBack.PointArray[arrIndex][pointIndex + 3]);
+				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.pointArray[arrIndex][pointIndex], EnumBack.pointArray[arrIndex][pointIndex + 1],
+					EnumBack.pointArray[arrIndex][pointIndex + 2], EnumBack.pointArray[arrIndex][pointIndex + 3]);
 			}
 			pointIndex+=2;
-			if (pointIndex + 3 >= EnumBack.PointArray[arrIndex].length)
+			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length)
 			{
 				pointIndex=0;
 				arrIndex+=1;
 				playBackSet(arrIndex);
-				if (arrIndex + 1 > EnumBack.PointArray.length)
+				if (arrIndex + 1 > EnumBack.pointArray.length)
 				{
 					playbackTimer.stop();
 					playbackTimer.removeEventListener(TimerEvent.TIMER, onTimer);
@@ -124,18 +124,18 @@ package playback
 			if(arrIndex==0){
 				playBackSet(arrIndex);
 			}
-			if(EnumBack.PointArray[arrIndex].length==1){
-				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.PointArray[arrIndex].x,EnumBack.PointArray[arrIndex].y);
-			}else if(EnumBack.PointArray[arrIndex].length>1){
-				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.PointArray[arrIndex][pointIndex].x,EnumBack.PointArray[arrIndex][pointIndex].y,
-					EnumBack.PointArray[arrIndex][pointIndex+1].x,EnumBack.PointArray[arrIndex][pointIndex+1].y);
+			if(EnumBack.pointArray[arrIndex].length==1){
+				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex].x,EnumBack.pointArray[arrIndex].y);
+			}else if(EnumBack.pointArray[arrIndex].length>1){
+				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.pointArray[arrIndex][pointIndex].x,EnumBack.pointArray[arrIndex][pointIndex].y,
+					EnumBack.pointArray[arrIndex][pointIndex+1].x,EnumBack.pointArray[arrIndex][pointIndex+1].y);
 			}
 			pointIndex+=1;
-			if(pointIndex+1>=EnumBack.PointArray[arrIndex].length){
+			if(pointIndex+1>=EnumBack.pointArray[arrIndex].length){
 				pointIndex=0;
 				arrIndex+=1;
 				playBackSet(arrIndex);
-				if(arrIndex+1>EnumBack.PointArray.length){
+				if(arrIndex+1>EnumBack.pointArray.length){
 					playbackTimer.stop();
 					playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
 					arrIndex=0;
