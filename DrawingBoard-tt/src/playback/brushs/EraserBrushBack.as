@@ -7,7 +7,7 @@ package playback.brushs
 	
 	import playback.CanvasBack;
 	
-	public class EraserBrush extends BrushBase
+	public class EraserBrushBack extends BrushBaseBack
 	{
 		
 		private var m_offsetX:Number=0;
@@ -15,7 +15,7 @@ package playback.brushs
 		
 		private var bounds:Rectangle;
 		
-		public function EraserBrush():void
+		public function EraserBrushBack():void
 		{
 			super();
 			m_data=new Eraser as DisplayObject;

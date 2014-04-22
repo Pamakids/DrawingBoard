@@ -7,16 +7,10 @@ package playback.brushs
 	import playback.CanvasBack;
 	
 	
-	public class NormalBrush extends BrushBase
+	public class NormalBrushBack extends BrushBaseBack
 	{
 		
-		private var cachedData:BitmapData;
-		private var cachedWidth:Number;
-		private var cachedHeight:Number;
-		
-		private var cachedPoint:Point=new Point;
-		
-		public function NormalBrush(_str:String)
+		public function NormalBrushBack(_str:String)
 		{
 			super();
 			switch(_str){

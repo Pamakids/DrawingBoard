@@ -2,20 +2,16 @@ package playback
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
 
 	public class PlayBackMain extends Sprite
 	{
-
-		private var playbackTimer:Timer;
-
-		private var timerRate:int; //回放节奏的控制
 
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
 		
 		private var isOperate:Boolean=false;
+		
+		private var speedIndex:int=1;
 
 		public function PlayBackMain(_data:Object=null)
 		{
@@ -24,17 +20,12 @@ package playback
 				EnumBack.pointArray=_data.point;
 				EnumBack.brushArray=_data.brush;
 				EnumBack.colorArray=_data.brushColor;
-				timerRate=40
 
 				addChild(CanvasBack.getCanvas());
 				CanvasBack.getCanvas().initCanvas();
 				BrushFactoryBack.getBrushFactory();
 				
 				isOperate=true;
-				
-				//用于绘画回放的Timer事件
-				playbackTimer=new Timer(timerRate);
-				playbackTimer.addEventListener(TimerEvent.TIMER, onTimer);
 			}
 		}
 
@@ -44,21 +35,16 @@ package playback
 			if(isOperate==true){
 				switch (_timerrate)
 				{
-					case "1":
-						timerRate=40;
+					case 1:
+						speedIndex=1;
 						break;
-					case "2":
-						timerRate=30;
+					case 2:
+						speedIndex=2;
 						break;
-					case "3":
-						timerRate=20;
+					case 3:
+						speedIndex=3;
 						break;
 				}
-				playbackTimer.stop();
-				playbackTimer.removeEventListener(TimerEvent.TIMER, onTimer);
-				playbackTimer=new Timer(timerRate);
-				playbackTimer.addEventListener(TimerEvent.TIMER, onTimer);
-				start();
 			}
 			
 		}
@@ -75,7 +61,7 @@ package playback
 		public function start():void
 		{
 			if(isOperate==true){
-				playbackTimer.start();
+				addEventListener(Event.ENTER_FRAME,onFrame);
 			}
 		}
 
@@ -83,12 +69,31 @@ package playback
 		public function pause():void
 		{
 			if(isOperate==true){
-				playbackTimer.stop();
+				removeEventListener(Event.ENTER_FRAME,onFrame);
 			}
 		}
 
-		private function onTimer(event:TimerEvent):void
+		private function onFrame(event:Event):void
 		{
+			switch(speedIndex){
+				case 1:
+					playBackDraw();
+					break;
+				case 2:
+					playBackDraw();
+					playBackDraw();
+					playBackDraw();
+					break;
+				case 3:
+					playBackDraw();
+					playBackDraw();
+					playBackDraw();
+					playBackDraw();
+					playBackDraw();
+					break;
+			}
+		}
+		private function playBackDraw():void{
 			if (arrIndex == 0)
 			{
 				playBackSet(arrIndex);
@@ -110,8 +115,7 @@ package playback
 				playBackSet(arrIndex);
 				if (arrIndex + 1 > EnumBack.pointArray.length)
 				{
-					playbackTimer.stop();
-					playbackTimer.removeEventListener(TimerEvent.TIMER, onTimer);
+					removeEventListener(Event.ENTER_FRAME,onFrame);
 					arrIndex=0;
 					pointIndex=0;
 					isOperate=false;
@@ -119,30 +123,6 @@ package playback
 				}
 			}
 		}
-
-		/*private function onTimer(event:TimerEvent):void{
-			if(arrIndex==0){
-				playBackSet(arrIndex);
-			}
-			if(EnumBack.pointArray[arrIndex].length==1){
-				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex].x,EnumBack.pointArray[arrIndex].y);
-			}else if(EnumBack.pointArray[arrIndex].length>1){
-				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.pointArray[arrIndex][pointIndex].x,EnumBack.pointArray[arrIndex][pointIndex].y,
-					EnumBack.pointArray[arrIndex][pointIndex+1].x,EnumBack.pointArray[arrIndex][pointIndex+1].y);
-			}
-			pointIndex+=1;
-			if(pointIndex+1>=EnumBack.pointArray[arrIndex].length){
-				pointIndex=0;
-				arrIndex+=1;
-				playBackSet(arrIndex);
-				if(arrIndex+1>EnumBack.pointArray.length){
-					playbackTimer.stop();
-					playbackTimer.removeEventListener(TimerEvent.TIMER,onTimer);
-					arrIndex=0;
-					pointIndex=0;
-				}
-			}
-		}*/
 		private function playBackSet(_index:int):void
 		{
 			switch (EnumBack.brushArray[_index])
