@@ -6,11 +6,11 @@ package playback
 	public class PlayBackMain extends Sprite
 	{
 		
-		private var totalArray:Array=[];
-		private var currArray:Array=[];
-		private var currPArray:Array=[];
+		private var totalArray:Array=[];//临时储存回放中所有的点的坐标值
+		private var currArray:Array=[];//临时储存回放时画线的点的坐标值
+		private var currPArray:Array=[];//临时储存回放时画点的点的坐标值
 		
-		private var totalIndex:int=0;
+		private var totalIndex:int=0;//临时储存数组对应索引
 		private var currIndex:int=0;
 		private var currPIndex:int=0;
 		
