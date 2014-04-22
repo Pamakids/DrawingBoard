@@ -5,7 +5,7 @@ package drawing
 	import flash.events.MouseEvent;
 	import flash.utils.ByteArray;
 
-	import playback.brushs.BrushBase;
+	import playback.brushs.BrushBaseBack;
 
 	/*
 		画布的接口类
@@ -14,7 +14,7 @@ package drawing
 	public class DrawingMain extends Sprite
 	{
 
-		private var brush:BrushBase;
+		private var brush:BrushBaseBack;
 
 		private var lastX:Number;
 		private var lastY:Number;

@@ -1,6 +1,9 @@
 package playback
 {
-	import playback.brushs.*;
+	import playback.brushs.BrushBaseBack;
+	import playback.brushs.EraserBrushBack;
+	import playback.brushs.NormalBrushBack;
+	import playback.brushs.RotateBrushBack;
 
 	/*
 		笔刷工厂，用来设置笔刷的样式
@@ -9,7 +12,7 @@ package playback
 	public class BrushFactoryBack
 	{
 
-		public var brush:BrushBase;
+		public var brush:BrushBaseBack;
 
 		private static var brushFactory:BrushFactoryBack=null;
 
@@ -36,22 +39,22 @@ package playback
 			switch (_str)
 			{
 				case "pencil":
-					brush=new NormalBrush("pencil");
+					brush=new NormalBrushBack("pencil");
 					break;
 				case "pink":
-					brush=new NormalBrush("pink");
+					brush=new NormalBrushBack("pink");
 					break;
 				case "crayon":
-					brush=new RotateBrush();
+					brush=new RotateBrushBack();
 					break;
 				case "maker":
-					brush=new NormalBrush("maker");
+					brush=new NormalBrushBack("maker");
 					break;
 				case "waterColor":
-					brush=new NormalBrush("waterColor");
+					brush=new NormalBrushBack("waterColor");
 					break;
 				case "eraser":
-					brush=new EraserBrush;
+					brush=new EraserBrushBack;
 					break;
 				default:
 					break;

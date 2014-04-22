@@ -43,18 +43,18 @@ package drawing.brushsClass
 
 			cachedAngle=Math.random() * 360;
 
-//			cachedWidth=m_data.width;
-//			cachedHeight=m_data.height;
-//			cachedMatrix.identity();
-//			
-//			cachedData=new BitmapData(cachedWidth,cachedHeight,true,0x0);
-//			
-//			cachedData.draw(m_data,setMatrix(cachedMatrix,0,0,cachedAngle),this.getColorTransform(),null,null,true);
-//			
-//			cachedPoint.x=destX-cachedData.width*.5;
-//			cachedPoint.y=destY-cachedData.height*.5;
+			cachedWidth=m_data.width;
+			cachedHeight=m_data.height;
+			cachedMatrix.identity();
 
-//			Canvas.getCanvas().canvasBitmapData.copyPixels(cachedData, cachedData.rect, cachedPoint, null, null, true);
+			cachedData=new BitmapData(cachedWidth, cachedHeight, true, 0x0);
+
+			cachedData.draw(m_data, setMatrix(cachedMatrix, 0, 0, cachedAngle), this.getColorTransform(), null, null, true);
+
+			cachedPoint.x=destX - cachedData.width * .5;
+			cachedPoint.y=destY - cachedData.height * .5;
+
+			Canvas.getCanvas().canvasBitmapData.copyPixels(cachedData, cachedData.rect, cachedPoint, null, null, true);
 		}
 
 		private function setMatrix(matrix:Matrix, xpos:Number, ypos:Number, angle:Number):Matrix
