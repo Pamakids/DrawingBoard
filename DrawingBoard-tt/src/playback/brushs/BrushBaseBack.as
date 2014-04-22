@@ -6,12 +6,13 @@ package playback.brushs
 	import flash.display.IBitmapDrawable;
 	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
 	/*
 		画笔基类，包含画笔共同的属性和方法
 	*/
-	public class BrushBase
+	public class BrushBaseBack
 	{
 		
 		[Embed(source="../assets/brush/crayon.png")]
@@ -46,7 +47,13 @@ package playback.brushs
 		
 		public var cachedMatrix:Matrix=new Matrix;//当前bitmapData变形所用的矩阵
 		
-		public function BrushBase(){
+		public var cachedData:BitmapData;
+		public var cachedWidth:Number;
+		public var cachedHeight:Number;
+		
+		public var cachedPoint:Point=new Point;
+		
+		public function BrushBaseBack(){
 			
 		}
 		//画线，计算出画线点之间的距离

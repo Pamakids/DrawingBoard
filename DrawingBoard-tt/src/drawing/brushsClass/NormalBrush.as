@@ -9,13 +9,6 @@ package drawing.brushsClass
 	public class NormalBrush extends BrushBase
 	{
 		
-		private var cachedData:BitmapData;
-		
-		private var cachedWidth:Number;
-		private var cachedHeight:Number;
-		
-		private var cachedPoint:Point=new Point;
-		
 		public function NormalBrush(_str:String)
 		{
 			super();

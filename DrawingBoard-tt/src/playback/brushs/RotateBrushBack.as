@@ -6,14 +6,14 @@ package drawing.brushs
 	
 	import playback.CanvasBack;
 	
-	public class RotateBrush extends BrushBase
+	public class RotateBrushBack extends BrushBaseBack
 	{
 		
 		private var cachedAngle:Number;
 		
 		private var wh:Number;
 		
-		public function RotateBrush()
+		public function RotateBrushBack()
 		{
 			super();
 			m_data=new Crayon as DisplayObject;

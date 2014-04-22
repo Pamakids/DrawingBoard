@@ -6,6 +6,7 @@ package drawing.brushsClass
 	import flash.display.IBitmapDrawable;
 	import flash.geom.ColorTransform;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
 	/*
@@ -45,6 +46,13 @@ package drawing.brushsClass
 		public var cachedColorTransform:ColorTransform=new ColorTransform;//获取到的颜色通道
 		
 		public var cachedMatrix:Matrix=new Matrix;//当前bitmapData变形所用的矩阵
+		
+		private var cachedData:BitmapData;
+		
+		private var cachedWidth:Number;
+		private var cachedHeight:Number;
+		
+		private var cachedPoint:Point=new Point;
 		
 		public function BrushBase(){
 			
