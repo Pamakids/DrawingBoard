@@ -8,9 +8,11 @@ package playback
 		
 		private var totalArray:Array=[];
 		private var currArray:Array=[];
+		private var currPArray:Array=[];
 		
 		private var totalIndex:int=0;
 		private var currIndex:int=0;
+		private var currPIndex:int=0;
 		
 		private var m:int=0
 		
@@ -114,7 +116,8 @@ package playback
 			}
 			
 			currIndex=currArray.length/2;
-			EnumBack.backPercent=int(currIndex/totalIndex*100)
+			currPIndex=currPArray.length;
+			EnumBack.backPercent=int((currIndex+currPIndex)/totalIndex*100)
 			if(EnumBack.backPercent>=99){
 				EnumBack.backPercent==100;
 				currArray=[];
@@ -132,7 +135,7 @@ package playback
 			{
 				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
 				
-				currArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
+				currPArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
 			}
 			else if (EnumBack.pointArray[arrIndex].length > 2)
 			{
