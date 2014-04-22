@@ -9,15 +9,10 @@
 
 			import views.user.item.UserPaintItem;
 
-			private var data:Array;
-
 			public function initData(arr:Array):void
 			{
-				data=arr;
-			}
+//				var totalArr:Array=local.con
 
-			private function refreshList(arr:Array):void
-			{
 				for each (var pv:PaintVO in arr)
 				{
 					var item:UserPaintItem=new UserPaintItem();

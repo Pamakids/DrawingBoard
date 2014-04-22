@@ -9,26 +9,6 @@ package models
 			super();
 		}
 
-		public static function copy(o:Object):PaintVO
-		{
-			var po:PaintVO=new PaintVO();
-
-			po.author=UserVO(o.author);
-
-			po.cover=o.cover;
-			po.data=o.data;
-			po.audio=o.audio;
-			po.views=o.views;
-			po.plays=o.plays;
-			po.comments=o.comments;
-			po.favorites=o.favorites;
-			po.agrees=o.agrees;
-			po.shares=o.shares;
-			po.created_at=o.created_at;
-
-			return po;
-		}
-
 		public var author:UserVO //画作者，可以获取到用户昵称和id	
 		public var cover:String //封面地址	634*477：显示于作品详情页
 //		441*332：显示于画廊列表大图

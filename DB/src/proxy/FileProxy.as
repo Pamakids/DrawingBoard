@@ -2,6 +2,7 @@ package proxy
 {
 	import com.adobe.serialization.json.JSON;
 	import com.pamakids.manager.FileManager;
+	import com.pamakids.utils.CloneUtil;
 
 	import flash.display.BitmapData;
 	import flash.events.DataEvent;
@@ -17,6 +18,7 @@ package proxy
 	import mx.graphics.codec.JPEGEncoder;
 
 	import models.PaintData;
+	import models.PaintVO;
 	import models.UserVO;
 
 	/**
@@ -77,6 +79,17 @@ package proxy
 			trace(f.nativePath)
 		}
 
+		public static function mergeFiles():void
+		{
+			if (username != "defaultUser")
+			{
+				var f:File=File.applicationStorageDirectory.resolvePath("defaultUser");
+				var df:File=File.applicationStorageDirectory.resolvePath(username);
+				if (f.exists && !df.exists)
+					f.moveTo(df, true);
+			}
+		}
+
 		/**
 		 *
 		 * @return
@@ -93,8 +106,12 @@ package proxy
 				var config:File=f.resolvePath("config.json");
 				if (config.exists)
 				{
-					var str:String=FileManager.readFile(username + "/" + f.name + "/config.json", false, true) as String;
-					configArr.push(str);
+//					var str:String=FileManager.readFile(username + "/" + f.name + "/config.json", false, true) as String;
+					var thumb:File=f.resolvePath("thumb.jpg");
+					var pv:PaintVO=new PaintVO();
+					pv.cover=thumb.url;
+					pv.data=config.url;
+					configArr.push(pv);
 				}
 			}
 			return configArr;
@@ -105,11 +122,12 @@ package proxy
 		 * @param str
 		 * @return
 		 */
-		public static function parseConfig(str:String):PaintData
+		public static function parseConfig(url:String):PaintData
 		{
+			var str:String=FileManager.readFile(url) as String;
 			str=str.substr(str.indexOf("{"));
 			var obj:Object=com.adobe.serialization.json.JSON.decode(str);
-			return PaintData(obj);
+			return PaintData.clone(obj);
 		}
 
 		/**

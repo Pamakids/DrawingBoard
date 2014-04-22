@@ -158,6 +158,7 @@ package controllers
 			var pq:PaintQuery=new PaintQuery();
 			pq.author=user._id;
 			pq.result_type=2;
+			pq.page=99;
 			getSB('/paint/list', 'GET').call(paintCB, pq);
 		}
 

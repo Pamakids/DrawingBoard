@@ -114,7 +114,8 @@
 	</fx:Script>
 
 	<s:Image source="@Embed('assets/usercenter/paint/paintBG.png')"/>
-	<s:Image id="img" width="300" height="225" click="img_clickHandler(event)"/>
+	<s:Image id="img" width="300" height="225" click="img_clickHandler(event)"
+			 verticalCenter="0" horizontalCenter="0"/>
 
 	<s:Group visible="{uploading}">
 		<components:MyProgressBar width="232" height="10" left="20" top="217"/>

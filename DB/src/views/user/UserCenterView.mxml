@@ -8,6 +8,7 @@
 		<![CDATA[
 
 			import com.greensock.TweenLite;
+			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
 
@@ -16,8 +17,10 @@
 
 			import controllers.DBPopUp;
 
+			import models.PaintVO;
 			import models.UserVO;
 
+			import proxy.FileProxy;
 			import proxy.UserProxy;
 
 			import views.user.list.Fanlist;
@@ -59,15 +62,14 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				naviIndex=0;
+//				var u:UserVO=new UserVO();
+//				u.username="bobo";
+//				u.portrait="http://cdn.ifanr.cn/wp-content/uploads/2014/04/WiFi.jpg";
+//				u.email="123@abc.com";
 
-				var u:UserVO=new UserVO();
-				u.username="bobo";
-				u.portrait="http://cdn.ifanr.cn/wp-content/uploads/2014/04/WiFi.jpg";
-				u.email="123@abc.com";
-				initData(u);
+				initData(UserVO.crtUser);
 
-				UserVO.crtUser=u;
+//				UserVO.crtUser=u;
 
 				addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
@@ -87,16 +89,24 @@
 				followedText="关注\n0";
 				befollowedText="粉丝\n0";
 
-				crtUsername=user.username;
-				avatar.source=user.portrait;
+				paintArr=[];
+				if (!isGuest)
+				{
+					paintArr=FileProxy.getLocalPaints();
+				}
+
+				if (user != null)
+				{
+					crtUsername=user.username;
+					avatar.source=user.portrait;
 
 //				listContainer.removeAllElements();
-
-				uproxy=new UserProxy();
-				uproxy.user=user;
-				uproxy.getPaintList(paintListLoaded);
-				uproxy.getFollowList(followListLoaded);
-				uproxy.getFanList(fanListLoaded);
+					uproxy=new UserProxy();
+					uproxy.user=user;
+					uproxy.getPaintList(paintListLoaded);
+					uproxy.getFollowList(followListLoaded);
+					uproxy.getFanList(fanListLoaded);
+				}
 			}
 
 			private var paintArr:Array;
@@ -107,13 +117,19 @@
 			{
 				if (arr is Array)
 				{
-					paintArr=arr as Array;
+					for each (var o:Object in arr)
+					{
+						paintArr.push(CloneUtil.convertObject(o, PaintVO));
+					}
+
 					paintText="我的作品\n" + paintArr.length;
 				}
 				else
 				{
 
 				}
+
+				naviIndex=0;
 			}
 
 			private function followListLoaded(arr:Object):void
@@ -158,10 +174,10 @@
 			private var befollowedText:String;
 
 			[Bindable]
-			private var messageCount:String="99+";
+			private var messageCount:String="0";
 
 			[Bindable]
-			private var crtUsername:String="bobo";
+			private var crtUsername:String="未登录";
 
 			protected function editClickHandler(event:MouseEvent):void
 			{
@@ -175,8 +191,6 @@
 
 			private function showList(i:int):void
 			{
-				if (i == 0)
-					return;
 				listContainer.removeAllElements();
 				switch (i)
 				{
@@ -258,9 +272,24 @@
 				{
 					var ty:Number=0;
 					if (list.verticalScrollBar)
-						ty=list.verticalScrollBar.value > 0 ? maxOffY : 0;
-					if (listContainer.contentHeight == 0)
-						ty=0;
+					{
+						if (list.verticalScrollBar.value > 5)
+						{
+							ty=maxOffY;
+						}
+						else if (list.verticalScrollBar.value < -5)
+						{
+							ty=0;
+						}
+						else
+						{
+							ty=userBar.top < maxOffY / 2 ? maxOffY : 0;
+						}
+//						return;
+//						ty=list.verticalScrollBar.value >= 0 ? (userBar.top == maxOffY ? maxOffY : 0) : 0;
+					}
+//					if (listContainer.contentHeight == 0)
+//						ty=0;
 					TweenLite.killTweensOf(userBar);
 					TweenLite.to(userBar, .5, {top: ty});
 				}
@@ -354,23 +383,6 @@
 						horizontalScrollPolicy="off" verticalScrollPolicy="on"
 						width="990" height="550">
 				<s:Group id="listContainer">
-					<s:TileGroup width="972" requestedColumnCount="1"
-								 horizontalGap="18" verticalGap="100">
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-						<s:Image 
-								 source="@Embed('assets/usercenter/userinfo/addFriend.png')"/>
-					</s:TileGroup>
 				</s:Group>
 			</s:Scroller>
 

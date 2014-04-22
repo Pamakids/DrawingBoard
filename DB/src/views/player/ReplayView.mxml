@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
-		 xmlns:player="views.player.*" xmlns:mx="library://ns.adobe.com/flex/mx">
+		 xmlns:player="views.player.*" xmlns:mx="library://ns.adobe.com/flex/mx"
+		 creationComplete="group1_creationCompleteHandler(event)">
 
 	<fx:Script>
 		<![CDATA[
 
 			import com.greensock.TweenLite;
+
+			import mx.events.FlexEvent;
 
 			import models.PaintData;
 			import models.PasterManager;
@@ -26,8 +29,8 @@
 				bg.source=data.theme.dataUrl;
 
 				player=new PlayBackMain(data.drawData);
-				player.start();
-				player.changeTimerRate(3);
+				player.changeTimerRate(controller.speed);
+				player.pause();
 				dbLayer.addChild(player);
 
 				replayTexture(data.textureData);
@@ -65,6 +68,28 @@
 			protected function drawBoard_clickHandler(event:MouseEvent):void
 			{
 				controller.playBars();
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				controller.addEventListener("play", onPlay);
+				controller.addEventListener("pause", onPause);
+				controller.addEventListener("changeSpeed", onChange);
+			}
+
+			protected function onPlay(event:Event):void
+			{
+				player.start();
+			}
+
+			protected function onPause(event:Event):void
+			{
+				player.pause();
+			}
+
+			protected function onChange(event:Event):void
+			{
+				player.changeTimerRate(controller.speed);
 			}
 
 		]]>

@@ -13,6 +13,8 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.pamakids.manager.SoundManager;
+
 			import mx.events.FlexEvent;
 
 			import drawing.DrawingMain;
@@ -29,6 +31,7 @@
 
 			public function dispose():void
 			{
+				onSndComplete();
 				if (dm)
 				{
 					dm.dispose();
@@ -79,7 +82,49 @@
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
 
 				controlPad.crtBrushIndex=0;
-				controlPad.playEnter();
+//				controlPad.visible=false;
+
+				this.mouseEnabled=this.mouseChildren=false;
+				snd=new Sound(new URLRequest(paintData.theme.soundUrl));
+				sc=snd.play();
+				sc.addEventListener(Event.SOUND_COMPLETE, onSndComplete);
+
+				mc=new mc_readyToDraw();
+				mc.x=430;
+				mc.y=474;
+
+				mcHolder=new UIComponent();
+				addElement(mcHolder);
+				mcHolder.addChild(mc);
+				mc.gotoAndPlay(1);
+			}
+
+			private var mcHolder:UIComponent;
+
+			protected function onSndComplete(e:Event=null):void
+			{
+				if (controlPad)
+				{
+//					controlPad.visible=true;
+					controlPad.playEnter();
+				}
+				this.mouseEnabled=this.mouseChildren=true;
+				if (sc)
+					sc.removeEventListener(Event.SOUND_COMPLETE, onSndComplete);
+				sc=null;
+				snd=null;
+
+				if (mcHolder)
+				{
+					if (mc)
+					{
+						mc.stop();
+						mcHolder.removeChild(mc);
+					}
+					removeElement(mcHolder);
+				}
+				mc=null;
+				mcHolder=null;
 			}
 
 			protected function onTexture(event:Event):void
@@ -115,6 +160,12 @@
 
 			private var paintData:PaintData;
 
+			private var snd:Sound;
+
+			private var sc:SoundChannel;
+
+			private var mc:MovieClip;
+
 			protected function onClear(event:Event):void
 			{
 				if (dm)
@@ -132,6 +183,7 @@
 
 			protected function onSave(event:Event):void
 			{
+				onTexture(null);
 				paintData.drawData=dm.reserveObject();
 				paintData.textureData=controlPad.getTextureData();
 
@@ -149,7 +201,7 @@
 
 			protected function drawBoard_clickHandler(event:MouseEvent):void
 			{
-				replay.playBars();
+//				replay.playBars();
 			}
 
 		]]>
@@ -165,7 +217,7 @@
 	<draw:DrawControlPad id="controlPad">
 	</draw:DrawControlPad>
 
-	<player:ReplayControlBar id="replay">
+	<!--	<player:ReplayControlBar id="replay">
 
-	</player:ReplayControlBar>
+		 </player:ReplayControlBar>-->
 </s:Group>

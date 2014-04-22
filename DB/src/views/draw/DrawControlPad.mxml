@@ -54,6 +54,8 @@
 				locateHalo(0);
 
 				textureBar.addEventListener("textureSelected", onTextrueSelected);
+
+				downBtn_clickHandler(null);
 			}
 
 			private var mPickerColorTransform:ColorTransform;
@@ -163,7 +165,8 @@
 
 			public function playEnter():void
 			{
-				tl=TweenLite.delayedCall(1, downBtn_clickHandler);
+				upBtn_clickHandler(null);
+//				tl=TweenLite.delayedCall(1, downBtn_clickHandler);
 			}
 
 			private var _crtBrushIndex:int;

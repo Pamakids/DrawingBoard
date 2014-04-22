@@ -13,15 +13,20 @@
 
 			import controllers.API;
 
+			import models.UserVO;
+
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
+				currentUser=UserVO.crtUser.username;
+				currentMail=UserVO.crtUser.email;
+				avatarUrl=UserVO.crtUser.portrait;
 			}
 
 			[Bindable]
-			private var currentUser:String="name";
+			private var currentUser:String;
 
 			[Bindable]
-			private var currentMail:String="aa@bb.cc";
+			private var currentMail:String;
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{

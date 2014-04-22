@@ -20,6 +20,9 @@
 			public function dispose():void
 			{
 				content.removeEventListener(Event.ADDED_TO_STAGE, content_addedToStageHandler);
+				if (content.bitmapData)
+					content.bitmapData.dispose();
+				content=null;
 				removeAllElements();
 			}
 

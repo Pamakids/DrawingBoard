@@ -37,13 +37,13 @@ package playback
 		{
 			switch (_timerrate)
 			{
-				case "1":
+				case 1:
 					timerRate=40;
 					break;
-				case "2":
+				case 2:
 					timerRate=30;
 					break;
-				case "3":
+				case 3:
 					timerRate=20;
 					break;
 			}

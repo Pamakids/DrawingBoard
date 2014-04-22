@@ -7,11 +7,10 @@
 	<fx:Script>
 		<![CDATA[
 
-			import vo.VO;
-
 			import com.adobe.serialization.json.JSON;
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
+			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
 
@@ -22,6 +21,8 @@
 			import models.UserVO;
 
 			import service.SOService;
+
+			import vo.VO;
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{
@@ -144,20 +145,25 @@
 				registView.enabled=false;
 				var o:UserVO=new UserVO();
 				o.email=registMailInput.text;
-				o.username=registNameInput.text;
-				o.password=registPWInput.text;
+				o.username=registerName=registNameInput.text;
+				o.password=registerPW=registPWInput.text;
 				o.come_from=VO.APPNAME;
 				API.instance.signup(o, registCallback);
 			}
 
 			private var registerName:String;
 			private var registerPW:String;
+			public var callback:Function;
 
 			private function registCallback(o:ResultVO):void
 			{
 				if (o.status == true)
 				{
-					API.instance.login(registerName, registerPW, loginCallback);
+					registView.enabled=true;
+					image2_clickHandler(null);
+					mailInput.text=registerName;
+					passwordInput.text=registerPW;
+//					API.instance.login(registerName, registerPW, loginCallback);
 				}
 				else
 				{
@@ -204,6 +210,9 @@
 				if (o.status == true)
 				{
 					loginHint="登陆成功!!"
+					saveLoginInfo(CloneUtil.convertObject(o.results, UserVO));
+					if (callback != null)
+						callback();
 					close_clickHandler(null);
 				}
 				else
@@ -280,6 +289,23 @@
 			protected function close_clickHandler(event:MouseEvent):void
 			{
 				dispatchEvent(new Event("loginClose"));
+			}
+
+			private function saveLoginInfo(uv:UserVO):void
+			{
+				UserVO.crtUser=uv;
+				if (SOService.getValue("lastPlatForm") == "mail")
+				{
+					var username:String=mailInput.text;
+					var pw:String=passwordInput.text;
+					SOService.setValue("NameAndPassWord", {"username": username, "password": pw});
+				}
+//				trace(uv)
+			}
+
+			public function dispose():void
+			{
+				removeAllElements();
 			}
 
 		]]>
