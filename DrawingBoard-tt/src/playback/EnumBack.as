@@ -12,5 +12,7 @@ package playback
 		public static var pointArray:Array=[];//储存画布回放的点
 		public static var brushArray:Array=[];//储存画布回放的笔刷形态
 		public static var colorArray:Array=[];//储存画布回放的笔刷颜色
+		
+		public static var backPercent:Number=0;
 	}
 }

@@ -5,13 +5,22 @@ package playback
 
 	public class PlayBackMain extends Sprite
 	{
-
+		
+		private var totalArray:Array=[];
+		private var currArray:Array=[];
+		
+		private var totalIndex:int=0;
+		private var currIndex:int=0;
+		
+		private var m:int=0
+		
 		private var arrIndex:int=0;
 		private var pointIndex:int=0;
 		
 		private var isOperate:Boolean=false;
 		
 		private var speedIndex:int=1;
+		
 
 		public function PlayBackMain(_data:Object=null)
 		{
@@ -20,7 +29,18 @@ package playback
 				EnumBack.pointArray=_data.point;
 				EnumBack.brushArray=_data.brush;
 				EnumBack.colorArray=_data.brushColor;
-
+				
+				var l:int=EnumBack.pointArray.length
+				
+				for(var i:int=0;i<l;i++){
+					m=EnumBack.pointArray[i].length
+					for(var j:int=0;j<m;j++){
+						totalArray.push(EnumBack.pointArray[i][j]);
+					}
+				}
+				
+				totalIndex=totalArray.length
+				
 				addChild(CanvasBack.getCanvas());
 				CanvasBack.getCanvas().initCanvas();
 				BrushFactoryBack.getBrushFactory();
@@ -92,6 +112,16 @@ package playback
 					playBackDraw();
 					break;
 			}
+			
+			currIndex=currArray.length/2;
+			EnumBack.backPercent=int(currIndex/totalIndex*100)
+			if(EnumBack.backPercent>=99){
+				EnumBack.backPercent==100;
+				currArray=[];
+				totalArray=[];
+				currIndex=0;
+				totalIndex=0;
+			}
 		}
 		private function playBackDraw():void{
 			if (arrIndex == 0)
@@ -100,12 +130,17 @@ package playback
 			}
 			if (EnumBack.pointArray[arrIndex].length == 2)
 			{
-				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex], EnumBack.pointArray[arrIndex + 1]);
+				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
+				
+				currArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
 			}
 			else if (EnumBack.pointArray[arrIndex].length > 2)
 			{
 				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.pointArray[arrIndex][pointIndex], EnumBack.pointArray[arrIndex][pointIndex + 1],
 					EnumBack.pointArray[arrIndex][pointIndex + 2], EnumBack.pointArray[arrIndex][pointIndex + 3]);
+				currArray.push(EnumBack.pointArray[arrIndex][pointIndex],EnumBack.pointArray[arrIndex][pointIndex+1],
+					EnumBack.pointArray[arrIndex][pointIndex+2],EnumBack.pointArray[arrIndex][pointIndex+3]);
+				
 			}
 			pointIndex+=2;
 			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length)
