@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="310" height="322"
-		 xmlns:local="*">
+		 xmlns:local="*"
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 enterFrame="group1_enterFrameHandler(event)">
 	<fx:Script>
 		<![CDATA[
+
+			import mx.core.UIComponent;
+			import mx.events.FlexEvent;
 
 			import assets.player.PlayerAssets;
 
@@ -14,33 +20,34 @@
 				dispatchEvent(new Event("close"));
 			}
 
-			private function rotate():void
-			{
-				circle.rotation+=6;
-			}
-
 			protected function pressDown(event:MouseEvent):void
 			{
 				pressBtn.source=PlayerAssets.btn_pressToRecord_B;
 				stage.addEventListener(MouseEvent.MOUSE_UP, onRelease);
 
-				addEventListener(Event.ENTER_FRAME, onEnterFrame);
-
 				rec=RecordAudio.instance;
 				rec.startRecord("test");
+
+				recording=true;
 			}
 
 			private var recUrl:String;
+
+			private var mc:MovieClip;
+			private var recording:Boolean;
+			private var count:int;
 
 			protected function onRelease(event:MouseEvent):void
 			{
 				pressBtn.source=PlayerAssets.btn_pressToRecord;
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onRelease);
-				removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 
 				pressBtn.mouseEnabled=false;
 				rec.stopRecord(recSaved);
 
+				mc.gotoAndStop(1);
+				recording=false;
+				count=0;
 //					rec.toAmr(function(u2:String):void {
 //						trace(u2)
 
@@ -65,9 +72,27 @@
 				rec.playAmr(recUrl);
 			}
 
-			protected function onEnterFrame(event:Event):void
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				rotate();
+				mc=new mc_recordd();
+				mcHolder.addChild(mc);
+				mc.stop();
+				total=mc.totalFrames;
+				recording=false;
+				count=0;
+			}
+
+			private var total:int;
+			private var rate:int=8;
+
+			protected function group1_enterFrameHandler(event:Event):void
+			{
+				if (mc && recording)
+				{
+					var frame:int=(count / rate) % total + 1;
+					mc.gotoAndStop(frame);
+					count++;
+				}
 			}
 
 		]]>
@@ -75,15 +100,17 @@
 	<s:Image source="{PlayerAssets.recordBg}"/>
 	<s:Image source="@Embed('assets/global/close.png')" click="close(event)"
 			 top="17" left="255"/>
-	<s:Group x="155" y="152" id="circle">
-		<s:Image source="@Embed('assets/player/btn/recordCircle.png')" x="-42"
-				 y="-42"/>
-	</s:Group>
-	<s:Image left="138" top="128"
-			 source="@Embed('assets/player/btn/recordMic.png')"/>
+	<!--<s:Group x="155" y="152" id="circle">
+		 <s:Image source="@Embed('assets/player/btn/recordCircle.png')" x="-42"
+		 y="-42"/>
+		 </s:Group>
+		 <s:Image left="138" top="128"
+		 source="@Embed('assets/player/btn/recordMic.png')"/>-->
 
 	<s:Image id="pressBtn" source="{PlayerAssets.btn_pressToRecord}" left="31"
 			 top="242" mouseDown="pressDown(event)"/>
+
+	<mx:UIComponent id="mcHolder" top="119" left="113"/>
 
 	<s:HGroup visible="{!pressBtn.visible}" left="26" top="238" gap="7">
 		<s:Image source="{PlayerAssets.btn_reRecord}" click="reRecord(event)"/>
