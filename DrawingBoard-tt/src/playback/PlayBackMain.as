@@ -6,11 +6,13 @@ package playback
 	public class PlayBackMain extends Sprite
 	{
 		
-		private var totalArray:Array=[];
-		private var currArray:Array=[];
+		private var totalArray:Array=[];//临时储存回放中所有的点的坐标值
+		private var currArray:Array=[];//临时储存回放时画线的点的坐标值
+		private var currPArray:Array=[];//临时储存回放时画点的点的坐标值
 		
-		private var totalIndex:int=0;
+		private var totalIndex:int=0;//临时储存数组对应索引
 		private var currIndex:int=0;
+		private var currPIndex:int=0;
 		
 		private var m:int=0
 		
@@ -95,6 +97,9 @@ package playback
 
 		private function onFrame(event:Event):void
 		{
+			currIndex=currArray.length/2+2*arrIndex;
+			currPIndex=currPArray.length;
+			EnumBack.backPercent=int((currIndex+currPIndex)/totalIndex*100)
 			switch(speedIndex){
 				case 1:
 					playBackDraw();
@@ -112,16 +117,6 @@ package playback
 					playBackDraw();
 					break;
 			}
-			
-			currIndex=currArray.length/2;
-			EnumBack.backPercent=int(currIndex/totalIndex*100)
-			if(EnumBack.backPercent>=99){
-				EnumBack.backPercent==100;
-				currArray=[];
-				totalArray=[];
-				currIndex=0;
-				totalIndex=0;
-			}
 		}
 		private function playBackDraw():void{
 			if (arrIndex == 0)
@@ -132,7 +127,7 @@ package playback
 			{
 				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
 				
-				currArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
+				currPArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
 			}
 			else if (EnumBack.pointArray[arrIndex].length > 2)
 			{
@@ -143,14 +138,18 @@ package playback
 				
 			}
 			pointIndex+=2;
-			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length)
-			{
+			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length){
 				pointIndex=0;
 				arrIndex+=1;
 				playBackSet(arrIndex);
-				if (arrIndex + 1 > EnumBack.pointArray.length)
-				{
-					EnumBack.backPercent=100;
+				if (arrIndex + 1 > EnumBack.pointArray.length){
+					EnumBack.backPercent==100;
+					currArray=[];
+					totalArray=[];
+					currPArray=[];
+					currPIndex=0;
+					currIndex=0;
+					totalIndex=0;
 					removeEventListener(Event.ENTER_FRAME,onFrame);
 					arrIndex=0;
 					pointIndex=0;

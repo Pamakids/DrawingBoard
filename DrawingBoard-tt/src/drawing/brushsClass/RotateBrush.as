@@ -23,21 +23,6 @@ package drawing.brushsClass
 			wh=m_data.width;
 		}
 
-		final override public function drawLine(currX:Number, currY:Number, prevX:Number, prevY:Number):void
-		{
-			var disA:Number, tmpX:Number, tmpY:Number;
-			var n:int, l:int;
-
-			tmpX=currX - prevX;
-			tmpY=currY - prevY;
-			disA=Math.sqrt(tmpX * tmpX + tmpY * tmpY);
-			l=Math.ceil(disA / m_density / m_fitRatio / m_scale);
-			while (++n <= l)
-			{
-				drawPoint(prevX + tmpX * n / l, prevY + tmpY * n / l);
-			}
-		}
-
 		final override public function drawPoint(destX:Number, destY:Number):void
 		{
 
