@@ -30,6 +30,7 @@
 
 			import proxy.LoginProxy;
 
+			import views.components.RecordPopup;
 			import views.draw.DrawView;
 			import views.gallery.GalleryViewOnline;
 			import views.theme.ThemeList;
@@ -68,7 +69,10 @@
 
 //				DBPopUp.addUserInfoPopup(null);
 
-				DBPopUp.addLoginPopup(null);
+//				DBPopUp.addLoginPopup(null);
+
+//				var rec:RecordPopup=new RecordPopup();
+//				DBPopUp.addPopUp(rec);
 
 //				addElement(login);
 //				login.addEventListener("loginClose", function():void {

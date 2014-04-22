@@ -1,6 +1,9 @@
 package playback
 {
-	import playback.brushs.*;
+	import playback.brushs.BrushBaseBack;
+	import playback.brushs.EraserBrushBack;
+	import playback.brushs.NormalBrushBack;
+	import playback.brushs.RotateBrushBack;
 
 	/*
 		笔刷工厂，用来设置笔刷的样式
