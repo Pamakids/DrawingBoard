@@ -2,6 +2,7 @@ package proxy
 {
 	import com.adobe.serialization.json.JSON;
 	import com.pamakids.models.ResultVO;
+	import com.pamakids.services.ServiceBase;
 	import com.pamakids.utils.CloneUtil;
 
 	import controllers.API;
@@ -140,6 +141,8 @@ package proxy
 		private static function saveLoginInfo(uv:UserVO):void
 		{
 			UserVO.crtUser=uv;
+			ServiceBase.id=uv._id;
+			API.instance.initToken();
 		}
 	}
 }

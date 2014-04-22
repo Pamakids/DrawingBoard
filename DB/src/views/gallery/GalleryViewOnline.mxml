@@ -9,6 +9,7 @@
 
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
+			import com.pamakids.utils.CloneUtil;
 
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
@@ -21,16 +22,10 @@
 			import models.UserVO;
 			import models.query.PaintQuery;
 
-
-
-
-
 			protected function close_clickHandler(event:MouseEvent):void
 			{
 				dispatchEvent(new Event("galleryClose"));
 			}
-
-
 
 			[Bindable]
 			private var paintsAC:ArrayCollection;
@@ -56,7 +51,24 @@
 				if (o.status)
 				{
 					var arr:Array=o.results as Array;
-					paintsAC=new ArrayCollection(arr);
+					if (!paintsAC)
+						paintsAC=new ArrayCollection();
+					for each (var obj:Object in arr)
+					{
+						if (obj is Array)
+						{
+							var arr2:Array=[];
+							for each (var o2:Object in obj)
+							{
+								var pv:PaintVO=CloneUtil.convertObject(obj, PaintVO);
+								arr2.push(pv);
+							}
+							paintsAC.addItem(arr2);
+						}
+						else
+							paintsAC.addItem(CloneUtil.convertObject(obj, PaintVO));
+					}
+
 				}
 				else
 					getTestArr();

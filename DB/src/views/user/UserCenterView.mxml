@@ -62,14 +62,7 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-//				var u:UserVO=new UserVO();
-//				u.username="bobo";
-//				u.portrait="http://cdn.ifanr.cn/wp-content/uploads/2014/04/WiFi.jpg";
-//				u.email="123@abc.com";
-
 				initData(UserVO.crtUser);
-
-//				UserVO.crtUser=u;
 
 				addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
@@ -106,8 +99,14 @@
 					uproxy.getPaintList(paintListLoaded);
 					uproxy.getFollowList(followListLoaded);
 					uproxy.getFanList(fanListLoaded);
+					editable=!isGuest;
 				}
+				else
+					editable=false;
 			}
+
+			[Bindable]
+			private var editable:Boolean;
 
 			private var paintArr:Array;
 			private var followArr:Array;
@@ -375,7 +374,8 @@
 
 				<s:Image 
 						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"
-						 left="845" top="129" click="editClickHandler(event)"/>
+						 left="845" top="129" click="editClickHandler(event)"
+						 visible="{editable}"/>
 			</s:Group>
 
 			<s:Scroller id="list" top="263"
