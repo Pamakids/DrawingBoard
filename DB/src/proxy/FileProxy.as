@@ -21,6 +21,8 @@ package proxy
 	import models.PaintVO;
 	import models.UserVO;
 
+	import vo.VO;
+
 	/**
 	 *
 	 * @author Administrator
@@ -53,7 +55,7 @@ package proxy
 			}
 			else
 			{
-				return "defaultUser";
+				return VO.DEFAULT_USERNAME;
 			}
 		}
 
@@ -81,9 +83,9 @@ package proxy
 
 		public static function mergeFiles():void
 		{
-			if (username != "defaultUser")
+			if (username != VO.DEFAULT_USERNAME)
 			{
-				var f:File=File.applicationStorageDirectory.resolvePath("defaultUser");
+				var f:File=File.applicationStorageDirectory.resolvePath(VO.DEFAULT_USERNAME);
 				var df:File=File.applicationStorageDirectory.resolvePath(username);
 				if (f.exists && !df.exists)
 					f.moveTo(df, true);
@@ -132,23 +134,6 @@ package proxy
 
 		/**
 		 *
-		 */
-		public static function copyPaints():void
-		{
-			if (username == "defaultUser")
-				return;
-			var f0:File=File.applicationStorageDirectory.resolvePath("defaultUser");
-			var f2:File=File.applicationStorageDirectory.resolvePath(username);
-			var arr:Array=[];
-			if (f0.exists)
-				arr=f0.getDirectoryListing();
-			for each (var f:File in arr)
-			{
-			}
-		}
-
-		/**
-		 *
 		 * @default
 		 */
 		public static var token:String;
@@ -166,11 +151,11 @@ package proxy
 		public function upload(name:String, audio:Boolean=false, fromDefault:Boolean=false,
 			onProgress:Function=null, uploadedHandler:Function=null, onIOError:Function=null):void
 		{
-			if (username == "defaultUser")
+			if (username == VO.DEFAULT_USERNAME)
 				return;
 			if (!token)
 				return;
-			var f:File=File.applicationStorageDirectory.resolvePath((fromDefault ? "defaultUser" : username) +
+			var f:File=File.applicationStorageDirectory.resolvePath((fromDefault ? VO.DEFAULT_USERNAME : username) +
 				"/" + path + name);
 			if (!f.exists)
 				return;

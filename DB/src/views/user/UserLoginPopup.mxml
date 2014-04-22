@@ -10,6 +10,7 @@
 			import com.adobe.serialization.json.JSON;
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
+			import com.pamakids.services.ServiceBase;
 			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
@@ -294,6 +295,7 @@
 			private function saveLoginInfo(uv:UserVO):void
 			{
 				UserVO.crtUser=uv;
+				ServiceBase.id=uv._id;
 				if (SOService.getValue("lastPlatForm") == "mail")
 				{
 					var username:String=mailInput.text;
