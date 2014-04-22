@@ -138,20 +138,18 @@ package playback
 				
 			}
 			pointIndex+=2;
-			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length)
-			{
+			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length){
 				pointIndex=0;
 				arrIndex+=1;
 				playBackSet(arrIndex);
-				if (arrIndex + 1 > EnumBack.pointArray.length)
-				{
-					if(EnumBack.backPercent>=99){
-						EnumBack.backPercent==100;
-						currArray=[];
-						totalArray=[];
-						currIndex=0;
-						totalIndex=0;
-					}
+				if (arrIndex + 1 > EnumBack.pointArray.length){
+					EnumBack.backPercent==100;
+					currArray=[];
+					totalArray=[];
+					currPArray=[];
+					currPIndex=0;
+					currIndex=0;
+					totalIndex=0;
 					removeEventListener(Event.ENTER_FRAME,onFrame);
 					arrIndex=0;
 					pointIndex=0;
