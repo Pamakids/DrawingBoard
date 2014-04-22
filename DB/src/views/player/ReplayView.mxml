@@ -11,10 +11,13 @@
 
 			import mx.events.FlexEvent;
 
+			import drawing.Enum;
+
 			import models.PaintData;
 			import models.PasterManager;
 			import models.TextureVO;
 
+			import playback.EnumBack;
 			import playback.PlayBackMain;
 
 			import views.draw.TextureItem;
@@ -32,6 +35,7 @@
 				player.changeTimerRate(controller.speed);
 				player.pause();
 				dbLayer.addChild(player);
+				player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 
 				replayTexture(data.textureData);
 			}
@@ -90,6 +94,12 @@
 			protected function onChange(event:Event):void
 			{
 				player.changeTimerRate(controller.speed);
+			}
+
+			protected function onEnterFrame(event:Event):void
+			{
+				controller.setProgress(EnumBack.backPercent);
+				trace(EnumBack.backPercent)
 			}
 
 		]]>
