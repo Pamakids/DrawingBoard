@@ -47,12 +47,12 @@ package drawing.brushsClass
 		
 		public var cachedMatrix:Matrix=new Matrix;//当前bitmapData变形所用的矩阵
 		
-		private var cachedData:BitmapData;
+		public var cachedData:BitmapData;
 		
-		private var cachedWidth:Number;
-		private var cachedHeight:Number;
+		public var cachedWidth:Number;
+		public var cachedHeight:Number;
 		
-		private var cachedPoint:Point=new Point;
+		public var cachedPoint:Point=new Point;
 		
 		public function BrushBase(){
 			
