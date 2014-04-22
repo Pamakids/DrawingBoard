@@ -3,6 +3,7 @@ package drawing
 	import drawing.brushsClass.BrushBase;
 	import drawing.brushsClass.EraserBrush;
 	import drawing.brushsClass.NormalBrush;
+	import drawing.brushsClass.RotateBrush;
 
 	/*
 		笔刷工厂，用来设置笔刷的样式
@@ -44,7 +45,7 @@ package drawing
 					brush=new NormalBrush("pink");
 					break;
 				case "crayon":
-					brush=new NormalBrush("crayon");
+					brush=new RotateBrush();
 					break;
 				case "maker":
 					brush=new NormalBrush("maker");
