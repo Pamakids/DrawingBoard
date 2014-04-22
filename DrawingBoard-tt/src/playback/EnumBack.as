@@ -13,6 +13,6 @@ package playback
 		public static var brushArray:Array=[];//储存画布回放的笔刷形态
 		public static var colorArray:Array=[];//储存画布回放的笔刷颜色
 		
-		public static var backPercent:Number=0;
+		public static var backPercent:Number=0;//回放进度百分比
 	}
 }

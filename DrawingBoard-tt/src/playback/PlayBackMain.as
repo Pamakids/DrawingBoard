@@ -150,6 +150,7 @@ package playback
 				playBackSet(arrIndex);
 				if (arrIndex + 1 > EnumBack.pointArray.length)
 				{
+					EnumBack.backPercent=100;
 					removeEventListener(Event.ENTER_FRAME,onFrame);
 					arrIndex=0;
 					pointIndex=0;
