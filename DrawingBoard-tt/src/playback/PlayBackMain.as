@@ -97,6 +97,9 @@ package playback
 
 		private function onFrame(event:Event):void
 		{
+			currIndex=currArray.length/2+2*arrIndex;
+			currPIndex=currPArray.length;
+			EnumBack.backPercent=int((currIndex+currPIndex)/totalIndex*100)
 			switch(speedIndex){
 				case 1:
 					playBackDraw();
@@ -113,17 +116,6 @@ package playback
 					playBackDraw();
 					playBackDraw();
 					break;
-			}
-			
-			currIndex=currArray.length/2;
-			currPIndex=currPArray.length;
-			EnumBack.backPercent=int((currIndex+currPIndex)/totalIndex*100)
-			if(EnumBack.backPercent>=99){
-				EnumBack.backPercent==100;
-				currArray=[];
-				totalArray=[];
-				currIndex=0;
-				totalIndex=0;
 			}
 		}
 		private function playBackDraw():void{
@@ -153,7 +145,13 @@ package playback
 				playBackSet(arrIndex);
 				if (arrIndex + 1 > EnumBack.pointArray.length)
 				{
-					EnumBack.backPercent=100;
+					if(EnumBack.backPercent>=99){
+						EnumBack.backPercent==100;
+						currArray=[];
+						totalArray=[];
+						currIndex=0;
+						totalIndex=0;
+					}
 					removeEventListener(Event.ENTER_FRAME,onFrame);
 					arrIndex=0;
 					pointIndex=0;
