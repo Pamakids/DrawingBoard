@@ -26,7 +26,7 @@ package playback
 
 		public function PlayBackMain(_data:Object=null)
 		{
-			if(_data==null){
+			if(_data.point.length==0||_data.brush.length==0||_data.brushColor.length==0){
 				this.dispatchEvent(new Event("empty"));
 			}
 			else{
