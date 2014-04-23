@@ -26,8 +26,10 @@ package playback
 
 		public function PlayBackMain(_data:Object=null)
 		{
-			if (_data != null)
-			{
+			if(_data==null){
+				this.dispatchEvent(new Event("empty"));
+			}
+			else{
 				EnumBack.pointArray=_data.point;
 				EnumBack.brushArray=_data.brush;
 				EnumBack.colorArray=_data.brushColor;

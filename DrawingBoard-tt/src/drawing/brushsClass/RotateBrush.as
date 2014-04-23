@@ -3,15 +3,16 @@ package drawing.brushsClass
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.geom.Matrix;
-
+	
 	import drawing.Canvas;
 
 	public class RotateBrush extends BrushBase
 	{
 
-		private var cachedAngle:Number;
-
-		private var wh:Number;
+		private var cachedAngle:Number=0;
+		private var changeAngle:Number=12;
+		
+		private var wh:Number=0;
 
 		public function RotateBrush()
 		{
@@ -26,7 +27,7 @@ package drawing.brushsClass
 		final override public function drawPoint(destX:Number, destY:Number):void
 		{
 
-			cachedAngle=Math.random() * 360;
+			cachedAngle+=changeAngle;
 
 			cachedWidth=m_data.width;
 			cachedHeight=m_data.height;
