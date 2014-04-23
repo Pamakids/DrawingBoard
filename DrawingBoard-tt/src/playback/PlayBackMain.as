@@ -97,8 +97,9 @@ package playback
 
 		private function onFrame(event:Event):void
 		{
-			currIndex=currArray.length/2+2*arrIndex+arrIndex;
 			currPIndex=currPArray.length;
+			currIndex=currArray.length/2+2*(arrIndex-currPIndex/2);
+			
 			EnumBack.backPercent=int((currIndex+currPIndex)/totalIndex*100)
 			switch(speedIndex){
 				case 1:
