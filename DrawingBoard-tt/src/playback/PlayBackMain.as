@@ -216,5 +216,15 @@ package playback
 		{
 			BrushFactoryBack.getBrushFactory().brush.m_color=_brushColor;
 		}
+		
+		public function dispose():void{
+			CanvasBack.getCanvas().dispose();
+			totalArray=[];
+			currArray=[];
+			currPArray=[];
+			currPIndex=0
+			totalIndex=0;
+			currIndex=0;
+		}
 	}
 }

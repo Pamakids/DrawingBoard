@@ -36,5 +36,18 @@ package playback
 			addChild(canvasBitmap);
 			return canvasBitmap;
 		}
+		
+		public function dispose():void
+		{
+			if (canvasBitmap)
+			{
+				removeChild(canvasBitmap);
+				canvasBitmap.bitmapData.dispose();
+			}
+			canvasBitmap=null;
+			if (canvasBitmapData)
+				canvasBitmapData.dispose();
+			canvasBitmapData=null;
+		}
 	}
 }
