@@ -15,14 +15,19 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.pamakids.services.QNService;
+
 			import mx.events.FlexEvent;
 
 			import components.Recommends;
 
 			import controllers.DBPopUp;
 
+			import events.ReplayEvent;
+
 			import models.DataManager;
 			import models.FontManager;
+			import models.PasterManager;
 			import models.ThemeFolderVo;
 			import models.ThemeManager;
 			import models.ThemeVo;
@@ -33,9 +38,12 @@
 			import views.components.RecordPopup;
 			import views.draw.DrawView;
 			import views.gallery.GalleryViewOnline;
+			import views.player.ReplayView;
 			import views.theme.ThemeList;
 			import views.user.UserCenterView;
 			import views.user.UserLoginPopup;
+
+			import vo.VO;
 
 			private var themListArr:Array;
 
@@ -60,6 +68,8 @@
 
 				themelist.addEventListener("themeClicked", playTheme);
 				themelist.addEventListener("themeListClose", closeTheme);
+
+				addEventListener(ReplayEvent.EVENT_ID, onReplay);
 
 				initListeners();
 
@@ -114,7 +124,7 @@
 				db.initData(vo);
 				db.addEventListener("exitDraw", onExitDraw);
 				drawerLayer.addElement(db);
-				drawerLayer.visible=true;
+//				drawerLayer.visible=true;
 			}
 
 			protected function onExitDraw(e:Event):void
@@ -123,7 +133,7 @@
 				{
 					drawerLayer.removeElement(db);
 					db.dispose();
-					drawerLayer.visible=false;
+//					drawerLayer.visible=false;
 				}
 				db=null;
 			}
@@ -157,6 +167,8 @@
 
 			private var gallery:GalleryViewOnline;
 			private var usercenter:UserCenterView;
+
+			private var player:ReplayView;
 
 			protected function usercenter_clickHandler(event:MouseEvent):void
 			{
@@ -201,6 +213,42 @@
 			protected function group1_initializeHandler(event:FlexEvent):void
 			{
 				LoginProxy.autoLogin();
+				PasterManager.getInstance().initialize();
+
+				initConfig();
+			}
+
+			private function initConfig():void
+			{
+				QNService.HOST=VO.FILESERVER_HOST;
+			}
+
+			protected function onReplay(e:ReplayEvent):void
+			{
+				onExitDraw(null);
+				player=new ReplayView();
+				player.initData(e.data);
+				player.addEventListener("gotoGallery", onplayerToGallery);
+				player.addEventListener("closeReplay", onClosePlayer);
+				drawerLayer.addElement(player);
+			}
+
+			protected function onplayerToGallery(event:Event):void
+			{
+				onClosePlayer(null);
+				addGallery();
+			}
+
+			protected function onClosePlayer(event:Event):void
+			{
+				if (player)
+				{
+					player.removeEventListener("gotoGallery", onplayerToGallery);
+					player.removeEventListener("closeReplay", onClosePlayer);
+					drawerLayer.removeElement(player);
+					player.dispose();
+				}
+				player=null;
 			}
 
 		]]>
@@ -244,7 +292,7 @@
 	<!--<user:UserCenterView id="usercenter" visible="false"/>
 		 <gallery:GalleryViewOnline id="gallery" visible="false"/>-->
 
-	<s:Group width="100%" height="100%" id="drawerLayer" visible="false"/>
+	<s:Group width="100%" height="100%" id="drawerLayer"/>
 
 	<mx:UIComponent id="popupLayer" width="1024" height="768" visible="false"/>
 

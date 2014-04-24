@@ -10,5 +10,11 @@ package vo
 		public static const APPNAME:String="DrawingBoard";
 		public static const CACHE_PATH:String="paintCacheData";
 		public static const DEFAULT_USERNAME:String="defaultUser";
+
+		public static const AUDIO_NAME:String="audio.mp3";
+		public static const DATA_NAME:String="config.json";
+		public static const THUMB_NAME:String="thumb.jpg";
+
+		public static const FILESERVER_HOST:String="http://drawingboard.qiniudn.com";
 	}
 }

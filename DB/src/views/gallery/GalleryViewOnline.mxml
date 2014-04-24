@@ -60,18 +60,25 @@
 							var arr2:Array=[];
 							for each (var o2:Object in obj)
 							{
-								var pv:PaintVO=CloneUtil.convertObject(obj, PaintVO);
+								var pv:PaintVO=convertPV(obj);
 								arr2.push(pv);
 							}
 							paintsAC.addItem(arr2);
 						}
 						else
-							paintsAC.addItem(CloneUtil.convertObject(obj, PaintVO));
+							paintsAC.addItem(convertPV(obj));
 					}
 
 				}
 				else
 					getTestArr();
+			}
+
+			public static function convertPV(o:Object):PaintVO
+			{
+				var pv:PaintVO=CloneUtil.convertObject(o, PaintVO);
+				pv.author=CloneUtil.convertObject(o.author, UserVO);
+				return pv;
 			}
 
 			private function getTestArr():void

@@ -13,21 +13,24 @@
 	<fx:Script>
 		<![CDATA[
 
-			import com.pamakids.manager.SoundManager;
+			import com.greensock.TweenLite;
 
 			import mx.events.FlexEvent;
+
+			import assets.game.GameAssets;
+
+			import controllers.DBPopUp;
 
 			import drawing.DrawingMain;
 
 			import events.BrushEvent;
 			import events.ColorEvent;
+			import events.ReplayEvent;
 
 			import models.PaintData;
 			import models.ThemeVo;
 
 			import proxy.FileProxy;
-
-			import views.player.ReplayView;
 
 			public function dispose():void
 			{
@@ -183,20 +186,25 @@
 
 			protected function onSave(event:Event):void
 			{
-				onTexture(null);
-				paintData.drawData=dm.reserveObject();
-				paintData.textureData=controlPad.getTextureData();
+				var bp:Bitmap=new GameAssets.game_saving();
+				DBPopUp.addPopUp(bp);
 
-				var thumb:BitmapData=new BitmapData(1024, 768);
-				thumb.draw(drawBoard);
-				fproxy.saveThumb(thumb);
-				fproxy.saveConfig(paintData);
+				TweenLite.delayedCall(.5, function():void {
+					onTexture(null);
+					paintData.drawData=dm.reserveObject();
+					paintData.textureData=controlPad.getTextureData();
 
-				dispose();
+					var thumb:BitmapData=new BitmapData(1024, 768);
+					thumb.draw(drawBoard);
+					fproxy.saveThumb(thumb);
+					fproxy.saveConfig(paintData);
 
-				var player:ReplayView=new ReplayView();
-				player.initData(paintData);
-				addElement(player);
+					dispose();
+
+					dispatchEvent(new ReplayEvent(paintData));
+
+					DBPopUp.removePopUp(bp);
+				});
 			}
 
 			protected function drawBoard_clickHandler(event:MouseEvent):void

@@ -8,9 +8,22 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.pamakids.manager.LoadManager;
+			import com.pamakids.models.ResultVO;
+
 			import mx.events.FlexEvent;
 
+			import controllers.API;
+
+			import events.ReplayEvent;
+
+			import models.PaintData;
 			import models.PaintVO;
+
+			import proxy.FileProxy;
+			import proxy.UploadProxy;
+
+			import vo.VO;
 
 			private var _status:int;
 
@@ -32,7 +45,7 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				status=0;
+				status=status;
 			}
 
 			private var _data:PaintVO;
@@ -41,6 +54,17 @@
 			{
 				_data=o;
 				img.source=o.cover;
+
+				if (!ulp)
+					ulp=new UploadProxy(data);
+
+				statusGroup.visible=data.local;
+				if (ulp.checkIsUploaded())
+				{
+					status=2;
+				}
+				else
+					status=0;
 			}
 
 			public function get data():PaintVO
@@ -50,6 +74,7 @@
 
 			private function startUpload():void
 			{
+				ulp.uploadFiles(setProgress, uploadComplete);
 				status=1;
 				uploading=true;
 			}
@@ -60,14 +85,35 @@
 				uploading=false;
 			}
 
-			private function uploadComplete():void
+			private function uploadComplete(dataUrl:String, thumbUrl:String, audioUrl:String):void
 			{
-				status=2;
+				var obj:Object={"cover": thumbUrl, "data": dataUrl, "audio": audioUrl};
+				API.instance.paintAdd(added, obj);
+			}
+
+			private function added(o:ResultVO):void
+			{
+				this.enabled=true;
 				uploading=false;
+				trace(o.results)
+				if (o.status)
+				{
+					status=2;
+				}
+				else
+				{
+					status=0;
+				}
+			}
+
+			private function setProgress(value:Number):void
+			{
+				progress.setProgress(value);
 			}
 
 			protected function statusGroup_clickHandler(event:MouseEvent):void
 			{
+				trace(status)
 				switch (status)
 				{
 					case 0: //上传
@@ -98,16 +144,41 @@
 			[Bindable]
 			private var uploading:Boolean;
 
+			private var paintData:PaintData;
+
+			private var ulp:UploadProxy;
+
 			protected function img_clickHandler(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
+				var path:String;
+				var url:String=_data.data;
+				var local:String=hostToLocal(url);
+				if (url.indexOf("http") >= 0)
+				{
+					LoadManager.instance.loadText(url, dataLoadComplete, local);
+				}
+				else
+				{
+					LoadManager.instance.loadText(url, dataLoadComplete);
+				}
 
+				if (!paintData)
+				{
+				}
 			}
 
-			public function render(pv:PaintVO):void
+			public static function hostToLocal(url:String):String
 			{
-				// TODO Auto Generated method stub
+				var str:String;
+				str=url.substr(url.indexOf(".com") + 1);
+				str=VO.CACHE_PATH + str;
+				return str;
+			}
 
+			private function dataLoadComplete(s:String):void
+			{
+				paintData=FileProxy.parseConfig(s);
+				dispatchEvent(new ReplayEvent(paintData));
 			}
 
 		]]>
@@ -118,7 +189,8 @@
 			 verticalCenter="0" horizontalCenter="0"/>
 
 	<s:Group visible="{uploading}">
-		<components:MyProgressBar width="232" height="10" left="20" top="217"/>
+		<components:MyProgressBar width="232" height="10" left="20" top="217"
+								  id="progress"/>
 		<s:Label text="正在上传" left="180" top="198" color="white" fontSize="18"/>
 	</s:Group>
 

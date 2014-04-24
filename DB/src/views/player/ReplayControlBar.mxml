@@ -73,8 +73,7 @@
 
 			protected function backClick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				dispatchEvent(new Event("close"));
 			}
 
 			protected function shareClick(event:MouseEvent):void
@@ -97,8 +96,7 @@
 
 			protected function galleryClick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				dispatchEvent(new Event("gotoGallery"));
 			}
 
 			private var isHide:Boolean=false;
@@ -124,6 +122,11 @@
 //				TweenLite.to(bottomGroup, .5, {alpha: 1, top: 646});
 //			}
 
+			public function stop():void
+			{
+				playButton_clickHandler(null);
+			}
+
 		]]>
 	</fx:Script>
 
@@ -143,15 +146,15 @@
 		<components:ImageButton id="playButton" left="34" top="29"
 								click="playButton_clickHandler(event)"/>
 
-		<components:MyProgressBar width="507" height="15" id="progress" top="41"
+		<components:MyProgressBar width="500" height="15" id="progress" top="41"
 								  left="94"/>
 
-		<s:Group id="speedGroup" left="590" top="39">
+		<s:Group id="speedGroup" left="632" top="39">
 			<components:ImageButton id="speed1x" left="0"
 									click="speed_clickHandler(event)"/>
-			<components:ImageButton id="speed2x" left="75"
+			<components:ImageButton id="speed2x" left="60"
 									click="speed_clickHandler(event)"/>
-			<components:ImageButton id="speed3x" left="150"
+			<components:ImageButton id="speed3x" left="120"
 									click="speed_clickHandler(event)"/>
 		</s:Group>
 		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)"

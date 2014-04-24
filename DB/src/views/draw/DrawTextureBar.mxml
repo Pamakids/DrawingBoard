@@ -17,7 +17,6 @@
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
 				pm=PasterManager.getInstance();
-				pm.initialize();
 				for (var i:int=0; i < pm.numPaster; i++)
 				{
 					var cls:Class=pm.getPasterThumbRefByIndex(i);

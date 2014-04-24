@@ -4,13 +4,20 @@ package models
 
 	public class TextureVO
 	{
-		public function TextureVO(t:TextureItem)
+		public function TextureVO()
 		{
-			this.index=t.index;
-			this.mrotaion=t.rotation;
-			this.mx=t.x;
-			this.my=t.y;
-			this.mscale=t.scaleX;
+
+		}
+
+		public static function clone(t:TextureItem):TextureVO
+		{
+			var to:TextureVO=new TextureVO();
+			to.index=t.index;
+			to.mrotaion=t.rotation;
+			to.mx=t.x;
+			to.my=t.y;
+			to.mscale=t.scaleX;
+			return to;
 		}
 
 		public var index:int;

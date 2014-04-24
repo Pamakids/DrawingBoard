@@ -23,5 +23,8 @@ package models
 		public var favorites:Number //收藏数	
 		public var agrees:Number //赞数	
 		public var shares:Number //分享数	
+
+		public var local:Boolean;
+		public var path:String;
 	}
 }

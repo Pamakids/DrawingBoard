@@ -14,12 +14,15 @@ package proxy
 	import flash.net.URLRequestMethod;
 	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
+	import flash.utils.Dictionary;
 
 	import mx.graphics.codec.JPEGEncoder;
 
 	import models.PaintData;
 	import models.PaintVO;
 	import models.UserVO;
+
+	import service.SOService;
 
 	import vo.VO;
 
@@ -113,10 +116,24 @@ package proxy
 					var pv:PaintVO=new PaintVO();
 					pv.cover=thumb.url;
 					pv.data=config.url;
+					pv.local=true;
+					pv.path=f.name;
+					trace(f.name);
 					configArr.push(pv);
+
+					pathDic[thumb.url]=username + "/" + pv.path + "/thumb.jpg";
+					pathDic[config.url]=username + "/" + pv.path + "/config.json";
 				}
 			}
 			return configArr;
+		}
+
+		private static var pathDic:Dictionary=new Dictionary();
+
+		public static function getFile(url:String):File
+		{
+			trace("++++++++" + pathDic[url]);
+			return File.applicationStorageDirectory.resolvePath(url);
 		}
 
 		/**
@@ -124,9 +141,8 @@ package proxy
 		 * @param str
 		 * @return
 		 */
-		public static function parseConfig(url:String):PaintData
+		public static function parseConfig(str:String):PaintData
 		{
-			var str:String=FileManager.readFile(url) as String;
 			str=str.substr(str.indexOf("{"));
 			var obj:Object=com.adobe.serialization.json.JSON.decode(str);
 			return PaintData.clone(obj);
@@ -142,40 +158,5 @@ package proxy
 		 * @default
 		 */
 		public static var audioToken:String;
-
-		/**
-		 *
-		 * @param f
-		 * @param savePath
-		 */
-		public function upload(name:String, audio:Boolean=false, fromDefault:Boolean=false,
-			onProgress:Function=null, uploadedHandler:Function=null, onIOError:Function=null):void
-		{
-			if (username == VO.DEFAULT_USERNAME)
-				return;
-			if (!token)
-				return;
-			var f:File=File.applicationStorageDirectory.resolvePath((fromDefault ? VO.DEFAULT_USERNAME : username) +
-				"/" + path + name);
-			if (!f.exists)
-				return;
-			var u:URLRequest=new URLRequest(REMOTE);
-			u.method=URLRequestMethod.POST;
-			u.requestHeaders=[new URLRequestHeader('enctype', 'multipart/form-data')];
-			var ur:URLVariables=new URLVariables();
-
-			ur.key=username + "/" + path + name;
-			ur.token=audio ? audioToken : token;
-			ur['x:param']='Your custom param and value';
-
-			u.data=ur;
-
-			f.upload(u, 'file'); //File or FileReference is both OK, but UploadDataFieldName must be 'file'
-			f.addEventListener(ProgressEvent.PROGRESS, onProgress);
-			f.addEventListener(DataEvent.UPLOAD_COMPLETE_DATA, uploadedHandler);
-			f.addEventListener(IOErrorEvent.IO_ERROR, onIOError);
-		}
-
-		public static const REMOTE:String='http://db.qiniu.com';
 	}
 }

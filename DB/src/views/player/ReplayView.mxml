@@ -8,10 +8,9 @@
 		<![CDATA[
 
 			import com.greensock.TweenLite;
+			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
-
-			import drawing.Enum;
 
 			import models.PaintData;
 			import models.PasterManager;
@@ -29,6 +28,18 @@
 			{
 				data=_data;
 
+				textureArr=[];
+				for each (var o:Object in data.textureData)
+				{
+					if (o is TextureVO)
+						textureArr.push(o);
+					else
+					{
+						var to:TextureVO=CloneUtil.convertObject(o, TextureVO);
+						textureArr.push(to);
+					}
+				}
+
 				bg.source=data.theme.dataUrl;
 
 				player=new PlayBackMain(data.drawData);
@@ -36,8 +47,6 @@
 				player.pause();
 				dbLayer.addChild(player);
 				player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-
-				replayTexture(data.textureData);
 			}
 
 			private function replayTexture(arr:Array):void
@@ -50,10 +59,24 @@
 			}
 
 			private var delay:Number=1;
+			private var finished:Boolean;
 
 			public function dispose():void
 			{
+				if (player)
+				{
+					dbLayer.removeChild(player);
+					//						player.dispose();
+					player=null;
+				}
 
+				controller.removeEventListener("play", onPlay);
+				controller.removeEventListener("pause", onPause);
+				controller.removeEventListener("changeSpeed", onChange);
+				controller.removeEventListener("gotoGallery", onGotoGallery);
+				controller.removeEventListener("close", onClose);
+
+				removeAllElements();
 			}
 
 			private function playTI(to:TextureVO, d:Number):void
@@ -79,10 +102,28 @@
 				controller.addEventListener("play", onPlay);
 				controller.addEventListener("pause", onPause);
 				controller.addEventListener("changeSpeed", onChange);
+				controller.addEventListener("gotoGallery", onGotoGallery);
+				controller.addEventListener("close", onClose);
 			}
 
 			protected function onPlay(event:Event):void
 			{
+				if (finished)
+				{
+					if (player)
+					{
+						dbLayer.removeChild(player);
+//						player.dispose();
+						player=null;
+					}
+					textureLayer.removeAllElements();
+					player=new PlayBackMain(data.drawData);
+					player.changeTimerRate(controller.speed);
+					player.pause();
+					dbLayer.addChild(player);
+					player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				}
+				finished=false;
 				player.start();
 			}
 
@@ -96,10 +137,29 @@
 				player.changeTimerRate(controller.speed);
 			}
 
+			private var textureArr:Array;
+
 			protected function onEnterFrame(event:Event):void
 			{
 				controller.setProgress(EnumBack.backPercent);
-				trace(EnumBack.backPercent)
+				if (EnumBack.backPercent == 100)
+				{
+					finished=true;
+					player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+					player.pause();
+					controller.stop();
+					replayTexture(textureArr);
+				}
+			}
+
+			protected function onGotoGallery(event:Event):void
+			{
+				dispatchEvent(new Event("gotoGallery"));
+			}
+
+			protected function onClose(event:Event):void
+			{
+				dispatchEvent(new Event("closeReplay"));
 			}
 
 		]]>

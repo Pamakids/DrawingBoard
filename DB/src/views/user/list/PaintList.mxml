@@ -9,16 +9,31 @@
 
 			import views.user.item.UserPaintItem;
 
-			public function initData(arr:Array):void
-			{
-//				var totalArr:Array=local.con
+			private var arr:Array;
+			private var count:int=0;
 
-				for each (var pv:PaintVO in arr)
+			public function initData(_arr:Array):void
+			{
+				removeAllElements();
+				arr=_arr;
+				count=0;
+				getItem();
+			}
+
+			private function getItem():void
+			{
+				if (count <= arr.length - 1)
 				{
 					var item:UserPaintItem=new UserPaintItem();
-					item.data=pv;
+					item.data=arr[count];
 					addElement(item);
+					callLater(getItem);
 				}
+				else
+				{
+					return;
+				}
+				count++;
 			}
 
 		]]>

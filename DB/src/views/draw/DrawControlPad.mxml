@@ -239,7 +239,7 @@
 				for (var i:int=0; i < layer.numElements; i++)
 				{
 					var t:TextureItem=layer.getElementAt(i) as TextureItem;
-					var o:TextureVO=new TextureVO(t);
+					var o:TextureVO=TextureVO.clone(t);
 					arr.push(o);
 				}
 				return arr;

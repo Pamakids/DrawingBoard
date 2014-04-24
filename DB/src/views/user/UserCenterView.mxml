@@ -62,8 +62,6 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				initData(UserVO.crtUser);
-
 				addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 
@@ -78,7 +76,6 @@
 
 				isGuest=(user != UserVO.crtUser);
 
-				paintText="我的作品\n0";
 				followedText="关注\n0";
 				befollowedText="粉丝\n0";
 
@@ -86,7 +83,10 @@
 				if (!isGuest)
 				{
 					paintArr=FileProxy.getLocalPaints();
+					paintArr.reverse();
 				}
+
+				paintText="我的作品\n" + paintArr.length;
 
 				if (user != null)
 				{
@@ -103,6 +103,8 @@
 				}
 				else
 					editable=false;
+
+				naviIndex=0;
 			}
 
 			[Bindable]
@@ -120,15 +122,13 @@
 					{
 						paintArr.push(CloneUtil.convertObject(o, PaintVO));
 					}
-
-					paintText="我的作品\n" + paintArr.length;
 				}
 				else
 				{
 
 				}
+				paintText="我的作品\n" + paintArr.length;
 
-				naviIndex=0;
 			}
 
 			private function followListLoaded(arr:Object):void
@@ -198,8 +198,8 @@
 						if (!paintList)
 						{
 							paintList=new PaintList();
-							paintList.initData(paintArr);
 						}
+						paintList.initData(paintArr);
 						listContainer.addElement(paintList);
 						break;
 					}
