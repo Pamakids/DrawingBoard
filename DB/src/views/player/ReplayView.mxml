@@ -47,6 +47,7 @@
 				player.pause();
 				dbLayer.addChild(player);
 				player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				player.addEventListener("empty", onEmpty);
 			}
 
 			private function replayTexture(arr:Array):void
@@ -63,12 +64,7 @@
 
 			public function dispose():void
 			{
-				if (player)
-				{
-					dbLayer.removeChild(player);
-					//						player.dispose();
-					player=null;
-				}
+				disposePlayer();
 
 				controller.removeEventListener("play", onPlay);
 				controller.removeEventListener("pause", onPause);
@@ -77,6 +73,18 @@
 				controller.removeEventListener("close", onClose);
 
 				removeAllElements();
+			}
+
+			private function disposePlayer():void
+			{
+				if (player)
+				{
+					dbLayer.removeChild(player);
+					player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+					player.removeEventListener("empty", onEmpty);
+					player.dispose();
+				}
+				player=null;
 			}
 
 			private function playTI(to:TextureVO, d:Number):void
@@ -110,18 +118,15 @@
 			{
 				if (finished)
 				{
-					if (player)
-					{
-						dbLayer.removeChild(player);
-//						player.dispose();
-						player=null;
-					}
+					disposePlayer();
+
 					textureLayer.removeAllElements();
 					player=new PlayBackMain(data.drawData);
 					player.changeTimerRate(controller.speed);
 					player.pause();
 					dbLayer.addChild(player);
 					player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+					player.addEventListener("empty", onEmpty);
 				}
 				finished=false;
 				player.start();
@@ -146,6 +151,7 @@
 				{
 					finished=true;
 					player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+					player.removeEventListener("empty", onEmpty);
 					player.pause();
 					controller.stop();
 					replayTexture(textureArr);
@@ -160,6 +166,16 @@
 			protected function onClose(event:Event):void
 			{
 				dispatchEvent(new Event("closeReplay"));
+			}
+
+			protected function onEmpty(event:Event):void
+			{
+				finished=true;
+				player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				player.removeEventListener("empty", onEmpty);
+				player.pause();
+				controller.stop();
+				replayTexture(textureArr);
 			}
 
 		]]>

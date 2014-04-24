@@ -104,7 +104,6 @@ package proxy
 			if (!o || o is Number)
 				return;
 			completeCount++;
-			QNService.HOST;
 			setUploaded(dataUrl);
 
 			if (completeCount == fileNum)
