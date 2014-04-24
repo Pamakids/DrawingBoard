@@ -214,7 +214,7 @@
 			{
 				LoginProxy.autoLogin();
 				PasterManager.getInstance().initialize();
-
+				ThemeManager.getInstance().initialize();
 				initConfig();
 			}
 

@@ -21,11 +21,10 @@
 
 			protected function hgroup1_creationCompleteHandler(event:FlexEvent):void
 			{
-				ThemeManager.getInstance().initialize();
-				initializeData();
+				showList();
 			}
 
-			public function initializeData():void
+			public function showList():void
 			{
 				var dirList:Array=ThemeManager.getInstance().getThemeList();
 

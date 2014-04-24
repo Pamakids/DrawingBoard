@@ -6,6 +6,7 @@ package controllers
 	import mx.core.UIComponent;
 
 	import views.components.GesturePopUp;
+	import views.components.LoadingPopup;
 	import views.user.UserInfoPopup;
 	import views.user.UserLoginPopup;
 
@@ -40,6 +41,14 @@ package controllers
 			root.removeChild(window);
 //			root.mouseEnabled=root.mouseChildren=false;
 //			PopUpManager.removePopUp(window);window
+		}
+
+		public static function addLoadingPopup(text:String, cb:Function):void
+		{
+			var loading:LoadingPopup=new LoadingPopup();
+			loading.text=text;
+			loading.cb=cb;
+			addPopUp(loading);
 		}
 
 		public static function addGusturePopUp(callback:Function):void

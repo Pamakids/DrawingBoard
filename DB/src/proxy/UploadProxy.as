@@ -62,7 +62,7 @@ package proxy
 				}
 				else
 				{
-					dataCompHandler(null);
+					dataCompHandler("uploaded");
 				}
 			}
 
@@ -76,7 +76,7 @@ package proxy
 				}
 				else
 				{
-					thumbCompHandler(null);
+					thumbCompHandler("uploaded");
 				}
 			}
 
@@ -92,7 +92,7 @@ package proxy
 				}
 				else
 				{
-					audioCompHandler(null);
+					audioCompHandler("uploaded");
 				}
 			}
 		}
@@ -118,6 +118,7 @@ package proxy
 
 		private function thumbCompHandler(o:Object):void
 		{
+			trace(o)
 			if (!o || o is Number)
 				return;
 			completeCount++;

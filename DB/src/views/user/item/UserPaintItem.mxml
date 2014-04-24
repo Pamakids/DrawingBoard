@@ -87,7 +87,7 @@
 
 			private function uploadComplete(dataUrl:String, thumbUrl:String, audioUrl:String):void
 			{
-				var obj:Object={"cover": thumbUrl, "data": dataUrl, "audio": audioUrl};
+				var obj:Object={"cover": thumbUrl, "data": dataUrl, "audio": audioUrl, "theme": themeUrl};
 				API.instance.paintAdd(added, obj);
 			}
 
@@ -148,6 +148,13 @@
 
 			private var ulp:UploadProxy;
 
+			private var _themeUrl:String;
+
+			private function get themeUrl():String
+			{
+				return "";
+			}
+
 			protected function img_clickHandler(event:MouseEvent):void
 			{
 				var path:String;
@@ -160,10 +167,6 @@
 				else
 				{
 					LoadManager.instance.loadText(url, dataLoadComplete);
-				}
-
-				if (!paintData)
-				{
 				}
 			}
 

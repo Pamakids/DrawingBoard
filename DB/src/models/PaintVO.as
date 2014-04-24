@@ -26,5 +26,7 @@ package models
 
 		public var local:Boolean;
 		public var path:String;
+
+		public var theme:String;
 	}
 }

@@ -16,5 +16,7 @@ package vo
 		public static const THUMB_NAME:String="thumb.jpg";
 
 		public static const FILESERVER_HOST:String="http://drawingboard.qiniudn.com";
+
+		public static const THEMEARR:Array=[];
 	}
 }

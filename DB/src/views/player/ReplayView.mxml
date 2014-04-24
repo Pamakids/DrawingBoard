@@ -42,24 +42,34 @@
 
 				bg.source=data.theme.dataUrl;
 
+				initPlayer();
+			}
+
+			private function initPlayer():void
+			{
 				player=new PlayBackMain(data.drawData);
 				player.changeTimerRate(controller.speed);
 				player.pause();
 				dbLayer.addChild(player);
 				player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-				player.addEventListener("empty", onEmpty);
+				player.addEventListener("end", onEnd);
 			}
 
 			private function replayTexture(arr:Array):void
 			{
+				controller.mouseChildren=controller.mouseEnabled=false;
 				for (var i:int=0; i < arr.length; i++)
 				{
 					var to:TextureVO=arr[i];
-					playTI(to, delay * i);
+					playTI(to, delay * i / 2);
 				}
+				TweenLite.delayedCall(delay * i / 2,
+					function():void {
+						controller.mouseChildren=controller.mouseEnabled=true;
+					});
 			}
 
-			private var delay:Number=1;
+			private var delay:Number=.6;
 			private var finished:Boolean;
 
 			public function dispose():void
@@ -72,6 +82,8 @@
 				controller.removeEventListener("gotoGallery", onGotoGallery);
 				controller.removeEventListener("close", onClose);
 
+				controller.setProgress(0);
+
 				removeAllElements();
 			}
 
@@ -81,7 +93,7 @@
 				{
 					dbLayer.removeChild(player);
 					player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-					player.removeEventListener("empty", onEmpty);
+					player.removeEventListener("end", onEnd);
 					player.dispose();
 				}
 				player=null;
@@ -121,12 +133,7 @@
 					disposePlayer();
 
 					textureLayer.removeAllElements();
-					player=new PlayBackMain(data.drawData);
-					player.changeTimerRate(controller.speed);
-					player.pause();
-					dbLayer.addChild(player);
-					player.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-					player.addEventListener("empty", onEmpty);
+					initPlayer();
 				}
 				finished=false;
 				player.start();
@@ -147,15 +154,6 @@
 			protected function onEnterFrame(event:Event):void
 			{
 				controller.setProgress(EnumBack.backPercent);
-				if (EnumBack.backPercent == 100)
-				{
-					finished=true;
-					player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-					player.removeEventListener("empty", onEmpty);
-					player.pause();
-					controller.stop();
-					replayTexture(textureArr);
-				}
 			}
 
 			protected function onGotoGallery(event:Event):void
@@ -168,11 +166,12 @@
 				dispatchEvent(new Event("closeReplay"));
 			}
 
-			protected function onEmpty(event:Event):void
+			protected function onEnd(event:Event):void
 			{
+				controller.setProgress(100);
 				finished=true;
 				player.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
-				player.removeEventListener("empty", onEmpty);
+				player.removeEventListener("end", onEnd);
 				player.pause();
 				controller.stop();
 				replayTexture(textureArr);
