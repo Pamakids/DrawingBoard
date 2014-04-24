@@ -23,34 +23,32 @@ package playback
 		
 		private var speedIndex:int=1;
 		
+		private var data:Object;
 
 		public function PlayBackMain(_data:Object=null)
 		{
-			if(_data.point.length==0||_data.brush.length==0||_data.brushColor.length==0){
-				this.dispatchEvent(new Event("empty"));
-			}
-			else{
-				EnumBack.pointArray=_data.point;
-				EnumBack.brushArray=_data.brush;
-				EnumBack.colorArray=_data.brushColor;
+			data=_data;
+			EnumBack.pointArray=data.point;
+			EnumBack.brushArray=data.brush;
+			EnumBack.colorArray=data.brushColor;
 				
-				var l:int=EnumBack.pointArray.length
+			var l:int=EnumBack.pointArray.length
 				
-				for(var i:int=0;i<l;i++){
-					m=EnumBack.pointArray[i].length
-					for(var j:int=0;j<m;j++){
-						totalArray.push(EnumBack.pointArray[i][j]);
-					}
+			for(var i:int=0;i<l;i++){
+				m=EnumBack.pointArray[i].length
+				for(var j:int=0;j<m;j++){
+					totalArray.push(EnumBack.pointArray[i][j]);
 				}
-				
-				totalIndex=totalArray.length
-				
-				addChild(CanvasBack.getCanvas());
-				CanvasBack.getCanvas().initCanvas();
-				BrushFactoryBack.getBrushFactory();
-				
-				isOperate=true;
 			}
+				
+			totalIndex=totalArray.length
+				
+			addChild(CanvasBack.getCanvas());
+			CanvasBack.getCanvas().initCanvas();
+			BrushFactoryBack.getBrushFactory();
+				
+			isOperate=true;
+			
 		}
 
 		//改变回放速度
@@ -85,7 +83,11 @@ package playback
 		public function start():void
 		{
 			if(isOperate==true){
-				addEventListener(Event.ENTER_FRAME,onFrame);
+				if(data.point.length==0||data.brush.length==0||data.brushColor.length==0){
+					this.dispatchEvent(new Event("empty"));
+				}else{
+					addEventListener(Event.ENTER_FRAME,onFrame);
+				}
 			}
 		}
 
