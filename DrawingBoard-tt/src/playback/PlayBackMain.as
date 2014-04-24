@@ -26,8 +26,10 @@ package playback
 
 		public function PlayBackMain(_data:Object=null)
 		{
-			if (_data != null)
-			{
+			if(_data.point.length==0||_data.brush.length==0||_data.brushColor.length==0){
+				this.dispatchEvent(new Event("empty"));
+			}
+			else{
 				EnumBack.pointArray=_data.point;
 				EnumBack.brushArray=_data.brush;
 				EnumBack.colorArray=_data.brushColor;
@@ -97,8 +99,9 @@ package playback
 
 		private function onFrame(event:Event):void
 		{
-			currIndex=currArray.length/2+2*arrIndex;
 			currPIndex=currPArray.length;
+			currIndex=currArray.length/2+2*(arrIndex-currPIndex/2);
+			
 			EnumBack.backPercent=int((currIndex+currPIndex)/totalIndex*100)
 			switch(speedIndex){
 				case 1:
@@ -214,6 +217,16 @@ package playback
 		private function setBrushColor(_brushColor:uint):void
 		{
 			BrushFactoryBack.getBrushFactory().brush.m_color=_brushColor;
+		}
+		
+		public function dispose():void{
+			CanvasBack.getCanvas().dispose();
+			totalArray=[];
+			currArray=[];
+			currPArray=[];
+			currPIndex=0
+			totalIndex=0;
+			currIndex=0;
 		}
 	}
 }
