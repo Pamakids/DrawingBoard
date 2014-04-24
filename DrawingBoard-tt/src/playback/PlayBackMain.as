@@ -84,7 +84,7 @@ package playback
 		{
 			if(isOperate==true){
 				if(data.point.length==0||data.brush.length==0||data.brushColor.length==0){
-					this.dispatchEvent(new Event("empty"));
+					this.dispatchEvent(new Event("end"));
 				}else{
 					addEventListener(Event.ENTER_FRAME,onFrame);
 				}
@@ -159,7 +159,7 @@ package playback
 					arrIndex=0;
 					pointIndex=0;
 					isOperate=false;
-					this.dispatchEvent(new Event("playback_over"));
+					this.dispatchEvent(new Event("end"));
 				}
 			}
 		}
