@@ -111,7 +111,6 @@
 			protected function playTheme(event:Event):void
 			{
 				var vo:ThemeVo=themListArr[themelist.crtIndex];
-				trace(vo)
 
 				drawerLayer.removeAllElements();
 				if (db)
@@ -228,22 +227,23 @@
 				onExitDraw(null);
 				player=new ReplayView();
 				player.initData(e.data);
-				player.addEventListener("gotoGallery", onplayerToGallery);
+				player.addEventListener("replayToCenter", onplayerToCenter);
 				player.addEventListener("closeReplay", onClosePlayer);
 				drawerLayer.addElement(player);
 			}
 
-			protected function onplayerToGallery(event:Event):void
+			protected function onplayerToCenter(event:Event):void
 			{
+				addUsercenter();
+				closeTheme(null);
 				onClosePlayer(null);
-				addGallery();
 			}
 
 			protected function onClosePlayer(event:Event):void
 			{
 				if (player)
 				{
-					player.removeEventListener("gotoGallery", onplayerToGallery);
+					player.removeEventListener("replayToCenter", onplayerToCenter);
 					player.removeEventListener("closeReplay", onClosePlayer);
 					drawerLayer.removeElement(player);
 					player.dispose();

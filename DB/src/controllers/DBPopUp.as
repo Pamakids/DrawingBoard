@@ -18,6 +18,8 @@ package controllers
 
 		public static var root:UIComponent;
 
+		private static var loading:LoadingPopup;
+
 		public static function addPopUp(window:DisplayObject):void
 		{
 			root.visible=true;
@@ -45,10 +47,23 @@ package controllers
 
 		public static function addLoadingPopup(text:String, cb:Function):void
 		{
-			var loading:LoadingPopup=new LoadingPopup();
+			if (loading)
+				removeLoadingPopup(false);
+			loading=new LoadingPopup();
 			loading.text=text;
 			loading.cb=cb;
 			addPopUp(loading);
+		}
+
+		public static function removeLoadingPopup(dispose:Boolean=true):void
+		{
+			if (loading)
+			{
+				removePopUp(loading);
+				if (dispose)
+					loading.dispose();
+			}
+			loading=null;
 		}
 
 		public static function addGusturePopUp(callback:Function):void

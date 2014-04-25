@@ -24,7 +24,14 @@ package models
 		}
 
 		public var thumbnail:String
-		public var theme:String;
+
+		public function get theme():String
+		{
+			var pack:String=thumbnail.substr(thumbnail.indexOf("thumbnail") + 10);
+			var themePath:String=pack.substring(0, pack.indexOf("/"));
+			trace(themePath);
+			return themePath + "/" + index;
+		}
 		public var index:int
 
 	}

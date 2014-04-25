@@ -96,7 +96,7 @@
 
 			protected function galleryClick(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("gotoGallery"));
+				dispatchEvent(new Event("replayToCenter"));
 			}
 
 			private var isHide:Boolean=false;
@@ -136,7 +136,7 @@
 		<s:Image 
 				 source="{recorded?PlayerAssets.top_has_record:PlayerAssets.top_no_record}"
 				 left="463" top="21" click="recordClick(event)"/>
-		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="885"
+		<s:Image source="@Embed('assets/global/usercenterBtn.png')" left="885"
 				 top="21" click="galleryClick(event)"/>
 
 	</s:Group>
