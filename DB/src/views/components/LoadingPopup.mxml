@@ -1,26 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="400" height="300"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="240" height="180"
 		 creationComplete="group1_creationCompleteHandler(event)"
 		 xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script>
 		<![CDATA[
 
 			import mx.events.FlexEvent;
+
+			[Bindable]
 			public var text:String;
 			public var cb:Function;
+
+			private var loading:MovieClip;
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
 				bg.graphics.beginFill(0, .5);
-				bg.graphics.drawRoundRect(0, 0, 400, 300, 10, 100);
+				bg.graphics.drawRoundRect(0, 0, width, height, 30, 30);
 				bg.graphics.endFill();
+				loading=new LoadingMC();
+				bg.addChild(loading);
+				loading.x=width - 58 >> 1;
+				loading.y=(height - 58 >> 1);
+				loading.gotoAndPlay(1);
+			}
+
+			public function dispose():void
+			{
+				if (loading)
+				{
+					loading.stop();
+					bg.removeChild(loading);
+				}
+				loading=null;
+				if (cb != null)
+					cb();
+				cb=null;
+				removeAllElements();
 			}
 
 		]]>
 	</fx:Script>
 	<mx:UIComponent id="bg"/>
-	<s:Group>
-	</s:Group>
-	<s:TextArea color="0xffffff" fontSize="20" width="100%" editable="false"/>
+	<s:Label id="label" color="0xffffff" fontSize="20" width="100%" bottom="20"
+			 textAlign="center" text="{text}"/>
 </s:Group>

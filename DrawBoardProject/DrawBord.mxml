@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark" xmlns:views="views.*"
+			   xmlns:components="components.*"
+			   creationComplete="application1_creationCompleteHandler(event)"
+			   backgroundColor="black" frameRate="60" xmlns:main="views.main.*"
+			   xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<fx:Script>
+		<![CDATA[
+
+			import com.greensock.plugins.TransformAroundCenterPlugin;
+			import com.greensock.plugins.TweenPlugin;
+			import com.pamakids.FullFillBG;
+			import com.pamakids.utils.DPIUtil;
+
+			import mx.events.FlexEvent;
+
+			import controllers.UserBehaviorAnalysis;
+
+			import vo.PosVO;
+
+			protected function application1_creationCompleteHandler(event:FlexEvent):void
+			{
+				TweenPlugin.activate([TransformAroundCenterPlugin]);
+				UserBehaviorAnalysis.init();
+			}
+
+			protected function mainview1_addedToStageHandler(event:Event):void
+			{
+				var arr:Array=DPIUtil.getStageSize(stage.fullScreenWidth, stage.fullScreenHeight);
+
+				PosVO.scale=arr[0];
+				PosVO.offsetX=arr[1];
+				PosVO.offsetY=arr[2];
+
+				stage.addChild(new FullFillBG());
+
+				if (Capabilities.isDebugger)
+				{
+					main.visible=true;
+					return;
+				}
+				var mc:MovieClip=new StartLoading();
+
+				mcHolder.addChild(mc);
+
+				mcHolder.x=PosVO.offsetX;
+				mcHolder.y=PosVO.offsetY;
+				mcHolder.scaleX=mcHolder.scaleY=PosVO.scale;
+
+				mc.x=1024 - 485 >> 1;
+				mc.y=768 - 485 >> 1;
+
+				function playing(e:Event):void {
+					if (mc.currentFrame == mc.totalFrames) {
+						mc.removeEventListener(Event.FRAME_CONSTRUCTED, playing);
+						mc.stop();
+						mcHolder.removeChild(mc);
+						mc=null;
+						mcHolder.visible=false;
+						main.visible=true;
+
+						stage.frameRate=60;
+//						stage.quality="low"
+					}
+				}
+
+				stage.frameRate=24;
+
+				mc.addEventListener(Event.FRAME_CONSTRUCTED, playing);
+				mc.gotoAndPlay(1);
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace ns "http://flex.apache.org/experimental/ns";
+		
+		s|TextInput
+		{
+			fontSize:14;
+			color:#ffffff;
+			borderVisible:false;
+			contentBackgroundAlpha:0;
+			focusAlpha: 0;
+		}
+		
+		s|TextArea
+		{
+			fontSize:18;
+			borderVisible:false;
+			contentBackgroundAlpha:0;
+			fontWeight:bold;
+		}
+		s|Label
+		{
+			color:#ffffff;
+			fontSize:14;
+		}
+		s|Scroller
+		{
+			skinClass:ClassReference("skins.MyScrollerSkin");
+		}
+		global
+		{
+			fontFamily:"黑体";
+		}
+		s|List
+		{
+			contentBackgroundAlpha:0;
+		}
+		
+	</fx:Style>
+
+	<!--<views:LoginView>
+		 </views:LoginView>-->
+
+	<!--<views:AvatarManager/>-->
+	<mx:UIComponent id="mcHolder" width="100%" height="100%"/>
+	<main:MainView id="main" left="{PosVO.offsetX}" top="{PosVO.offsetY}"
+				   scaleX="{PosVO.scale}" visible="false" scaleY="{PosVO.scale}"
+				   addedToStage="mainview1_addedToStageHandler(event)"/>
+	<!--<views:ThemeList/>-->
+	<!--<views:UserInfoView/>-->
+
+</s:Application>

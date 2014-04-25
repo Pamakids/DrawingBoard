@@ -14,6 +14,7 @@
 			import mx.events.FlexEvent;
 
 			import controllers.API;
+			import controllers.DBPopUp;
 
 			import events.ReplayEvent;
 
@@ -87,14 +88,46 @@
 
 			private function uploadComplete(dataUrl:String, thumbUrl:String, audioUrl:String):void
 			{
-				var obj:Object={"cover": thumbUrl, "data": dataUrl, "audio": audioUrl, "theme": themeUrl};
-				API.instance.paintAdd(added, obj);
+				po={"cover": thumbUrl, "data": dataUrl, "audio": audioUrl};
+				DBPopUp.addLoadingPopup("上传中,请稍后", uploadCB);
+				if (!paintData)
+				{
+					var path:String;
+					var url:String=_data.data;
+					var local:String=hostToLocal(url);
+					if (url.indexOf("http") >= 0)
+					{
+						return;
+					}
+					else
+					{
+						LoadManager.instance.loadText(url, dataLoadComplete2);
+					}
+				}
+				else
+				{
+					updataPaint();
+				}
 			}
+
+			private function dataLoadComplete2(s:String):void
+			{
+				paintData=FileProxy.parseConfig(s);
+				updataPaint();
+			}
+
+
+			private function updataPaint():void
+			{
+				po["theme"]=paintData.theme.theme;
+				API.instance.paintAdd(added, po);
+			}
+
+			private var po:Object;
 
 			private function added(o:ResultVO):void
 			{
-				this.enabled=true;
-				uploading=false;
+				DBPopUp.removeLoadingPopup();
 				trace(o.results)
 				if (o.status)
 				{
@@ -104,6 +137,12 @@
 				{
 					status=0;
 				}
+			}
+
+			private function uploadCB():void
+			{
+				this.enabled=true;
+				uploading=false;
 			}
 
 			private function setProgress(value:Number):void
@@ -148,26 +187,32 @@
 
 			private var ulp:UploadProxy;
 
-			private var _themeUrl:String;
-
-			private function get themeUrl():String
-			{
-				return "";
-			}
-
 			protected function img_clickHandler(event:MouseEvent):void
 			{
-				var path:String;
-				var url:String=_data.data;
-				var local:String=hostToLocal(url);
-				if (url.indexOf("http") >= 0)
+				if (!paintData)
 				{
-					LoadManager.instance.loadText(url, dataLoadComplete, local);
+					DBPopUp.addLoadingPopup("载入中,请稍等", loadingCB);
+					var path:String;
+					var url:String=_data.data;
+					var local:String=hostToLocal(url);
+					if (url.indexOf("http") >= 0)
+					{
+						LoadManager.instance.loadText(url, dataLoadComplete, local);
+					}
+					else
+					{
+						LoadManager.instance.loadText(url, dataLoadComplete);
+					}
 				}
 				else
 				{
-					LoadManager.instance.loadText(url, dataLoadComplete);
+					loadingCB();
 				}
+			}
+
+			private function loadingCB():void
+			{
+				dispatchEvent(new ReplayEvent(paintData));
 			}
 
 			public static function hostToLocal(url:String):String
@@ -181,7 +226,7 @@
 			private function dataLoadComplete(s:String):void
 			{
 				paintData=FileProxy.parseConfig(s);
-				dispatchEvent(new ReplayEvent(paintData));
+				DBPopUp.removeLoadingPopup();
 			}
 
 		]]>

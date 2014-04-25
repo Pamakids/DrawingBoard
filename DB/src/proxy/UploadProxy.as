@@ -1,8 +1,6 @@
 package proxy
 {
 	import com.pamakids.services.QNService;
-	import com.pamakids.services.ServiceBase;
-	import com.pamakids.services.UploadService;
 
 	import flash.filesystem.File;
 
