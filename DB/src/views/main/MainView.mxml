@@ -229,6 +229,7 @@
 				player.initData(e.data);
 				player.addEventListener("replayToCenter", onplayerToCenter);
 				player.addEventListener("closeReplay", onClosePlayer);
+				player.recordVisible=e.recordVisible;
 				drawerLayer.addElement(player);
 			}
 

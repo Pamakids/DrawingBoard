@@ -197,15 +197,17 @@
 				{
 					DBPopUp.addLoadingPopup("载入中,请稍等", loadingCB);
 					var path:String;
-					var url:String=_data.data;
-					var local:String=hostToLocal(url);
+					var url:String=data.data;
+
 					if (data.local)
 					{
-						LoadManager.instance.loadText(url, dataLoadComplete, local);
+						LoadManager.instance.loadText(url, dataLoadComplete);
 					}
 					else
 					{
-						LoadManager.instance.loadText(url, dataLoadComplete);
+						var local:String=hostToLocal(url);
+						url=data.dataUrl;
+						LoadManager.instance.loadText(url, dataLoadComplete, local);
 					}
 				}
 				else
@@ -216,7 +218,7 @@
 
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(paintData));
+				dispatchEvent(new ReplayEvent(paintData, false));
 			}
 
 			public static function hostToLocal(url:String):String

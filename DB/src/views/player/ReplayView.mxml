@@ -24,6 +24,8 @@
 			private var data:PaintData;
 			private var player:PlayBackMain;
 
+			public var recordVisible:Boolean;
+
 			public function initData(_data:PaintData):void
 			{
 				data=_data;
@@ -126,6 +128,7 @@
 				controller.addEventListener("changeSpeed", onChange);
 				controller.addEventListener("replayToCenter", onGotoGallery);
 				controller.addEventListener("close", onClose);
+				controller.recordVisible=recordVisible;
 			}
 
 			protected function onPlay(event:Event):void
