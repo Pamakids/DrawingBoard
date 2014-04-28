@@ -276,11 +276,11 @@
 		<theme:ThemeFolderList top="188" left="219" id="foldersList"/>
 
 		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
-				 left="330" top="633"/>
+				 left="330" top="633" visible="false"/>
 		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="512"
 				 top="633" click="gallery_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
-				 top="633"/>
+				 top="633" visible="false"/>
 
 		<mx:UIComponent id="recommendHodler"/>
 

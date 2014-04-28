@@ -1,6 +1,9 @@
 package models
 {
 	import com.pamakids.models.BaseVO;
+	import com.pamakids.services.QNService;
+
+	import vo.VO;
 
 	public class PaintVO extends BaseVO
 	{
@@ -27,6 +30,23 @@ package models
 		public var local:Boolean;
 		public var path:String;
 
+		public var big:Boolean;
+
 		public var theme:String;
+
+		public function get coverUrl():String
+		{
+			return VO.FILESERVER_HOST + cover;
+		}
+
+		public function getCoverUrlBySize(w:Number, h:Number):String
+		{
+			return QNService.getQNThumbnail(cover, w, h, 1);
+		}
+
+		public function get dataUrl():String
+		{
+			return VO.FILESERVER_HOST + data;
+		}
 	}
 }

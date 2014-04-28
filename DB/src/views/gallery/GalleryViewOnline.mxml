@@ -8,6 +8,7 @@
 		<![CDATA[
 
 			import com.greensock.TweenLite;
+			import com.pamakids.manager.LoadManager;
 			import com.pamakids.models.ResultVO;
 			import com.pamakids.utils.CloneUtil;
 
@@ -18,9 +19,12 @@
 
 			import events.GalleryItemEvent;
 
+			import models.PaintData;
 			import models.PaintVO;
 			import models.UserVO;
 			import models.query.PaintQuery;
+
+			import proxy.FileProxy;
 
 			protected function close_clickHandler(event:MouseEvent):void
 			{
@@ -30,18 +34,40 @@
 			[Bindable]
 			private var paintsAC:ArrayCollection;
 
+			private var crtPage:int=1;
+			private var isRefresh:Boolean=false;
+			private var end:Boolean=false;
+
 			protected function inited(event:FlexEvent):void
 			{
 				addEventListener(GalleryItemEvent.EVENT_ID, onItemClick);
-
-//				getTestArr();
-				getPaints();
+				refresh();
+//				getPaints();
 			}
 
-			public function getPaints(index:int=1):void
+			private function refresh():void
+			{
+				isRefresh=true;
+				crtPage=1;
+				end=false;
+				refreshPaints();
+			}
+
+			private function refreshPaints():void
 			{
 				var q:PaintQuery=new PaintQuery();
-				q.page=index;
+				q.page=crtPage;
+				API.instance.paintGet(getCB, q);
+			}
+
+			private function getPaints():void
+			{
+				isRefresh=false;
+				trace(end)
+				if (end)
+					return;
+				var q:PaintQuery=new PaintQuery();
+				q.page=crtPage;
 
 				API.instance.paintGet(getCB, q);
 			}
@@ -50,9 +76,13 @@
 			{
 				if (o.status)
 				{
+					var total:int=0;
+					crtPage++;
 					var arr:Array=o.results as Array;
 					if (!paintsAC)
 						paintsAC=new ArrayCollection();
+					if (isRefresh)
+						paintsAC.removeAll();
 					for each (var obj:Object in arr)
 					{
 						if (obj is Array)
@@ -60,8 +90,20 @@
 							var arr2:Array=[];
 							for each (var o2:Object in obj)
 							{
-								var pv:PaintVO=convertPV(obj);
-								arr2.push(pv);
+								var pv:PaintVO=convertPV(o2);
+								if (obj.length == 1 && pv.big)
+								{
+									paintsAC.addItem(pv);
+									total++;
+								}
+								else
+								{
+									arr2.push(pv);
+									total++;
+								}
+
+//								if ((!pv.big && obj.length != 4) || arr.length != 4)
+//									isFull=false;
 							}
 							paintsAC.addItem(arr2);
 						}
@@ -69,15 +111,24 @@
 							paintsAC.addItem(convertPV(obj));
 					}
 
+					end=total != 20
 				}
 				else
-					getTestArr();
+				{
+
+//					getTestArr();
+				}
+
+				listContentHeight=Math.ceil(paintsAC.length / 2) * itemGAP;
 			}
 
 			public static function convertPV(o:Object):PaintVO
 			{
 				var pv:PaintVO=CloneUtil.convertObject(o, PaintVO);
-				pv.author=CloneUtil.convertObject(o.author, UserVO);
+				pv.cover=pv.cover.replace("http://db.pamakids.com/", "");
+				pv.data=pv.cover.replace("thumb.jpg", "config.json");
+//				pv.author=CloneUtil.convertObject(o.author, UserVO);
+//				trace(pv._id)
 				return pv;
 			}
 
@@ -130,7 +181,7 @@
 				var vScroll:Number=paints.scroller.verticalScrollBar.value;
 				if (vScroll < -20)
 				{
-					trace(vScroll);
+//					trace(vScroll);
 					if (!updateNew.visible)
 					{
 						updateNew.visible=true;
@@ -161,14 +212,28 @@
 				if (paints.scroller.verticalScrollBar.value < -90)
 				{
 					updateNew.visible=false;
-					getTestArr();
-//					getPaintsBefore();
+					refresh();
 				}
+				else if (paints.scroller.verticalScrollBar.value > paints.height)
+				{
+					getPaints();
+				}
+
+				trace(paints.height, listContentHeight, paints.scroller.verticalScrollBar.value)
 			}
+
+			private static var itemGAP:Number=376;
+
+			private var listContentHeight:Number=0;
 
 			protected function onItemClick(event:GalleryItemEvent):void
 			{
 				trace(event.data)
+
+				LoadManager.instance.loadText(event.data.dataUrl, function(s:String):void {
+					var o:PaintData=FileProxy.parseConfig(s);
+					trace(o);
+				});
 			}
 
 			protected function usercenter_clickHandler(event:MouseEvent):void
