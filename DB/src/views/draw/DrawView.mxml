@@ -201,7 +201,7 @@
 
 					dispose();
 
-					dispatchEvent(new ReplayEvent(paintData));
+					dispatchEvent(new ReplayEvent(paintData, true));
 
 					DBPopUp.removePopUp(bp);
 				});

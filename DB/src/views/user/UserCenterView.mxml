@@ -81,10 +81,13 @@
 
 			private var isGuest:Boolean=false;
 
+			private var localArr:Array;
+
 			public function initData(_user:UserVO):void
 			{
 				FileProxy.mergeFiles();
 				user=_user;
+
 
 				isGuest=(user != UserVO.crtUser);
 
@@ -92,10 +95,12 @@
 				befollowedText="粉丝\n0";
 
 				paintArr=[];
+				localArr=[];
+
 				if (!isGuest)
 				{
-					paintArr=FileProxy.getLocalPaints();
-					paintArr.reverse();
+					localArr=FileProxy.getLocalPaints();
+					localArr.reverse();
 				}
 
 				paintText="我的作品\n" + paintArr.length;
@@ -130,9 +135,23 @@
 			{
 				if (arr is Array)
 				{
+					arr.reverse();
 					for each (var o:Object in arr)
 					{
-						paintArr.push(CloneUtil.convertObject(o, PaintVO));
+						var po:PaintVO=CloneUtil.convertObject(o, PaintVO);
+						po.data=po.cover.replace("thumb.jpg", "config.json");
+						paintArr.push(po);
+
+						for (var i:int=0; i < localArr.length; i++)
+						{
+							var pv:PaintVO=localArr[i];
+							if (checkOnline(pv, po))
+							{
+								localArr.splice(i);
+								break;
+							}
+						}
+
 					}
 				}
 				else
@@ -141,6 +160,14 @@
 				}
 				paintText="我的作品\n" + paintArr.length;
 
+			}
+
+			private function checkOnline(local:PaintVO, online:PaintVO):Boolean
+			{
+				var dLocal:String=local.data;
+				var dOnline:String=online.data;
+				dLocal=dLocal.substr(dLocal.length - dOnline.length);
+				return dOnline == dLocal;
 			}
 
 			private function followListLoaded(arr:Object):void
@@ -216,6 +243,7 @@
 						{
 							paintList=new PaintList();
 						}
+						paintArr=paintArr.concat(localArr);
 						paintList.initData(paintArr);
 						listContainer.addElement(paintList);
 						break;

@@ -30,6 +30,9 @@
 				changeSpeed(0, false);
 			}
 
+			[Bindable]
+			public var recordVisible:Boolean;
+
 			protected function playButton_clickHandler(event:MouseEvent):void
 			{
 				playButton.isDown=!playButton.isDown;
@@ -135,7 +138,8 @@
 				 top="21" click="backClick(event)"/>
 		<s:Image 
 				 source="{recorded?PlayerAssets.top_has_record:PlayerAssets.top_no_record}"
-				 left="463" top="21" click="recordClick(event)"/>
+				 left="463" top="21" click="recordClick(event)"
+				 visible="{recordVisible}"/>
 		<s:Image source="@Embed('assets/global/usercenterBtn.png')" left="885"
 				 top="21" click="galleryClick(event)"/>
 
