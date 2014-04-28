@@ -13,5 +13,7 @@ package models.query
 		public var author:String;
 		public var favorited:Boolean;
 		public var followed:Boolean;
+		public var theme:String;
+		public var paint:String;
 	}
 }

@@ -38,7 +38,7 @@
 			public function set data(o:PaintVO):void
 			{
 				_data=o;
-				img.source=_data.cover;
+				img.source=_data.coverUrl;
 			}
 
 			public function get data():PaintVO

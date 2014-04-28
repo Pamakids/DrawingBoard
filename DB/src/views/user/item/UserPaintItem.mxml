@@ -54,12 +54,17 @@
 			public function set data(o:PaintVO):void
 			{
 				_data=o;
-				img.source=o.cover;
+				if (o.local)
+					img.source=o.cover;
+				else
+					img.source=o.coverUrl;
 
 				if (!ulp)
 					ulp=new UploadProxy(data);
 
 				statusGroup.visible=data.local;
+				if (!data.local)
+					return;
 				if (ulp.checkIsUploaded())
 				{
 					status=2;
@@ -94,8 +99,7 @@
 				{
 					var path:String;
 					var url:String=_data.data;
-					var local:String=hostToLocal(url);
-					if (url.indexOf("http") >= 0)
+					if (!data.local)
 					{
 						return;
 					}
@@ -195,7 +199,7 @@
 					var path:String;
 					var url:String=_data.data;
 					var local:String=hostToLocal(url);
-					if (url.indexOf("http") >= 0)
+					if (data.local)
 					{
 						LoadManager.instance.loadText(url, dataLoadComplete, local);
 					}
@@ -217,10 +221,7 @@
 
 			public static function hostToLocal(url:String):String
 			{
-				var str:String;
-				str=url.substr(url.indexOf(".com") + 1);
-				str=VO.CACHE_PATH + str;
-				return str;
+				return VO.CACHE_PATH + url;
 			}
 
 			private function dataLoadComplete(s:String):void

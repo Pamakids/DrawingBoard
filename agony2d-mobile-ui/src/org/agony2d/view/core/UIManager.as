@@ -76,8 +76,8 @@ public class UIManager {
 				mask.graphics.drawRect(0, Agony.offsetY*pixelRatio, width/pixelRatio, height/pixelRatio)
 			}
 			mask.graphics.endFill();
-			m_stage.addChild(mask)
-			m_monitor.mask = mask
+//			m_stage.addChild(mask)
+//			m_monitor.mask = mask
 		}
 		m_rootFusion.m_spaceWidth = width/pixelRatio
 		m_rootFusion.m_spaceHeight = height/pixelRatio

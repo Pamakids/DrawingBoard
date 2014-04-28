@@ -48,6 +48,12 @@
 			{
 				_naviIndex=value;
 
+				if (UserVO.crtUser == null)
+				{
+					DBPopUp.addLoginPopup(refreshNavi);
+					return;
+				}
+
 				for (var i:int=0; i < naviGroup.numChildren; i++)
 				{
 					var img:Image=naviGroup.getElementAt(i) as Image;
@@ -58,6 +64,11 @@
 				}
 
 				showList(_naviIndex);
+			}
+
+			private function refreshNavi():void
+			{
+				initData(user);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -72,6 +83,7 @@
 
 			public function initData(_user:UserVO):void
 			{
+				FileProxy.mergeFiles();
 				user=_user;
 
 				isGuest=(user != UserVO.crtUser);
@@ -180,6 +192,11 @@
 
 			protected function editClickHandler(event:MouseEvent):void
 			{
+				if (UserVO.crtUser == null)
+				{
+					DBPopUp.addLoginPopup(refreshNavi);
+					return;
+				}
 				DBPopUp.addUserInfoPopup(refreshInfo);
 			}
 

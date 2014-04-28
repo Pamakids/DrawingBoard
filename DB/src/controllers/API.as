@@ -56,7 +56,7 @@ package controllers
 		 */
 		public function paintGet(callback:Function, query:PaintQuery):void
 		{
-			getSB('/paint/get', 'GET').call(callback, query);
+			getSB('/paint/list', 'GET').call(callback, query);
 		}
 
 		/**
@@ -158,7 +158,7 @@ package controllers
 			var pq:PaintQuery=new PaintQuery();
 			pq.author=user._id;
 			pq.result_type=2;
-			pq.page=99;
+			pq.page=1;
 			getSB('/paint/list', 'GET').call(paintCB, pq);
 		}
 
