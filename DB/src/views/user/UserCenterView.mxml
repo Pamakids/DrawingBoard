@@ -59,8 +59,8 @@
 					var img:Image=naviGroup.getElementAt(i) as Image;
 					img.visible=_naviIndex == i;
 
-					var ta:TextArea=naviTextGroup.getElementAt(i) as TextArea;
-					ta.setStyle("color", _naviIndex == i ? 0xffffff : 0x60cdb5);
+					var l:Label=naviTextGroup.getElementAt(i) as Label;
+					l.setStyle("color", _naviIndex == i ? 0xffffff : 0x60cdb5);
 				}
 
 				showList(_naviIndex);
@@ -83,6 +83,8 @@
 
 			private var localArr:Array;
 
+			private var inited:Boolean=false;
+
 			public function initData(_user:UserVO):void
 			{
 				FileProxy.mergeFiles();
@@ -94,7 +96,8 @@
 				followedText="关注\n0";
 				befollowedText="粉丝\n0";
 
-				paintArr=[];
+				inited=false;
+				onlineArr=[];
 				localArr=[];
 
 				if (!isGuest)
@@ -103,7 +106,7 @@
 					localArr.reverse();
 				}
 
-				paintText="我的作品\n" + paintArr.length;
+				paintText="我的作品\n" + localArr.length;
 
 				if (user != null)
 				{
@@ -127,7 +130,7 @@
 			[Bindable]
 			private var editable:Boolean;
 
-			private var paintArr:Array;
+			private var onlineArr:Array;
 			private var followArr:Array;
 			private var fanArr:Array;
 
@@ -135,19 +138,19 @@
 			{
 				if (arr is Array)
 				{
-					arr.reverse();
 					for each (var o:Object in arr)
 					{
 						var po:PaintVO=CloneUtil.convertObject(o, PaintVO);
 						po.data=po.cover.replace("thumb.jpg", "config.json");
-						paintArr.push(po);
+						onlineArr.push(po);
 
 						for (var i:int=0; i < localArr.length; i++)
 						{
 							var pv:PaintVO=localArr[i];
-							if (checkOnline(pv, po))
+							if (pv.cover.indexOf(po.cover) >= 0)
 							{
-								localArr.splice(i);
+								localArr.splice(i, 1);
+								trace(localArr.length)
 								break;
 							}
 						}
@@ -158,16 +161,10 @@
 				{
 
 				}
-				paintText="我的作品\n" + paintArr.length;
 
-			}
+				inited=false;
+				naviIndex=naviIndex;
 
-			private function checkOnline(local:PaintVO, online:PaintVO):Boolean
-			{
-				var dLocal:String=local.data;
-				var dOnline:String=online.data;
-				dLocal=dLocal.substr(dLocal.length - dOnline.length);
-				return dOnline == dLocal;
 			}
 
 			private function followListLoaded(arr:Object):void
@@ -232,6 +229,8 @@
 
 			}
 
+			private var paintArr:Array;
+
 			private function showList(i:int):void
 			{
 				listContainer.removeAllElements();
@@ -243,9 +242,11 @@
 						{
 							paintList=new PaintList();
 						}
-						paintArr=paintArr.concat(localArr);
+						paintArr=onlineArr.concat(localArr);
+						inited=true;
 						paintList.initData(paintArr);
 						listContainer.addElement(paintList);
+						paintText="我的作品\n" + paintArr.length;
 						break;
 					}
 
@@ -381,13 +382,13 @@
 							 source="@Embed('assets/usercenter/navi/navi2.png')"/>
 				</s:HGroup>
 
-				<s:HGroup top="19" id="naviTextGroup" gap="1" left="1">
-					<s:TextArea text="{paintText}" width="320"
-								textAlign="center" editable="false"/>
-					<s:TextArea text="{followedText}" width="318"
-								textAlign="center" editable="false"/>
-					<s:TextArea text="{befollowedText}" width="322"
-								textAlign="center" editable="false"/>
+				<s:HGroup top="23" id="naviTextGroup" gap="1" left="1">
+					<s:Label text="{paintText}" width="320" textAlign="center"
+							 fontWeight="bold"/>
+					<s:Label text="{followedText}" width="318" fontWeight="bold"
+							 textAlign="center"/>
+					<s:Label text="{befollowedText}" width="322"
+							 fontWeight="bold" textAlign="center"/>
 				</s:HGroup>
 
 			</s:Group>
@@ -407,10 +408,9 @@
 				<s:Group left="392" top="134" visible="{messageCount!='0'}">
 					<s:Image 
 							 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
-					<s:TextArea text="{messageCount}" textAlign="center" top="5"
-								left="-4" width="40" color="0xffffff"
-								fontSize="14" editable="false"
-								fontWeight="normal"/>
+					<s:Label text="{messageCount}" textAlign="center" top="10"
+							 left="-4" width="40" color="0xffffff" fontSize="14"
+							 fontWeight="normal"/>
 				</s:Group>
 
 				<s:Image 

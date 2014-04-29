@@ -2,17 +2,9 @@ package proxy
 {
 	import com.adobe.serialization.json.JSON;
 	import com.pamakids.manager.FileManager;
-	import com.pamakids.utils.CloneUtil;
 
 	import flash.display.BitmapData;
-	import flash.events.DataEvent;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
 	import flash.filesystem.File;
-	import flash.net.URLRequest;
-	import flash.net.URLRequestHeader;
-	import flash.net.URLRequestMethod;
-	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 
@@ -21,8 +13,6 @@ package proxy
 	import models.PaintData;
 	import models.PaintVO;
 	import models.UserVO;
-
-	import service.SOService;
 
 	import vo.VO;
 
@@ -81,7 +71,7 @@ package proxy
 			obj.path=path;
 			var str:String=com.adobe.serialization.json.JSON.encode(obj);
 			var f:File=FileManager.saveFile(username + "/" + path + "config.json", str) as File;
-			trace(f.nativePath)
+//			trace(f.nativePath)
 		}
 
 		public static function mergeFiles():void
@@ -118,7 +108,7 @@ package proxy
 					pv.data=config.url;
 					pv.local=true;
 					pv.path=f.name;
-					trace(f.name);
+//					trace(f.name);
 					configArr.push(pv);
 
 					pathDic[thumb.url]=username + "/" + pv.path + "/thumb.jpg";
@@ -132,7 +122,7 @@ package proxy
 
 		public static function getFile(url:String):File
 		{
-			trace("++++++++" + pathDic[url]);
+//			trace("++++++++" + pathDic[url]);
 			return File.applicationStorageDirectory.resolvePath(url);
 		}
 
