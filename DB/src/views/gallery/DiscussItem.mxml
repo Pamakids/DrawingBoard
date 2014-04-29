@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="group2_creationCompleteHandler(event)" width="686">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+
+			protected function group2_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public function initDetail(arr:Array):void
+			{
+				for each (var o:Object in arr)
+				{
+					var item:DetailItem=new DetailItem();
+					item.initData(o);
+					detailList.addElement(item);
+				}
+			}
+
+			public function initCommits(arr:Array):void
+			{
+				for each (var o:Object in arr)
+				{
+					var item:DetailItem=new DetailItem();
+					item.initData(o);
+					detailList.addElement(item);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%">
+		<s:Image source="@Embed('assets/discuss/startdraw_btn.png')" left="890"
+				 top="20"/>
+		<s:Group width="100%" height="100%" id="discussGroup" left="169"
+				 top="132" mouseDown="group1_mouseDownHandler(event)"
+				 mouseUp="group1_mouseUpHandler(event)">
+			<s:Image source="@Embed('assets/discuss/opusBg.png')"/>
+
+			<s:Image id="img" width="634" height="477" horizontalAlign="center"
+					 verticalAlign="middle"/>
+			<s:HGroup id="detailList">
+			</s:HGroup>
+		</s:Group>
+	</s:Scroller>
+</s:Group>

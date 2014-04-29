@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="group1_creationCompleteHandler(event)" width="686"
+		 height="68">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+			[Bindable]
+			private var playTimes:String;
+			[Bindable]
+			private var likeTimes:String;
+			[Bindable]
+			private var praiseTimes:String;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function play_click(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function like_click(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function praise_click(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public function initData(o:Object):void
+			{
+				// TODO Auto Generated method stub
+
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image source="@Embed('assets/discuss/userMessageBg.png')"/>
+
+	<s:Group id="messageGroup">
+		<s:Image id="avatar" left="19" top="3" width="50" height="50"/>
+		<s:Label id="userName" left="85" top="6" color="0x60cdb5" fontSize="18"/>
+
+		<s:Image source="@Embed('assets/discuss/opusMessage/playRecord.png')"
+				 left="83" top="33"/>
+		<s:Label text="{playTimes}" top="35" left="105" color="0xffffff"
+				 fontSize="18"/>
+		<s:Image source="@Embed('assets/discuss/opusMessage/loveRecord.png')"
+				 left="149" top="33"/>
+		<s:Label text="{likeTimes}" top="35" left="173" color="0xffffff"
+				 fontSize="18"/>
+		<s:Image source="@Embed('assets/discuss/opusMessage/praiseRecord.png')"
+				 left="218" top="33"/>
+		<s:Label text="{praiseTimes}" top="35" left="243" color="0xffffff"
+				 fontSize="18"/>
+		<s:Image source="@Embed('assets/discuss/opusMessage/playBtn.png')"
+				 left="507" top="3" click="play_click(event)"/>
+		<s:Image source="@Embed('assets/discuss/opusMessage/loveOn.png')"
+				 left="562" top="3" click="like_click(event)"/>
+		<s:Image source="@Embed('assets/discuss/opusMessage/zanOn.png')"
+				 left="617" top="3" click="praise_click(event)"/>
+
+	</s:Group>
+</s:Group>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 creationComplete="group1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import mx.events.FlexEvent;
+			[Bindable]
+			private var userName:String;
+			[Bindable]
+			private var timeText:String;
+			[Bindable]
+			private var statusText:String;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public function setData(o:Object):void
+			{
+
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image source="@Embed('assets/discuss/discuss.png')"/>
+	<s:Image id="avatar" top="10" left="30" width="36" height="36"/>
+	<s:Label text="{userName}" top="17" left="80" color="0x60cdb5" fontSize="18"/>
+	<s:Image source="@Embed('assets/discuss/time.png')" left="80" top="40"/>
+	<s:Label text="{timeText}" top="40" left="96" color="0x989898" fontSize="10"/>
+	<s:Label text="{statusText}" left="223" top="24" color="0x989898"
+			 fontSize="18"/>
+	<s:Image source="@Embed('assets/discuss/heart.png')" left="630" top="13"/>
+</s:Group>

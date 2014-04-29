@@ -138,25 +138,25 @@
 				var arr2:Array=[];
 				for (var i:int=0; i < 5; i++)
 				{
-					var po:PaintVO=new PaintVO();
-					po.cover="http://cdn.ifanr.cn/wp-content/uploads/2014/04/DSCF1328.jpg";
-					var uo:UserVO=new UserVO();
-					uo.nickname="bobo";
-					uo.email="123@abc.com";
-					po.author=uo;
-
-					if (i < 4)
-					{
-						arr2.push(po);
-					}
-					else
-					{
-						arr.push(arr2);
-						arr.push(po);
-					}
+//					var po:PaintVO=new PaintVO();
+//					po.cover="http://cdn.ifanr.cn/wp-content/uploads/2014/04/DSCF1328.jpg";
+//					var uo:UserVO=new UserVO();
+//					uo.nickname="bobo";
+//					uo.email="123@abc.com";
+//					po.author=uo;
+//
+//					if (i < 4)
+//					{
+//						arr2.push(po);
+//					}
+//					else
+//					{
+//						arr.push(arr2);
+//						arr.push(po);
+//					}
 				}
 
-				paintsAC=new ArrayCollection(arr);
+//				paintsAC=new ArrayCollection(arr);
 			}
 
 			private function refreshData(o:ResultVO):void
