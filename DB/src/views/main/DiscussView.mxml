@@ -49,10 +49,12 @@
 		</s:Group>
 		<s:Group top="566" id="talkGroup">
 			<s:Image source="@Embed('assets/discuss/discussBg.png')"/>
+			<s:Image source="@Embed('assets/discuss/heart.png')"
+					 left="630" top="13"/>
 			<!--<s:Image source="@Embed('assets/discuss/discussBg.png')"
 			top="55"/>-->
+			<!--talkGroup评论纵向排列，距离差55像素-->
 		</s:Group>
 		
-		<!--talkGroup评论纵向排列，距离差55像素-->
 	</s:Group>>
 </s:Group>
