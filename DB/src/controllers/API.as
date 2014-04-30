@@ -48,15 +48,26 @@ package controllers
 		 * @param options
 		 * {
 		 *  paint_id:string() 参照画的ID，为空则请求最新
-			num:number() 请求数量，为正则表示请求比paint_id更新的，为负则表示请求更旧的
+		 * 	result_type返回结果类型，默认为 1 返回画廊结构类型，为 2 返回普通类型
 			author:string() 作者ID，为空则请求所有用户的
 			favorited:boolean() 是否只显示已收藏的
 			followed:boolean() 是否只显示我关注的
+			theme:string 关联的主题路径
 		 * }
 		 */
 		public function paintGet(callback:Function, query:PaintQuery):void
 		{
 			getSB('/paint/list', 'GET').call(callback, query);
+		}
+
+		/**
+		 *@param paintID
+		 *@param page
+		 * results : [PraiseVO]
+		 * */
+		public function getPraiseList(callback:Function, paintID:String, page:int):void
+		{
+			getSB('/paint/praise/list', 'GET').call(callback, {'paint': paintID, 'page': page});
 		}
 
 		/**
@@ -68,6 +79,45 @@ package controllers
 		{
 			getSB('/paint/add').call(callback, paint);
 		}
+
+		/**
+		 *
+		 * @param user
+		 * @param paintCB results:[PaintVO]
+		 */
+		public function getPaintList(user:UserVO, paintCB:Function):void
+		{
+			var pq:PaintQuery=new PaintQuery();
+			pq.author=user._id;
+			pq.result_type=2;
+			pq.page=1;
+			getSB('/paint/list', 'GET').call(paintCB, pq);
+		}
+
+		/**
+		 * @param id
+		 * results:PaintVO
+		 */
+		public function getPaintDetail(cb:Function, id:String):void
+		{
+			getSB('/paint/get', 'GET').call(cb, {'paint': id});
+		}
+
+		public function addPaintPlayedCount(cb:Function, id:String):void
+		{
+			getSB('/paint/count', 'GET').call(cb, {'paint': id, 'type': 2});
+		}
+
+		public function addPaintWatchedCount(cb:Function, id:String):void
+		{
+			getSB('/paint/count', 'GET').call(cb, {'paint': id, 'type': 1});
+		}
+
+		public function getPaintPraised(cb:Function, id:String):void
+		{
+			getSB('/paint/praise/get', 'GET').call(cb, {'paint': id});
+		}
+
 
 		/**
 		 *
@@ -150,20 +200,6 @@ package controllers
 
 		/**
 		 *
-		 * @param user
-		 * @param paintCB results:[PaintVO]
-		 */
-		public function getPaintList(user:UserVO, paintCB:Function):void
-		{
-			var pq:PaintQuery=new PaintQuery();
-			pq.author=user._id;
-			pq.result_type=2;
-			pq.page=1;
-			getSB('/paint/list', 'GET').call(paintCB, pq);
-		}
-
-		/**
-		 *
 		 * @param oldPW
 		 * @param newPW
 		 * @param cb status:boolean
@@ -210,9 +246,9 @@ package controllers
 		 * @param status
 		 * @param cb staus:boolean
 		 */
-		public function praisePaint(paint:PaintVO, status:Boolean, cb:Function):void
+		public function praisePaint(paint:PaintVO, cb:Function):void
 		{
-			getSB('/paint/praise').call(cb, {"paint": paint._id, "status": status});
+			getSB('/paint/praise', "GET").call(cb, {"paint": paint._id});
 		}
 
 		public function initToken():void

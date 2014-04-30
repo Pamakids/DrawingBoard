@@ -87,8 +87,8 @@
 
 			private function stopUpload():void
 			{
-				status=0;
-				uploading=false;
+//				status=0;
+//				uploading=false;
 			}
 
 			private function uploadComplete(dataUrl:String, thumbUrl:String, audioUrl:String):void

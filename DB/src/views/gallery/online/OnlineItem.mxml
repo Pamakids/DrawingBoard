@@ -5,6 +5,7 @@
 	<fx:Script>
 		<![CDATA[
 
+			import events.DetailEvent;
 			import events.GalleryItemEvent;
 
 			import models.PaintVO;
@@ -48,7 +49,7 @@
 
 			protected function group1_clickHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new GalleryItemEvent(data));
+				dispatchEvent(new DetailEvent(data));
 			}
 
 		]]>

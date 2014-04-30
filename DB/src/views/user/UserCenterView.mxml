@@ -68,7 +68,7 @@
 
 			private function refreshNavi():void
 			{
-				initData(user);
+				initData(UserVO.crtUser);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -142,18 +142,21 @@
 					{
 						var po:PaintVO=CloneUtil.convertObject(o, PaintVO);
 						po.data=po.cover.replace("thumb.jpg", "config.json");
-						onlineArr.push(po);
 
+						var match:Boolean=false;
 						for (var i:int=0; i < localArr.length; i++)
 						{
 							var pv:PaintVO=localArr[i];
 							if (pv.cover.indexOf(po.cover) >= 0)
 							{
-								localArr.splice(i, 1);
-								trace(localArr.length)
+								match=true;
+								localArr[i]=po;
 								break;
 							}
 						}
+
+						if (!match)
+							onlineArr.push(po);
 
 					}
 				}
@@ -242,7 +245,7 @@
 						{
 							paintList=new PaintList();
 						}
-						paintArr=onlineArr.concat(localArr);
+						paintArr=localArr.concat(onlineArr);
 						inited=true;
 						paintList.initData(paintArr);
 						listContainer.addElement(paintList);

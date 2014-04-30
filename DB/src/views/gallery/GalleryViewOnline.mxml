@@ -63,7 +63,6 @@
 			private function getPaints():void
 			{
 				isRefresh=false;
-				trace(end)
 				if (end)
 					return;
 				var q:PaintQuery=new PaintQuery();
@@ -76,9 +75,15 @@
 			{
 				if (o.status)
 				{
+					updateImage.visible=false;
 					var total:int=0;
 					crtPage++;
 					var arr:Array=o.results as Array;
+					if (arr.length == 0)
+					{
+						crtPage--;
+						end=true;
+					}
 					if (!paintsAC)
 						paintsAC=new ArrayCollection();
 					if (isRefresh)
@@ -111,7 +116,7 @@
 							paintsAC.addItem(convertPV(obj));
 					}
 
-					end=total != 20
+//					end=total != 20
 				}
 				else
 				{
@@ -119,7 +124,8 @@
 //					getTestArr();
 				}
 
-				listContentHeight=Math.ceil(paintsAC.length / 2) * itemGAP;
+				if (paintsAC)
+					listContentHeight=Math.ceil(paintsAC.length / 2) * itemGAP;
 			}
 
 			public static function convertPV(o:Object):PaintVO
@@ -212,14 +218,16 @@
 				if (paints.scroller.verticalScrollBar.value < -90)
 				{
 					updateNew.visible=false;
+					updateImage.visible=true;
+					updateImage.y=updateNew.y;
 					refresh();
 				}
-				else if (paints.scroller.verticalScrollBar.value > paints.height)
+				else if (paints.scroller.verticalScrollBar.value > listContentHeight - paints.height)
 				{
 					getPaints();
 				}
 
-				trace(paints.height, listContentHeight, paints.scroller.verticalScrollBar.value)
+//				trace(paints.height, listContentHeight, paints.scroller.verticalScrollBar.value)
 			}
 
 			private static var itemGAP:Number=376;
@@ -267,10 +275,13 @@
 			</s:layout>
 		</s:List>
 
+		<s:Image id="updateImage" mouseEnabled="false" horizontalCenter="0"
+				 visible="false"
+				 source="@Embed('assets/gallery/online/refreshLabel.png')"/>
 		<s:Label text="下拉刷新" id="updateNew" horizontalCenter="0" y="10"
 				 visible="false"/>
-		<s:Label text="上拉刷新" id="updateOlder" horizontalCenter="0" bottom="10"
-				 visible="false"/>
+		<!--<s:Label text="上拉刷新" id="updateOlder" horizontalCenter="0" bottom="10"
+			 visible="false"/>-->
 
 	</s:Group>
 

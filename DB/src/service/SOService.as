@@ -16,6 +16,7 @@ package service
 		{
 			if (!so)
 				so=SharedObject.getLocal(VO.APPNAME);
+//			so.clear()
 			return so;
 		}
 
