@@ -119,7 +119,7 @@
 			{
 				if (!UserVO.crtUser)
 				{
-					DBPopUp.addUserInfoPopup(function():void {
+					DBPopUp.addLoginPopup(function():void {
 						mouseEnabled=mouseChildren=false;
 						API.instance.praisePaint(data, praiseCB);
 					});
