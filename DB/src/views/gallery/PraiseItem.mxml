@@ -6,21 +6,26 @@
 		<![CDATA[
 
 			import mx.events.FlexEvent;
+
+			import models.PraiseVO;
 			[Bindable]
 			private var userName:String;
 			[Bindable]
 			private var timeText:String;
 			[Bindable]
-			private var statusText:String;
+			private var statusText:String="喜欢了这幅画";
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
 				
 			}
 
-			public function setData(o:Object):void
+			public function initData(o:PraiseVO):void
 			{
-				
+				avatar.source=o.author.portrait;
+				userName=o.author.nickname;
+
+				timeText=o.created_at;
 			}
 
 		]]>

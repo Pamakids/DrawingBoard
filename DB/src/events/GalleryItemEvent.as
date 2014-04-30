@@ -6,7 +6,7 @@ package events
 
 	public class GalleryItemEvent extends Event
 	{
-		public static const EVENT_ID:String="";
+		public static const EVENT_ID:String="GalleryItemEvent";
 		public var data:PaintVO;
 
 		public function GalleryItemEvent(_data:PaintVO)

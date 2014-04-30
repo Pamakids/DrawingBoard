@@ -5,25 +5,197 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.greensock.TweenLite;
+			import com.pamakids.models.ResultVO;
+			import com.pamakids.utils.CloneUtil;
+
+			import controllers.API;
+
 			import models.PaintVO;
+			import models.ThemeVo;
+			import models.UserVO;
+			import models.query.PaintQuery;
 
-			public function setData(setData:PaintVO):void
+			private var symbol:PaintVO;
+
+			private var pageIndex:int=1;
+
+			public function setData(data:PaintVO):void
 			{
+				dataArr=[];
+				symbol=data;
+				API.instance.getPaintDetail(detailCB, symbol._id);
+			}
 
+			private function detailCB(o:ResultVO):void
+			{
+				if (o.status)
+				{
+					symbol=convertPV(o.results);
+					var q:PaintQuery=new PaintQuery();
+					q.theme=symbol.theme;
+					q.result_type=2;
+					q.page=pageIndex;
+					API.instance.paintGet(getCB, q);
+					API.instance.addPaintWatchedCount(paintWatched, symbol._id);
+				}
+			}
+
+			private function paintWatched(o:ResultVO):void
+			{
 			}
 
 			protected function drawClick(event:MouseEvent):void
 			{
-				
+				dispatchEvent(new Event("startDraw"));
 			}
+
+			private var dataArr:Array
+
+			private function getCB(o:ResultVO):void
+			{
+				if (o.status)
+				{
+					dataArr.push(symbol);
+					var arr:Array=o.results as Array;
+					for each (var po:Object in arr)
+					{
+						var pv:PaintVO=convertPV(po);
+						if (pv._id != symbol._id)
+							dataArr.push(pv);
+					}
+
+					initList();
+				}
+			}
+
+			public static function convertPV(o:Object):PaintVO
+			{
+				if (o.author)
+				{
+					o.author=CloneUtil.convertObject(o.author, UserVO);
+				}
+				var pv:PaintVO=CloneUtil.convertObject(o, PaintVO);
+				//				pv.cover=pv.cover.replace("http://db.pamakids.com/", "");
+				pv.data=pv.cover.replace("thumb.jpg", "config.json");
+				//				pv.author=CloneUtil.convertObject(o.author, UserVO);
+				//				trace(pv._id)
+				return pv;
+			}
+
+			protected function close_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("close"));
+			}
+
+			private var crtItem:DiscussItem;
+
+			private function initList():void
+			{
+				for each (var o:PaintVO in dataArr)
+				{
+					var item:DiscussItem=new DiscussItem();
+					item.initData(o);
+					listHolder.addElement(item);
+					if (dataArr.indexOf(o) == index)
+						crtItem=item;
+				}
+			}
+
+			public function dispose():void
+			{
+				// TODO Auto Generated method stub
+
+			}
+
+			public function getTheme():ThemeVo
+			{
+				return crtItem.getTheme();
+			}
+
+			private var _index:int=0;
+
+			public function get index():int
+			{
+				return _index;
+			}
+
+			public function set index(value:int):void
+			{
+				var dv:int=value;
+				if (dv > listHolder.numElements - 1)
+					dv=listHolder.numElements - 1;
+				else if (dv < 0)
+					dv=0;
+
+				crtItem.stopMove();
+
+				if (_index == dv)
+					return;
+
+				_index=value;
+
+				TweenLite.killTweensOf(listHolder);
+				var dx:Number=paddingL - _index * gap;
+				TweenLite.to(listHolder, .5, {x: dx});
+				crtItem.resetPos();
+				crtItem=listHolder.getElementAt(_index) as DiscussItem;
+				crtItem.stopMove();
+				crtItem.resetPos();
+			}
+
+			private var dp:Point;
+			private var sx:Number;
+
+			protected function list_mouseDownHandler(event:MouseEvent):void
+			{
+				crtItem.stopMove();
+				sx=listHolder.x;
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
+				dp=new Point(listHolder.mouseX, listHolder.mouseY);
+			}
+
+			protected function onMove(event:MouseEvent):void
+			{
+				if (Math.abs(listHolder.mouseY - dp.y) >= 20)
+				{
+					stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
+					stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+					crtItem.startMove();
+					return;
+				}
+			}
+
+			protected function onUp(event:MouseEvent):void
+			{
+				crtItem.stopMove();
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+
+				var dx:Number=listHolder.mouseX - dp.x;
+				if (Math.abs(dx) >= 20)
+				{
+					if (dx < 0)
+						index++;
+					else
+						index--;
+				}
+			}
+
+			[Bindable]
+			private var paddingL:Number=169;
+			private var gap:Number=64 + 686;
 
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('assets/data/images/publicBg.png')"
 			 mouseEnabled="false"/>
-	<s:Image source="@Embed('assets/discuss/startdraw_btn.png')" left="890"
-			 top="20" click="drawClick(event)"/>
-	<s:Scroller verticalScrollPolicy="off" horizontalScrollPolicy="on">
-		<s:HGroup id="list"/>
-	</s:Scroller>
+	<s:HGroup id="listHolder" gap="64" x="{paddingL}"
+			  mouseDown="list_mouseDownHandler(event)"/>
+
+	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
+			 top="21" click="close_clickHandler(event)"/>
+	<s:Image source="@Embed('assets/discuss/startdraw_btn.png')" right="42"
+			 top="21" click="drawClick(event)"/>
 </s:Group>

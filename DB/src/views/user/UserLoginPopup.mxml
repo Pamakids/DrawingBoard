@@ -284,7 +284,7 @@
 			protected function image4_clickHandler(event:MouseEvent):void
 			{
 				enterView.visible=true;
-				lrView.visible=false;
+				lrView.visible=false; 
 			}
 
 			protected function close_clickHandler(event:MouseEvent):void

@@ -1,51 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
-		 creationComplete="group2_creationCompleteHandler(event)" width="686">
+		 creationComplete="group2_creationCompleteHandler(event)" width="686"
+		 height="768" xmlns:gallery="views.gallery.*">
 	<fx:Script>
 		<![CDATA[
 
+			import com.greensock.TweenLite;
+			import com.pamakids.models.ResultVO;
+			import com.pamakids.utils.CloneUtil;
+
 			import mx.events.FlexEvent;
+
+			import controllers.API;
+
+			import models.PaintVO;
+			import models.PraiseVO;
+			import models.ThemeFolderVo;
+			import models.ThemeManager;
+			import models.ThemeVo;
+			import models.UserVO;
 
 			protected function group2_creationCompleteHandler(event:FlexEvent):void
 			{
-				
+
+				resetPos();
+				detail.addEventListener("refresh", onRefresh);
 			}
 
-			public function initDetail(arr:Array):void
+			private function onRefresh(e:Event):void
 			{
-				for each (var o:Object in arr)
+				detail.mouseEnabled=detail.mouseChildren=false;
+				initData(data);
+			}
+
+			private var data:PaintVO;
+
+			public function initData(_data:PaintVO):void
+			{
+				data=_data;
+				API.instance.getPaintDetail(detailCB, data._id);
+				API.instance.getPraiseList(praiseCB, data._id, 1);
+			}
+
+			private function detailCB(o:ResultVO):void
+			{
+				if (o.status)
 				{
-					var item:DetailItem=new DetailItem();
-					item.initData(o);
-					detailList.addElement(item);
+					data=convertPV(o.results);
+					img.source=data.coverUrl;
+					detail.initData(data);
 				}
 			}
 
-			public function initCommits(arr:Array):void
+			private function convertPV(o:Object):PaintVO
 			{
-				for each (var o:Object in arr)
+				o.author=CloneUtil.convertObject(o.author, UserVO);
+				var pv:PaintVO=CloneUtil.convertObject(o, PaintVO);
+				//				pv.cover=pv.cover.replace("http://db.pamakids.com/", "");
+				pv.data=pv.cover.replace("thumb.jpg", "config.json");
+//				pv.author=CloneUtil.convertObject(o.author, UserVO);
+				//				trace(pv._id)
+				return pv;
+			}
+
+			private function praiseCB(o:ResultVO):void
+			{
+				if (o.status)
 				{
-					var item:DetailItem=new DetailItem();
-					item.initData(o);
-					detailList.addElement(item);
+					commitList.removeAllElements();
+					var arr:Array=o.results as Array;
+					for each (var po:Object in arr)
+					{
+						var vo:PraiseVO=convertPraiseVO(po);
+						var item:PraiseItem=new PraiseItem();
+						item.initData(vo);
+						commitList.addElement(item);
+					}
 				}
+			}
+
+			private function convertPraiseVO(o:Object):PraiseVO
+			{
+				var user:UserVO=CloneUtil.convertObject(o.user, UserVO);
+				var pv:PraiseVO=CloneUtil.convertObject(o, PraiseVO);
+				pv.author=user;
+				//				pv.cover=pv.cover.replace("http://db.pamakids.com/", "");
+				//				trace(pv._id)
+				return pv;
+			}
+
+			public function getTheme():ThemeVo
+			{
+				var theme:String=data.theme;
+				var arr:Array=theme.split("/");
+				trace(arr);
+				var pack:String=arr[0];
+				var index:int=int(arr[1]);
+				var folder:ThemeFolderVo=ThemeManager.getInstance().getThemeDirByType(pack);
+				return folder.themeList[index];
+			}
+
+			private var py:Number;
+
+			protected function onMove(event:MouseEvent):void
+			{
+				discussGroup.y-=(py - mouseY) / 2;
+				if (discussGroup.y > 169)
+					discussGroup.y=169;
+				if (discussGroup.y < 768 - discussGroup.height - paddingB)
+					discussGroup.y=768 - discussGroup.height - paddingB;
+				py=mouseY;
+			}
+
+			private var paddingB:Number=25;
+
+			public function stopMove():void
+			{
+				stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+			}
+
+			public function startMove():void
+			{
+				py=mouseY;
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, onMove);
+				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			}
+
+			public function resetPos():void
+			{
+				TweenLite.killTweensOf(discussGroup);
+				TweenLite.to(discussGroup, .3, {y: paddingT});
+//				discussGroup.y=paddingT;
+			}
+
+			private var paddingT:Number=169;
+
+			protected function onUp(event:MouseEvent):void
+			{
+				stopMove();
 			}
 
 		]]>
 	</fx:Script>
-	<s:Scroller width="100%">
-		<s:Image source="@Embed('assets/discuss/startdraw_btn.png')" left="890"
-				 top="20"/>
-		<s:Group width="100%" height="100%" id="discussGroup" left="169"
-				 top="132" mouseDown="group1_mouseDownHandler(event)"
-				 mouseUp="group1_mouseUpHandler(event)">
+	<s:Group width="100%" id="discussGroup" cacheAsBitmap="true">
+		<s:Group width="686" height="521" depth="4">
 			<s:Image source="@Embed('assets/discuss/opusBg.png')"/>
-
-			<s:Image id="img" width="634" height="477" horizontalAlign="center"
-					 verticalAlign="middle"/>
-			<s:HGroup id="detailList">
-			</s:HGroup>
+			<s:Image id="img" width="634" height="477" verticalCenter="0"
+					 horizontalCenter="0"/>
 		</s:Group>
-	</s:Scroller>
+		<gallery:DetailItem id="detail" depth="3" top="509"/>
+		<s:VGroup id="commitList" top="565" gap="-12" depth="2">
+		</s:VGroup>
+	</s:Group>
 </s:Group>
