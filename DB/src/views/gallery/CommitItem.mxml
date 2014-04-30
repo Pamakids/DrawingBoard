@@ -15,13 +15,12 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			public function setData(o:Object):void
 			{
-
+				
 			}
 
 		]]>

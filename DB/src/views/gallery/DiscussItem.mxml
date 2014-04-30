@@ -9,8 +9,7 @@
 
 			protected function group2_creationCompleteHandler(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			public function initDetail(arr:Array):void

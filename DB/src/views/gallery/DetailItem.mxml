@@ -16,32 +16,27 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			protected function play_click(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			protected function like_click(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			protected function praise_click(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			public function initData(o:Object):void
 			{
-				// TODO Auto Generated method stub
-
+				
 			}
 
 		]]>

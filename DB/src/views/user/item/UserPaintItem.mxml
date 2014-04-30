@@ -46,7 +46,7 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				status=status;
+				status=_status;
 			}
 
 			private var _data:PaintVO;

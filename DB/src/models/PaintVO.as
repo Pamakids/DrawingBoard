@@ -16,7 +16,7 @@ package models
 		public var cover:String //封面地址	634*477：显示于作品详情页
 //		441*332：显示于画廊列表大图
 //		300*226：显示于用户个人中心
-//		213*160：显示于画廊列表小图
+//		213*160：显示于画廊列表小图s
 //		58*43：显示于消息列表
 		public var data:String //绘图数据文件地址	
 		public var audio:String //音频文件地址	
@@ -43,7 +43,6 @@ package models
 		{
 			return QNService.getQNThumbnail(cover, w, h, 1);
 		}
-
 		public function get dataUrl():String
 		{
 			return VO.FILESERVER_HOST + data;

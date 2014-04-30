@@ -7,16 +7,6 @@
 
 			import models.PaintVO;
 
-			protected function group1_mouseDownHandler(event:MouseEvent):void
-			{
-
-			}
-
-			protected function group1_mouseUpHandler(event:MouseEvent):void
-			{
-
-			}
-
 			public function setData(setData:PaintVO):void
 			{
 
@@ -24,8 +14,7 @@
 
 			protected function drawClick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
-
+				
 			}
 
 		]]>
