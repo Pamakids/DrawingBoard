@@ -20,6 +20,7 @@ package playback
 		private var pointIndex:int=0;
 		
 		private var isOperate:Boolean=false;
+		private var speedOperate:Boolean=true;
 		
 		private var speedIndex:int=1;
 		
@@ -124,42 +125,45 @@ package playback
 			}
 		}
 		private function playBackDraw():void{
-			if (arrIndex == 0)
-			{
-				playBackSet(arrIndex);
-			}
-			if (EnumBack.pointArray[arrIndex].length == 2)
-			{
-				BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
-				
-				currPArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
-			}
-			else if (EnumBack.pointArray[arrIndex].length > 2)
-			{
-				BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.pointArray[arrIndex][pointIndex], EnumBack.pointArray[arrIndex][pointIndex + 1],
-					EnumBack.pointArray[arrIndex][pointIndex + 2], EnumBack.pointArray[arrIndex][pointIndex + 3]);
-				currArray.push(EnumBack.pointArray[arrIndex][pointIndex],EnumBack.pointArray[arrIndex][pointIndex+1],
-					EnumBack.pointArray[arrIndex][pointIndex+2],EnumBack.pointArray[arrIndex][pointIndex+3]);
-				
-			}
-			pointIndex+=2;
-			if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length){
-				pointIndex=0;
-				arrIndex+=1;
-				playBackSet(arrIndex);
-				if (arrIndex + 1 > EnumBack.pointArray.length){
-					EnumBack.backPercent==100;
-					currArray=[];
-					totalArray=[];
-					currPArray=[];
-					currPIndex=0;
-					currIndex=0;
-					totalIndex=0;
-					removeEventListener(Event.ENTER_FRAME,onFrame);
-					arrIndex=0;
+			if(speedOperate==true){
+				if (arrIndex == 0)
+				{
+					playBackSet(arrIndex);
+				}
+				if (EnumBack.pointArray[arrIndex].length == 2)
+				{
+					BrushFactoryBack.getBrushFactory().brush.drawPoint(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
+					
+					currPArray.push(EnumBack.pointArray[arrIndex][0], EnumBack.pointArray[arrIndex][1]);
+				}
+				else if (EnumBack.pointArray[arrIndex].length > 2)
+				{
+					BrushFactoryBack.getBrushFactory().brush.drawLine(EnumBack.pointArray[arrIndex][pointIndex], EnumBack.pointArray[arrIndex][pointIndex + 1],
+						EnumBack.pointArray[arrIndex][pointIndex + 2], EnumBack.pointArray[arrIndex][pointIndex + 3]);
+					currArray.push(EnumBack.pointArray[arrIndex][pointIndex],EnumBack.pointArray[arrIndex][pointIndex+1],
+						EnumBack.pointArray[arrIndex][pointIndex+2],EnumBack.pointArray[arrIndex][pointIndex+3]);
+					
+				}
+				pointIndex+=2;
+				if (pointIndex + 3 >= EnumBack.pointArray[arrIndex].length){
 					pointIndex=0;
-					isOperate=false;
-					this.dispatchEvent(new Event("end"));
+					arrIndex+=1;
+					playBackSet(arrIndex);
+					if (arrIndex + 1 > EnumBack.pointArray.length){
+						EnumBack.backPercent==100;
+						speedOperate=false;
+						currArray=[];
+						totalArray=[];
+						currPArray=[];
+						currPIndex=0;
+						currIndex=0;
+						totalIndex=0;
+						removeEventListener(Event.ENTER_FRAME,onFrame);
+						arrIndex=0;
+						pointIndex=0;
+						isOperate=false;
+						this.dispatchEvent(new Event("end"));
+					}
 				}
 			}
 		}
