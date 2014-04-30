@@ -17,6 +17,8 @@
 
 			import service.SOService;
 
+			import vo.PosVO;
+
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
 				currentUser=UserVO.crtUser.username;
@@ -204,21 +206,23 @@
 			<s:Group>
 				<s:Label text="原密码:" left="10" fontSize="14" color="white"/>
 				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
-				<s:TextInput id="originPW" top="-10" left="75" width="230"
-							 maxChars="10" height="30"/>
+				<s:TextInput id="originPW" top="-10" left="75" maxChars="10"
+							 width="{230*PosVO.scale}" height="{30*PosVO.scale}"/>
 			</s:Group>
 			<s:Group>
 				<s:Label text="新密码:" color="white" fontSize="14" left="10"/>
 				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
-				<s:TextInput id="newPW" top="-10" left="75" width="230"
-							 height="30" maxChars="20" displayAsPassword="true"/>
+				<s:TextInput id="newPW" top="-10" left="75"
+							 width="{230*PosVO.scale}" height="{30*PosVO.scale}"
+							 maxChars="20" displayAsPassword="true"/>
 			</s:Group>
 
 			<s:Group>
 				<s:Label text="密码确认:" color="white" fontSize="14" left="10"/>
 				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
-				<s:TextInput id="newPWConfirm" top="-10" left="75" width="230"
-							 height="30" maxChars="20" displayAsPassword="true"/>
+				<s:TextInput id="newPWConfirm" top="-10" left="75"
+							 width="{230*PosVO.scale}" height="{30*PosVO.scale}"
+							 maxChars="20" displayAsPassword="true"/>
 			</s:Group>
 		</s:VGroup>
 

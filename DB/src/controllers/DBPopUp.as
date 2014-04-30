@@ -77,6 +77,7 @@ package controllers
 				ges=null;
 			}
 			ges.addEventListener("gestureClose", remove);
+			ges.mouseEnabled=true;
 			addPopUp(ges);
 		}
 
