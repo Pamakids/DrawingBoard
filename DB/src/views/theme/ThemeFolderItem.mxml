@@ -27,11 +27,11 @@
 				if (ime)
 				{
 					content.scaleX=content.scaleY=value;
-					content.left=value == 1 ? 0 : dx;
-					content.top=value == 1 ? 0 : dy;
+					content.x=value == 1 ? 0 : dx;
+					content.y=value == 1 ? 0 : dy;
 				}
 				else
-					TweenLite.to(content, .3, {scaleX: value, scaleY: value, left: value == 1 ? 0 : dx, top: value == 1 ? 0 : dy});
+					TweenLite.to(content, .3, {scaleX: value, scaleY: value, x: value == 1 ? 0 : dx, y: value == 1 ? 0 : dy});
 			}
 
 			public function setIMG_src(src:String, name_src:String):void
@@ -42,10 +42,10 @@
 
 		]]>
 	</fx:Script>
-	<s:Group id="content" left="{dx}" top="{dy}" width="586" height="425"
-			 scaleX=".5" scaleY=".5">
+	<s:Group id="content" x="{dx}" y="{dy}" width="586" height="425" scaleX=".5"
+			 scaleY=".5">
 		<s:Image source="@Embed('assets/homepage/img/common/themeBg.png')"/>
-		<s:Image id="img" left="15" top="6"/>
-		<s:Image id="themeName" left="430" top="294"/>
+		<s:Image id="img" x="15" y="6"/>
+		<s:Image id="themeName" x="430" y="294"/>
 	</s:Group>
 </s:Group>

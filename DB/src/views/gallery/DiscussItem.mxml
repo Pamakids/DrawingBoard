@@ -46,21 +46,10 @@
 			{
 				if (o.status)
 				{
-					data=convertPV(o.results);
+					data=PaintVO.convertPV(o.results);
 					img.source=data.coverUrl;
 					detail.initData(data);
 				}
-			}
-
-			private function convertPV(o:Object):PaintVO
-			{
-				o.author=CloneUtil.convertObject(o.author, UserVO);
-				var pv:PaintVO=CloneUtil.convertObject(o, PaintVO);
-				//				pv.cover=pv.cover.replace("http://db.pamakids.com/", "");
-				pv.data=pv.cover.replace("thumb.jpg", "config.json");
-//				pv.author=CloneUtil.convertObject(o.author, UserVO);
-				//				trace(pv._id)
-				return pv;
 			}
 
 			private function praiseCB(o:ResultVO):void

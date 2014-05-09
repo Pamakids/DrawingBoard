@@ -67,6 +67,11 @@
 				dispatchEvent(new Event("cameraReturn"));
 			}
 
+			public function dispose():void
+			{
+
+			}
+
 		]]>
 	</fx:Script>
 	<s:Group width="221" height="293" top="8" id="takePhoto">

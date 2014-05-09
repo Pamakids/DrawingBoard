@@ -27,6 +27,17 @@
 				}
 			}
 
+			public function reset():void
+			{
+				selector.visible=true;
+				editor.visible=false;
+				if (bd)
+				{
+					bd.dispose();
+					bd=null;
+				}
+			}
+
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
 				camera.addEventListener("cameraReturn", onCameraReturn);
@@ -71,6 +82,7 @@
 			protected function onConfirm(event:Event):void
 			{
 				bd=editor.getBD();
+				dispatchEvent(new Event("photoReady"));
 			}
 
 			protected function onCameraReturn(event:Event):void
@@ -82,6 +94,13 @@
 			protected function onAlbumReturn(event:Event):void
 			{
 				selector.visible=true;
+			}
+
+			public function dispose():void
+			{
+				camera.dispose();
+				album.dispose();
+				editor.dispose();
 			}
 
 		]]>

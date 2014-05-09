@@ -5,12 +5,14 @@
 		<![CDATA[
 
 			import models.UserVO;
+
+			import vo.VO;
 			private var user:UserVO;
 
 			public function setData(o:UserVO):void
 			{
 				user=o;
-				avatar.source=user.portrait;
+				avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
 				username.text=user.username;
 			}
 

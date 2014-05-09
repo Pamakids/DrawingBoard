@@ -11,6 +11,7 @@
 
 			protected function group1_addedToStageHandler(event:Event):void
 			{
+				tcDic=new Dictionary();
 				direction=Math.random() * 4;
 				var cls:Class;
 				cls=GestureAssets["gesture_" + dirArr[direction]];
@@ -117,6 +118,7 @@
 				}
 				removeAllElements();
 				callback=null;
+				tcDic=null;
 				dispatchEvent(new Event("gestureClose"));
 			}
 

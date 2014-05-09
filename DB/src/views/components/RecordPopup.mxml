@@ -8,15 +8,24 @@
 	<fx:Script>
 		<![CDATA[
 
+			import com.greensock.TweenLite;
+
 			import mx.core.UIComponent;
 			import mx.events.FlexEvent;
 
 			import assets.player.PlayerAssets;
 
+			import vo.VO;
+
 			private var rec:RecordAudio;
 
 			protected function close(event:MouseEvent):void
 			{
+				if (tmpUrl)
+				{
+					var f:File=new File(tmpUrl);
+					f.copyTo(File.applicationStorageDirectory.resolvePath(recordUrl), true);
+				}
 				dispatchEvent(new Event("close"));
 			}
 
@@ -26,12 +35,10 @@
 				stage.addEventListener(MouseEvent.MOUSE_UP, onRelease);
 
 				rec=RecordAudio.instance;
-				rec.startRecord("test");
+				rec.startRecord(VO.AUDIO_NAME2);
 
 				recording=true;
 			}
-
-			private var recUrl:String;
 
 			private var mc:MovieClip;
 			private var recording:Boolean;
@@ -39,37 +46,41 @@
 
 			protected function onRelease(event:MouseEvent):void
 			{
-				pressBtn.source=PlayerAssets.btn_pressToRecord;
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onRelease);
-
+				pressBtn.source=PlayerAssets.btn_pressToRecord;
 				pressBtn.mouseEnabled=false;
-				rec.stopRecord(recSaved);
 
 				mc.gotoAndStop(1);
 				recording=false;
 				count=0;
-//					rec.toAmr(function(u2:String):void {
-//						trace(u2)
 
-
+				TweenLite.delayedCall(.1, rec.stopRecord, [recSaved]);
 			}
 
 			private function recSaved(u:String):void
 			{
-				recUrl=u;
+				TweenLite.delayedCall(.1, rec.toAmr, [transComplete]);
+			}
+
+			private function transComplete(u:String):void
+			{
+				tmpUrl=u;
 				pressBtn.mouseEnabled=true;
 				pressBtn.visible=false;
 			}
 
+			private var tmpUrl:String;
+
 			protected function reRecord(event:MouseEvent):void
 			{
-				recUrl="";
+				tmpUrl="";
 				pressBtn.visible=true;
+				pressBtn.source=PlayerAssets.btn_pressToRecord;
 			}
 
 			protected function playRecord(event:MouseEvent):void
 			{
-				rec.playAmr(recUrl);
+				rec.playAmr(tmpUrl);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -84,6 +95,7 @@
 
 			private var total:int;
 			private var rate:int=8;
+			public var recordUrl:String;
 
 			protected function group1_enterFrameHandler(event:Event):void
 			{

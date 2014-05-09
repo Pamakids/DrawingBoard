@@ -64,13 +64,24 @@
 
 				statusGroup.visible=data.local;
 				if (!data.local)
+				{
+					API.instance.getPaintDetail(detailCB, data._id);
 					return;
+				}
 				if (ulp.checkIsUploaded())
 				{
 					status=2;
 				}
 				else
 					status=0;
+			}
+
+			private function detailCB(o:ResultVO):void
+			{
+				if (o.status)
+				{
+					data=PaintVO.convertPV(o.results);
+				}
 			}
 
 			public function get data():PaintVO
@@ -207,6 +218,7 @@
 					{
 						var local:String=hostToLocal(url);
 						url=data.dataUrl;
+						LoadManager.instance.errorHandler=errorHander;
 						LoadManager.instance.loadText(url, dataLoadComplete, local);
 					}
 				}
@@ -216,9 +228,24 @@
 				}
 			}
 
+			private function errorHander():void
+			{
+//				trace(e, data)
+//				paintData=FileProxy.parseConfig(s);
+				DBPopUp.removeLoadingPopup(false);
+			}
+
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(paintData, false));
+				dispatchEvent(new ReplayEvent(img.source, paintData, false, getPath(cachedAudio)));
+			}
+
+			private function getPath(u:String):String
+			{
+				if (!u)
+					return "";
+				var f:File=File.applicationStorageDirectory.resolvePath(u);
+				return f.nativePath;
 			}
 
 			public static function hostToLocal(url:String):String
@@ -229,6 +256,20 @@
 			private function dataLoadComplete(s:String):void
 			{
 				paintData=FileProxy.parseConfig(s);
+				if (!data.audio)
+					DBPopUp.removeLoadingPopup();
+				else
+				{
+					var au:String=data.audioUrl;
+					cachedAudio=hostToLocal(data.audio);
+					LoadManager.instance.load(au, audioComplete, cachedAudio);
+				}
+			}
+
+			private var cachedAudio:String;
+
+			private function audioComplete(o:Object):void
+			{
 				DBPopUp.removeLoadingPopup();
 			}
 
@@ -245,7 +286,7 @@
 		<s:Label text="正在上传" left="180" top="198" color="white" fontSize="18"/>
 	</s:Group>
 
-	<s:Group left="268" top="191" id="statusGroup"
+	<s:Group left="268" top="195" id="statusGroup"
 			 click="statusGroup_clickHandler(event)">
 		<s:Image source="@Embed('assets/usercenter/paint/uploadBtn.png')"/>
 		<s:Image source="@Embed('assets/usercenter/paint/cancelBtn.png')"/>

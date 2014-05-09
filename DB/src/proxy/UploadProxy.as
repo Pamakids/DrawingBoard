@@ -1,5 +1,6 @@
 package proxy
 {
+	import com.greensock.TweenLite;
 	import com.pamakids.services.QNService;
 
 	import flash.filesystem.File;
@@ -47,50 +48,53 @@ package proxy
 
 			var dataPath:String=data.data;
 			var thumbPath:String=data.cover;
+			var audioPath:String=data.getAudio();
 			var dataF:File=FileProxy.getFile(dataPath);
 			var thumbF:File=FileProxy.getFile(thumbPath);
+			var audioF:File=FileProxy.getFile(audioPath);
 
 			if (dataF.exists)
 			{
 				dataUrl=getFullUrl(dataF);
+				fileNum++;
 				if (!checkUploaded(dataF))
 				{
-					fileNum++;
 					ulService.upload(dataF, dataCompHandler, getUR(dataF));
 				}
 				else
 				{
-					dataCompHandler("uploaded");
+					TweenLite.delayedCall(.1, dataCompHandler, ["uploaded"]);
+//					dataCompHandler("uploaded");
 				}
 			}
 
 			if (thumbF.exists)
 			{
 				thumbUrl=getFullUrl(thumbF);
+				fileNum++;
 				if (!checkUploaded(thumbF))
 				{
-					fileNum++;
 					ulService.upload(thumbF, thumbCompHandler, getUR(thumbF));
 				}
 				else
 				{
-					thumbCompHandler("uploaded");
+					TweenLite.delayedCall(.1, thumbCompHandler, ["uploaded"]);
+//					thumbCompHandler("uploaded");
 				}
 			}
 
-			var audioF:File=File.applicationDirectory.resolvePath(FileProxy.username + "/" + path + "/" + VO.AUDIO_NAME);
 			if (audioF.exists)
 			{
-
 				audioUrl=getFullUrl(audioF);
+				fileNum++;
 				if (!checkUploaded(audioF))
 				{
-					fileNum++;
 					ulService.upload(audioF, audioCompHandler, getUR(audioF));
 				}
 				else
 				{
-					audioCompHandler("uploaded");
+					TweenLite.delayedCall(.1, audioCompHandler, ["uploaded"]);
+//					audioCompHandler("uploaded");
 				}
 			}
 		}
@@ -175,9 +179,10 @@ package proxy
 		{
 			var dataPath:String=data.data;
 			var thumbPath:String=data.cover;
+			var audioPath:String=data.getAudio();
 			var dataF:File=FileProxy.getFile(dataPath);
 			var thumbF:File=FileProxy.getFile(thumbPath);
-			var audioF:File=File.applicationDirectory.resolvePath(FileProxy.username + "/" + path + "/" + VO.AUDIO_NAME);
+			var audioF:File=File.applicationDirectory.resolvePath(audioPath);
 
 			if (dataF.exists)
 			{

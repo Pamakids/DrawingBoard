@@ -85,12 +85,12 @@ package controllers
 		 * @param user
 		 * @param paintCB results:[PaintVO]
 		 */
-		public function getPaintList(user:UserVO, paintCB:Function):void
+		public function getPaintList(user:UserVO, paintCB:Function, page:int):void
 		{
 			var pq:PaintQuery=new PaintQuery();
 			pq.author=user._id;
 			pq.result_type=2;
-			pq.page=1;
+			pq.page=page;
 			getSB('/paint/list', 'GET').call(paintCB, pq);
 		}
 
@@ -134,6 +134,16 @@ package controllers
 		 * @param callback
 		 */
 		public function userUpdate(update:Object, callback:Function):void
+		{
+			getSB('/user/update').call(callback, update);
+		}
+
+		/**
+		 *
+		 * @param update  {"nickname":nickname,"portrait":portrait,"email":,email}
+		 * @param callback
+		 */
+		public function userUpdateUser(update:Object, callback:Function):void
 		{
 			getSB('/user/update').call(callback, update);
 		}
@@ -214,9 +224,9 @@ package controllers
 		 * @param user
 		 * @param cb results: [RelationshipVO]
 		 */
-		public function getFollowList(user:UserVO, cb:Function):void
+		public function getFollowList(o:Object, cb:Function):void
 		{
-			getSB('/user/friends', "GET").call(cb, {"user_id": user._id, "followed": true});
+			getSB('/user/friends', "GET").call(cb, o);
 		}
 
 		/**
@@ -224,9 +234,9 @@ package controllers
 		 * @param user
 		 * @param cb results: [RelationshipVO]
 		 */
-		public function getFanList(user:UserVO, cb:Function):void
+		public function getFanList(o:Object, cb:Function):void
 		{
-			getSB('/user/friends', "GET").call(cb, {"user_id": user._id, "follow ": false});
+			getSB('/user/friends', "GET").call(cb, o);
 		}
 
 		/**

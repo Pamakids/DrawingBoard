@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:TileGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 			 xmlns:s="library://ns.adobe.com/flex/spark" width="972"
-			 requestedColumnCount="6">
+			 requestedColumnCount="6" horizontalGap="64" verticalGap="25"
+			 left="22">
 
 	<fx:Script>
 		<![CDATA[
@@ -13,19 +14,13 @@
 
 			public function initData(arr:Array):void
 			{
-				refreshList(arr);
-//				user=_user;
-			}
-
-			private function refreshList(arr:Array):void
-			{
+				removeAllElements();
 				for each (var u:UserVO in arr)
 				{
 					var item:UserItem=new UserItem();
 					item.render(u);
 					addElement(item);
 				}
-
 			}
 
 		]]>

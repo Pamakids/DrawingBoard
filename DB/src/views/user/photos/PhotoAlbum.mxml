@@ -55,18 +55,24 @@
 
 			protected function group1_addedToStageHandler(event:Event):void
 			{
-				var sp:Point=this.localToGlobal(new Point(221 / 2, 0));
-
 				option=new CameraRollBrowseOptions();
-				option.width=320;
-				option.height=301;
+				option.width=350;
+				option.height=400;
 
-				var rect:Rectangle=new Rectangle();
-				rect.x=option.width >> 1;
-				rect.width=sp.x;
-				rect.height=sp.y;
+				var rect:Rectangle=new Rectangle(507, 230, 10, 5);
+
+//				rect.x=option.width >> 1;
+//				rect.width=512;
+//				rect.height=300;
 
 				option.origin=rect;
+
+			}
+
+			public function dispose():void
+			{
+				// TODO Auto Generated method stub
+
 			}
 
 		]]>
