@@ -25,7 +25,7 @@ package controllers
 
 		public var layer:Group;
 
-		public function showNewView(view:INaviableGroup, data:Object)
+		public function addView(view:INaviableGroup, data:Object):void
 		{
 			layer.visible=true;
 			for (var i:int=0; i < viewArr.length; i++)
@@ -45,6 +45,8 @@ package controllers
 				viewArr[viewArr.length - 2].visible=false;
 			dataArr.push(data);
 			layer.addElement(view);
+			layer.setElementIndex(view, layer.numChildren - 1);
+			view.visible=true;
 		}
 
 		public function back():void
