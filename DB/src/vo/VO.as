@@ -5,6 +5,7 @@ package vo
 	{
 		public function VO()
 		{
+			
 		}
 
 		public static const APPNAME:String="DrawingBoard";
