@@ -1,6 +1,7 @@
 package proxy
 {
 	import com.greensock.TweenLite;
+	import com.pamakids.models.ResultVO;
 	import com.pamakids.services.QNService;
 
 	import flash.filesystem.File;
@@ -63,7 +64,7 @@ package proxy
 				}
 				else
 				{
-					TweenLite.delayedCall(.1, dataCompHandler, ["uploaded"]);
+					TweenLite.delayedCall(.1, dataCompHandler, [new ResultVO(true)]);
 //					dataCompHandler("uploaded");
 				}
 			}
@@ -78,7 +79,7 @@ package proxy
 				}
 				else
 				{
-					TweenLite.delayedCall(.1, thumbCompHandler, ["uploaded"]);
+					TweenLite.delayedCall(.1, thumbCompHandler, [new ResultVO(true)]);
 //					thumbCompHandler("uploaded");
 				}
 			}
@@ -93,20 +94,28 @@ package proxy
 				}
 				else
 				{
-					TweenLite.delayedCall(.1, audioCompHandler, ["uploaded"]);
+					TweenLite.delayedCall(.1, audioCompHandler, [new ResultVO(true)]);
 //					audioCompHandler("uploaded");
 				}
 			}
 		}
-
 
 		private function dataCompHandler(o:Object):void
 		{
 			trace(o)
 			if (!o || o is Number)
 				return;
+
+			if (o.status)
+			{
+				setUploaded(dataUrl);
+			}
+			else
+			{
+
+			}
 			completeCount++;
-			setUploaded(dataUrl);
+//			setUploaded(dataUrl);
 
 			if (completeCount == fileNum)
 			{

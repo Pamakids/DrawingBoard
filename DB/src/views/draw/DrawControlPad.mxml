@@ -192,8 +192,6 @@
 				dispatchEvent(new ColorEvent(color));
 			}
 
-
-			private var crtColorIndex:int=0;
 			public var layer:Group;
 			private var brushColorArr:Vector.<uint>;
 			private var colorPickerArr:Array;

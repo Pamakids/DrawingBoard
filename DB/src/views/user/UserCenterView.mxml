@@ -2,7 +2,8 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 creationComplete="group1_creationCompleteHandler(event)"
-		 mouseUp="group1_mouseUpHandler(event)">
+		 mouseUp="group1_mouseUpHandler(event)"
+		 implements="interfaces.INaviableGroup">
 
 	<fx:Script>
 		<![CDATA[
@@ -92,11 +93,15 @@
 
 			private var inited:Boolean=false;
 
-			public function initData(_user:UserVO):void
+			public function dispose():void
+			{
+
+			}
+
+			public function initData(_user:Object):void
 			{
 				FileProxy.mergeFiles();
-				user=_user;
-
+				user=_user as UserVO;
 
 				isGuest=(user != UserVO.crtUser);
 
@@ -126,6 +131,8 @@
 					uproxy.getPaintList(paintListLoaded);
 					uproxy.getFollowList(followListLoaded);
 					uproxy.getFanList(fanListLoaded);
+					uproxy.getMsgCount(msgCountLoaded);
+//					API.instance.getMsgList(1, msgListLoaded);
 					editable=!isGuest;
 				}
 				else
@@ -137,6 +144,10 @@
 
 				followArr=[];
 				fanArr=[];
+
+				paintList=null;
+				followList=null;
+				fanList=null;
 			}
 
 			[Bindable]
@@ -175,7 +186,6 @@
 				}
 				else
 				{
-
 				}
 
 				inited=false;
@@ -185,9 +195,14 @@
 
 			private function followListLoaded(arr:Object):void
 			{
+				followArr=[];
 				if (arr is Array)
 				{
-					followArr=arr as Array;
+//					followArr=arr as Array;
+					for each (var o:Object in arr)
+					{
+						followArr.push(CloneUtil.convertObject(o.friend, UserVO));
+					}
 					followedText="关注\n" + followArr.length;
 				}
 				else
@@ -200,12 +215,30 @@
 			{
 				if (arr is Array)
 				{
-					fanArr=arr as Array;
+					fanArr=[];
+					for each (var o:Object in arr)
+					{
+						fanArr.push(CloneUtil.convertObject(o.friend, UserVO));
+					}
+
+//					fanArr=arr as Array;
 					befollowedText="粉丝\n" + fanArr.length;
 				}
 				else
 				{
 				}
+			}
+
+			private function msgCountLoaded(o:ResultVO):void
+			{
+				if (o.status)
+					messageCount=o.results.toString();
+			}
+
+			private function msgListLoaded(o:ResultVO):void
+			{
+				if (o.status)
+					o.results;
 			}
 
 			protected function navi_clickHandler(event:MouseEvent):void
@@ -270,7 +303,7 @@
 					{
 						if (!followList)
 						{
-							testArr(followArr, 20);
+//							testArr(followArr, 20);
 							followList=new FollowList();
 							followList.initData(followArr);
 						}
@@ -282,7 +315,7 @@
 					{
 						if (!fanList)
 						{
-							testArr(fanArr, 10);
+//							testArr(fanArr, 10);
 							fanList=new Fanlist();
 							fanList.initData(fanArr);
 						}

@@ -81,8 +81,8 @@
 				controlPad.addEventListener("exitDraw", onExit);
 				controlPad.addEventListener("clearDrawBorad", onClear);
 				controlPad.addEventListener("saveDraw", onSave);
-				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
+				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 
 				controlPad.crtBrushIndex=0;
 //				controlPad.visible=false;

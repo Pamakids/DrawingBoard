@@ -12,7 +12,6 @@
 		 creationComplete="group1_creationCompleteHandler(event)"
 		 addedToStage="group1_addedToStageHandler(event)"
 		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*">
-
 	<fx:Script>
 		<![CDATA[
 
@@ -66,6 +65,9 @@
 					Multitouch.inputMode=MultitouchInputMode.TOUCH_POINT;
 //					Multitouch.inputMode=MultitouchInputMode.GESTURE;
 				}
+
+				currentState=mainViewState.name;
+
 				popupLayer.graphics.beginFill(0, .6)
 				popupLayer.graphics.drawRect(0, 0, 1024, 768);
 				popupLayer.graphics.endFill();
@@ -132,11 +134,10 @@
 			protected function onOpenList(event:Event):void
 			{
 				var arr:Array=ThemeManager.getInstance().getThemeList();
-//				var dir:ThemeFolderVo=arr[foldersList.crtIndex];
 				var dir:ThemeFolderVo=arr[foldersList.selectedIndex];
 				themListArr=dir.themeList;
 
-				uiLayer.setElementIndex(themelist, uiLayer.numChildren - 1);
+//				uiLayer.setElementIndex(themelist, uiLayer.numChildren - 1);
 				themelist.visible=true;
 				themelist.setData(themListArr, dir.getTitleRef());
 			}
@@ -340,7 +341,7 @@
 				var data:ThemeFolderVo=e.data as ThemeFolderVo;
 				themListArr=data.themeList;
 
-				uiLayer.setElementIndex(themelist, uiLayer.numChildren - 1);
+//				uiLayer.setElementIndex(themelist, uiLayer.numChildren - 1);
 				themelist.visible=true;
 				themelist.setData(themListArr, data.getTitleRef());
 			}
@@ -365,12 +366,21 @@
 				}
 			}
 
+			private var preState:String;
+
 		]]>
 	</fx:Script>
 
-	<!--<photos:PhotoSelector left="512" top="200"/>-->
+	<s:states>
+		<mx:State id="mainViewState" name="mainView"/>
+		<mx:State id="drawViewState" name="drawView"/>
+		<mx:State id="galleryViewState" name="galleryView"/>
+		<mx:State id="userCenterViewState" name="userCenterView"/>
+		<mx:State id="guestViewState" name="guestView"/>
+		<mx:State id="detailViewState" name="detailView"/>
+	</s:states>
 
-	<s:Group width="100%" height="100%" id="mainGroup">
+	<s:Group width="100%" height="100%" id="mainGroup" includeIn="mainView">
 		<s:Image width="100%" height="100%" top="0" left="0"
 				 source="@Embed('assets/homepage/img/common/homepageBg_B.png')"
 				 mouseEnabled="false"/>
@@ -400,11 +410,10 @@
 				 top="633" visible="false"/>
 
 		<mx:UIComponent id="recommendHodler"/>
-
+		<theme:ThemeList id="themelist" visible="false"/>
 	</s:Group>
 
 	<s:Group id="uiLayer">
-		<theme:ThemeList id="themelist" visible="false"/>
 	</s:Group>
 	<!--<user:UserCenterView id="usercenter" visible="false"/>
 		 <gallery:GalleryViewOnline id="gallery" visible="false"/>-->

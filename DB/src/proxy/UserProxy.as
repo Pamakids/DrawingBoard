@@ -58,5 +58,10 @@ package proxy
 		{
 			mfanCB(o.results);
 		}
+
+		public function getMsgCount(cb:Function):void
+		{
+			API.instance.getMsgCount(cb);
+		}
 	}
 }

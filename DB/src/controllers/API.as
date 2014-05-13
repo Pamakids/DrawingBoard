@@ -278,5 +278,15 @@ package controllers
 			if (o.status)
 				FileProxy.audioToken=o.results as String;
 		}
+
+		public function getMsgCount(cb:Function):void
+		{
+			getSB('/message/count', "GET").call(cb);
+		}
+
+		public function getMsgList(page:int, cb:Function):void
+		{
+			getSB('/message/list', "GET").call(cb, {'page': page});
+		}
 	}
 }
