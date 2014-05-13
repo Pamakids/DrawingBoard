@@ -2,19 +2,21 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 creationComplete="group1_creationCompleteHandler(event)"
-		 mouseUp="group1_mouseUpHandler(event)">
+		 mouseUp="group1_mouseUpHandler(event)"
+		 implements="interfaces.INaviableGroup">
 
 	<fx:Script>
 		<![CDATA[
 
 			import com.greensock.TweenLite;
+			import com.pamakids.models.ResultVO;
 			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
 
 			import spark.components.Image;
-			import spark.components.TextArea;
 
+			import controllers.API;
 			import controllers.DBPopUp;
 
 			import models.PaintVO;
@@ -26,6 +28,8 @@
 			import views.user.list.Fanlist;
 			import views.user.list.FollowList;
 			import views.user.list.PaintList;
+
+			import vo.VO;
 
 			protected function close_clickHandler(event:MouseEvent):void
 			{
@@ -48,7 +52,7 @@
 			{
 				_naviIndex=value;
 
-				if (UserVO.crtUser == null)
+				if (UserVO.crtUser == null && _naviIndex != 0)
 				{
 					DBPopUp.addLoginPopup(refreshNavi);
 					return;
@@ -66,9 +70,12 @@
 				showList(_naviIndex);
 			}
 
-			private function refreshNavi():void
+			public function refreshNavi():void
 			{
-				initData(UserVO.crtUser);
+				inited=false;
+				paintEnd=false;
+				adding=false;
+				initData(user);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -76,20 +83,25 @@
 				addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			}
 
-			private var user:UserVO;
+			public var user:UserVO;
 			private var uproxy:UserProxy;
 
+			[Bindable]
 			private var isGuest:Boolean=false;
 
 			private var localArr:Array;
 
 			private var inited:Boolean=false;
 
-			public function initData(_user:UserVO):void
+			public function dispose():void
+			{
+
+			}
+
+			public function initData(_user:Object):void
 			{
 				FileProxy.mergeFiles();
-				user=_user;
-
+				user=_user as UserVO;
 
 				isGuest=(user != UserVO.crtUser);
 
@@ -106,25 +118,36 @@
 					localArr.reverse();
 				}
 
-				paintText="我的作品\n" + localArr.length;
+				totalPaint=localArr.length;
 
 				if (user != null)
 				{
-					crtUsername=user.username;
-					avatar.source=user.portrait;
+					crtUsername=user.nickname ? user.nickname : user.username;
+					avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
 
-//				listContainer.removeAllElements();
 					uproxy=new UserProxy();
+					uproxy.pageIndex=1;
 					uproxy.user=user;
 					uproxy.getPaintList(paintListLoaded);
 					uproxy.getFollowList(followListLoaded);
 					uproxy.getFanList(fanListLoaded);
+					uproxy.getMsgCount(msgCountLoaded);
+//					API.instance.getMsgList(1, msgListLoaded);
 					editable=!isGuest;
 				}
 				else
+				{
 					editable=false;
+					crtUsername="";
+					avatar.source="";
+				}
 
-				naviIndex=0;
+				followArr=[];
+				fanArr=[];
+
+				paintList=null;
+				followList=null;
+				fanList=null;
 			}
 
 			[Bindable]
@@ -138,6 +161,7 @@
 			{
 				if (arr is Array)
 				{
+					uproxy.pageIndex++;
 					for each (var o:Object in arr)
 					{
 						var po:PaintVO=CloneUtil.convertObject(o, PaintVO);
@@ -162,24 +186,27 @@
 				}
 				else
 				{
-
 				}
 
 				inited=false;
-				naviIndex=naviIndex;
+				naviIndex=0;
 
 			}
 
 			private function followListLoaded(arr:Object):void
 			{
+				followArr=[];
 				if (arr is Array)
 				{
-					followArr=arr as Array;
+//					followArr=arr as Array;
+					for each (var o:Object in arr)
+					{
+						followArr.push(CloneUtil.convertObject(o.friend, UserVO));
+					}
 					followedText="关注\n" + followArr.length;
 				}
 				else
 				{
-
 				}
 			}
 
@@ -188,13 +215,30 @@
 			{
 				if (arr is Array)
 				{
-					fanArr=arr as Array;
+					fanArr=[];
+					for each (var o:Object in arr)
+					{
+						fanArr.push(CloneUtil.convertObject(o.friend, UserVO));
+					}
+
+//					fanArr=arr as Array;
 					befollowedText="粉丝\n" + fanArr.length;
 				}
 				else
 				{
-
 				}
+			}
+
+			private function msgCountLoaded(o:ResultVO):void
+			{
+				if (o.status)
+					messageCount=o.results.toString();
+			}
+
+			private function msgListLoaded(o:ResultVO):void
+			{
+				if (o.status)
+					o.results;
 			}
 
 			protected function navi_clickHandler(event:MouseEvent):void
@@ -204,8 +248,6 @@
 				naviIndex=Math.max(0, Math.min(index, 2));
 			}
 
-			[Bindable]
-			private var paintText:String;
 			[Bindable]
 			private var followedText:String;
 			[Bindable]
@@ -229,7 +271,8 @@
 
 			private function refreshInfo():void
 			{
-
+				refreshNavi();
+				naviIndex=0;
 			}
 
 			private var paintArr:Array;
@@ -245,11 +288,14 @@
 						{
 							paintList=new PaintList();
 						}
-						paintArr=localArr.concat(onlineArr);
+						if (!inited)
+						{
+							paintArr=localArr.concat(onlineArr);
+							paintList.initData(paintArr);
+						}
 						inited=true;
-						paintList.initData(paintArr);
 						listContainer.addElement(paintList);
-						paintText="我的作品\n" + paintArr.length;
+						totalPaint=paintArr.length;
 						break;
 					}
 
@@ -257,6 +303,7 @@
 					{
 						if (!followList)
 						{
+//							testArr(followArr, 20);
 							followList=new FollowList();
 							followList.initData(followArr);
 						}
@@ -268,6 +315,7 @@
 					{
 						if (!fanList)
 						{
+//							testArr(fanArr, 10);
 							fanList=new Fanlist();
 							fanList.initData(fanArr);
 						}
@@ -281,6 +329,15 @@
 						break;
 					}
 				}
+			}
+
+			private function testArr(arr:Array, times:int=20):void
+			{
+				if (Capabilities.isDebugger)
+					for (var i:int=0; i < times; i++)
+					{
+						arr.push(user);
+					}
 			}
 
 			private var paintList:PaintList;
@@ -340,8 +397,69 @@
 //						ty=0;
 					TweenLite.killTweensOf(userBar);
 					TweenLite.to(userBar, .5, {top: ty});
+
+					if (naviIndex == 0)
+					{
+						if (list.verticalScrollBar && list.verticalScrollBar.value + list.height > paintList.height && uproxy && !adding && !paintEnd)
+						{
+							adding=true;
+							uproxy.getPaintList(paintListAdded);
+						}
+					}
 				}
 			}
+
+			private var adding:Boolean=false;
+
+			private var addArr:Array;
+
+			private var paintEnd:Boolean;
+
+			private function paintListAdded(arr:Object):void
+			{
+				adding=false;
+				if (arr is Array)
+				{
+					if (arr.length == 0)
+						paintEnd=true;
+					else
+						uproxy.pageIndex++;
+
+					addArr=[];
+
+					for each (var o:Object in arr)
+					{
+						var po:PaintVO=CloneUtil.convertObject(o, PaintVO);
+						po.data=po.cover.replace("thumb.jpg", "config.json");
+
+						var match:Boolean=false;
+						for (var i:int=0; i < localArr.length; i++)
+						{
+							var pv:PaintVO=localArr[i];
+							if (pv.cover.indexOf(po.cover) >= 0)
+							{
+								match=true;
+								localArr[i]=po;
+								break;
+							}
+						}
+
+						if (!match)
+							addArr.push(po);
+					}
+				}
+				else
+				{
+
+				}
+
+				paintList.addArr(addArr);
+
+				totalPaint+=addArr.length;
+			}
+
+			[Bindable]
+			private var totalPaint:int=0;
 
 			private var dy:Number=0;
 
@@ -358,6 +476,43 @@
 				return false;
 			}
 
+			protected function addFriend(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function followClick(event:MouseEvent):void
+			{
+				followEnable=false;
+				API.instance.followFriend(this.user._id, true, followCB);
+			}
+
+			protected function followCancelClick(event:MouseEvent):void
+			{
+				followEnable=false;
+				API.instance.followFriend(this.user._id, false, followCB);
+			}
+
+			[Bindable]
+			private var followed:Boolean;
+
+			[Bindable]
+			private var followEnable:Boolean=true;
+
+			private function followCB(o:ResultVO):void
+			{
+				followEnable=true;
+				if (o.status)
+				{
+					followed=!followed;
+				}
+				else
+				{
+
+				}
+			}
+
 		]]>
 	</fx:Script>
 
@@ -365,7 +520,7 @@
 	<s:Image source="@Embed('assets/data/images/publicBg.png')"
 			 mouseEnabled="false"/>
 	<s:Image source="@Embed('assets/global/galleryBtn.png')" right="42" top="21"
-			 click="gallery_clickHandler(event)"/>
+			 click="gallery_clickHandler(event)" visible="{!isGuest}"/>
 
 	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
 			 top="21" click="close_clickHandler(event)"/>
@@ -380,14 +535,16 @@
 					<s:Image 
 							 source="@Embed('assets/usercenter/navi/navi0.png')"/>
 					<s:Image 
-							 source="@Embed('assets/usercenter/navi/navi1.png')"/>
+							 source="@Embed('assets/usercenter/navi/navi1.png')"
+							 visible="false"/>
 					<s:Image 
-							 source="@Embed('assets/usercenter/navi/navi2.png')"/>
+							 source="@Embed('assets/usercenter/navi/navi2.png')"
+							 visible="false"/>
 				</s:HGroup>
 
 				<s:HGroup top="23" id="naviTextGroup" gap="1" left="1">
-					<s:Label text="{paintText}" width="320" textAlign="center"
-							 fontWeight="bold"/>
+					<s:Label text="{'我的作品\n'+totalPaint.toString()}" width="320"
+							 textAlign="center" fontWeight="bold"/>
 					<s:Label text="{followedText}" width="318" fontWeight="bold"
 							 textAlign="center"/>
 					<s:Label text="{befollowedText}" width="322"
@@ -404,26 +561,38 @@
 				<s:Label text="{crtUsername}" left="362" top="45"
 						 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
 
-				<s:Image 
-						 source="@Embed('assets/usercenter/userinfo/message.png')"
-						 left="363" top="123"/>
-
-				<s:Group left="392" top="134" visible="{messageCount!='0'}">
+				<s:Group visible="{!isGuest}">
 					<s:Image 
-							 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
-					<s:Label text="{messageCount}" textAlign="center" top="10"
-							 left="-4" width="40" color="0xffffff" fontSize="14"
-							 fontWeight="normal"/>
+							 source="@Embed('assets/usercenter/userinfo/message.png')"
+							 left="363" top="123"/>
+
+					<s:Group left="392" top="134" visible="{messageCount!='0'}">
+						<s:Image 
+								 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
+						<s:Label text="{messageCount}" textAlign="center"
+								 top="10" left="-4" width="40" color="0xffffff"
+								 fontSize="14" fontWeight="normal"/>
+					</s:Group>
 				</s:Group>
 
-				<s:Image 
+				<s:Image visible="{isGuest}"
 						 source="@Embed('assets/usercenter/userinfo/addFriend.png')"
-						 left="460" top="123"/>
+						 left="460" top="123" click="addFriend(event)"/>
 
 				<s:Image 
 						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"
 						 left="845" top="129" click="editClickHandler(event)"
 						 visible="{editable}"/>
+
+				<s:Group visible="{isGuest}" enabled="{followEnable}">
+					<s:Image visible="{!followed}"
+							 source="@Embed('assets/usercenter/userinfo/followBtn.png')"
+							 left="845" top="123" click="followClick(event)"/>
+					<s:Image visible="{followed}"
+							 source="@Embed('assets/usercenter/userinfo/followed.png')"
+							 left="845" top="123"
+							 click="followCancelClick(event)"/>
+				</s:Group>
 			</s:Group>
 
 			<s:Scroller id="list" top="263"

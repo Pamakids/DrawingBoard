@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:List xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark" xmlns:theme="views.theme.*"
+		verticalScrollPolicy="off" horizontalScrollPolicy="off"
+		xmlns:layout="com.pamakids.layout.*" change="list1_changeHandler(event)"
+		mouseDown="list1_mouseDownHandler(event)">
+	<fx:Script>
+		<![CDATA[
+
+			import flash.utils.getTimer;
+
+			import spark.events.IndexChangeEvent;
+
+			import vo.VO;
+
+			private var dp:Point;
+
+			protected function list1_changeHandler(e:IndexChangeEvent):void
+			{
+				disableItem(e.oldIndex)
+				enableItem(e.newIndex)
+			}
+
+			private function enableItem(index:int):void
+			{
+				if (index >= 0)
+				{
+					var item:ThemeFolderItem2=this.dataGroup.getElementAt(index) as ThemeFolderItem2;
+					item.clickEnable=true;
+				}
+			}
+
+			private function disableItem(index:int):void
+			{
+				if (index >= 0)
+				{
+					var item:ThemeFolderItem2=this.dataGroup.getElementAt(index) as ThemeFolderItem2;
+					item.clickEnable=false;
+				}
+			}
+
+			private var dt:Number;
+
+			protected function list1_mouseDownHandler(event:MouseEvent):void
+			{
+				dt=getTimer();
+				dp=new Point(mouseX, mouseY);
+				stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
+			}
+
+			protected function onUp(event:MouseEvent):void
+			{
+				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
+				var dx:Number=mouseX - dp.x;
+				var dy:Number=mouseY - dp.y;
+				if (Math.abs(dx) < VO.SWIPE_DISTANCE)
+					return;
+				var t:Number=getTimer() - dt;
+				var speed:Number=dx / t;
+				speed=Math.max(1, Math.min(Math.abs(speed), 3));
+				trace(t, speed);
+				var di:int;
+				if (Math.abs(dx) > Math.abs(dy))
+				{
+					if (dx < 0)
+					{
+						di=speed;
+					}
+					else if (dx > 0)
+					{
+						di=-speed;
+					}
+
+					disableItem(selectedIndex)
+					selectedIndex=Math.max(0, Math.min(selectedIndex + di, dataGroup.numElements - 1));
+					callLater(enableItem, [selectedIndex]);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<s:layout>
+		<layout:CoverFlowLayoutBest selectedIndex="{this.selectedIndex}"
+									elementRotation="-38" verticalOffset="0"
+									horizontalDistance="88" depthDistance="585"
+									focalLength="565">
+		</layout:CoverFlowLayoutBest>
+	</s:layout>
+	<s:itemRenderer>
+		<fx:Component>
+			<theme:ThemeFolderItem2>
+			</theme:ThemeFolderItem2>
+		</fx:Component>
+	</s:itemRenderer>
+</s:List>

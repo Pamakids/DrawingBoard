@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark" width="556"
+				height="395" click="itemrenderer1_clickHandler(event)"
+				addedToStage="itemrenderer1_addedToStageHandler(event)"
+				contentBackgroundAlpha="0">
+	<fx:Script>
+		<![CDATA[
+
+			import spark.components.DataGroup;
+
+			import events.ThemeFolderEvent;
+
+			override public function set data(value:Object):void
+			{
+				super.data=value;
+				setIMG_src(value.thumbnail, value.ThemeTxt);
+			}
+
+			public var clickEnable:Boolean;
+
+			private function setIMG_src(src:String, name_src:String):void
+			{
+				img.source=src;
+				themeName.source=name_src;
+			}
+
+			protected function itemrenderer1_clickHandler(event:MouseEvent):void
+			{
+				if (clickEnable)
+					dispatchEvent(new ThemeFolderEvent(data));
+			}
+
+			protected function itemrenderer1_addedToStageHandler(event:Event):void
+			{
+				if (DataGroup(this.parent).getElementIndex(this) == 0)
+				{
+					clickEnable=true;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image id="img" x="0" y="0"/>
+	<s:Image id="themeName" x="415" y="288"/>
+</s:ItemRenderer>

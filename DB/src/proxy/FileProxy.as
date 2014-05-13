@@ -4,11 +4,11 @@ package proxy
 	import com.pamakids.manager.FileManager;
 
 	import flash.display.BitmapData;
+	import flash.display.JPEGEncoderOptions;
 	import flash.filesystem.File;
+	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
-
-	import mx.graphics.codec.JPEGEncoder;
 
 	import models.PaintData;
 	import models.PaintVO;
@@ -56,10 +56,11 @@ package proxy
 		 *
 		 * @param bd
 		 */
-		public function saveThumb(bd:BitmapData):void
+		public function saveThumb(bd:BitmapData):File
 		{
-			var ba:ByteArray=new JPEGEncoder().encode(bd);
-			FileManager.saveFile(username + "/" + path + "thumb.jpg", ba);
+			var ba:ByteArray=new ByteArray();
+			bd.encode(new Rectangle(0, 0, 1024, 768), new JPEGEncoderOptions(), ba);
+			return FileManager.saveFile(username + "/" + path + VO.THUMB_NAME, ba) as File;
 		}
 
 		/**
@@ -70,7 +71,7 @@ package proxy
 		{
 			obj.path=path;
 			var str:String=com.adobe.serialization.json.JSON.encode(obj);
-			var f:File=FileManager.saveFile(username + "/" + path + "config.json", str) as File;
+			var f:File=FileManager.saveFile(username + "/" + path + VO.DATA_NAME, str) as File;
 //			trace(f.nativePath)
 		}
 
@@ -98,11 +99,11 @@ package proxy
 				arr=f0.getDirectoryListing();
 			for each (var f:File in arr)
 			{
-				var config:File=f.resolvePath("config.json");
+				var config:File=f.resolvePath(VO.DATA_NAME);
 				if (config.exists)
 				{
 //					var str:String=FileManager.readFile(username + "/" + f.name + "/config.json", false, true) as String;
-					var thumb:File=f.resolvePath("thumb.jpg");
+					var thumb:File=f.resolvePath(VO.THUMB_NAME);
 					var pv:PaintVO=new PaintVO();
 					pv.cover=thumb.url;
 					pv.data=config.url;
@@ -111,8 +112,8 @@ package proxy
 //					trace(f.name);
 					configArr.push(pv);
 
-					pathDic[thumb.url]=username + "/" + pv.path + "/thumb.jpg";
-					pathDic[config.url]=username + "/" + pv.path + "/config.json";
+					pathDic[thumb.url]=username + "/" + pv.path + "/" + VO.THUMB_NAME;
+					pathDic[config.url]=username + "/" + pv.path + "/" + VO.DATA_NAME;
 				}
 			}
 			return configArr;
@@ -123,7 +124,9 @@ package proxy
 		public static function getFile(url:String):File
 		{
 //			trace("++++++++" + pathDic[url]);
-			return File.applicationStorageDirectory.resolvePath(url);
+			var i:int=url.indexOf(username);
+			var u:String=i == -1 ? url : url.substr(i);
+			return File.applicationStorageDirectory.resolvePath(u);
 		}
 
 		/**

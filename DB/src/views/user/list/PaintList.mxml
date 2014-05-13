@@ -5,8 +5,6 @@
 	<fx:Script>
 		<![CDATA[
 
-			import models.PaintVO;
-
 			import views.user.item.UserPaintItem;
 
 			private var arr:Array;
@@ -14,10 +12,40 @@
 
 			public function initData(_arr:Array):void
 			{
-				removeAllElements();
-				arr=_arr;
-				count=0;
-				getItem();
+				if (arr == null || arr.length != _arr.length)
+				{
+					removeAllElements();
+					arr=_arr;
+					count=0;
+					getItem();
+				}
+			}
+
+			private var addingArr:Array;
+
+			public function addArr(_arr:Array):void
+			{
+				count2=0;
+				addingArr=_arr;
+				addItem();
+			}
+
+			private var count2:int=0;
+
+			private function addItem():void
+			{
+				if (count2 <= addingArr.length - 1)
+				{
+					var item:UserPaintItem=new UserPaintItem();
+					item.data=addingArr[count2];
+					addElement(item);
+					callLater(addItem);
+				}
+				else
+				{
+					return;
+				}
+				count2++;
 			}
 
 			private function getItem():void
@@ -28,6 +56,7 @@
 					item.data=arr[count];
 					addElement(item);
 					callLater(getItem);
+//					getItem();
 				}
 				else
 				{

@@ -18,10 +18,12 @@ package proxy
 		private var mfollowCB:Function;
 		private var mfanCB:Function;
 
+		public var pageIndex:int;
+
 		public function getPaintList(paintListLoaded:Function):void
 		{
 			mpaintCB=paintListLoaded;
-			API.instance.getPaintList(user, paintCB);
+			API.instance.getPaintList(user, paintCB, pageIndex);
 		}
 
 		private function paintCB(o:ResultVO):void
@@ -32,7 +34,10 @@ package proxy
 		public function getFollowList(followListLoaded:Function):void
 		{
 			mfollowCB=followListLoaded;
-			API.instance.getFollowList(user, followCB);
+			var o:Object={"followed": true, "perPage": 100, "page": 1};
+			if (user != UserVO.crtUser)
+				o["user_id"]=user._id
+			API.instance.getFollowList(o, followCB);
 		}
 
 		private function followCB(o:ResultVO):void
@@ -43,12 +48,20 @@ package proxy
 		public function getFanList(fanListLoaded:Function):void
 		{
 			mfanCB=fanListLoaded;
-			API.instance.getFanList(user, fanCB);
+			var o:Object={"followed": false, "perPage": 100, "page": 1};
+			if (user != UserVO.crtUser)
+				o["user_id"]=user._id
+			API.instance.getFanList(o, fanCB);
 		}
 
 		private function fanCB(o:ResultVO):void
 		{
 			mfanCB(o.results);
+		}
+
+		public function getMsgCount(cb:Function):void
+		{
+			API.instance.getMsgCount(cb);
 		}
 	}
 }

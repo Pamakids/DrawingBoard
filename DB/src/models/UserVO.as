@@ -1,6 +1,7 @@
 package models
 {
 	import com.pamakids.models.BaseVO;
+
 	import vo.VO;
 
 	public class UserVO extends BaseVO
@@ -15,7 +16,7 @@ package models
 		public var username:String;
 		public var password:String;
 		public var email:String;
-		public var portrait:String='assets/avatar/default-avatar.png';
+		public var portrait:String;
 		public var nickname:String;
 		public var paltform:String;
 		public var come_from:String=VO.APPNAME;

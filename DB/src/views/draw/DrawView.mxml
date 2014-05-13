@@ -81,14 +81,15 @@
 				controlPad.addEventListener("exitDraw", onExit);
 				controlPad.addEventListener("clearDrawBorad", onClear);
 				controlPad.addEventListener("saveDraw", onSave);
-				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
+				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 
 				controlPad.crtBrushIndex=0;
 //				controlPad.visible=false;
 
 				this.mouseEnabled=this.mouseChildren=false;
 				snd=new Sound(new URLRequest(paintData.theme.soundUrl));
+				snd.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
 				sc=snd.play();
 				sc.addEventListener(Event.SOUND_COMPLETE, onSndComplete);
 
@@ -189,19 +190,19 @@
 				var bp:Bitmap=new GameAssets.game_saving();
 				DBPopUp.addPopUp(bp);
 
-				TweenLite.delayedCall(.5, function():void {
+				TweenLite.delayedCall(.1, function():void {
 					onTexture(null);
 					paintData.drawData=dm.reserveObject();
 					paintData.textureData=controlPad.getTextureData();
 
 					var thumb:BitmapData=new BitmapData(1024, 768);
-					thumb.draw(drawBoard);
-					fproxy.saveThumb(thumb);
+					thumb.drawWithQuality(drawBoard, null, null, null, null, false, StageQuality.LOW);
+					var f:File=fproxy.saveThumb(thumb);
 					fproxy.saveConfig(paintData);
 
 					dispose();
 
-					dispatchEvent(new ReplayEvent(paintData, true));
+					dispatchEvent(new ReplayEvent(f.url, paintData, true));
 
 					DBPopUp.removePopUp(bp);
 				});
@@ -209,7 +210,12 @@
 
 			protected function drawBoard_clickHandler(event:MouseEvent):void
 			{
-//				replay.playBars();
+
+			}
+
+			protected function onIoError(event:IOErrorEvent):void
+			{
+				onSndComplete();
 			}
 
 		]]>

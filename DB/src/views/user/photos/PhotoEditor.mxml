@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301">
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 gestureZoom="group1_gestureZoomHandler(event)">
 	<fx:Script>
 		<![CDATA[
 
@@ -42,14 +43,6 @@
 
 				photo.x-=ds * crtW * photo.scaleX;
 				photo.y-=ds * crtH * photo.scaleX;
-
-				resizePhoto();
-			}
-
-			protected function photoContainer_gestureSwipeHandler(event:TransformGestureEvent):void
-			{
-				photo.x+=event.offsetX;
-				photo.y+=event.offsetY;
 
 				resizePhoto();
 			}
@@ -132,13 +125,36 @@
 				dispatchEvent(new Event("confirm"));
 			}
 
+			public function dispose():void
+			{
+				// TODO Auto Generated method stub
+
+			}
+
+			protected function group1_gestureZoomHandler(event:TransformGestureEvent):void
+			{
+				var pscale:Number=photo.scaleX;
+
+				photo.scaleX*=event.scaleX;
+
+				if (photo.scaleX > 1)
+					photo.scaleX=1;
+				else if (photo.scaleX < minScale)
+					photo.scaleX=minScale;
+
+				var ds:Number=photo.scaleX - pscale;
+
+				photo.x-=ds * crtW * photo.scaleX;
+				photo.y-=ds * crtH * photo.scaleX;
+
+				resizePhoto();
+			}
+
 		]]>
 	</fx:Script>
 	<s:Group id="photoContainer" clipAndEnableScrolling="true" width="175"
-			 height="175" gestureZoom="photoContainer_gestureZoomHandler(event)"
-			 mouseDown="photoContainer_mouseDownHandler(event)"
-			 mouseWheel="photoContainer_mouseWheelHandler(event)" left="23"
-			 top="73">
+			 height="175" mouseDown="photoContainer_mouseDownHandler(event)"
+			 left="23" top="73">
 
 		<s:Image id="photo" mouseEnabled="false" scaleY="{photo.scaleX}"/>
 

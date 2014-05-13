@@ -144,5 +144,14 @@ package proxy
 			ServiceBase.id=uv._id;
 			API.instance.initToken();
 		}
+
+		public static function clearLoginInfo():void
+		{
+			UserVO.crtUser=null;
+			ServiceBase.id="";
+			FileProxy.token="";
+			FileProxy.audioToken="";
+			SOService.setValue("lastPlatForm", "");
+		}
 	}
 }

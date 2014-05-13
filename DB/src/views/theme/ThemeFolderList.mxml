@@ -32,7 +32,7 @@
 				{
 					var tfItem:ThemeFolderItem=new ThemeFolderItem();
 					tfItem.mouseEnabled=tfItem.mouseChildren=false;
-					tfItem.setIMG_src(dir.thumbnail, dir.getThemeTxt());
+					tfItem.setIMG_src(dir.thumbnail, dir.ThemeTxt);
 					tfItem.setContentScale(dirList.indexOf(dir) == 0 ? 1 : ITEM_SCALE, true);
 					list.addElement(tfItem);
 				}

@@ -2,12 +2,15 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="374" height="561"
 		 clipAndEnableScrolling="true" mouseEnabledWhereTransparent="true"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 xmlns:photos="views.user.photos.*">
 	<fx:Script>
 		<![CDATA[
 
 			import com.greensock.TweenLite;
+			import com.pamakids.manager.FileManager;
 			import com.pamakids.models.ResultVO;
+			import com.pamakids.services.QNService;
 
 			import mx.events.FlexEvent;
 
@@ -15,24 +18,39 @@
 
 			import models.UserVO;
 
+			import proxy.FileProxy;
+			import proxy.LoginProxy;
+
 			import service.SOService;
 
-			import vo.PosVO;
+			import views.user.photos.PhotoSelector;
+
+			import vo.VO;
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				currentUser=UserVO.crtUser.username;
-				currentMail=UserVO.crtUser.email;
+				var nn:String=UserVO.crtUser.nickname;
+				nn=nn ? nn : UserVO.crtUser.username;
+
+				nicknameInput.text=nn;
+				var currentMail:String=UserVO.crtUser.email;
 				avatarUrl=UserVO.crtUser.portrait;
+				avatar.source=avatarUrl ? (VO.FILESERVER_HOST + avatarUrl) : VO.DEFAULT_AVATAR
+
+				mailInput.text=currentMail;
+				if (currentMail)
+				{
+					mailInput.enabled=mailInput.editable=false;
+				}
+				else
+				{
+					mailInput.enabled=mailInput.editable=true;
+				}
 
 				pwVisible=SOService.getValue("lastPlatForm") == "mail";
+
+				selector.addEventListener("photoReady", onPhotoReady);
 			}
-
-			[Bindable]
-			private var currentUser:String;
-
-			[Bindable]
-			private var currentMail:String;
 
 			public var callback:Function;
 			[Bindable]
@@ -40,15 +58,79 @@
 
 			public function dispose():void
 			{
+				if (selector)
+				{
+					selector.dispose();
+				}
 				removeAllElements();
 			}
 
 			protected function confirmClickHandler(event:MouseEvent):void
 			{
+				var obj:Object={};
+				var changed:Boolean
+
+				nicknameChanged=nicknameInput.text != UserVO.crtUser.nickname;
+
+				if (nicknameChanged && nicknameInput.text)
+				{
+					obj["nickname"]=nicknameInput.text;
+					changed=true;
+				}
+
+				if (avatarChanged && avatarUrl)
+				{
+					obj["portrait"]=avatarUrl;
+					changed=true;
+				}
+
+				var t:String=mailInput.text;
+				if (emailChanged && t)
+				{
+					obj["email"]=mailInput.text;
+					changed=true;
+				}
+
+				if (changed)
+					API.instance.userUpdateUser(obj, updataCB);
+				else
+					sureExit();
+			}
+
+			private function sureExit():void
+			{
 				if (callback != null)
 					callback();
 				callback=null;
 				dispatchEvent(new Event("uiClose"));
+			}
+
+			private function updataCB(o:ResultVO):void
+			{
+				if (o.status)
+				{
+					statusText="修改成功";
+					if (nicknameChanged)
+					{
+						UserVO.crtUser.nickname=nicknameInput.text;
+					}
+
+					if (avatarChanged)
+					{
+						UserVO.crtUser.portrait=avatarUrl;
+					}
+
+					if (emailChanged)
+					{
+						UserVO.crtUser.email=mailInput.text;
+					}
+
+					sureExit();
+				}
+				else
+				{
+					statusText=o.results as String;
+				}
 			}
 
 			protected function closeHandler(event:MouseEvent):void
@@ -68,6 +150,7 @@
 
 				TweenLite.to(main, .3, {left: isMain ? 0 : -374});
 				TweenLite.to(pwChangeArea, .3, {left: isMain ? 374 : 0});
+				statusText="";
 			}
 
 			protected function exitHandler(event:MouseEvent):void
@@ -92,10 +175,10 @@
 
 			protected function logoutConfirm(event:MouseEvent):void
 			{
-
+				LoginProxy.clearLoginInfo();
+				sureExit();
 			}
 
-			[Bindable]
 			private var avatarUrl:String;
 
 			protected function savePW(event:MouseEvent):void
@@ -141,10 +224,64 @@
 				{
 					statusText="修改成功";
 					SOService.setValue("NameAndPassWord", {"username": UserVO.crtUser.username, "password": newPW.text});
+					pwSuccess.visible=true;
+					switchView(true);
 				}
 				else
 				{
 					statusText="修改失败,请检查原密码 ";
+				}
+			}
+
+			private var avatarChanged:Boolean;
+
+			private var nicknameChanged:Boolean;
+
+			private var email:String;
+			private var emailChanged:Boolean;
+			private var qService:QNService;
+
+			protected function avatarClick(event:MouseEvent):void
+			{
+				selector.visible=!selector.visible;
+			}
+
+			protected function onPhotoReady(event:Event):void
+			{
+				var ba:ByteArray=new ByteArray();
+				selector.bd.encode(new Rectangle(0, 0, 1024, 768), new JPEGEncoderOptions(), ba);
+				var path:String=UserVO.crtUser.username + "/" + VO.AVATAR_NAME;
+				var f:File=FileManager.saveFile(path, ba) as File;
+
+				if (!qService)
+					qService=new QNService();
+
+				if (f.exists)
+				{
+					var key:String=FileProxy.username + "/" + new Date().getTime().toString() + VO.AVATAR_NAME;
+					avatarUrl=key;
+					qService.upload(f, avatarUploadCB, {"key": key, "token": FileProxy.token});
+				}
+			}
+
+			private function avatarUploadCB(o:Object):void
+			{
+				if (o && o is ResultVO)
+				{
+					if (o.status)
+					{
+						avatarChanged=true;
+						avatar.source=avatarUrl ? (VO.FILESERVER_HOST + avatarUrl) : VO.DEFAULT_AVATAR;
+						statusText="头像上传成功,请确认更新头像";
+					}
+					else
+					{
+						avatarChanged=false;
+						statusText=o.results as String;
+					}
+
+					selector.reset();
+					selector.visible=false;
 				}
 			}
 
@@ -163,37 +300,54 @@
 				 left="330" top="15" click="confirmClickHandler(event)"/>
 
 		<s:Group left="29" top="100">
-			<s:Label text="用户名:" left="10"/>
-			<s:Label text="{currentUser}" left="75"/>
+			<s:Label text="昵称:" left="10"/>
+			<s:TextInput id="nicknameInput" left="75" top="-10" width="230"
+						 height="30"/>
+			<!--<s:Label text="{currentNickName}" left="75"/>-->
 			<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 
 			<s:Label text="邮箱:" left="10" top="120"/>
-			<s:Label text="{currentMail}" left="75" top="120"/>
+			<s:TextInput id="mailInput" left="75" top="110"/>
 			<s:Image source="@Embed('assets/global/line.png')" top="140"/>
 
-			<s:Label text="头像:" top="60" left="10"/>
-			<s:Image source="{avatarUrl}" width="53" height="53" left="127"
-					 top="128"/>
+			<s:Label text="头像:" top="65" left="10"/>
+			<s:Image id="avatar" width="53" height="53" left="127" top="55"
+					 click="avatarClick(event)"/>
 		</s:Group>
 
+		<photos:PhotoSelector id="selector" visible="false" top="209" left="69"
+							  depth="10"/>
 
-		<s:Image source="@Embed('assets/usercenter/userinfo/edit/pwBtn.png')"
-				 left="96" top="351" click="pwClickHandler(event)"
-				 visible="{pwVisible}"/>
+		<s:Group enabled="{!selector.visible}">
+			<s:Label text="{statusText}" width="374" height="30" top="255"
+					 textAlign="center" color="red"/>
 
-		<s:Image source="@Embed('assets/usercenter/userinfo/edit/exitBtn.png')"
-				 left="96" top="391" click="exitHandler(event)"/>
+			<s:Image id="pwSuccess" visible="false"
+					 source="@Embed('assets/usercenter/userinfo/edit/success.png')"
+					 top="284" left="134"/>
 
-		<s:Group id="exitConfirm" visible="false" left="82" top="421">
+
 			<s:Image 
-					 source="@Embed('assets/usercenter/userinfo/edit/exitBG.png')"
-					 mouseEnabled="false"/>
-			<s:Image left="26" top="87" click="exitCancel(event)"
-					 source="@Embed('assets/usercenter/userinfo/edit/exitCancel.png')"
-					 mouseEnabled="false"/>
-			<s:Image left="117" top="87" click="logoutConfirm(event)"
-					 source="@Embed('assets/usercenter/userinfo/edit/exitConfirm.png')"
-					 mouseEnabled="false"/>
+					 source="@Embed('assets/usercenter/userinfo/edit/pwBtn.png')"
+					 left="96" top="351" click="pwClickHandler(event)"
+					 visible="{pwVisible}"/>
+
+			<s:Image 
+					 source="@Embed('assets/usercenter/userinfo/edit/exitBtn.png')"
+					 left="96" top="391" click="exitHandler(event)"/>
+
+			<s:Group id="exitConfirm" visible="false" left="82" top="421">
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/edit/exitBG.png')"
+						 mouseEnabled="false"/>
+				<s:Image left="26" top="87" click="exitCancel(event)"
+						 source="@Embed('assets/usercenter/userinfo/edit/exitCancel.png')"
+						 mouseEnabled="false"/>
+				<s:Image left="117" top="87" click="logoutConfirm(event)"
+						 source="@Embed('assets/usercenter/userinfo/edit/exitConfirm.png')"
+						 mouseEnabled="false"/>
+			</s:Group>
+
 		</s:Group>
 	</s:Group>
 
@@ -207,22 +361,20 @@
 				<s:Label text="原密码:" left="10" fontSize="14" color="white"/>
 				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
 				<s:TextInput id="originPW" top="-10" left="75" maxChars="10"
-							 width="{230*PosVO.scale}" height="{30*PosVO.scale}"/>
+							 width="230" height="30"/>
 			</s:Group>
 			<s:Group>
 				<s:Label text="新密码:" color="white" fontSize="14" left="10"/>
 				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
-				<s:TextInput id="newPW" top="-10" left="75"
-							 width="{230*PosVO.scale}" height="{30*PosVO.scale}"
-							 maxChars="20" displayAsPassword="true"/>
+				<s:TextInput id="newPW" top="-10" left="75" width="230"
+							 height="30" maxChars="20" displayAsPassword="true"/>
 			</s:Group>
 
 			<s:Group>
 				<s:Label text="密码确认:" color="white" fontSize="14" left="10"/>
 				<s:Image source="@Embed('assets/global/line.png')" top="20"/>
-				<s:TextInput id="newPWConfirm" top="-10" left="75"
-							 width="{230*PosVO.scale}" height="{30*PosVO.scale}"
-							 maxChars="20" displayAsPassword="true"/>
+				<s:TextInput id="newPWConfirm" top="-10" left="75" width="230"
+							 height="30" maxChars="20" displayAsPassword="true"/>
 			</s:Group>
 		</s:VGroup>
 

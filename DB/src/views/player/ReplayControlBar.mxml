@@ -88,6 +88,7 @@
 			protected function recordClick(event:MouseEvent):void
 			{
 				var rec:RecordPopup=new RecordPopup();
+				rec.recordUrl=recordUrl
 				rec.addEventListener("close", function(e:Event):void {
 					DBPopUp.removePopUp(rec);
 				});
@@ -102,6 +103,7 @@
 				dispatchEvent(new Event("replayToCenter"));
 			}
 
+			public var recordUrl:String;
 			private var isHide:Boolean=false;
 
 

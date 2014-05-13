@@ -16,6 +16,7 @@
 			import controllers.DBPopUp;
 
 			import events.ReplayEvent;
+			import events.UserItemEvent;
 
 			import models.PaintData;
 			import models.PaintVO;
@@ -49,7 +50,13 @@
 
 				var local:String=hostToLocal(url);
 				url=data.dataUrl;
+				LoadManager.instance.errorHandler=errorHander;
 				LoadManager.instance.loadText(url, dataLoadComplete, local);
+			}
+
+			private function errorHander():void
+			{
+				DBPopUp.removeLoadingPopup(false);
 			}
 
 			private function playCB(o:ResultVO):void
@@ -59,12 +66,32 @@
 
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(pd, false));
+				dispatchEvent(new ReplayEvent(data.coverUrl, pd, false, cachedAudio));
 			}
 
 			private function dataLoadComplete(s:String):void
 			{
 				pd=FileProxy.parseConfig(s);
+				if (data.audio)
+				{
+					var au:String=data.audioUrl;
+					cachedAudio=hostToLocal(data.audio);
+					LoadManager.instance.load(au, audioComplete, getPath(cachedAudio));
+				}
+				else
+					DBPopUp.removeLoadingPopup();
+			}
+
+			private function getPath(u:String):String
+			{
+				var f:File=File.applicationStorageDirectory.resolvePath(u);
+				return f.nativePath;
+			}
+
+			private var cachedAudio:String;
+
+			private function audioComplete(o:Object):void
+			{
 				DBPopUp.removeLoadingPopup();
 			}
 
@@ -85,10 +112,10 @@
 				mouseEnabled=mouseChildren=true;
 				data=o;
 
-				likeTimes=o.agrees.toString();
-				if (o.agrees > 99)
+				likeTimes=data.agrees.toString();
+				if (data.agrees > 99)
 					likeTimes='99+';
-				else if (isNaN(o.agrees))
+				else if (isNaN(data.agrees))
 					likeTimes='0';
 //				praiseTimes=o.favorites.toString();
 //				if (o.favorites > 99)
@@ -96,16 +123,16 @@
 //				else if (isNaN(o.favorites))
 //					praiseTimes='0';
 
-				playTimes=o.plays.toString();
-				if (o.plays > 99)
+				playTimes=data.plays.toString();
+				if (data.plays > 99)
 					playTimes='99+';
-				else if (isNaN(o.plays))
+				else if (isNaN(data.plays))
 					playTimes='0';
 
 				var user:UserVO=data.author;
-				userName.text=user.nickname;
-				trace(user.nickname)
-				avatar.source=user.portrait;
+				userName.text=user.nickname ? user.nickname : user.username;
+//				trace(user.nickname)
+				avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
 
 				API.instance.getPaintPraised(likedCB, data._id);
 			}
@@ -158,12 +185,18 @@
 					mouseEnabled=mouseChildren=true;
 			}
 
+			protected function avatar_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new UserItemEvent(data.author));
+			}
+
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('assets/discuss/userMessageBg.png')"/>
 
 	<s:Group id="messageGroup">
-		<s:Image id="avatar" left="19" top="3" width="50" height="50"/>
+		<s:Image id="avatar" left="19" top="3" width="50" height="50"
+				 click="avatar_clickHandler(event)"/>
 		<s:Label id="userName" left="85" top="6" color="0x60cdb5" fontSize="18"/>
 
 		<s:Image source="@Embed('assets/discuss/opusMessage/playRecord.png')"

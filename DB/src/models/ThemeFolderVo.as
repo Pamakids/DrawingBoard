@@ -69,7 +69,7 @@ package models
 			return name
 		}
 
-		public function getThemeTxt():String
+		public function get ThemeTxt():String
 		{
 //			var ref:Class
 //			var url:String

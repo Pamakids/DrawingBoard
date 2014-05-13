@@ -1,5 +1,7 @@
 package proxy
 {
+	import com.greensock.TweenLite;
+	import com.pamakids.models.ResultVO;
 	import com.pamakids.services.QNService;
 
 	import flash.filesystem.File;
@@ -47,62 +49,73 @@ package proxy
 
 			var dataPath:String=data.data;
 			var thumbPath:String=data.cover;
+			var audioPath:String=data.getAudio();
 			var dataF:File=FileProxy.getFile(dataPath);
 			var thumbF:File=FileProxy.getFile(thumbPath);
+			var audioF:File=FileProxy.getFile(audioPath);
 
 			if (dataF.exists)
 			{
 				dataUrl=getFullUrl(dataF);
+				fileNum++;
 				if (!checkUploaded(dataF))
 				{
-					fileNum++;
 					ulService.upload(dataF, dataCompHandler, getUR(dataF));
 				}
 				else
 				{
-					dataCompHandler("uploaded");
+					TweenLite.delayedCall(.1, dataCompHandler, [new ResultVO(true)]);
+//					dataCompHandler("uploaded");
 				}
 			}
 
 			if (thumbF.exists)
 			{
 				thumbUrl=getFullUrl(thumbF);
+				fileNum++;
 				if (!checkUploaded(thumbF))
 				{
-					fileNum++;
 					ulService.upload(thumbF, thumbCompHandler, getUR(thumbF));
 				}
 				else
 				{
-					thumbCompHandler("uploaded");
+					TweenLite.delayedCall(.1, thumbCompHandler, [new ResultVO(true)]);
+//					thumbCompHandler("uploaded");
 				}
 			}
 
-			var audioF:File=File.applicationDirectory.resolvePath(FileProxy.username + "/" + path + "/" + VO.AUDIO_NAME);
 			if (audioF.exists)
 			{
-
 				audioUrl=getFullUrl(audioF);
+				fileNum++;
 				if (!checkUploaded(audioF))
 				{
-					fileNum++;
 					ulService.upload(audioF, audioCompHandler, getUR(audioF));
 				}
 				else
 				{
-					audioCompHandler("uploaded");
+					TweenLite.delayedCall(.1, audioCompHandler, [new ResultVO(true)]);
+//					audioCompHandler("uploaded");
 				}
 			}
 		}
-
 
 		private function dataCompHandler(o:Object):void
 		{
 			trace(o)
 			if (!o || o is Number)
 				return;
+
+			if (o.status)
+			{
+				setUploaded(dataUrl);
+			}
+			else
+			{
+
+			}
 			completeCount++;
-			setUploaded(dataUrl);
+//			setUploaded(dataUrl);
 
 			if (completeCount == fileNum)
 			{
@@ -175,9 +188,10 @@ package proxy
 		{
 			var dataPath:String=data.data;
 			var thumbPath:String=data.cover;
+			var audioPath:String=data.getAudio();
 			var dataF:File=FileProxy.getFile(dataPath);
 			var thumbF:File=FileProxy.getFile(thumbPath);
-			var audioF:File=File.applicationDirectory.resolvePath(FileProxy.username + "/" + path + "/" + VO.AUDIO_NAME);
+			var audioF:File=File.applicationDirectory.resolvePath(audioPath);
 
 			if (dataF.exists)
 			{
