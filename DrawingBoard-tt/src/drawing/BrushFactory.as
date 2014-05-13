@@ -12,7 +12,7 @@ package drawing
 	public class BrushFactory
 	{
 
-		public var brush:BrushBase=new NormalBrush("pencil");
+		public var brush:BrushBase;
 
 		private static var brushFactory:BrushFactory=null;
 

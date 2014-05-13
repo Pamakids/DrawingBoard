@@ -184,7 +184,6 @@ package playback
 
 		private function playBackSet(_index:int):void
 		{
-			trace(EnumBack.brushArray, _index)
 			switch (EnumBack.brushArray[_index])
 			{
 				case "pencil":

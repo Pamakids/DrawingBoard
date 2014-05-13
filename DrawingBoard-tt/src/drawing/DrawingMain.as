@@ -39,7 +39,7 @@ package drawing
 
 			control=new ControlBase();
 
-//			control.setBrush("pencil");
+			control.setBrush("pencil",0x000000);
 
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 //			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
