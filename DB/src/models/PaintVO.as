@@ -51,7 +51,7 @@ package models
 			return VO.FILESERVER_HOST + data;
 		}
 
-		public function get audioUrl():String
+		public function get audioUrl():String  
 		{
 			return VO.FILESERVER_HOST + audio;
 		}
