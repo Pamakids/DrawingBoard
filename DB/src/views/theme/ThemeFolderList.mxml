@@ -108,11 +108,11 @@
 				TweenLite.to(list, .3, {x: -curItem.x});
 
 				var upt:Point=new Point(event.stageX, event.stageY)
-				if (dpt && Point.distance(upt, dpt) < 8 && getTimer() - dtime < 150
-					&& curItem.getBounds(stage).containsPoint(upt))
-				{
-					showThemeDetail();
-				}
+//				if (dpt && Point.distance(upt, dpt) < 8 && getTimer() - dtime < 150
+//					&& curItem.getBounds(stage).containsPoint(upt))
+//				{
+//					showThemeDetail();
+//				}
 
 				dpt=null;
 			}
@@ -121,10 +121,10 @@
 
 			public var crtIndex:int=0;
 
-			private function showThemeDetail():void
-			{
-				dispatchEvent(new Event("openThemeList"));
-			}
+//			private function showThemeDetail():void
+//			{
+//				dispatchEvent(new Event("openThemeList"));
+//			}
 
 			private var speedX:Number;
 

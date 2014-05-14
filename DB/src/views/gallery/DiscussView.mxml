@@ -11,6 +11,8 @@
 
 			import controllers.API;
 
+			import events.DrawEvent;
+
 			import models.PaintVO;
 			import models.ThemeVo;
 			import models.UserVO;
@@ -47,7 +49,7 @@
 
 			protected function drawClick(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("startDraw"));
+				dispatchEvent(new DrawEvent(getTheme()));
 			}
 
 			private var dataArr:Array

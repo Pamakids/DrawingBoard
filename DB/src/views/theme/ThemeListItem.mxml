@@ -4,22 +4,19 @@
 	<fx:Script>
 		<![CDATA[
 
-			public function loadContent(src:String):void
+			import models.ThemeVo;
+
+			public function initData(o:ThemeVo):void
 			{
-				content.source=src;
+				data=o;
+				content.source=o.thumbnail;
 			}
 
-			public var index:int;
 			public var src:String;
-
-			protected function content_addedToStageHandler(event:Event):void
-			{
-				content.source=src;
-			}
+			public var data:ThemeVo;
 
 			public function dispose():void
 			{
-				content.removeEventListener(Event.ADDED_TO_STAGE, content_addedToStageHandler);
 				if (content.bitmapData)
 					content.bitmapData.dispose();
 				content=null;
@@ -31,5 +28,5 @@
 
 	<s:Image source="@Embed('assets/gallery/img/common/itemBg.png')"
 			 mouseEnabled="false"/>
-	<s:Image id="content" addedToStage="content_addedToStageHandler(event)"/>
+	<s:Image id="content"/>
 </s:Group>
