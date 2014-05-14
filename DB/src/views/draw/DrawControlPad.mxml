@@ -16,7 +16,6 @@
 			import assets.game.GameAssets;
 
 			import events.BrushEvent;
-			import events.ColorEvent;
 
 			import models.Config;
 			import models.PasterManager;
@@ -76,10 +75,25 @@
 				//			mColorPickerData.fillRect(mColorPickerData.rect, 0x0)
 				//			mColorPickerData.draw(mColorPickerDataSource, null, mPickerColorTransform, null, null)
 				colorPicker.transform.colorTransform=mPickerColorTransform
-				dispatchEvent(new ColorEvent(color));
+				doChange(brushArr[crtBrushIndex], color);
 //				var cc:IComponent=mColopMap[color]
 //				mColorHalo.x=cc.x
 //				mColorHalo.y=cc.y
+			}
+
+			private var crtColor:int;
+			private var crtBrush:String;
+
+			private function doChange(brush:String, color:int):void
+			{
+				crtBrush=brush;
+				crtColor=color;
+				dispatchEvent(new BrushEvent(crtBrush, crtColor));
+			}
+
+			public function getBrush():BrushEvent
+			{
+				return new BrushEvent(crtBrush, crtColor);
 			}
 
 			protected function onColorClick(e:MouseEvent):void
@@ -188,8 +202,7 @@
 				doChangeColorPicker(color);
 				locateHalo(index);
 
-				dispatchEvent(new BrushEvent(brushArr[_crtBrushIndex]));
-				dispatchEvent(new ColorEvent(color));
+				doChange(brushArr[_crtBrushIndex], color);
 			}
 
 			public var layer:Group;

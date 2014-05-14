@@ -164,6 +164,6 @@
 									click="speed_clickHandler(event)"/>
 		</s:Group>
 		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)"
-				 left="847"/>
+				 visible="false" left="847"/>
 	</s:Group>
 </s:Group>

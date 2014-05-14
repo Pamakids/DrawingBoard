@@ -59,6 +59,8 @@
 
 			private function initPlayer():void
 			{
+				disposePlayer();
+
 				player=new PlayBackMain(data.drawData);
 				player.changeTimerRate(controller.speed);
 				player.pause();

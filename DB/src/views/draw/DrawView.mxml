@@ -24,7 +24,6 @@
 			import drawing.DrawingMain;
 
 			import events.BrushEvent;
-			import events.ColorEvent;
 			import events.ReplayEvent;
 
 			import models.PaintData;
@@ -50,7 +49,6 @@
 					controlPad.removeEventListener("exitDraw", onExit);
 					controlPad.removeEventListener("clearDrawBorad", onClear);
 					controlPad.removeEventListener("saveDraw", onSave);
-					controlPad.removeEventListener(ColorEvent.EVENT_ID, onColor);
 					controlPad.removeEventListener(BrushEvent.EVENT_ID, onBrush);
 				}
 				controlPad=null;
@@ -82,7 +80,6 @@
 				controlPad.addEventListener("clearDrawBorad", onClear);
 				controlPad.addEventListener("saveDraw", onSave);
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
-				controlPad.addEventListener(ColorEvent.EVENT_ID, onColor);
 
 				controlPad.crtBrushIndex=0;
 //				controlPad.visible=false;
@@ -145,16 +142,12 @@
 				textureLayer.alpha=.3;
 			}
 
-			protected function onColor(event:ColorEvent):void
-			{
-				var color:uint=event.color;
-				dm.controlColor(color);
-			}
-
 			protected function onBrush(e:BrushEvent):void
 			{
 				var brush:String=e.brush;
+				var color:int=e.color;
 				dm.controlBtn(brush);
+				dm.controlColor(color);
 			}
 
 			protected function onExit(event:Event):void
@@ -181,6 +174,16 @@
 
 				dm=new DrawingMain();
 				dbLayer.addChild(dm);
+
+				var e:BrushEvent=controlPad.getBrush();
+				if (e.brush && e.color)
+				{
+					var brush:String=e.brush;
+					var color:int=e.color;
+					dm.controlBtn(brush);
+					dm.controlColor(color);
+				}
+
 
 				textureLayer.removeAllElements();
 			}

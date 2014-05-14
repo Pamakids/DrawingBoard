@@ -2,8 +2,7 @@
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 creationComplete="group1_creationCompleteHandler(event)"
-		 mouseUp="group1_mouseUpHandler(event)"
-		 implements="interfaces.INaviableGroup">
+		 mouseUp="group1_mouseUpHandler(event)">
 
 	<fx:Script>
 		<![CDATA[
@@ -33,12 +32,17 @@
 
 			protected function close_clickHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("usercenterClose"));
+				if (!isGuest)
+					dispatchEvent(new Event("backToMain", true));
+				else
+				{
+					dispatchEvent(new Event("exitVisit"));
+				}
 			}
 
 			protected function gallery_clickHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("usercentertogallery"));
+				dispatchEvent(new Event("gotoGallery", true));
 			}
 
 			private var _naviIndex:int;
@@ -98,10 +102,10 @@
 
 			}
 
-			public function initData(_user:Object):void
+			public function initData(_user:UserVO):void
 			{
 				FileProxy.mergeFiles();
-				user=_user as UserVO;
+				user=_user;
 
 				isGuest=(user != UserVO.crtUser);
 

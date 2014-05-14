@@ -1,57 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
-		 creationComplete="group1_creationCompleteHandler(event)">
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768">
 
 	<fx:Script>
 		<![CDATA[
 
-			import mx.events.FlexEvent;
+			import events.DrawEvent;
 
+			import models.ThemeFolderVo;
 			import models.ThemeVo;
 
-			public var data:Array;
+			private var data:ThemeFolderVo;
 
-			public function setData(_data:Array, _src:String):void
+			public function setData(_data:ThemeFolderVo):void
 			{
 				dispose();
-				title.source=_src;
 
 				data=_data;
-				for each (var o:ThemeVo in data)
+				title.source=data.getTitleRef();
+
+				var arr:Array=data.themeList;
+				for each (var o:ThemeVo in arr)
 				{
 					var item:ThemeListItem=new ThemeListItem();
-					item.src=o.thumbnail;
+					item.initData(o);
 					list.addElement(item);
 					item.addEventListener(MouseEvent.CLICK, onClick);
-					item.index=data.indexOf(o);
 				}
 			}
-
-			public var crtIndex:int;
 
 			protected function onClick(event:MouseEvent):void
 			{
 				var item:ThemeListItem=event.currentTarget as ThemeListItem;
-				crtIndex=item.index;
-				dispatchEvent(new Event("themeClicked"));
+				dispatchEvent(new DrawEvent(item.data));
 			}
 
-			protected function group1_creationCompleteHandler(event:FlexEvent):void
-			{
-//				if (!scroller.verticalScrollBar)
-//					scroller.verticalScrollBar=new VScrollBar();
-//				scroller.verticalScrollBar.setStyle("skinClass", MyVSBSkin);
-			}
 
 			protected function image1_clickHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("themeListClose"));
-			}
-
-			protected function scroller_enterFrameHandler(event:Event):void
-			{
-				trace(list.verticalScrollPosition);
+				dispatchEvent(new Event("backToMain", true));
 			}
 
 			public function dispose():void

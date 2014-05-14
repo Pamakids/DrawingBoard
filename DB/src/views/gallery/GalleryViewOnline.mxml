@@ -21,14 +21,13 @@
 
 			import models.PaintData;
 			import models.PaintVO;
-			import models.UserVO;
 			import models.query.PaintQuery;
 
 			import proxy.FileProxy;
 
 			protected function close_clickHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("galleryClose"));
+				dispatchEvent(new Event("backToMain", true));
 			}
 
 			[Bindable]
@@ -246,7 +245,7 @@
 
 			protected function usercenter_clickHandler(event:MouseEvent):void
 			{
-				dispatchEvent(new Event("gallerytousercenter"));
+				dispatchEvent(new Event("gotoUserCenter", true));
 			}
 
 		]]>

@@ -72,7 +72,6 @@ package proxy
 			obj.path=path;
 			var str:String=com.adobe.serialization.json.JSON.encode(obj);
 			var f:File=FileManager.saveFile(username + "/" + path + VO.DATA_NAME, str) as File;
-//			trace(f.nativePath)
 		}
 
 		public static function mergeFiles():void
