@@ -41,9 +41,6 @@
 		]]>
 	</fx:Script>
 
-	<s:Image source="@Embed('assets/data/images/publicBg.png')"
-			 mouseEnabled="false"/>
-
 	<s:Image source="{HomepageAssets.toParent_A}" left="383" top="48"
 			 mouseEnabled="false"/>
 

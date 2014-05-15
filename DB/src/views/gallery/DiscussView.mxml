@@ -160,7 +160,7 @@
 
 			protected function onMove(event:MouseEvent):void
 			{
-				if (Math.abs(listHolder.mouseY - dp.y) >= 20)
+				if (Math.abs(listHolder.mouseY - dp.y) >= moveMAX)
 				{
 					stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMove);
 					stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
@@ -169,6 +169,8 @@
 				}
 			}
 
+			private static var moveMAX:Number=40;
+
 			protected function onUp(event:MouseEvent):void
 			{
 				crtItem.stopMove();
@@ -176,7 +178,7 @@
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
 
 				var dx:Number=listHolder.mouseX - dp.x;
-				if (Math.abs(dx) >= 20)
+				if (Math.abs(dx) >= moveMAX)
 				{
 					if (dx < 0)
 						index++;
@@ -191,8 +193,6 @@
 
 		]]>
 	</fx:Script>
-	<s:Image source="@Embed('assets/data/images/publicBg.png')"
-			 mouseEnabled="false"/>
 	<s:HGroup id="listHolder" gap="64" x="{paddingL}"
 			  mouseDown="list_mouseDownHandler(event)"/>
 

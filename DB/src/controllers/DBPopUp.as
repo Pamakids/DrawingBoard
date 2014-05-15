@@ -24,8 +24,8 @@ package controllers
 		{
 			root.visible=true;
 			root.mouseEnabled=root.mouseChildren=true;
-			var dx:Number=1024 - window.width >> 1;
-			var dy:Number=768 - window.height >> 1;
+			var dx:Number=root.width - window.width >> 1;
+			var dy:Number=root.height - window.height >> 1;
 
 //			window.x=dx * PosVO.scale + PosVO.offsetX;
 //			window.y=dy * PosVO.scale + PosVO.offsetY;

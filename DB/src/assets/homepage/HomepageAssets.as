@@ -23,8 +23,6 @@ package assets.homepage
 		/////////////////////////////////////////////////////
 		// img
 		/////////////////////////////////////////////////////
-		[Embed(source="img/common/titleBg.png")]
-		public static const titleBg:Class
 		[Embed(source="img/common/title.png")]
 		public static const title:Class
 

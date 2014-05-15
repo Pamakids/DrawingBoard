@@ -1,46 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%">
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768">
 
 	<fx:Script>
 		<![CDATA[
-
 			import events.DrawEvent;
-
 			import models.ThemeFolderVo;
 			import models.ThemeVo;
-
+			
 			private var data:ThemeFolderVo;
-
-			public function setData(_data:ThemeFolderVo):void
-			{
-				dispose();
-
-				data=_data;
-				title.source=data.getTitleRef();
-
-				var arr:Array=data.themeList;
-				for each (var o:ThemeVo in arr)
-				{
-					var item:ThemeListItem=new ThemeListItem();
-					item.initData(o);
-					list.addElement(item);
-					item.addEventListener(MouseEvent.CLICK, onClick);
-				}
-			}
-
-			protected function onClick(event:MouseEvent):void
-			{
-				var item:ThemeListItem=event.currentTarget as ThemeListItem;
-				dispatchEvent(new DrawEvent(item.data));
-			}
-
-
-			protected function image1_clickHandler(event:MouseEvent):void
-			{
-				dispatchEvent(new Event("backToMain", true));
-			}
-
+			
 			public function dispose():void
 			{
 				if (scroller && scroller.verticalScrollBar)
@@ -54,23 +22,44 @@
 					item=null;
 				}
 			}
-
+			
+			public function setData(_data:ThemeFolderVo):void
+			{
+				dispose();
+				
+				data=_data;
+				title.source=data.getTitleRef();
+				
+				var arr:Array=data.themeList;
+				for each (var o:ThemeVo in arr)
+				{
+					var item:ThemeListItem=new ThemeListItem();
+					item.initData(o);
+					list.addElement(item);
+					item.addEventListener(MouseEvent.CLICK, onClick);
+				}
+			}
+			
+			
+			protected function image1_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("backToMain", true));
+			}
+			
+			protected function onClick(event:MouseEvent):void
+			{
+				var item:ThemeListItem=event.currentTarget as ThemeListItem;
+				dispatchEvent(new DrawEvent(item.data));
+			}
 		]]>
 	</fx:Script>
 
-	<s:Image source="@Embed('assets/data/images/publicBg.png')" width="100%"
-			 height="100%" mouseEnabled="false"/>
-
-	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
-			 top="21" click="image1_clickHandler(event)"/>
+	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42" top="21" click="image1_clickHandler(event)"/>
 
 	<s:Image id="title" horizontalCenter="0" top="44"/>
 
-	<s:Scroller width="96%" height="78%" horizontalCenter="0" top="147"
-				id="scroller" horizontalScrollPolicy="off"
-				verticalScrollPolicy="auto">
-		<s:TileGroup id="list" requestedColumnCount="3" horizontalGap="24"
-					 verticalGap="13">
+	<s:Scroller width="96%" height="620" horizontalCenter="0" top="147" id="scroller" horizontalScrollPolicy="off" verticalScrollPolicy="auto">
+		<s:TileGroup id="list" requestedColumnCount="3" horizontalGap="24" verticalGap="13">
 		</s:TileGroup>
 	</s:Scroller>
 </s:Group>
