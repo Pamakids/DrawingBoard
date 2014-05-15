@@ -135,7 +135,7 @@
 
 				initPopup();
 				initFolderList();
-				initRecommend();
+//				initRecommend();
 				initSound();
 			}
 
