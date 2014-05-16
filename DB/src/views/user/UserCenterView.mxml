@@ -6,9 +6,9 @@
 
 	<fx:Script>
 		<![CDATA[
-
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
+			import com.pamakids.services.QNService;
 			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
@@ -76,6 +76,9 @@
 
 			public function refreshNavi():void
 			{
+				if(!isGuest){
+					user=UserVO.crtUser;
+				}
 				inited=false;
 				paintEnd=false;
 				adding=false;
@@ -127,7 +130,7 @@
 				if (user != null)
 				{
 					crtUsername=user.nickname ? user.nickname : user.username;
-					avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
+					avatar.source=user.portrait ? QNService.getQNThumbnail(user.portrait,157,157) : VO.DEFAULT_AVATAR;
 
 					uproxy=new UserProxy();
 					uproxy.pageIndex=1;
@@ -136,7 +139,6 @@
 					uproxy.getFollowList(followListLoaded);
 					uproxy.getFanList(fanListLoaded);
 					uproxy.getMsgCount(msgCountLoaded);
-//					API.instance.getMsgList(1, msgListLoaded);
 					editable=!isGuest;
 				}
 				else
@@ -237,12 +239,6 @@
 			{
 				if (o.status)
 					messageCount=o.results.toString();
-			}
-
-			private function msgListLoaded(o:ResultVO):void
-			{
-				if (o.status)
-					o.results;
 			}
 
 			protected function navi_clickHandler(event:MouseEvent):void
@@ -480,12 +476,6 @@
 				return false;
 			}
 
-			protected function addFriend(event:MouseEvent):void
-			{
-				// TODO Auto-generated method stub
-
-			}
-
 			protected function followClick(event:MouseEvent):void
 			{
 				followEnable=false;
@@ -515,6 +505,11 @@
 				{
 
 				}
+			}
+
+			protected function messageClick(event:MouseEvent):void
+			{
+				DBPopUp.addMessagePopup();			
 			}
 
 		]]>
@@ -565,7 +560,7 @@
 				<s:Label text="{crtUsername}" left="362" top="45"
 						 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
 
-				<s:Group visible="{!isGuest}">
+				<s:Group visible="{!isGuest}" click="messageClick(event)">
 					<s:Image 
 							 source="@Embed('assets/usercenter/userinfo/message.png')"
 							 left="363" top="123"/>
@@ -578,10 +573,6 @@
 								 fontSize="14" fontWeight="normal"/>
 					</s:Group>
 				</s:Group>
-
-				<s:Image visible="{isGuest}"
-						 source="@Embed('assets/usercenter/userinfo/addFriend.png')"
-						 left="460" top="123" click="addFriend(event)"/>
 
 				<s:Image 
 						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"

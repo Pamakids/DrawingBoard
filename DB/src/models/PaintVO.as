@@ -42,6 +42,11 @@ package models
 			return VO.FILESERVER_HOST + cover;
 		}
 
+		public function getSmallCover(w:Number,h:Number):String
+		{
+			return QNService.getQNThumbnail(cover,w,h);
+		}
+
 		public function getCoverUrlBySize(w:Number, h:Number):String
 		{
 			return QNService.getQNThumbnail(cover, w, h, 1);
@@ -79,3 +84,5 @@ package models
 		}
 	}
 }
+
+

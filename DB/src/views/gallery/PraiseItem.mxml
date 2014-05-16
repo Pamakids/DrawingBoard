@@ -4,6 +4,7 @@
 		 creationComplete="group1_creationCompleteHandler(event)">
 	<fx:Script>
 		<![CDATA[
+			import com.pamakids.services.QNService;
 
 			import mx.events.FlexEvent;
 
@@ -21,14 +22,14 @@
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
-				
+
 			}
 
 			public function initData(o:PraiseVO):void
 			{
 				data=o;
 				var protrait:String=data.author.portrait
-				avatar.source=protrait ? (VO.FILESERVER_HOST + protrait) : VO.DEFAULT_AVATAR;
+				avatar.source=protrait ? QNService.getQNThumbnail(protrait,36,36) : VO.DEFAULT_AVATAR;
 				userName=data.author.nickname ? data.author.nickname : data.author.username;
 
 				timeText=data.created_at;
