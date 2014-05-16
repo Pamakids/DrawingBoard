@@ -39,6 +39,7 @@ package proxy
 
 		public function uploadFiles(progress:Function, complete:Function):void
 		{
+			uploadError=false;
 			fileNum=0;
 			completeCount=0;
 
@@ -65,7 +66,6 @@ package proxy
 				else
 				{
 					TweenLite.delayedCall(.1, dataCompHandler, [new ResultVO(true)]);
-//					dataCompHandler("uploaded");
 				}
 			}
 
@@ -100,6 +100,8 @@ package proxy
 			}
 		}
 
+		public var uploadError:Boolean=false;
+
 		private function dataCompHandler(o:Object):void
 		{
 			trace(o)
@@ -112,10 +114,9 @@ package proxy
 			}
 			else
 			{
-
+				uploadError=true;
 			}
 			completeCount++;
-//			setUploaded(dataUrl);
 
 			if (completeCount == fileNum)
 			{
@@ -132,8 +133,15 @@ package proxy
 			trace(o)
 			if (!o || o is Number)
 				return;
+			if (o.status)
+			{
+				setUploaded(thumbUrl);
+			}
+			else
+			{
+				uploadError=true;
+			}
 			completeCount++;
-			setUploaded(thumbUrl);
 
 			if (completeCount == fileNum)
 			{
@@ -149,8 +157,16 @@ package proxy
 		{
 			if (!o || o is Number)
 				return;
+			if (o.status)
+			{
+				setUploaded(audioUrl);
+			}
+			else
+			{
+				uploadError=true;
+			}
 			completeCount++;
-			setUploaded(audioUrl);
+
 			if (completeCount == fileNum)
 			{
 				completeCB(dataUrl, thumbUrl, audioUrl);
@@ -221,3 +237,5 @@ package proxy
 		}
 	}
 }
+
+

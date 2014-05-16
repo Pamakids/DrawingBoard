@@ -7,6 +7,7 @@ package controllers
 
 	import views.components.GesturePopUp;
 	import views.components.LoadingPopup;
+	import views.user.MessagePopup;
 	import views.user.UserInfoPopup;
 	import views.user.UserLoginPopup;
 
@@ -66,6 +67,19 @@ package controllers
 			loading=null;
 		}
 
+		public static function addMessagePopup():void
+		{
+			var mes:MessagePopup=new MessagePopup();
+			function remove(e:Event):void {
+				mes.removeEventListener("closeMessage", remove);
+				removePopUp(mes);
+				mes=null;
+			}
+			mes.addEventListener("closeMessage", remove);
+			mes.mouseEnabled=true;
+			addPopUp(mes);
+		}
+
 		public static function addGusturePopUp(callback:Function):void
 		{
 			var ges:GesturePopUp=new GesturePopUp();
@@ -113,3 +127,5 @@ package controllers
 		}
 	}
 }
+
+
