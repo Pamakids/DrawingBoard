@@ -15,7 +15,6 @@
 			import models.PaintData;
 			import models.PasterManager;
 			import models.TextureVO;
-			import models.UserVO;
 
 			import playback.EnumBack;
 			import playback.PlayBackMain;
@@ -33,8 +32,11 @@
 
 			private var audio:String;
 
-			public function initData(cover:Object, _data:PaintData, _audio:String):void
+			private var paintID:String='';
+
+			public function initData(cover:Object, _data:PaintData, _audio:String,_id:String):void
 			{
+				paintID=_id;
 				data=_data;
 				thumb.source=cover;
 				audio=_audio;
@@ -53,6 +55,8 @@
 				bg.source=data.theme.dataUrl;
 
 				controller.recordUrl=FileProxy.username + "/" + data.path + VO.AUDIO_NAME;
+				controller.paintID=paintID;
+				controller.url=cover;
 
 				initPlayer();
 			}

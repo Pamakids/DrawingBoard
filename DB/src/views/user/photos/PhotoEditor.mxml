@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="346" height="381"
 		 gestureZoom="group1_gestureZoomHandler(event)">
 	<fx:Script>
 		<![CDATA[
@@ -20,12 +20,12 @@
 				crtW=bd.width;
 				crtH=bd.height;
 
-				minScale=Math.max(175 / crtW, 175 / crtH);
+				minScale=Math.max(photoContainer.width / crtW, photoContainer.width / crtH);
 
 				photo.scaleX=minScale;
 
-				photo.x=175 - crtW * minScale >> 1;
-				photo.y=175 - crtH * minScale >> 1;
+				photo.x=photoContainer.width - crtW * minScale >> 1;
+				photo.y=photoContainer.width - crtH * minScale >> 1;
 			}
 
 			protected function photoContainer_gestureZoomHandler(event:TransformGestureEvent):void
@@ -51,18 +51,18 @@
 			{
 				if (photo.x > 0)
 					photo.x=0;
-				else if (photo.x < 175 - crtW * photo.scaleX)
-					photo.x=175 - crtW * photo.scaleX;
+				else if (photo.x < photoContainer.width - crtW * photo.scaleX)
+					photo.x=photoContainer.width - crtW * photo.scaleX;
 
 				if (photo.y > 0)
 					photo.y=0;
-				else if (photo.y < 175 - crtH * photo.scaleX)
-					photo.y=175 - crtH * photo.scaleX;
+				else if (photo.y < photoContainer.width - crtH * photo.scaleX)
+					photo.y=photoContainer.width - crtH * photo.scaleX;
 			}
 
 			public function getBD():BitmapData
 			{
-				var bd:BitmapData=new BitmapData(175, 175);
+				var bd:BitmapData=new BitmapData(photoContainer.width, photoContainer.height);
 				bd.draw(photoContainer);
 				return bd;
 			}
@@ -152,23 +152,23 @@
 
 		]]>
 	</fx:Script>
-	<s:Group id="photoContainer" clipAndEnableScrolling="true" width="175"
-			 height="175" mouseDown="photoContainer_mouseDownHandler(event)"
-			 left="23" top="73">
+	<s:Group id="photoContainer" clipAndEnableScrolling="true" width="266"
+			 height="266" mouseDown="photoContainer_mouseDownHandler(event)"
+			 horizontalCenter="0" top="74">
 
 		<s:Image id="photo" mouseEnabled="false" scaleY="{photo.scaleX}"/>
 
 	</s:Group>
 
 	<s:Group id="navi" width="100%" top="22">
-		<s:Image left="14" top="22" source="assets/avatar/spit-line.png"
-				 mouseEnabled="false"/>
-		<s:Image id="title" source="assets/avatar/pick-title.png"
-				 mouseEnabled="false" horizontalCenter="0"/>
+		<!--<s:Image left="14" top="22" source="assets/avatar/spit-line.png"
+				 mouseEnabled="false"/>-->
+		<!--<s:Image id="title" source="assets/avatar/pick-title.png"
+				 mouseEnabled="false" horizontalCenter="0"/>-->
 		<s:Image id="backBtn" source="assets/avatar/back-btn.png"
-				 click="backBtn_clickHandler(event)" left="3"/>
+				 click="backBtn_clickHandler(event)" left="22"/>
 		<s:Image id="confirm" source="assets/avatar/confirm-btn.png"
-				 click="confirm_clickHandler(event)" right="3"/>
+				 click="confirm_clickHandler(event)" right="22"/>
 	</s:Group>
 
 </s:Group>

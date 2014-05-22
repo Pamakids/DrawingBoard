@@ -32,7 +32,7 @@
 				avatar.source=protrait ? QNService.getQNThumbnail(protrait,36,36) : VO.DEFAULT_AVATAR;
 				userName=data.author.nickname ? data.author.nickname : data.author.username;
 
-				timeText=data.created_at;
+				timeText=data.getDelay();
 			}
 
 			protected function avatar_clickHandler(event:MouseEvent):void

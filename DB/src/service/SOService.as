@@ -16,7 +16,7 @@ package service
 		{
 			if (!so)
 				so=SharedObject.getLocal(VO.APPNAME);
-//			so.clear()
+			//			so.clear()
 			return so;
 		}
 
@@ -33,7 +33,6 @@ package service
 
 		public static function getUploaded(key:String):Boolean
 		{
-			trace(key);
 			var arr:Array=getValue("uploadedArr") as Array;
 			if (!arr)
 				return false;
@@ -44,12 +43,37 @@ package service
 
 		public static function setUploaded(key:String):void
 		{
-			trace(key);
 			var arr:Array=getValue("uploadedArr") as Array;
 			if (!arr)
 				arr=[];
 			arr.push(key);
 			setValue("uploadedArr", arr);
 		}
+
+		public static function checkDownloaded(path:String,num:int):Boolean
+		{
+			for (var i:int = 0; i < num; i++) 
+			{
+				var key:String=path+'/'+(num+1).toString();
+				if(!getValue(key+'.jpg'))
+					return false;
+				if(!getValue(key+'.mp3'))
+					return false;
+				if(!getValue(path+'/text.jpg'))
+					return false;
+				if(!getValue(path+'/cover.jpg'))
+					return false;
+			}
+
+			return true;
+		}
+
+		public static function setDownloaded(key:String,value:Boolean):void
+		{
+			var b:Boolean=getValue("downloadedArr");
+			setValue("downloadedArr", value);
+		}
 	}
 }
+
+

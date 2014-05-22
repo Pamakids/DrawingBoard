@@ -76,9 +76,6 @@
 
 			public function refreshNavi():void
 			{
-				if(!isGuest){
-					user=UserVO.crtUser;
-				}
 				inited=false;
 				paintEnd=false;
 				adding=false;
@@ -94,7 +91,7 @@
 			private var uproxy:UserProxy;
 
 			[Bindable]
-			private var isGuest:Boolean=false;
+			public var isGuest:Boolean=false;
 
 			private var localArr:Array;
 
@@ -105,12 +102,10 @@
 
 			}
 
-			public function initData(_user:UserVO):void
+			private function initData(_user:UserVO):void
 			{
 				FileProxy.mergeFiles();
 				user=_user;
-
-				isGuest=(user != UserVO.crtUser);
 
 				followedText="关注\n0";
 				befollowedText="粉丝\n0";
@@ -219,9 +214,9 @@
 
 			private function fanListLoaded(arr:Object):void
 			{
+				fanArr=[];
 				if (arr is Array)
 				{
-					fanArr=[];
 					for each (var o:Object in arr)
 					{
 						fanArr.push(CloneUtil.convertObject(o.friend, UserVO));
@@ -303,7 +298,6 @@
 					{
 						if (!followList)
 						{
-//							testArr(followArr, 20);
 							followList=new FollowList();
 							followList.initData(followArr);
 						}
@@ -315,7 +309,6 @@
 					{
 						if (!fanList)
 						{
-//							testArr(fanArr, 10);
 							fanList=new Fanlist();
 							fanList.initData(fanArr);
 						}
@@ -509,7 +502,13 @@
 
 			protected function messageClick(event:MouseEvent):void
 			{
-				DBPopUp.addMessagePopup();			
+				messageCount='0';
+
+				if(UserVO.crtUser==null)
+				{
+					DBPopUp.addLoginPopup(refreshNavi);
+				}else
+					DBPopUp.addMessagePopup();
 			}
 
 		]]>
@@ -560,12 +559,10 @@
 				<s:Label text="{crtUsername}" left="362" top="45"
 						 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
 
-				<s:Group visible="{!isGuest}" click="messageClick(event)">
-					<s:Image 
-							 source="@Embed('assets/usercenter/userinfo/message.png')"
-							 left="363" top="123"/>
+				<s:Group visible="{!isGuest}" click="messageClick(event)" left="363" top="123" width="76" height="55">
+					<s:Image source="@Embed('assets/usercenter/userinfo/message.png')" />
 
-					<s:Group left="392" top="134" visible="{messageCount!='0'}">
+					<s:Group left="29" top="12" visible="{messageCount!='0'}">
 						<s:Image 
 								 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
 						<s:Label text="{messageCount}" textAlign="center"

@@ -4,7 +4,9 @@
 
 	<fx:Script>
 		<![CDATA[
+			import com.pamakids.models.BaseVO;
 			import com.pamakids.services.QNService;
+			import com.pamakids.utils.CloneUtil;
 
 			import vo.VO;
 
@@ -22,7 +24,9 @@
 				userName=user.nickname;
 				avatar.source=avatarUrl?QNService.getQNThumbnail(avatarUrl,36,36):VO.DEFAULT_AVATAR;
 
-				timeText=o.created_at;
+				var bo:BaseVO=CloneUtil.convertObject(o,BaseVO);
+
+				timeText=bo.getDelay();
 
 				if(o.type==1)
 				{
@@ -32,12 +36,21 @@
 				{
 					statusText="喜欢了你的画";
 					heart.visible=true;
-
-					paint.source=QNService.getQNThumbnail(o.paint.cover,58,43);
+					if(o.paint)
+					{
+						paint.visible=true;
+						paint.source=QNService.getQNThumbnail(o.paint.cover,58,43);
+					}
 				}
 			}
 
 			protected function avatar_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			protected function paint_clickHandler(event:MouseEvent):void
 			{
 				// TODO Auto-generated method stub
 
@@ -49,15 +62,15 @@
 	<s:Image source="@Embed('assets/message/messageBG.png')"/>
 	<s:Image id="avatar" top="8" left="3" width="36" height="36"
 			 click="avatar_clickHandler(event)"/>
-	<s:Label text="{userName}" top="10" left="48" color="0x60cdb5" fontSize="18"/>
+	<s:Label text="{userName}" top="14" left="48" color="0x60cdb5" fontSize="18"/>
 	<s:Image source="@Embed('assets/discuss/time.png')" left="48" top="36"/>
-	<s:Label text="{timeText}" top="40" left="65" color="0x989898" fontSize="8"/>
+	<s:Label text="{timeText}" left="64" top="36" color="0x989898" fontSize="10"/>
 
-	<s:Label text="{statusText}" left="146" top="18" color="0x989898"
+	<s:Label text="{statusText}" left="146" top="22" color="0x989898"
 			 fontSize="18"/>
 
 	<s:Image source="@Embed('assets/discuss/heart.png')" left="273" top="15" visible="false" id="heart"/>
 
-	<s:Image id="paint" width="58" height="43" left="309" top="7"/>
+	<s:Image id="paint" width="58" height="43" left="309" top="7" click="paint_clickHandler(event)" visible="false"/>
 
 </s:Group>

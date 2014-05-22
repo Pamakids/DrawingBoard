@@ -5,7 +5,7 @@ package vo
 	{
 		public function VO()
 		{
-			
+
 		}
 
 		public static const APPNAME:String="DrawingBoard";
@@ -21,12 +21,16 @@ package vo
 
 		public static const AUDIO_MP3:String="?avthumb/mp3";
 
-		public static const FILESERVER_HOST:String="http://drawingboard.u.qiniudn.com/";
+		public static const FILESERVER_HOST:String="http://drawingboard.qiniudn.com/";
 
 		public static const THEMEARR:Array=[];
 
 		public static const SWIPE_DISTANCE:Number=10;
 
 		public static const AVATAR_NAME:String="avatar.jpg";
+
+		public static const THEME_PATH:String='assets/themes/';
 	}
 }
+
+

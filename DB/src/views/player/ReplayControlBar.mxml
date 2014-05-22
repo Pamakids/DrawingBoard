@@ -81,8 +81,15 @@
 
 			protected function shareClick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
+				if(url is String)
+					UMSocial.instance.share('sharePaint','',url as String);
+			}
 
+			private function getFullCommit():String
+			{
+				var s:String='';
+				s+=' http://www.pamakids.com/play?id='+paintID;
+				return s;
 			}
 
 			protected function recordClick(event:MouseEvent):void
@@ -104,6 +111,10 @@
 			}
 
 			public var recordUrl:String;
+
+			[Bindable]
+			public var paintID:String;
+			public var url:Object;
 			private var isHide:Boolean=false;
 
 
@@ -163,7 +174,7 @@
 			<components:ImageButton id="speed3x" left="120"
 									click="speed_clickHandler(event)"/>
 		</s:Group>
-		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)"
-				 visible="false" left="847"/>
+		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)" visible="{paintID}" 
+				 left="847"/>
 	</s:Group>
 </s:Group>

@@ -1,53 +1,37 @@
 package models
 {
-
-	public class ShopVo extends ThemeFolderVo
+	public class ShopVO extends ThemeVo
 	{
-		public function ShopVo()
+		public function ShopVO()
 		{
 		}
 
-		override public function get themeList():Array
+		override public function get dataUrl():String
 		{
-			var purchaseVo:ShopPurchaseVo
-			var result:Array
-			var themeVo:ThemeVo
-			var i:int
-			var l:int
-
-			purchaseVo=ShopManager.getInstance().getPurchaseVo(this.type);
-			result=[]
-			l=purchaseVo.list.length;
-			while (i < l)
-			{
-				themeVo=new ThemeVo
-				themeVo.thumbnail=Config.shopBaseLocalURL + purchaseVo.list[i]
-//				themeVo.theme=
-				themeVo.index=i
-				result[i++]=themeVo
-			}
-			return result
+			return thumbnail.replace("thumbnail", "category")
 		}
 
-		override public function getTitleRef():String
+		override public function get everydayUrl():String
 		{
-			return this.thumbnail.replace("cover", "titles")
+			return thumbnail.replace("thumbnail", "everyday")
 		}
 
-		override public function getTitleName():String
+		override public function get soundUrl():String
 		{
-			return type;
+			var result:String
+
+			result=thumbnail.replace("img/thumbnail", "sound/chinese")
+			result=result.replace("jpg", "mp3")
+			return result;
 		}
 
-
-		override public function getThemeTxt():String
+		override public function get theme():String
 		{
-			return this.thumbnail.replace("cover", "themeTxt")
+			var pack:String=thumbnail.substr(thumbnail.indexOf("thumbnail") + 10);
+			var themePath:String=pack.substring(0, pack.indexOf("/"));
+			trace(themePath);
+			return themePath + "/" + index;
 		}
-
-
-		public var isEverUsed:Boolean
-
-		public var timestamp:Number
 	}
 }
+

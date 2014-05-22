@@ -311,12 +311,14 @@
 			<s:Image source="@Embed('assets/global/line.png')" top="140"/>
 
 			<s:Label text="头像:" top="65" left="10"/>
-			<s:Image id="avatar" width="53" height="53" left="127" top="55"
+			<s:Image id="avatar" width="53" height="53" left="135" top="55"
 					 click="avatarClick(event)"/>
 		</s:Group>
 
-		<photos:PhotoSelector id="selector" visible="false" top="209" left="69"
-							  depth="10"/>
+		<s:Group width="374" height="561"  depth="10">
+			<photos:PhotoSelector id="selector" visible="false" 
+								  bottom="6" horizontalCenter="0"/>
+		</s:Group>
 
 		<s:Group enabled="{!selector.visible}">
 			<s:Label text="{statusText}" width="374" height="30" top="255"

@@ -7,7 +7,6 @@
 
 	<fx:Script>
 		<![CDATA[
-
 			import com.pamakids.manager.LoadManager;
 			import com.pamakids.models.ResultVO;
 
@@ -20,6 +19,7 @@
 
 			import models.PaintData;
 			import models.PaintVO;
+			import models.UserVO;
 
 			import proxy.FileProxy;
 			import proxy.UploadProxy;
@@ -62,7 +62,7 @@
 				if (!ulp)
 					ulp=new UploadProxy(data);
 
-				statusGroup.visible=data.local;
+				statusGroup.visible=data.local&&(UserVO.crtUser!=null);
 				if (!data.local)
 				{
 					API.instance.getPaintDetail(detailCB, data._id);
@@ -240,7 +240,7 @@
 
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(img.source, paintData, false, getPath(cachedAudio)));
+				dispatchEvent(new ReplayEvent(img.source, paintData, false, getPath(cachedAudio),data._id));
 			}
 
 			private function getPath(u:String):String

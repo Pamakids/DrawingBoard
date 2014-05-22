@@ -15,7 +15,6 @@
 
 	<fx:Script>
 		<![CDATA[
-
 			import com.pamakids.services.QNService;
 
 			import mx.collections.ArrayCollection;
@@ -35,6 +34,7 @@
 			import models.FontManager;
 			import models.PaintVO;
 			import models.PasterManager;
+			import models.ShopManager;
 			import models.ThemeFolderVo;
 			import models.ThemeManager;
 			import models.ThemeVo;
@@ -105,6 +105,14 @@
 				usercenter.visible=false;
 				themelist.visible=true;
 				gallery.visible=false;
+
+				if (detailView)
+				{
+					if (uiLayer.containsElement(detailView))
+						uiLayer.removeElement(detailView);
+					detailView.dispose();
+					detailView=null;
+				}
 			}
 
 			private function onBackToMain(e:Event):void
@@ -136,7 +144,7 @@
 				initPopup();
 				initFolderList();
 				initRecommend();
-				initSound();
+//				initSound();
 			}
 
 			private function initRecommend():void
@@ -144,7 +152,7 @@
 				recommendHodler.addChild(new Recommends(768, 1024));
 			}
 
-			private function initSound():void
+			public function initSound():void
 			{
 				var snd:Sound=new Sound(new URLRequest("assets/data/sounds/cnlet.mp3"));
 				snd.play();
@@ -220,6 +228,14 @@
 				usercenter.visible=false;
 				themelist.visible=false;
 				gallery.visible=true;
+
+				if (detailView)
+				{
+					if (uiLayer.containsElement(detailView))
+						uiLayer.removeElement(detailView);
+					detailView.dispose();
+					detailView=null;
+				}
 			}
 
 			private function addUsercenter():void
@@ -241,6 +257,8 @@
 
 				DataManager.getInstance().initialize();
 				FontManager.initialize();
+
+				ShopManager.instance.init();
 			}
 
 			private function initConfig():void
@@ -267,7 +285,7 @@
 				player=null;
 
 				player=new ReplayView();
-				player.initData(e.cover, e.data, e.audio);
+				player.initData(e.cover, e.data, e.audio,e.id);
 				player.addEventListener("replayToCenter", onplayerToCenter);
 				player.addEventListener("closeReplay", onClosePlayer);
 				player.recordVisible=e.recordVisible;
@@ -365,6 +383,7 @@
 					if (!preState)
 						preState=currentState;
 					currentState=visitView.name;
+					guestView.isGuest=true;
 					guestView.user=user;
 					guestView.refreshNavi();
 				}
