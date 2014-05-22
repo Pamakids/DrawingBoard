@@ -17,9 +17,9 @@
 				dispose();
 
 				data=_data;
-				title.source=data.getTitleRef();
+				title.source=data.title;
 
-				var arr:Array=data.getThemeList();
+				var arr:Array=data.themeList;
 				for each (var o:ThemeVo in arr)
 				{
 					var item:ThemeListItem=new ThemeListItem();

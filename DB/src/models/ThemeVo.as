@@ -1,41 +1,32 @@
 package models
 {
+	import proxy.FileProxy;
 
 	public class ThemeVo
 	{
 		public var path:String;
 		public var index:int;
+		public var online:Boolean;
 
 		public function get dataUrl():String
 		{
-			return thumbnail.replace("thumbnail", "category")
-		}
-
-		public function get everydayUrl():String
-		{
-			return thumbnail.replace("thumbnail", "everyday")
+			return (online?FileProxy.storageUrl:'')+ path+'/'+(index+1).toString()+'.jpg';
 		}
 
 		public function get soundUrl():String
 		{
-			var result:String
-
-			result=thumbnail.replace("img/thumbnail", "sound/chinese")
-			result=result.replace("jpg", "mp3")
-			return result
+			return  dataUrl.replace('.jpg','.mp3');
 		}
 
-		public var thumbnail:String
+		public function get thumbnail():String
+		{
+			return  dataUrl.replace('.jpg','s.jpg');
+		}
 
 		public function get theme():String
 		{
-			var pack:String=thumbnail.substr(thumbnail.indexOf("thumbnail") + 10);
-			var themePath:String=pack.substring(0, pack.indexOf("/"));
-			return themePath + "/" + index;
+			return path + "/" + index;
 		}
-
-		public var shop:Boolean;
-
 	}
 }
 

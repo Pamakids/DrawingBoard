@@ -1,8 +1,7 @@
 package models
 {
-	import assets.DataAssets;
-
-	import utils.ArrayUtil;
+	import com.adobe.serialization.json.JSON;
+	import com.pamakids.manager.LoadManager;
 
 	public class ThemeManager
 	{
@@ -14,39 +13,34 @@ package models
 
 		public function initialize():void
 		{
-			var themeData:XML
-			var i:int, l:int
-			var item:XML
-			var arr:Array
-			var dir:ThemeFolderVo
+			LoadManager.instance.loadText('assets/themes/local.json',loadComplete);
+		}
 
-			// 自帶主題.
-			themeData=XML(new (DataAssets.data_theme))
-			l=themeData.theme.length()
-			while (i < l)
+		private function loadComplete(s:String):void
+		{
+			var o:Object=com.adobe.serialization.json.JSON.decode(s);
+			parse(o);
+		}
+
+		private function parse(o:Object):void
+		{
+			var arr:Array=o.themepacks;
+			for each (var theme:Object in arr) 
 			{
-				item=themeData.theme[i]
-				dir=new ThemeFolderVo
-				dir.thumbnail=item.@thumbnail
-				dir.type=item.@type
-				mThemeList.push(dir)
-				this.addThemeItems(item, dir)
-				i++
+				var folder:ThemeFolderVo=new ThemeFolderVo(theme.path,theme.num);
+				mThemeList.push(folder);
 			}
-
-			// 商店主題.
 		}
 
 		public function getThemeList():Array
 		{
-			return mThemeList
+			if(mDownloadedList)
+				return mDownloadedList.concat(mThemeList);
+			else
+				return mThemeList;
 		}
 
-		public function getRandomThemeFolder():ThemeFolderVo
-		{
-			return ArrayUtil.pullRandom(mThemeList, false)
-		}
-
+		public var mDownloadedList:Array;
 
 		public function getThemeDirByType(type:String):ThemeFolderVo
 		{
@@ -54,7 +48,7 @@ package models
 
 			for each (dir in mThemeList)
 			{
-				if (dir.type == type)
+				if (dir.path.indexOf(type)>=0)
 				{
 					return dir
 				}
@@ -62,48 +56,8 @@ package models
 			return null
 		}
 
-		private function addThemeItems(themeData:XML, dir:ThemeFolderVo):void
-		{
-			var i:int, l:int
-			var item:String
-			var vo:ThemeVo
-
-			l=themeData.data.length()
-			while (i < l)
-			{
-				vo=new ThemeVo
-				vo.thumbnail=String(themeData.data[i])
-				vo.index=i
-				dir.getThemeList().push(vo)
-				i++
-			}
-		}
-
-		/**
-		 * { theme : [
-		 * {
-		 *     type : ??,
-		 *     thumb : ??,
-		 *     data : [??, ??, ??, ??...]
-		 * },
-		 * {
-		 *     type : ??,
-		 *     thumb : ??,
-		 *     data : [??, ??, ??, ??...]
-		 * }
-		 * ... ...
-		 * ]}
-		 */
-		private function addThemesByJSON(obj:Object):void
-		{
-
-		}
-
-
-
 
 		private var mThemeList:Array=[]
-//		private var mShopThemeList:Object = {}
 
 		private static var mInstance:ThemeManager
 

@@ -51,10 +51,13 @@
 			protected function onUp(event:MouseEvent):void
 			{
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onUp);
-				var dx:Number=mouseX - dp.x;
-				var dy:Number=mouseY - dp.y;
+
 				if (Math.abs(dx) < VO.SWIPE_DISTANCE)
 					return;
+
+				var dx:Number=mouseX - dp.x;
+				var dy:Number=mouseY - dp.y;
+
 				var t:Number=getTimer() - dt;
 				var speed:Number=dx / t;
 				speed=Math.max(1, Math.min(Math.abs(speed), 3));

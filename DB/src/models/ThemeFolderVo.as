@@ -1,32 +1,52 @@
 package models
 {
+	import proxy.FileProxy;
+
 	public class ThemeFolderVo
 	{
-		public function ThemeFolderVo()
-		{
+		public var path:String;
+		private var num:int;
+		private var online:Boolean;
 
+		private var mThemeList:Array;
+
+		public function ThemeFolderVo(_path:String,_num:int,_online:Boolean=false)
+		{
+			path=_path;
+			num=_num;
+			online=_online;
+
+			mThemeList=[];
+
+			for (var i:int = 0; i < num; i++)
+			{
+				var theme:ThemeVo=new ThemeVo();
+				theme.path=path;
+				theme.index=i;
+				theme.online=online;
+				mThemeList.push(theme);
+			}
 		}
 
-		public function getThemeList():Array
+		public function get themeList():Array
 		{
 			return mThemeList
 		}
 
-		public function getTitleRef():String
+		public function get title():String
 		{
-			return this.thumbnail.replace("cover", "titles")
+			return cover.replace("cover", "title")
 		}
 
-		public function getThemeTxt():String
+		public function get text():String
 		{
-			return this.thumbnail.replace("cover", "ThemeTxt")
+			return cover.replace("cover", "text")
 		}
 
-		public var thumbnail:String
-
-		public var type:String
-
-		private var mThemeList:Array=[]
+		public function get cover():String
+		{
+			return (online?FileProxy.storageUrl:'')+path+'/cover.png'
+		}
 	}
 }
 

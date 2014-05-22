@@ -3,6 +3,8 @@ package models
 	import com.adobe.serialization.json.JSON;
 	import com.pamakids.manager.LoadManager;
 
+	import service.SOService;
+
 	public class ShopManager
 	{
 		public function ShopManager()
@@ -25,31 +27,35 @@ package models
 
 		private function loadComplete(t:String):void
 		{
-			trace(t);
 			var o:Object=com.adobe.serialization.json.JSON.decode(t);
 			parse(o);
 		}
 
 		private function parse(o:Object):void
 		{
-			themeArr=o.themepacks;
-			for each (var theme:Object in themeArr) 
+			var arr:Array=o.themes;
+			mThemeList=[];
+			shopList=[];
+			for each (var theme:Object in arr) 
 			{
-				if(o.shop)
+				var bought:Boolean=SOService.checkBought(theme.path);
+//				if(bought)
 				{
-					var l:Number=theme.num;
-					for (var i:int = 0; i < l; i++)
-					{
-						var path:String=o.name;
-						var so:ShopVO=new ShopVO();
-						so.path=path;
-					}
+					var folder:ThemeFolderVo=new ThemeFolderVo(theme.path,theme.num,true);
+					mThemeList.push(folder);
 				}
+
+				var so:ShopVO=new ShopVO();
+				so.path=theme.path;
+				so.num=theme.num;
 			}
+
+			ThemeManager.getInstance().mDownloadedList=mThemeList;
 		}
 
-		private var themeArr:Array;
+		private var mThemeList:Array;
 
+		private var shopList:Array;
 	}
 }
 
