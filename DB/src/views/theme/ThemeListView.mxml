@@ -19,7 +19,7 @@
 				data=_data;
 				title.source=data.getTitleRef();
 
-				var arr:Array=data.themeList;
+				var arr:Array=data.getThemeList();
 				for each (var o:ThemeVo in arr)
 				{
 					var item:ThemeListItem=new ThemeListItem();

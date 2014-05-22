@@ -3,6 +3,8 @@ package models
 
 	public class ThemeVo
 	{
+		public var path:String;
+		public var index:int;
 
 		public function get dataUrl():String
 		{
@@ -29,10 +31,12 @@ package models
 		{
 			var pack:String=thumbnail.substr(thumbnail.indexOf("thumbnail") + 10);
 			var themePath:String=pack.substring(0, pack.indexOf("/"));
-			trace(themePath);
 			return themePath + "/" + index;
 		}
-		public var index:int
+
+		public var shop:Boolean;
 
 	}
 }
+
+

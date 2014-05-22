@@ -1,0 +1,9 @@
+{"themepacks":
+[
+{"name":"animal","num":10,"shop":false},
+{"name":"design","num":10,"shop":false},
+{"name":"fantasty","num":9,"shop":false},
+{"name":"life","num":10,"shop":false},
+{"name":"people","num":9,"shop":false}
+]
+}

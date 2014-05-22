@@ -14,7 +14,7 @@
 			override public function set data(value:Object):void
 			{
 				super.data=value;
-				setIMG_src(value.thumbnail, value.ThemeTxt);
+				setIMG_src(value.thumbnail, value.getThemeTxt());
 			}
 
 			public var clickEnable:Boolean;

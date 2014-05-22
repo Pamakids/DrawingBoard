@@ -74,7 +74,7 @@ package models
 				vo=new ThemeVo
 				vo.thumbnail=String(themeData.data[i])
 				vo.index=i
-				dir.themeList.push(vo)
+				dir.getThemeList().push(vo)
 				i++
 			}
 		}
@@ -114,3 +114,5 @@ package models
 
 	}
 }
+
+
