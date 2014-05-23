@@ -22,11 +22,10 @@
 				content=null;
 				removeAllElements();
 			}
-
 		]]>
 	</fx:Script>
 
 	<s:Image source="@Embed('assets/gallery/img/common/itemBg.png')"
 			 mouseEnabled="false"/>
-	<s:Image id="content"/>
+	<s:Image id="content"/> 
 </s:Group>

@@ -14,10 +14,11 @@
 			override public function set data(value:Object):void
 			{
 				super.data=value;
-				setIMG_src(value.thumbnail, value.getThemeTxt());
+				setIMG_src(value.cover, value.text);
 			}
 
 			public var clickEnable:Boolean;
+			private var inited:Boolean;
 
 			private function setIMG_src(src:String, name_src:String):void
 			{
@@ -33,10 +34,11 @@
 
 			protected function itemrenderer1_addedToStageHandler(event:Event):void
 			{
-				if (DataGroup(this.parent).getElementIndex(this) == 0)
+				if (DataGroup(this.parent).getElementIndex(this) == 0&&!inited)
 				{
 					clickEnable=true;
 				}
+				inited=true;
 			}
 
 		]]>

@@ -50,28 +50,26 @@ package service
 			setValue("uploadedArr", arr);
 		}
 
-		public static function checkDownloaded(path:String,num:int):Boolean
+		public static function setDownloaded(path:String,value:Boolean):void
 		{
-			for (var i:int = 0; i < num; i++) 
-			{
-				var key:String=path+'/'+(num+1).toString();
-				if(!getValue(key+'.jpg'))
-					return false;
-				if(!getValue(key+'.mp3'))
-					return false;
-				if(!getValue(path+'/text.jpg'))
-					return false;
-				if(!getValue(path+'/cover.jpg'))
-					return false;
-			}
-
-			return true;
+			var b:Boolean=getValue(path+'_downloaded');
+			setValue(path, value);
 		}
 
-		public static function setDownloaded(key:String,value:Boolean):void
+		public static function checkDownloaded(path:String,num:int):Boolean
 		{
-			var b:Boolean=getValue("downloadedArr");
-			setValue("downloadedArr", value);
+			return getValue(path+'_downloaded');
+		}
+
+		public static function setBought(path:String,value:Boolean):void
+		{
+			var b:Boolean=getValue(path+'_bought');
+			setValue(path, value);
+		}
+
+		public static function checkBought(path:String):Boolean
+		{
+			return getValue(path+'_bought');
 		}
 	}
 }

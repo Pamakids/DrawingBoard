@@ -1,8 +1,8 @@
-{"themepacks":
+{"themes":
 [
-{"name":"city","num":15,"shop":true},
-{"name":"food","num":12,"shop":true},
-{"name":"movie","num":15,"shop":true},
-{"name":"traffic","num":15,"shop":true}
+{"path":"assets/themes/city","num":15},
+{"path":"assets/themes/food","num":12},
+{"path":"assets/themes/movie","num":15},
+{"path":"assets/themes/traffic","num":15}
 ]
 }

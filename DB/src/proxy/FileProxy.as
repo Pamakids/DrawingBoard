@@ -128,6 +128,15 @@ package proxy
 			return File.applicationStorageDirectory.resolvePath(u);
 		}
 
+		public static function get storageUrl():String
+		{
+			if(!_storageUrl)
+				_storageUrl=File.applicationStorageDirectory.url;
+			return _storageUrl;
+		}
+
+		private static var _storageUrl:String;
+
 		/**
 		 *
 		 * @param str
@@ -152,3 +161,5 @@ package proxy
 		public static var audioToken:String;
 	}
 }
+
+

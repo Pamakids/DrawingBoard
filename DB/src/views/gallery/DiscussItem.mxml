@@ -87,7 +87,7 @@
 				var pack:String=arr[0];
 				var index:int=int(arr[1]);
 				var folder:ThemeFolderVo=ThemeManager.getInstance().getThemeDirByType(pack);
-				return folder.getThemeList()[index];
+				return folder.themeList[index];
 			}
 
 			private var py:Number;
