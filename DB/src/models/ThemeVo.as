@@ -1,6 +1,10 @@
 package models
 {
+	import com.pamakids.services.QNService;
+
 	import proxy.FileProxy;
+
+	import service.SOService;
 
 	public class ThemeVo
 	{
@@ -10,7 +14,15 @@ package models
 
 		public function get dataUrl():String
 		{
-			return (online?FileProxy.storageUrl:'')+ path+'/'+(index+1).toString()+'.jpg';
+			var host:String='';
+			if(online)
+			{
+				if(SOService.checkDownloaded(path))
+					host=FileProxy.storageUrl;
+				else
+					host=QNService.HOST;
+			}
+			return host + path+'/'+(index+1).toString()+'.jpg';
 		}
 
 		public function get soundUrl():String
@@ -25,7 +37,7 @@ package models
 
 		public function get theme():String
 		{
-			return path + "/" + index;
+			return path.substr(path.lastIndexOf('/')+1) + "/" + index;
 		}
 	}
 }

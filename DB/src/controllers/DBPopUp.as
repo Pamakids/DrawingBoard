@@ -5,8 +5,13 @@ package controllers
 
 	import mx.core.UIComponent;
 
+	import models.ShopVO;
+	import models.ThemeFolderVo;
+
 	import views.components.GesturePopUp;
 	import views.components.LoadingPopup;
+	import views.main.ThemeDeletePopup;
+	import views.shop.ShopDLPopup;
 	import views.user.MessagePopup;
 	import views.user.UserInfoPopup;
 	import views.user.UserLoginPopup;
@@ -124,6 +129,39 @@ package controllers
 			}
 			ui.addEventListener("uiClose", remove);
 			addPopUp(ui);
+		}
+
+		public static function addDLPopup(o:ShopVO,cb:Function):void
+		{
+			var sp:ShopDLPopup=new ShopDLPopup();
+			sp.initData(o);
+
+			function remove(e:Event):void {
+				sp.removeEventListener("dllose", remove);
+				if(sp.complete)
+				{
+					if(cb!=null)
+						cb();
+				}
+				removePopUp(sp);
+				sp=null;
+			}
+			sp.addEventListener("dllose", remove);
+			addPopUp(sp);
+		}
+
+		public static function addDeletePopup(o:ThemeFolderVo):void
+		{
+			var dp:ThemeDeletePopup=new ThemeDeletePopup();
+			dp.initData(o);
+
+			function remove(e:Event):void {
+				dp.removeEventListener("close", remove);
+				removePopUp(dp);
+				dp=null;
+			}
+			dp.addEventListener("close", remove);
+			addPopUp(dp);
 		}
 	}
 }

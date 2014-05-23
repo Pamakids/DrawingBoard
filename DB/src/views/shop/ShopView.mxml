@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768">
-	
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768" initialize="group1_initializeHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+
+			import assets.shop.ShopAssets;
+
+			import models.ShopManager;
+			import models.ShopVO;
+
+			protected function backClick(event:MouseEvent):void
+			{
+				dispatchEvent(new Event('backToMain',true));
+			}
+
+			public function refresh():void
+			{
+				list.removeAllElements();
+				var arr:Array=ShopManager.instance.shopList;
+				if(!arr)
+				{
+					return;
+				}
+				for each (var so:ShopVO in arr) 
+				{
+					var si:ShopItem=new ShopItem();
+					si.initData(so);
+					list.addElement(si);
+				}
+			}
+
+			protected function group1_initializeHandler(event:FlexEvent):void
+			{
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="@Embed('assets/data/images/publicBg.png')"
+			 mouseEnabled="false"/>
+
+	<s:Image source="{ShopAssets.shop_title}" top="22" horizontalCenter="0"/>
+
+	<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
+			 top="21" click="backClick(event)"/>
+
+	<s:Image source="{ShopAssets.themeDownload}" top="140"/>
+
+	<s:Scroller width="938" height="545" left="46" top="225" id="scroller"
+				horizontalScrollPolicy="off" verticalScrollPolicy="auto">
+		<s:TileGroup id="list" requestedColumnCount="3" horizontalGap="33"
+					 verticalGap="51">
+		</s:TileGroup>
+	</s:Scroller>
 </s:Group>

@@ -6,17 +6,21 @@ package proxy
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 
+	import models.ShopVO;
+
 	import service.SOService;
 
-	public class ThemeProxy extends EventDispatcher
+	public class ShopProxy extends EventDispatcher
 	{
-		public function ThemeProxy(_path:String,_num:Number)
+		public function ShopProxy(o:ShopVO)
 		{
-			path=_path;
-			num=_num;
+			data=o;
+			path=data.path;
+			num=data.num;
 			total=num+1;
 		}
 
+		private var data:ShopVO;
 		private var path:String;
 		private var num:Number;
 		private var total:Number;
@@ -40,6 +44,8 @@ package proxy
 			var url2:String;
 			var key3:String;
 			var url3:String;
+
+			LoadManager.instance.errorHandler=onError;
 
 			if(index==total-1)
 			{
@@ -75,6 +81,11 @@ package proxy
 			}
 		}
 
+		private function onError(o:Object):void
+		{
+			dispatchEvent(new Event('downloadError'));
+		}
+
 		private function imgLoaded(o:Object):void
 		{
 			checkCount();
@@ -87,13 +98,18 @@ package proxy
 
 		private function checkCount():void
 		{
+			if(cancled)
+			{
+				dispatchEvent(new Event('cancel'));
+				return;
+			}
 			count--;
 			if(count==0)
 			{
 				index++;
 				if(index==total)
 				{
-					SOService.setDownloaded(path,true);
+					SOService.setDownloaded(data,true);
 					dispatchEvent(new Event('complete'));
 					return;
 				}else
@@ -107,6 +123,12 @@ package proxy
 
 		public var progress:Number=0;
 
+		private var cancled:Boolean;
+
+		public function cancel():void
+		{
+			cancled=true;
+		}
 	}
 }
 

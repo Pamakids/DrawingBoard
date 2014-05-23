@@ -82,13 +82,15 @@
 			protected function shareClick(event:MouseEvent):void
 			{
 				if(url is String)
-					UMSocial.instance.share('sharePaint','',url as String);
+					UMSocial.instance.share('sharePaint',getFullCommit(),url as String);
 			}
+
+			private static var commit:String='hi, 我刚刚画了一幅画, 大家来看看我是怎么画的吧^_^';
 
 			private function getFullCommit():String
 			{
-				var s:String='';
-				s+=' http://www.pamakids.com/play?id='+paintID;
+				var s:String=commit;
+				s+='  http://db.pamakids.com/player?'+paintID;
 				return s;
 			}
 

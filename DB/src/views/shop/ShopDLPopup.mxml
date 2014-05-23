@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="564" height="363" xmlns:components="views.components.*">
+	<fx:Script>
+		<![CDATA[
+			import assets.shop.ShopAssets;
+
+			import controllers.MainController;
+
+			import models.ShopVO;
+			import models.ThemeManager;
+
+			import proxy.ShopProxy;
+
+			import service.SOService;
+			[Bindable]
+			private var num:String;
+			[Bindable]
+			private var prize:String;
+
+			private var data:ShopVO;
+
+			private var tp:ShopProxy;
+			[Bindable]
+			private var downloading:Boolean;
+
+			public var complete:Boolean;
+
+			public function initData(o:ShopVO):void
+			{
+				data=o;
+				thumb.source=o.cover;
+				title.source=o.title;
+				num=o.num.toString();
+				prize='免费';
+
+				if(SOService.checkDownloaded(o.path))
+				{
+					ready.visible=true;
+					dl.visible=false;
+				}
+			}
+
+			protected function closeClick(event:MouseEvent):void
+			{
+				dispatchEvent(new Event('dllose'));
+			}
+
+			protected function dlClick(event:MouseEvent):void
+			{
+				fail.visible=false;
+				tp=new ShopProxy(data);
+				tp.addEventListener('freshProgress',onProgress);
+				tp.addEventListener('complete',onComplete);
+				tp.addEventListener('cancel',onCancel);
+				tp.addEventListener('downloadError',onError);
+				tp.startDL();
+				downloading=true;
+				dl.visible=false;
+			}
+
+			private function removeTP():void
+			{
+				tp.removeEventListener('freshProgress',onProgress);
+				tp.removeEventListener('complete',onComplete);
+				tp.removeEventListener('cancel',onCancel);
+				tp.removeEventListener('downloadError',onError);
+				tp=null;
+			}
+
+			protected function cancelClick(event:MouseEvent):void
+			{
+				if(tp)
+					tp.cancel();
+			}
+
+			protected function onProgress(event:Event):void
+			{
+				var progress:Number=tp.progress;
+				progressBar.setProgress(progress*100);
+			}
+
+			protected function onComplete(event:Event):void
+			{
+				removeTP();
+				downloading=false;
+				complete=true;
+				ThemeManager.getInstance().initialize();
+				MainController.mv.refreshList();
+				ready.visible=true;
+			}
+
+			protected function onCancel(event:Event):void
+			{
+				removeTP();
+				downloading=false;
+				dl.visible=true;
+			}
+
+			protected function onError(event:Event):void
+			{
+				removeTP();
+				fail.visible=true;
+				downloading=false;
+				dl.visible=true;
+			}
+		]]>
+	</fx:Script>
+	<s:Image source="{ShopAssets.shopLoadingBg}"/>
+	<s:Image source="{ShopAssets.shopLoadingClose}" top="8" right="8" click="closeClick(event)"/>
+	<s:Image id="thumb" left="37" top="52" width="290" height="206"/>
+	<s:Image source="{ShopAssets.detailTxt}" left="348" top="54"/>
+	<s:Group left="443" top="54">
+		<s:Image id="title" width="66" height="17"/>
+		<s:Label text="{num}" fontSize="18" color="0xffffff" top="34"/>
+		<s:Label text="{prize}" fontSize="18" color="0xffffff" top="68"/>
+	</s:Group>
+
+	<s:Image id="fail" source="{ShopAssets.downloadFail}" left="77" top="307" visible="false"/>
+	<s:Image id="dl" source="{ShopAssets.downloadBtn}" left="438" top="300" click="dlClick(event)"/>
+	<s:Image id="ready" source="{ShopAssets.downloaded}" left="438" top="300" visible="false"/>
+
+	<components:MyProgressBar id="progressBar" left="36" top="304" visible="{downloading}"/>
+	<s:Image id="cancel" source="{ShopAssets.cancelBtn}" left="438" top="300" click="cancelClick(event)" visible="{downloading}"/>
+
+
+</s:Group>

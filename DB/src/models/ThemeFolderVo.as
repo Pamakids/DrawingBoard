@@ -5,8 +5,8 @@ package models
 	public class ThemeFolderVo
 	{
 		public var path:String;
-		private var num:int;
-		private var online:Boolean;
+		public var num:int;
+		public var online:Boolean;
 
 		private var mThemeList:Array;
 
