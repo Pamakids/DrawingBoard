@@ -86,10 +86,11 @@
 			}
 
 			private static var commit:String='hi, 我刚刚画了一幅画, 大家来看看我是怎么画的吧^_^';
+			private static var commit2:String='hi, 我看到了一幅不错的画, 分享给大家';
 
 			private function getFullCommit():String
 			{
-				var s:String=commit;
+				var s:String=self?commit:commit2;
 				s+='  http://db.pamakids.com/player?'+paintID;
 				return s;
 			}
@@ -118,6 +119,7 @@
 			public var paintID:String;
 			public var url:Object;
 			private var isHide:Boolean=false;
+			public var self:Boolean;
 
 
 			public function playBars():void

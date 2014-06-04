@@ -62,7 +62,7 @@
 
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(data.coverUrl, pd, false, cachedAudio,data._id));
+				dispatchEvent(new ReplayEvent(data.coverUrl, pd, false, cachedAudio,data._id,self));
 			}
 
 			private function dataLoadComplete(s:String):void
@@ -72,17 +72,17 @@
 				{
 					var au:String=data.audioUrl;
 					cachedAudio=hostToLocal(data.audio);
-					LoadManager.instance.load(au, audioComplete, getPath(cachedAudio));
+					LoadManager.instance.load(au, audioComplete, cachedAudio);
 				}
 				else
 					DBPopUp.removeLoadingPopup();
 			}
 
-			private function getPath(u:String):String
-			{
-				var f:File=File.applicationStorageDirectory.resolvePath(u);
-				return f.nativePath;
-			}
+//			private function getPath(u:String):String
+//			{
+//				var f:File=File.applicationStorageDirectory.resolvePath(u);
+//				return f.nativePath;
+//			}
 
 			private var cachedAudio:String;
 
@@ -120,9 +120,12 @@
 				var user:UserVO=data.author;
 				userName.text=user.nickname ? user.nickname : user.username;
 				avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
+				self=UserVO.crtUser&&user._id==UserVO.crtUser._id;
 
 				API.instance.getPaintPraised(likedCB, data._id);
 			}
+
+			private var self:Boolean;
 
 			private function likedCB(o:ResultVO):void
 			{

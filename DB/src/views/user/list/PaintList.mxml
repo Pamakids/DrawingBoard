@@ -4,6 +4,7 @@
 			 verticalGap="18" horizontalGap="0" requestedColumnCount="3">
 	<fx:Script>
 		<![CDATA[
+			import models.PaintVO;
 
 			import views.user.item.UserPaintItem;
 
@@ -31,6 +32,7 @@
 			}
 
 			private var count2:int=0;
+			public var self:Boolean;
 
 			private function addItem():void
 			{
@@ -50,19 +52,27 @@
 
 			private function getItem():void
 			{
-				if (count <= arr.length - 1)
+				for each (var o:PaintVO in arr) 
 				{
 					var item:UserPaintItem=new UserPaintItem();
-					item.data=arr[count];
+					item.data=o;
+					item.self=self;
 					addElement(item);
-					callLater(getItem);
-//					getItem();
 				}
-				else
-				{
-					return;
-				}
-				count++;
+
+//				if (count <= arr.length - 1)
+//				{
+//					var item:UserPaintItem=new UserPaintItem();
+//					item.data=arr[count];
+//					item.self=self;
+//					addElement(item);
+//					callLater(getItem);
+//				}
+//				else
+//				{
+//					return;
+//				}
+//				count++;
 			}
 
 		]]>
