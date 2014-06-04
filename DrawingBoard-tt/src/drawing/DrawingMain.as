@@ -4,7 +4,7 @@ package drawing
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.ByteArray;
-
+	
 	import playback.brushs.BrushBaseBack;
 
 	/*
@@ -22,7 +22,13 @@ package drawing
 		private var brushFactory:BrushFactory;
 
 		private var control:ControlBase;
-
+		
+		private var index:int=1;
+		
+		private var tempPointArray:Array=[];//临时储存撤销和恢复线条的数据		
+		private var tempColorArray:Array=[];//临时储存撤销和恢复线条的颜色
+		private var tempBrushArray:Array=[];//临时存储撤销和恢复线条的笔触类型
+		
 		public function DrawingMain()
 		{
 			super();
@@ -70,7 +76,42 @@ package drawing
 					break;
 			}
 		}
-
+		//用于撤销的链接函数
+		public function repealFun():void{
+			index--;
+			if (index <= 1)
+			{
+				index=1
+			}
+			if(Enum.recordPointArray.length!=0){
+				tempPointArray.push(Enum.recordPointArray[Enum.recordPointArray.length-1]);
+				Enum.recordPointArray.pop();
+				tempColorArray.push(Enum.colorArray[Enum.colorArray.length-1]);
+				Enum.colorArray.pop();
+				tempBrushArray.push(Enum.brushTypeArray[Enum.brushTypeArray.length-1]);
+				Enum.brushTypeArray.pop();
+			}
+			control.backASRecover(index);
+			
+		}
+		//用于恢复撤销的链接函数
+		public function recoverFun():void{
+			index++;
+			if (index >= Enum.bitmapArray.length)
+			{
+				index=Enum.bitmapArray.length
+			}
+			if(tempPointArray.length!=0){
+				Enum.recordPointArray.push(tempPointArray[tempPointArray.length-1]);
+				tempPointArray.pop();
+				Enum.colorArray.push(tempColorArray[tempColorArray.length-1]);
+				tempColorArray.pop();
+				Enum.brushTypeArray.push(tempBrushArray[tempBrushArray.length-1]);
+				tempBrushArray.pop();
+			}
+			control.backASRecover(index);
+		}
+		
 		//画布清除的连接函数
 		public function clearAll():void
 		{
@@ -98,9 +139,11 @@ package drawing
 
 		private function onUpHandler(event:MouseEvent):void
 		{
+			index++;
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMoveHandler);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 			control.memoryArray();
+			control.disToBitmap();
 			Enum.colorArray.push(BrushFactory.getBrushFactory().brush.m_color);
 		}
 
@@ -121,7 +164,13 @@ package drawing
 			lastX=this.mouseX;
 			lastY=this.mouseY;
 		}
-
+		
+		public function allTempDataInit():void{
+			tempBrushArray=[];
+			tempColorArray=[];
+			tempPointArray=[];
+		}
+		
 		public function dispose():void
 		{
 			Canvas.getCanvas().dispose();
@@ -132,6 +181,7 @@ package drawing
 				stage.removeEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 			}
 			control.allDataInit();
+			allTempDataInit();
 		}
 	}
 }
