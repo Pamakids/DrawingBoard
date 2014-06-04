@@ -6,10 +6,13 @@
 		mouseDown="list1_mouseDownHandler(event)">
 	<fx:Script>
 		<![CDATA[
-
 			import flash.utils.getTimer;
 
 			import spark.events.IndexChangeEvent;
+
+			import events.ThemeChangeEvent;
+
+			import models.ThemeFolderVo;
 
 			import vo.VO;
 
@@ -27,6 +30,7 @@
 				{
 					var item:ThemeFolderItem2=this.dataGroup.getElementAt(index) as ThemeFolderItem2;
 					item.clickEnable=true;
+					dispatchEvent(new ThemeChangeEvent(item.data as ThemeFolderVo));
 				}
 			}
 
@@ -61,7 +65,7 @@
 				var t:Number=getTimer() - dt;
 				var speed:Number=dx / t;
 				speed=Math.max(1, Math.min(Math.abs(speed), 3));
-				trace(t, speed);
+//				trace(t, speed);
 				var di:int;
 				if (Math.abs(dx) > Math.abs(dy))
 				{

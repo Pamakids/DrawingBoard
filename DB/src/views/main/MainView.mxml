@@ -11,7 +11,7 @@
 		 xmlns:layout="com.pamakids.layout.*"
 		 creationComplete="group1_creationCompleteHandler(event)"
 		 addedToStage="group1_addedToStageHandler(event)"
-		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*">
+		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*" xmlns:shop="views.shop.*">
 
 	<fx:Script>
 		<![CDATA[
@@ -23,10 +23,12 @@
 			import components.Recommends;
 
 			import controllers.DBPopUp;
+			import controllers.MainController;
 
 			import events.DetailEvent;
 			import events.DrawEvent;
 			import events.ReplayEvent;
+			import events.ThemeChangeEvent;
 			import events.ThemeFolderEvent;
 			import events.UserItemEvent;
 
@@ -78,11 +80,20 @@
 
 				guestView.addEventListener("exitVisit", onExitVisit);
 
+				addEventListener(ThemeChangeEvent.EVENT_ID,onThemeChange);
 				addEventListener(DrawEvent.EVENT_ID, onDraw);
 				addEventListener(ReplayEvent.EVENT_ID, onReplay);
 				addEventListener(DetailEvent.EVENT_ID, onDetail);
 				addEventListener(UserItemEvent.EVENT_ID, onViewGuest);
 			}
+
+			private function onThemeChange(e:ThemeChangeEvent):void
+			{
+				crtTheme=e.data;
+				deleteBtn.enabled=crtTheme.online;
+			}
+
+			private var crtTheme:ThemeFolderVo;
 
 			protected function onExitVisit(e:Event):void
 			{
@@ -104,14 +115,9 @@
 				usercenter.visible=false;
 				themelist.visible=true;
 				gallery.visible=false;
+				shop.visible=false;
 
-				if (detailView)
-				{
-					if (uiLayer.containsElement(detailView))
-						uiLayer.removeElement(detailView);
-					detailView.dispose();
-					detailView=null;
-				}
+				removeDetail();
 			}
 
 			private function onBackToMain(e:Event):void
@@ -227,7 +233,13 @@
 				usercenter.visible=false;
 				themelist.visible=false;
 				gallery.visible=true;
+				shop.visible=false;
 
+				removeDetail();
+			}
+
+			private function removeDetail():void
+			{
 				if (detailView)
 				{
 					if (uiLayer.containsElement(detailView))
@@ -249,17 +261,18 @@
 
 			protected function group1_initializeHandler(event:FlexEvent):void
 			{
+				initConfig();
 				LoginProxy.autoLogin();
+				FontManager.initialize();
+
+				ThemeManager.getInstance().initialize();
 				PasterManager.getInstance().initialize();
 				ShopManager.instance.init();
-				ThemeManager.getInstance().initialize();
-				initConfig();
-
-				FontManager.initialize();
 			}
 
 			private function initConfig():void
 			{
+				MainController.mv=this;
 				QNService.HOST=VO.FILESERVER_HOST;
 			}
 
@@ -299,13 +312,7 @@
 
 			protected function onplayerToCenter(event:Event):void
 			{
-				if (detailView)
-				{
-					if (uiLayer.containsElement(detailView))
-						uiLayer.removeElement(detailView);
-					detailView.dispose();
-					detailView=null;
-				}
+				removeDetail();
 				addUsercenter();
 			}
 
@@ -332,13 +339,8 @@
 			protected function onDetail(e:DetailEvent):void
 			{
 				var paint:PaintVO=e.paint;
-				if (detailView)
-				{
-					if (uiLayer.containsElement(detailView))
-						uiLayer.removeElement(detailView);
-					detailView.dispose();
-					detailView=null;
-				}
+
+				removeDetail();
 				detailView=new DiscussView();
 				detailView.setData(paint);
 				uiLayer.addElementAt(detailView, uiLayer.numElements - 1);
@@ -390,7 +392,27 @@
 
 			protected function shopClick(event:MouseEvent):void
 			{
+				currentState=uiView.name;
+				usercenter.visible=false;
+				themelist.visible=false;
+				gallery.visible=false;
+				shop.visible=true;
+				shop.refresh();
 
+				removeDetail();
+			}
+
+			public function refreshList():void
+			{
+				callLater(initFolderList);
+			}
+
+			protected function deleteBtn_clickHandler(event:MouseEvent):void
+			{
+				if(crtTheme&&crtTheme.online)
+				{
+					DBPopUp.addDeletePopup(crtTheme);
+				}
 			}
 
 		]]>
@@ -424,8 +446,8 @@
 								top="188" visible="false">
 		</theme:ThemeFolderList2>
 
-		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
-				 left="330" top="633" visible="false"/>
+		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')" id="deleteBtn"
+				 left="330" top="633" enabled="false" click="deleteBtn_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="512"
 				 top="633" click="gallery_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
@@ -437,6 +459,7 @@
 
 	<s:Group id="uiLayer" includeIn="uiViewState">
 		<theme:ThemeListView id="themelist" visible="false"/>
+		<shop:ShopView id="shop" visible="false"/>
 		<gallery:GalleryViewOnline id="gallery" visible="false"/>
 		<user:UserCenterView id="usercenter" visible="false"/>
 	</s:Group>

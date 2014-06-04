@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark">
-	
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="290" height="206">
+	<fx:Script>
+		<![CDATA[
+			import controllers.DBPopUp;
+
+			import models.ShopVO;
+
+			private var data:ShopVO;
+
+			public function initData(so:ShopVO):void
+			{
+				data=so;
+				cover.source=data.cover;
+			}
+
+			protected function cover_clickHandler(event:MouseEvent):void
+			{
+				DBPopUp.addDLPopup(data,downloaded);
+			}
+
+			private function downloaded():void
+			{
+				// TODO Auto Generated method stub
+
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image id="cover" width="290" height="206" click="cover_clickHandler(event)"/>
 </s:Group>

@@ -3,6 +3,8 @@ package models
 	import com.adobe.serialization.json.JSON;
 	import com.pamakids.manager.LoadManager;
 
+	import service.SOService;
+
 	public class ThemeManager
 	{
 
@@ -24,6 +26,8 @@ package models
 
 		private function parse(o:Object):void
 		{
+			mThemeList=[];
+
 			var arr:Array=o.themepacks;
 			for each (var theme:Object in arr) 
 			{
@@ -34,19 +38,13 @@ package models
 
 		public function getThemeList():Array
 		{
-			if(mDownloadedList)
-				return mDownloadedList.concat(mThemeList);
-			else
-				return mThemeList;
+			return SOService.getDownloadedList().concat(mThemeList);
 		}
-
-		public var mDownloadedList:Array;
 
 		public function getThemeDirByType(type:String):ThemeFolderVo
 		{
-			var dir:ThemeFolderVo
-
-			for each (dir in mThemeList)
+			var arr:Array=getThemeList();
+			for each (var dir:ThemeFolderVo in arr)
 			{
 				if (dir.path.indexOf(type)>=0)
 				{

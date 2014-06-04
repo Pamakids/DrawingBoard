@@ -6,7 +6,6 @@ package assets.shop
 		{
 		}
 
-
 		[Embed(source="img/cover/traffic.png")] public static const traffic:Class
 		[Embed(source="img/cover/food.png")] public static const food:Class
 		[Embed(source="img/cover/movie.png")] public static const movie:Class
