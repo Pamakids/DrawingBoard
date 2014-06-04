@@ -5,6 +5,8 @@ package controllers
 
 	import mx.core.UIComponent;
 
+	import spark.components.Group;
+
 	import models.ShopVO;
 	import models.ThemeFolderVo;
 
@@ -33,22 +35,15 @@ package controllers
 			var dx:Number=1024 - window.width >> 1;
 			var dy:Number=768 - window.height >> 1;
 
-//			window.x=dx * PosVO.scale + PosVO.offsetX;
-//			window.y=dy * PosVO.scale + PosVO.offsetY;
-//
-//			window.scaleX=window.scaleY=PosVO.scale;
 			window.x=dx;
 			window.y=dy;
 			root.addChild(window);
-//			PopUpManager.addPopUp(window, root, true);
 		}
 
-		public static function removePopUp(window:DisplayObject):void
+		public static function removePopUp(window:DisplayObject,hideLayer:Boolean=true):void
 		{
-			root.visible=false;
+			root.visible=!hideLayer;
 			root.removeChild(window);
-//			root.mouseEnabled=root.mouseChildren=false;
-//			PopUpManager.removePopUp(window);window
 		}
 
 		public static function addLoadingPopup(text:String, cb:Function):void
@@ -85,14 +80,14 @@ package controllers
 			addPopUp(mes);
 		}
 
-		public static function addGusturePopUp(callback:Function):void
+		public static function addGusturePopUp(callback:Function,inPopUp:Boolean=false):void
 		{
 			var ges:GesturePopUp=new GesturePopUp();
 			ges.callback=callback;
 
 			function remove(e:Event):void {
 				ges.removeEventListener("gestureClose", remove);
-				removePopUp(ges);
+				removePopUp(ges,!inPopUp);
 				ges=null;
 			}
 			ges.addEventListener("gestureClose", remove);

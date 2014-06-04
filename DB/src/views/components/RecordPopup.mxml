@@ -21,11 +21,14 @@
 
 			protected function close(event:MouseEvent):void
 			{
-				if (tmpUrl)
-				{
-					var f:File=new File(tmpUrl);
-					f.copyTo(File.applicationStorageDirectory.resolvePath(recordUrl), true);
-				}
+//				if (tmpUrl)
+//				{
+//					var f:File=new File(tmpUrl);
+//					f.copyTo(File.applicationStorageDirectory.resolvePath(recordUrl), true);
+//					var f2:File=File.applicationStorageDirectory.resolvePath(recordUrl);
+//					trace(f.nativePath,f.size)
+//					trace(f2.nativePath,f2.size)
+//				}
 				dispatchEvent(new Event("close"));
 			}
 
@@ -65,6 +68,11 @@
 			private function transComplete(u:String):void
 			{
 				tmpUrl=u;
+				var f:File=new File(tmpUrl);
+				f.copyTo(File.applicationStorageDirectory.resolvePath(recordUrl), true);
+				var f2:File=File.applicationStorageDirectory.resolvePath(recordUrl);
+				trace(f.nativePath,f.size)
+				trace(f2.nativePath,f2.size)
 				pressBtn.mouseEnabled=true;
 				pressBtn.visible=false;
 			}
@@ -73,14 +81,18 @@
 
 			protected function reRecord(event:MouseEvent):void
 			{
-				tmpUrl="";
+//				tmpUrl="";
 				pressBtn.visible=true;
 				pressBtn.source=PlayerAssets.btn_pressToRecord;
 			}
 
 			protected function playRecord(event:MouseEvent):void
 			{
-				rec.playAmr(tmpUrl);
+				var f2:File=File.applicationStorageDirectory.resolvePath(recordUrl);
+//				trace(f.nativePath,f.size)
+				trace(f2.nativePath,f2.size)
+				rec.playAmr(f2.nativePath);
+//				rec.playAmr(tmpUrl);
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void

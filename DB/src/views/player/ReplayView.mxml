@@ -34,13 +34,14 @@
 
 			private var paintID:String='';
 
-			public function initData(cover:Object, _data:PaintData, _audio:String,_id:String):void
+			public function initData(cover:Object, _data:PaintData, _audio:String,_id:String,isSelf:Boolean):void
 			{
 				paintID=_id;
 				data=_data;
 				thumb.source=cover;
 				audio=_audio;
 				textureArr=[];
+
 				for each (var o:Object in data.textureData)
 				{
 					if (o is TextureVO)
@@ -57,6 +58,7 @@
 				controller.recordUrl=FileProxy.username + "/" + data.path + VO.AUDIO_NAME;
 				controller.paintID=paintID;
 				controller.url=cover;
+				controller.self=isSelf;
 
 				initPlayer();
 			}
@@ -88,7 +90,7 @@
 			}
 
 			private var delay:Number=.6;
-			private var finished:Boolean;
+			private var finished:Boolean=true;
 
 			public function dispose():void
 			{
@@ -161,19 +163,42 @@
 
 					textureLayer.removeAllElements();
 					initPlayer();
+
+					thumb.visible=true;
 				}
-				finished=false;
-				thumb.visible=true;
-				if (audio && Capabilities.os.toLowerCase().indexOf("iphone") >= 0)
+				if (audio&&checkOS()&&finished)
 				{
 					if (!rec)
 					{
 						rec=RecordAudio.instance;
 					}
-					rec.playAmr(audio, 1.0, sureStart);
+					var f:File;
+					if(audio.indexOf('app-storage:')>=0)
+					{
+						f=new File(audio);
+						if(f.exists)
+						{
+							trace(f.nativePath,f.size)
+							rec.playAmr(f.nativePath, 1.0, sureStart);
+						}
+						else
+							sureStart();
+					}
+					else
+					{
+						f=File.applicationStorageDirectory.resolvePath(audio);
+						if(f.exists){
+							trace(f.nativePath,f.size)
+							rec.playAmr(f.nativePath, 1.0, sureStart);
+						}
+						else
+							sureStart();
+					}
 				}
 				else
 					sureStart();
+
+				finished=false;
 			}
 
 			private function sureStart():void
@@ -221,9 +246,17 @@
 				replayTexture(textureArr);
 			}
 
+			private function checkOS():Boolean
+			{
+				if(Capabilities.os.toLowerCase().indexOf('iphone')>=0)
+					return true;
+				return false;
+			}
 		]]>
 	</fx:Script>
 
+	<s:Image source="@Embed('assets/data/images/publicBg.png')"
+			 mouseEnabled="false"/>
 	<s:Group id="drawBoard" width="100%" height="100%"
 			 click="drawBoard_clickHandler(event)">
 		<s:Image id="bg"/>

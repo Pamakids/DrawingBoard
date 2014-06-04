@@ -13,14 +13,16 @@ package events
 		public var audio:String;
 		public var id:String;
 		public var cover:Object;
+		public var self:Boolean;
 
-		public function ReplayEvent(_cover:Object, _data:PaintData, _recordVisible:Boolean, _audio:String="",_id:String='')
+		public function ReplayEvent(_cover:Object, _data:PaintData, _recordVisible:Boolean, _audio:String="",_id:String='',_self:Boolean=false)
 		{
 			cover=_cover;
 			data=_data;
 			recordVisible=_recordVisible;
 			audio=_audio;
 			id=_id;
+			self=_self;
 			super(EVENT_ID, true);
 		}
 	}

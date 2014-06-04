@@ -282,6 +282,7 @@
 						if (!paintList)
 						{
 							paintList=new PaintList();
+							paintList.self=!isGuest;
 						}
 						if (!inited)
 						{

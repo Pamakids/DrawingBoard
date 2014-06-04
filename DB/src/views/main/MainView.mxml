@@ -295,7 +295,7 @@
 				player=null;
 
 				player=new ReplayView();
-				player.initData(e.cover, e.data, e.audio,e.id);
+				player.initData(e.cover, e.data, e.audio,e.id,e.self);
 				player.addEventListener("replayToCenter", onplayerToCenter);
 				player.addEventListener("closeReplay", onClosePlayer);
 				player.recordVisible=e.recordVisible;

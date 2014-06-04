@@ -281,7 +281,7 @@
 				{
 					confirmIndex=1;
 					confirmBtn.source=GameAssets.game_Clear;
-					confirmBtn.x=419 + 36;
+					confirmBtn.x=419 + 36+90;
 //					confirmBtn.y=112 + 4;
 				}
 			}
@@ -344,8 +344,14 @@
 
 		<s:Image source="@Embed('assets/gallery/img/common/back.png')" left="42"
 				 top="21" click="backClick(event)"/>
-		<s:Image source="{GameAssets.game_pre_trash}" left="463" top="21"
-				 click="deleteClick(event)"/>
+		<s:Group top="21" width="317" height="98" horizontalCenter="0">
+			<s:Image source="@Embed('assets/game/btn/topBG.png')"/>
+			<s:Image source="@Embed('assets/game/btn/back.png')" top="24" left="49" id="drawBackBtn"/>
+			<s:Image source="@Embed('assets/game/btn/recover.png')"  top="24" horizontalCenter="0" id="drawRecoverBtn"/>
+			<s:Image source="@Embed('assets/game/btn/delete.png')"  top="24" right="49" click="deleteClick(event)"/>
+		</s:Group>
+		<!--<s:Image source="{GameAssets.game_pre_trash}" left="463" top="21"
+				 click="deleteClick(event)"/>-->
 		<s:Image source="{GameAssets.game_pre_complete}" left="885" top="21"
 				 click="confirmClick(event)"/>
 

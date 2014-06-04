@@ -86,6 +86,7 @@ package proxy
 
 			if (audioF.exists)
 			{
+				trace(audioF.size)
 				audioUrl=getFullUrl(audioF);
 				fileNum++;
 				if (!checkUploaded(audioF))
@@ -180,9 +181,11 @@ package proxy
 		private function getUR(f:File):Object
 		{
 			var key:String=FileProxy.username + "/" + path + "/" + f.name;
-			var token:String=f.name.indexOf(VO.AUDIO_NAME) >= 0 ? FileProxy.audioToken : FileProxy.token;
+			var token:String=f.name.indexOf(an) >= 0 ? FileProxy.audioToken : FileProxy.token;
 			return {"key": key, "token": token};
 		}
+
+		private var an:String=VO.AUDIO_NAME;
 
 		private function checkUploaded(f:File):Boolean
 		{
