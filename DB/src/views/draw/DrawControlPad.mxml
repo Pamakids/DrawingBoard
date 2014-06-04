@@ -210,6 +210,8 @@
 			private var colorPickerArr:Array;
 
 			private var tl:TweenLite;
+			[Bindable]
+			public var recoverable:Boolean;
 
 			private function hideBrush():void
 			{
@@ -336,6 +338,18 @@
 				}
 			}
 
+			protected function drawBackBtn_clickHandler(event:MouseEvent):void
+			{
+
+				dispatchEvent(new Event("backDraw", true));//撤销
+
+			}
+
+			protected function drawRecoverBtn_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("recoverDraw", true))//恢复
+			}
+
 		]]>
 	</fx:Script>
 	<s:Group width="100%" id="topGroup" top="0">
@@ -346,8 +360,10 @@
 				 top="21" click="backClick(event)"/>
 		<s:Group top="21" width="317" height="98" horizontalCenter="0">
 			<s:Image source="@Embed('assets/game/btn/topBG.png')"/>
-			<s:Image source="@Embed('assets/game/btn/back.png')" top="24" left="49" id="drawBackBtn"/>
-			<s:Image source="@Embed('assets/game/btn/recover.png')"  top="24" horizontalCenter="0" id="drawRecoverBtn"/>
+			<s:Image source="@Embed('assets/game/btn/back.png')" top="24" left="49" id="drawBackBtn" 
+					 click="drawBackBtn_clickHandler(event)"/>
+			<s:Image source="@Embed('assets/game/btn/recover.png')"  top="24" horizontalCenter="0" enabled="{recoverable}"
+					 id="drawRecoverBtn" click="drawRecoverBtn_clickHandler(event)"/>
 			<s:Image source="@Embed('assets/game/btn/delete.png')"  top="24" right="49" click="deleteClick(event)"/>
 		</s:Group>
 		<!--<s:Image source="{GameAssets.game_pre_trash}" left="463" top="21"

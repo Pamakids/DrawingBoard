@@ -79,7 +79,7 @@ package drawing
 		//画布的撤销和恢复
 		public function backASRecover(_index:int):void{
 			backIndex=_index-1;
-			if(Enum.bitmapArray!=null){
+			if(Enum.bitmapArray.length!=0){
 				clearCanvas();	
 				Canvas.getCanvas().canvasBitmapData=new BitmapData(Enum.width,Enum.height,true,0x0);
 				Canvas.getCanvas().canvasBitmapData.draw(Enum.bitmapArray[backIndex]);
