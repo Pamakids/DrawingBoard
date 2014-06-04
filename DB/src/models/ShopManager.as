@@ -57,11 +57,8 @@ package models
 			{
 				var bought:Boolean=SOService.checkBought(theme.path);
 
-				/*var so:ShopVO=new ShopVO();
+				var so:ShopVO=new ShopVO();
 				so.path=theme.path;
-<<<<<<< HEAD
-				so.num=theme.num;*/
-=======
 				so.num=theme.num;
 				so.bought=bought;
 				mShopList.push(so);
@@ -74,7 +71,6 @@ package models
 			{
 				if(so.path.indexOf(type)>=0)
 					return so;
->>>>>>> f385ac4ab6b359315eb2b5682856c2bf0cde8780
 			}
 			return null;
 		}

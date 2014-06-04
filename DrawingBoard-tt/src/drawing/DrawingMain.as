@@ -25,9 +25,9 @@ package drawing
 		
 		private var index:int=1;
 		
-		private var tempPointArray:Array=[];//临时储存撤销和恢复线条的数据		
-		private var tempColorArray:Array=[];//临时储存撤销和恢复线条的颜色
-		private var tempBrushArray:Array=[];//临时存储撤销和恢复线条的笔触类型
+		public var tempPointArray:Array=[];//临时储存撤销和恢复线条的数据		
+		public var tempColorArray:Array=[];//临时储存撤销和恢复线条的颜色
+		public var tempBrushArray:Array=[];//临时存储撤销和恢复线条的笔触类型
 		
 		public function DrawingMain()
 		{
