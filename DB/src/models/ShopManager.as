@@ -45,9 +45,9 @@ package models
 					mThemeList.push(folder);
 				}
 
-				var so:ShopVO=new ShopVO();
+				/*var so:ShopVO=new ShopVO();
 				so.path=theme.path;
-				so.num=theme.num;
+				so.num=theme.num;*/
 			}
 
 			ThemeManager.getInstance().mDownloadedList=mThemeList;

@@ -10,6 +10,7 @@ package models
 
 		public function get dataUrl():String
 		{
+			trace((online?FileProxy.storageUrl:'')+ path+'/'+(index+1).toString()+'.jpg')
 			return (online?FileProxy.storageUrl:'')+ path+'/'+(index+1).toString()+'.jpg';
 		}
 
