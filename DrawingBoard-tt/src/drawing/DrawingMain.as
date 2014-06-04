@@ -4,7 +4,7 @@ package drawing
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.ByteArray;
-	
+
 	import playback.brushs.BrushBaseBack;
 
 	/*
@@ -22,13 +22,13 @@ package drawing
 		private var brushFactory:BrushFactory;
 
 		private var control:ControlBase;
-		
+
 		private var index:int=1;
-		
-		private var tempPointArray:Array=[];//临时储存撤销和恢复线条的数据		
+
+		public var tempPointArray:Array=[];//临时储存撤销和恢复线条的数据		
 		private var tempColorArray:Array=[];//临时储存撤销和恢复线条的颜色
 		private var tempBrushArray:Array=[];//临时存储撤销和恢复线条的笔触类型
-		
+
 		public function DrawingMain()
 		{
 			super();
@@ -92,7 +92,7 @@ package drawing
 				Enum.brushTypeArray.pop();
 			}
 			control.backASRecover(index);
-			
+
 		}
 		//用于恢复撤销的链接函数
 		public function recoverFun():void{
@@ -111,7 +111,7 @@ package drawing
 			}
 			control.backASRecover(index);
 		}
-		
+
 		//画布清除的连接函数
 		public function clearAll():void
 		{
@@ -164,13 +164,13 @@ package drawing
 			lastX=this.mouseX;
 			lastY=this.mouseY;
 		}
-		
+
 		public function allTempDataInit():void{
 			tempBrushArray=[];
 			tempColorArray=[];
 			tempPointArray=[];
 		}
-		
+
 		public function dispose():void
 		{
 			Canvas.getCanvas().dispose();
@@ -185,3 +185,5 @@ package drawing
 		}
 	}
 }
+
+
