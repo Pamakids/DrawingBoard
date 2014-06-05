@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="346" height="381"
-		 gestureZoom="group1_gestureZoomHandler(event)">
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="346" height="381" creationComplete="group1_creationCompleteHandler(event)"
+		 gestureZoom="group1_gestureZoomHandler(event)" xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
 
 			private var minScale:Number;
 
@@ -62,7 +63,7 @@
 
 			public function getBD():BitmapData
 			{
-				var bd:BitmapData=new BitmapData(photoContainer.width, photoContainer.height);
+				var bd:BitmapData=new BitmapData(photoContainer.width, photoContainer.height,true,0x00000000);
 				bd.draw(photoContainer);
 				return bd;
 			}
@@ -150,14 +151,20 @@
 				resizePhoto();
 			}
 
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				mask1.graphics.beginFill(0);
+				mask1.graphics.drawCircle(133,133,133);
+				mask1.graphics.endFill();
+			}
+
 		]]>
 	</fx:Script>
-	<s:Group id="photoContainer" clipAndEnableScrolling="true" width="266"
+	<s:Group id="photoContainer" width="266" 
 			 height="266" mouseDown="photoContainer_mouseDownHandler(event)"
 			 horizontalCenter="0" top="74">
-
-		<s:Image id="photo" mouseEnabled="false" scaleY="{photo.scaleX}"/>
-
+		<mx:UIComponent width="266" height="266" id="mask1" alpha="0"/>
+		<s:Image id="photo" mouseEnabled="false" scaleY="{photo.scaleX}" mask="{mask1}"/>
 	</s:Group>
 
 	<s:Group id="navi" width="100%" top="22">

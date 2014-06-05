@@ -79,6 +79,8 @@
 				inited=false;
 				paintEnd=false;
 				adding=false;
+				if(!isGuest)
+					user=UserVO.crtUser;
 				initData(user);
 			}
 
@@ -118,7 +120,8 @@
 				{
 					localArr=FileProxy.getLocalPaints();
 					localArr.reverse();
-				}
+				}else
+					loginBtn.visible=false;
 
 				totalPaint=localArr.length;
 
@@ -135,12 +138,14 @@
 					uproxy.getFanList(fanListLoaded);
 					uproxy.getMsgCount(msgCountLoaded);
 					editable=!isGuest;
+					loginBtn.visible=false;
 				}
 				else
 				{
 					editable=false;
 					crtUsername="";
-					avatar.source="";
+					avatar.source=VO.UNLOG_AVATAR;
+					loginBtn.visible=true;
 				}
 
 				followArr=[];
@@ -512,6 +517,14 @@
 					DBPopUp.addMessagePopup();
 			}
 
+			protected function loginBtn_clickHandler(event:MouseEvent):void
+			{
+				if(UserVO.crtUser==null)
+				{
+					DBPopUp.addLoginPopup(refreshNavi);
+				}
+			}
+
 		]]>
 	</fx:Script>
 
@@ -576,6 +589,11 @@
 						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"
 						 left="845" top="129" click="editClickHandler(event)"
 						 visible="{editable}"/>
+
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/userlogin.png')" id="loginBtn"
+						 left="845" top="129" click="loginBtn_clickHandler(event)"
+						 visible="false"/>
 
 				<s:Group visible="{isGuest}" enabled="{followEnable}">
 					<s:Image visible="{!followed}"

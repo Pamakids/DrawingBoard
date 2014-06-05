@@ -289,7 +289,7 @@
 
 			protected function close_clickHandler(e:MouseEvent):void
 			{
-				if(e&&this.parent.numChildren==1)
+				if(this.parent.numChildren==1)
 					dispatchEvent(new Event("loginClose"));
 			}
 

@@ -4,7 +4,7 @@ package drawing
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.ByteArray;
-	
+
 	import playback.brushs.BrushBaseBack;
 
 	/*
@@ -30,12 +30,12 @@ package drawing
 		private var tempBrushArray:Array=[];//临时存储撤销和恢复线条的笔触类型
 		private var tempbmpArray:Array=[];
 		private var repealArr:Array=[];
-		
+
 		private var isOperate:Boolean=false;
-		
+
 		private var isDoRepeal:Boolean=false;
 		private var isDoRecover:Boolean=false;
-		
+
 		public function DrawingMain()
 		{
 			super();
@@ -154,7 +154,7 @@ package drawing
 				tempBrushArray.pop();
 				Enum.repealArray.push(repealArr[repealArr.length-1]);
 				repealArr.pop();
-				
+
 			}
 			control.backASRecover(index);
 			isOperate=true;
@@ -204,7 +204,7 @@ package drawing
 				this.dispatchEvent(new Event("doRepeal"));
 			}
 			if(isOperate==true){
-				
+
 				tempbmpArray.push(Enum.bitmapArray[index-1]);
 				allTempDataInit();
 				index=1;
@@ -213,7 +213,7 @@ package drawing
 				Enum.bitmapArray.push(tempbmpArray[0]);
 				tempbmpArray=[];
 			}
-			
+
 			lastX=this.mouseX;
 			lastY=this.mouseY;
 

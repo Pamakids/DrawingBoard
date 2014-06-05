@@ -249,7 +249,7 @@
 			protected function onPhotoReady(event:Event):void
 			{
 				var ba:ByteArray=new ByteArray();
-				selector.bd.encode(new Rectangle(0, 0, 1024, 768), new JPEGEncoderOptions(), ba);
+				selector.bd.encode(new Rectangle(0, 0, 1024, 768), new PNGEncoderOptions(), ba);
 				var path:String=UserVO.crtUser.username + "/" + VO.AVATAR_NAME;
 				var f:File=FileManager.saveFile(path, ba) as File;
 
@@ -284,7 +284,6 @@
 					selector.visible=false;
 				}
 			}
-
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('assets/global/popupbg.png')" mouseChildren="false"
