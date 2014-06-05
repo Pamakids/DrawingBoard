@@ -120,7 +120,6 @@ package drawing
 				Enum.brushTypeArray.pop();
 				repealArr.push(Enum.repealArray[Enum.repealArray.length-1]);
 				Enum.repealArray.pop();
-				
 			}
 			control.backASRecover(index);
 			isOperate=true;
