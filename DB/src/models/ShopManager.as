@@ -57,7 +57,7 @@ package models
 			{
 				var bought:Boolean=SOService.checkBought(theme.path);
 
-				var so:ShopVO=new ShopVO();
+				var so:ShopVO2=new ShopVO2();
 				so.path=theme.path;
 				so.num=theme.num;
 				so.bought=bought;
@@ -65,9 +65,9 @@ package models
 			}
 		}
 
-		public function getShopVO(type:String):ShopVO
+		public function getShopVO(type:String):ShopVO2
 		{
-			for each (var so:ShopVO in mShopList) 
+			for each (var so:ShopVO2 in mShopList) 
 			{
 				if(so.path.indexOf(type)>=0)
 					return so;

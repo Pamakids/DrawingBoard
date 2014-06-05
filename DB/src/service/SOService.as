@@ -2,7 +2,7 @@ package service
 {
 	import flash.net.SharedObject;
 
-	import models.ShopVO;
+	import models.ShopVO2;
 	import models.ThemeFolderVo;
 
 	import vo.VO;
@@ -53,7 +53,7 @@ package service
 			setValue("uploadedArr", arr);
 		}
 
-		public static function setDownloaded(o:ShopVO,save:Boolean):void
+		public static function setDownloaded(o:ShopVO2,save:Boolean):void
 		{
 			var arr:Array=getValue(DOWNLOADED) as Array;
 			if(!arr)

@@ -3,14 +3,13 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="329" height="235">
 	<fx:Script>
 		<![CDATA[
-			import com.pamakids.manager.FileManager;
 			import com.pamakids.utils.CloneUtil;
 
 			import assets.homepage.HomepageAssets;
 
 			import controllers.MainController;
 
-			import models.ShopVO;
+			import models.ShopVO2;
 			import models.ThemeFolderVo;
 
 			import service.SOService;
@@ -24,7 +23,7 @@
 
 			protected function confirm(event:MouseEvent):void
 			{
-				SOService.setDownloaded(CloneUtil.convertObject(data,ShopVO),false);
+				SOService.setDownloaded(CloneUtil.convertObject(data,ShopVO2),false);
 
 				var f:File=File.applicationStorageDirectory.resolvePath(data.path);
 				try

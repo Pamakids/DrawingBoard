@@ -2,14 +2,12 @@ package controllers
 {
 	import flash.display.DisplayObject;
 	import flash.events.Event;
-	
+
 	import mx.core.UIComponent;
-	
-	import spark.components.Group;
-	
-	import models.ShopVO;
+
+	import models.ShopVO2;
 	import models.ThemeFolderVo;
-	
+
 	import views.components.GesturePopUp;
 	import views.components.LoadingPopup;
 	import views.main.ThemeDeletePopup;
@@ -126,7 +124,7 @@ package controllers
 			addPopUp(ui);
 		}
 
-		public static function addDLPopup(o:ShopVO,cb:Function):void
+		public static function addDLPopup(o:ShopVO2,cb:Function):void
 		{
 			var sp:ShopDLPopup=new ShopDLPopup();
 			sp.initData(o);

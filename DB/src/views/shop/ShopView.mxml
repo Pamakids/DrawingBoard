@@ -8,7 +8,7 @@
 			import assets.shop.ShopAssets;
 
 			import models.ShopManager;
-			import models.ShopVO;
+			import models.ShopVO2;
 
 			protected function backClick(event:MouseEvent):void
 			{
@@ -23,7 +23,7 @@
 				{
 					return;
 				}
-				for each (var so:ShopVO in arr) 
+				for each (var so:ShopVO2 in arr) 
 				{
 					var si:ShopItem=new ShopItem();
 					si.initData(so);

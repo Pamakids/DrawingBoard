@@ -17,7 +17,7 @@
 			import models.PaintVO;
 			import models.PraiseVO;
 			import models.ShopManager;
-			import models.ShopVO;
+			import models.ShopVO2;
 			import models.ThemeFolderVo;
 			import models.ThemeManager;
 			import models.ThemeVo;
@@ -93,7 +93,7 @@
 					return folder.themeList[index];
 				else
 				{
-					var so:ShopVO=ShopManager.instance.getShopVO(pack);
+					var so:ShopVO2=ShopManager.instance.getShopVO(pack);
 					if(so)
 						DBPopUp.addDLPopup(so,
 							function():void{

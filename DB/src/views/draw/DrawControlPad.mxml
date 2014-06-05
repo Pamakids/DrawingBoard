@@ -211,6 +211,8 @@
 
 			private var tl:TweenLite;
 			[Bindable]
+			public var repealable:Boolean;
+			[Bindable]
 			public var recoverable:Boolean;
 
 			private function hideBrush():void
@@ -361,10 +363,11 @@
 		<s:Group top="21" width="317" height="98" horizontalCenter="0">
 			<s:Image source="@Embed('assets/game/btn/topBG.png')"/>
 			<s:Image source="@Embed('assets/game/btn/back.png')" top="24" left="49" id="drawBackBtn" 
-					 click="drawBackBtn_clickHandler(event)"/>
+					 click="drawBackBtn_clickHandler(event)" enabled="{repealable}"/>
 			<s:Image source="@Embed('assets/game/btn/recover.png')"  top="24" horizontalCenter="0" enabled="{recoverable}"
 					 id="drawRecoverBtn" click="drawRecoverBtn_clickHandler(event)"/>
-			<s:Image source="@Embed('assets/game/btn/delete.png')"  top="24" right="49" click="deleteClick(event)"/>
+			<s:Image source="@Embed('assets/game/btn/delete.png')"  top="24" right="49" click="deleteClick(event)"
+					 enabled="{repealable}"/>
 		</s:Group>
 		<!--<s:Image source="{GameAssets.game_pre_trash}" left="463" top="21"
 				 click="deleteClick(event)"/>-->
