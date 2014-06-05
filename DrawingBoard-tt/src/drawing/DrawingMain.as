@@ -137,7 +137,6 @@ package drawing
 					isDoRecover=false;
 					this.dispatchEvent(new Event("noRecover"));
 				}
-				
 			}
 			else
 			{
