@@ -6,13 +6,13 @@ package proxy
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 
-	import models.ShopVO;
+	import models.ShopVO2;
 
 	import service.SOService;
 
 	public class ShopProxy extends EventDispatcher
 	{
-		public function ShopProxy(o:ShopVO)
+		public function ShopProxy(o:ShopVO2)
 		{
 			data=o;
 			path=data.path;
@@ -20,7 +20,7 @@ package proxy
 			total=num+1;
 		}
 
-		private var data:ShopVO;
+		private var data:ShopVO2;
 		private var path:String;
 		private var num:Number;
 		private var total:Number;

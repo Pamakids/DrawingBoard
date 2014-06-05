@@ -7,7 +7,7 @@
 
 			import controllers.MainController;
 
-			import models.ShopVO;
+			import models.ShopVO2;
 			import models.ThemeManager;
 
 			import proxy.ShopProxy;
@@ -18,7 +18,7 @@
 			[Bindable]
 			private var prize:String;
 
-			private var data:ShopVO;
+			private var data:ShopVO2;
 
 			private var tp:ShopProxy;
 			[Bindable]
@@ -26,7 +26,7 @@
 
 			public var complete:Boolean;
 
-			public function initData(o:ShopVO):void
+			public function initData(o:ShopVO2):void
 			{
 				data=o;
 				thumb.source=o.cover;

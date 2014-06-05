@@ -36,6 +36,10 @@
 				onSndComplete();
 				if (dm)
 				{
+					dm.removeEventListener("noRepeal",noRepeal);
+					dm.removeEventListener("noRecover",noRecover);
+					dm.removeEventListener("doRepeal",doRepeal);
+					dm.removeEventListener("doRecover",doRecover);
 					dm.dispose();
 					dbLayer.removeChild(dm);
 				}
@@ -75,6 +79,10 @@
 
 				dm=new DrawingMain();
 				dbLayer.addChild(dm);
+				dm.addEventListener("noRepeal",noRepeal);
+				dm.addEventListener("noRecover",noRecover);
+				dm.addEventListener("doRepeal",doRepeal);
+				dm.addEventListener("doRecover",doRecover);
 				controlPad.layer=textureLayer;
 
 				controlPad.addEventListener("changeToTexture", onTexture);
@@ -172,6 +180,10 @@
 			{
 				if (dm)
 				{
+					dm.removeEventListener("noRepeal",noRepeal);
+					dm.removeEventListener("noRecover",noRecover);
+					dm.removeEventListener("doRepeal",doRepeal);
+					dm.removeEventListener("doRecover",doRecover);
 					dm.dispose();
 					dbLayer.removeChild(dm);
 				}
@@ -242,6 +254,26 @@
 			{
 				if(dm)
 					dm.repealFun();
+			}
+
+			protected function doRecover(event:Event):void
+			{
+				controlPad.recoverable=true;
+			}
+
+			protected function doRepeal(event:Event):void
+			{
+				controlPad.repealable=true;
+			}
+
+			protected function noRecover(event:Event):void
+			{
+				controlPad.recoverable=false;
+			}
+
+			protected function noRepeal(event:Event):void
+			{
+				controlPad.repealable=false;
 			}
 
 		]]>
