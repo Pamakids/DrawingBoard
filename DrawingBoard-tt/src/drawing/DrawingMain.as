@@ -144,6 +144,7 @@ package drawing
 				}
 				if(isDoRecover==true){
 					this.dispatchEvent(new Event("doRecover"));
+					this.dispatchEvent(new Event("doRepeal"));
 				}
 				Enum.recordPointArray.push(tempPointArray[tempPointArray.length-1]);
 				tempPointArray.pop();
@@ -196,6 +197,12 @@ package drawing
 
 		private function onDownHandler(event:MouseEvent):void
 		{
+			if(isDoRepeal==false){
+				isDoRepeal=true
+			}
+			if(isDoRepeal==true){
+				this.dispatchEvent(new Event("doRepeal"));
+			}
 			if(isOperate==true){
 				
 				tempbmpArray.push(Enum.bitmapArray[index-1]);
