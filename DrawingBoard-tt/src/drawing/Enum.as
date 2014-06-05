@@ -16,6 +16,7 @@ package drawing
 		public static var bitmapArray:Array=[];//储存每次画完一条线时转化的bitmap，用于撤销和恢复
 		public static var brushTypeArray:Array=[];//储存每次画完一条线时所使用的笔刷
 		public static var colorArray:Array=[];//储存每一次线条颜色的值
+		public static var repealArray:Array=[];//用于判断是否能撤销的临时数组
 		
 		public static var brushType:String="";//笔刷类型
 		

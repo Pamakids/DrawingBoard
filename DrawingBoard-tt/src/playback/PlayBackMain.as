@@ -29,6 +29,7 @@ package playback
 		public function PlayBackMain(_data:Object=null)
 		{
 			data=_data;
+			trace(data.point)
 			EnumBack.pointArray=data.point;
 			EnumBack.brushArray=data.brush;
 			EnumBack.colorArray=data.brushColor;

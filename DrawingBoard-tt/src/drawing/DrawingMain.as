@@ -4,7 +4,7 @@ package drawing
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.utils.ByteArray;
-
+	
 	import playback.brushs.BrushBaseBack;
 
 	/*
@@ -23,11 +23,19 @@ package drawing
 
 		private var control:ControlBase;
 
-		private var index:int=0;
+		private var index:int=1;
 
 		public var tempPointArray:Array=[];//临时储存撤销和恢复线条的数据		
 		private var tempColorArray:Array=[];//临时储存撤销和恢复线条的颜色
 		private var tempBrushArray:Array=[];//临时存储撤销和恢复线条的笔触类型
+		private var tempbmpArray:Array=[];
+		private var repealArr:Array=[];
+		
+		private var isOperate:Boolean=false;
+		
+		private var isDoRepeal:Boolean=false;
+		private var isDoRecover:Boolean=false;
+		
 		public function DrawingMain()
 		{
 			super();
@@ -46,6 +54,13 @@ package drawing
 
 			control.setBrush("pencil",0x000000);
 			control.disToBitmap();
+			if(Enum.repealArray.length==0)
+			{
+				this.dispatchEvent(new Event("noRepeal"));
+			}
+			if(tempPointArray.length==0){
+				this.dispatchEvent(new Event("noRecover"));
+			}
 			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_DOWN, onDownHandler);
 //			Canvas.getCanvas().addEventListener(MouseEvent.MOUSE_UP, onUpHandler);
 		}
@@ -82,16 +97,33 @@ package drawing
 			{
 				index=1
 			}
-			if(Enum.recordPointArray.length!=0){
+			if(Enum.repealArray.length==0)
+			{
+				if(isDoRepeal==true){
+					isDoRepeal=false;
+					this.dispatchEvent(new Event("noRepeal"));
+				}
+			}
+			else
+			{
+				if(isDoRepeal==false){
+					isDoRepeal=true
+				}
+				if(isDoRepeal==true){
+					this.dispatchEvent(new Event("doRepeal"));
+				}
 				tempPointArray.push(Enum.recordPointArray[Enum.recordPointArray.length-1]);
 				Enum.recordPointArray.pop();
 				tempColorArray.push(Enum.colorArray[Enum.colorArray.length-1]);
 				Enum.colorArray.pop();
 				tempBrushArray.push(Enum.brushTypeArray[Enum.brushTypeArray.length-1]);
 				Enum.brushTypeArray.pop();
+				repealArr.push(Enum.repealArray[Enum.repealArray.length-1]);
+				Enum.repealArray.pop();
+				
 			}
 			control.backASRecover(index);
-
+			isOperate=true;
 		}
 		//用于恢复撤销的链接函数
 		public function recoverFun():void{
@@ -100,15 +132,33 @@ package drawing
 			{
 				index=Enum.bitmapArray.length
 			}
-			if(tempPointArray.length!=0){
+			if(tempPointArray.length==0){
+				if(isDoRecover==true){
+					isDoRecover=false;
+					this.dispatchEvent(new Event("noRecover"));
+				}
+				
+			}
+			else
+			{
+				if(isDoRecover==false){
+					isDoRecover=true
+				}
+				if(isDoRecover==true){
+					this.dispatchEvent(new Event("doRecover"));
+				}
 				Enum.recordPointArray.push(tempPointArray[tempPointArray.length-1]);
 				tempPointArray.pop();
 				Enum.colorArray.push(tempColorArray[tempColorArray.length-1]);
 				tempColorArray.pop();
 				Enum.brushTypeArray.push(tempBrushArray[tempBrushArray.length-1]);
 				tempBrushArray.pop();
+				Enum.repealArray.push(repealArr[repealArr.length-1]);
+				repealArr.pop();
+				
 			}
 			control.backASRecover(index);
+			isOperate=true;
 		}
 
 		//画布清除的连接函数
@@ -148,6 +198,17 @@ package drawing
 
 		private function onDownHandler(event:MouseEvent):void
 		{
+			if(isOperate==true){
+				
+				tempbmpArray.push(Enum.bitmapArray[index-1]);
+				allTempDataInit();
+				index=1;
+				isOperate=false;
+				Enum.bitmapArray=[];
+				Enum.bitmapArray.push(tempbmpArray[0]);
+				tempbmpArray=[];
+			}
+			
 			lastX=this.mouseX;
 			lastY=this.mouseY;
 
@@ -168,6 +229,8 @@ package drawing
 			tempBrushArray=[];
 			tempColorArray=[];
 			tempPointArray=[];
+			repealArr=[];
+			Enum.repealArray=[];
 		}
 
 		public function dispose():void

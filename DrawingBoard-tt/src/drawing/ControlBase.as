@@ -41,6 +41,7 @@ package drawing
 			Enum.recordPointArray=[];
 			Enum.colorArray=[];
 			Enum.brushType="";
+			Enum.repealArray=[];
 		}
 
 		//设置笔刷
@@ -90,6 +91,7 @@ package drawing
 		public function memoryArray():void
 		{
 			Enum.recordPointArray.push(Enum.pointArray);
+			Enum.repealArray.push(Enum.pointArray);
 			Enum.brushTypeArray.push(Enum.brushType);
 			Enum.pointArray=[];
 		}
@@ -117,7 +119,7 @@ package drawing
 		{
 			Enum.recordByte=Canvas.getCanvas().canvasBitmap.bitmapData.getPixels(Canvas.getCanvas().canvasBitmap.bitmapData.rect);
 			Enum.recordByte.compress();
-
+			
 			return Enum.recordByte;
 			//外部自定义二进制数据保存格式保存
 			//new FileReference().save(Enum.recordByte,"image.bmd");
