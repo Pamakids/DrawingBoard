@@ -255,7 +255,7 @@
 		]]>
 	</fx:Script>
 
-	<s:Image source="@Embed('assets/data/images/publicBg.png')"
+	<s:Image source="@Embed('assets/data/images/publicBg.jpg')"
 			 mouseEnabled="false"/>
 	<s:Group id="drawBoard" width="100%" height="100%"
 			 click="drawBoard_clickHandler(event)">

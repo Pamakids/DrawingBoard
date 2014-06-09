@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" xmlns:views="views.*"
-		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:photos="views.user.photos.*" xmlns:theme="views.theme.*" xmlns:draw="views.draw.*"
-		 xmlns:user="views.user.*" xmlns:gallery="views.gallery.*" xmlns:test="views.main.test.*" xmlns:ns="http://flex.apache.org/experimental/ns"
-		 xmlns:controls="com.pamakids.components.controls.*" xmlns:components="views.components.*" xmlns:layout="com.pamakids.layout.*"
-		 creationComplete="group1_creationCompleteHandler(event)" addedToStage="group1_addedToStageHandler(event)"
-		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*">
-=======
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
 		 xmlns:views="views.*" xmlns:mx="library://ns.adobe.com/flex/mx"
@@ -19,54 +11,44 @@
 		 xmlns:layout="com.pamakids.layout.*"
 		 creationComplete="group1_creationCompleteHandler(event)"
 		 addedToStage="group1_addedToStageHandler(event)"
-		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*" xmlns:shop="views.shop.*">
->>>>>>> master
+		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*">
 
 	<fx:Script>
 		<![CDATA[
+
 			import com.pamakids.services.QNService;
-			import components.Recommends;
+
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			import controllers.DBPopUp;
-<<<<<<< HEAD
-=======
-			import controllers.MainController;
 
->>>>>>> master
+			import components.Recommends;
+
+			import controllers.DBPopUp;
+
 			import events.DetailEvent;
 			import events.DrawEvent;
 			import events.ReplayEvent;
-			import events.ThemeChangeEvent;
 			import events.ThemeFolderEvent;
 			import events.UserItemEvent;
-<<<<<<< HEAD
-			import models.DataManager;
-=======
 
->>>>>>> master
 			import models.FontManager;
 			import models.PaintVO;
 			import models.PasterManager;
-			import models.ShopManager;
 			import models.ThemeFolderVo;
 			import models.ThemeManager;
 			import models.ThemeVo;
 			import models.UserVO;
+
 			import proxy.LoginProxy;
+
 			import views.draw.DrawView;
 			import views.gallery.DiscussView;
 			import views.gallery.GalleryViewOnline;
 			import views.player.ReplayView;
 			import views.user.UserCenterView;
+
 			import vo.VO;
 
-<<<<<<< HEAD
-			private var db:DrawView;
-			private var detailView:DiscussView;
-
-			private var player:ReplayView;
-=======
 			protected function parent_clickHandler(event:MouseEvent):void
 			{
 				DBPopUp.addGusturePopUp(openParent);
@@ -96,20 +78,11 @@
 
 				guestView.addEventListener("exitVisit", onExitVisit);
 
-				addEventListener(ThemeChangeEvent.EVENT_ID,onThemeChange);
 				addEventListener(DrawEvent.EVENT_ID, onDraw);
 				addEventListener(ReplayEvent.EVENT_ID, onReplay);
 				addEventListener(DetailEvent.EVENT_ID, onDetail);
 				addEventListener(UserItemEvent.EVENT_ID, onViewGuest);
 			}
-
-			private function onThemeChange(e:ThemeChangeEvent):void
-			{
-				crtTheme=e.data;
-				deleteBtn.enabled=crtTheme.online;
-			}
-
-			private var crtTheme:ThemeFolderVo;
 
 			protected function onExitVisit(e:Event):void
 			{
@@ -131,22 +104,21 @@
 				usercenter.visible=false;
 				themelist.visible=true;
 				gallery.visible=false;
-				shop.visible=false;
-
-				removeDetail();
 			}
->>>>>>> master
 
-			private var preState:String;
+			private function onBackToMain(e:Event):void
+			{
+				currentState=mainView.name;
+			}
 
-			protected function gallery_clickHandler(event:MouseEvent):void
+			private function onGotoGallery(e:Event):void
 			{
 				addGallery();
 			}
 
-			protected function group1_addedToStageHandler(event:Event):void
+			private function onGotoUserCenter(e:Event):void
 			{
-				stage.quality=StageQuality.LOW;
+				addUsercenter();
 			}
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
@@ -162,87 +134,38 @@
 
 				initPopup();
 				initFolderList();
-<<<<<<< HEAD
-				initSound();
-=======
 				initRecommend();
-//				initSound();
->>>>>>> master
+				initSound();
 			}
 
-			protected function group1_initializeHandler(event:FlexEvent):void
+			private function initRecommend():void
 			{
-				LoginProxy.autoLogin();
-				PasterManager.getInstance().initialize();
-				ThemeManager.getInstance().initialize();
-				initConfig();
-
-				DataManager.getInstance().initialize();
-				FontManager.initialize();
+				recommendHodler.addChild(new Recommends(768, 1024));
 			}
 
-<<<<<<< HEAD
-			protected function onClosePlayer(event:Event):void
-=======
-			public function initSound():void
->>>>>>> master
+			private function initSound():void
 			{
-				if (player)
-				{
-					player.removeEventListener("replayToCenter", onplayerToCenter);
-					player.removeEventListener("closeReplay", onClosePlayer);
-					drawerLayer.removeElement(player);
-					player.dispose();
-				}
-				player=null;
-
-				if (preState)
-				{
-					currentState=preState;
-					preState='';
-				}
-				else
-					currentState=mainView.name;
+				var snd:Sound=new Sound(new URLRequest("assets/data/sounds/cnlet.mp3"));
+				snd.play();
 			}
 
-			protected function onDetail(e:DetailEvent):void
+			private function onDraw(e:DrawEvent):void
 			{
-				var paint:PaintVO=e.paint;
-				if (detailView)
+				preState=currentState;
+				currentState=drawView.name;
+
+				var vo:ThemeVo=e.data;
+				drawerLayer.removeAllElements();
+				if (db)
 				{
-					if (uiLayer.containsElement(detailView))
-						uiLayer.removeElement(detailView);
-					detailView.dispose();
-					detailView=null;
+					db.dispose();
+					db=null;
 				}
 
-				gallery.visible=false;
-
-				detailView=new DiscussView();
-				detailView.setData(paint);
-				uiLayer.addElementAt(detailView, uiLayer.numElements - 1);
-				detailView.addEventListener("close", function(e:Event):void
-				{
-					uiLayer.removeElement(detailView);
-					detailView.dispose();
-					gallery.visible=true;
-				});
-
-				detailView.addEventListener("startDraw", function(e:Event):void
-				{
-					var vo:ThemeVo=detailView.getTheme();
-					drawerLayer.removeAllElements();
-					if (db)
-					{
-						db.dispose();
-						db=null;
-					}
-
-					db=new DrawView();
-					db.initData(vo);
-					db.addEventListener("exitDraw", onExitDraw);
-					drawerLayer.addElement(db);
-				});
+				db=new DrawView();
+				db.initData(vo);
+				db.addEventListener("exitDraw", onExitDraw);
+				drawerLayer.addElement(db);
 			}
 
 			protected function onExitDraw(e:Event):void
@@ -263,17 +186,17 @@
 				db=null;
 			}
 
-			protected function onExitVisit(e:Event):void
+			private var db:DrawView;
+
+			private function openParent():void
 			{
-				if (preState)
+				if (!pv)
 				{
-					currentState=preState;
-					preState='';
+					pv=new ParentView();
+					pv.addEventListener("parentsClose", function(e:Event):void {
+						mainGroup.removeElement(pv);
+					});
 				}
-<<<<<<< HEAD
-				else
-					currentState=uiView.name;
-=======
 				mainGroup.addElement(pv);
 			}
 
@@ -296,20 +219,6 @@
 				usercenter.visible=false;
 				themelist.visible=false;
 				gallery.visible=true;
-				shop.visible=false;
-
-				removeDetail();
-			}
-
-			private function removeDetail():void
-			{
-				if (detailView)
-				{
-					if (uiLayer.containsElement(detailView))
-						uiLayer.removeElement(detailView);
-					detailView.dispose();
-					detailView=null;
-				}
 			}
 
 			private function addUsercenter():void
@@ -324,20 +233,18 @@
 
 			protected function group1_initializeHandler(event:FlexEvent):void
 			{
-				initConfig();
 				LoginProxy.autoLogin();
-				FontManager.initialize();
-
-				ThemeManager.getInstance().initialize();
 				PasterManager.getInstance().initialize();
-				ShopManager.instance.init();
+				ThemeManager.getInstance().initialize();
+				initConfig();
+
+//				DataManager.getInstance().initialize();
+				FontManager.initialize();
 			}
 
 			private function initConfig():void
 			{
-				MainController.mv=this;
 				QNService.HOST=VO.FILESERVER_HOST;
->>>>>>> master
 			}
 
 			protected function onReplay(e:ReplayEvent):void
@@ -371,15 +278,78 @@
 				}
 			}
 
-			protected function onThemeFolder(e:ThemeFolderEvent):void
-			{
-				var data:ThemeFolderVo=e.data as ThemeFolderVo;
-				themelist.setData(data);
+			private var player:ReplayView;
+			private var detailView:DiscussView;
 
-				currentState=uiView.name;
-				usercenter.visible=false;
-				themelist.visible=true;
-				gallery.visible=false;
+			protected function onplayerToCenter(event:Event):void
+			{
+				if (detailView)
+				{
+					if (uiLayer.containsElement(detailView))
+						uiLayer.removeElement(detailView);
+					detailView.dispose();
+					detailView=null;
+				}
+				addUsercenter();
+			}
+
+			protected function onClosePlayer(event:Event):void
+			{
+				if (player)
+				{
+					player.removeEventListener("replayToCenter", onplayerToCenter);
+					player.removeEventListener("closeReplay", onClosePlayer);
+					drawerLayer.removeElement(player);
+					player.dispose();
+				}
+				player=null;
+
+				if (preState)
+				{
+					currentState=preState;
+					preState='';
+				}
+				else
+					currentState=mainView.name;
+			}
+
+			protected function onDetail(e:DetailEvent):void
+			{
+				var paint:PaintVO=e.paint;
+				if (detailView)
+				{
+					if (uiLayer.containsElement(detailView))
+						uiLayer.removeElement(detailView);
+					detailView.dispose();
+					detailView=null;
+				}
+				detailView=new DiscussView();
+				detailView.setData(paint);
+				uiLayer.addElementAt(detailView, uiLayer.numElements - 1);
+				detailView.addEventListener("close", function(e:Event):void {
+					uiLayer.removeElement(detailView);
+					detailView.dispose();
+				});
+
+				detailView.addEventListener("startDraw", function(e:Event):void {
+					var vo:ThemeVo=detailView.getTheme();
+					drawerLayer.removeAllElements();
+					if (db)
+					{
+						db.dispose();
+						db=null;
+					}
+
+					db=new DrawView();
+					db.initData(vo);
+					db.addEventListener("exitDraw", onExitDraw);
+					drawerLayer.addElement(db);
+				});
+			}
+
+			protected function group1_addedToStageHandler(event:Event):void
+			{
+				stage.quality=StageQuality.LOW;
 			}
 
 			protected function onViewGuest(e:UserItemEvent):void
@@ -387,7 +357,7 @@
 				var user:UserVO=e.user;
 				if (UserVO.crtUser && user._id == UserVO.crtUser._id)
 				{
-					onplayerToCenter(null);
+					addUsercenter();
 				}
 				else
 				{
@@ -399,179 +369,14 @@
 				}
 			}
 
-			protected function onplayerToCenter(event:Event):void
-			{
-				removeDetail();
-				addUsercenter();
-			}
-
-			protected function parent_clickHandler(event:MouseEvent):void
-			{
-				DBPopUp.addGusturePopUp(openParent);
-			}
-
-
-			protected function usercenter_clickHandler(event:MouseEvent):void
-			{
-				addUsercenter();
-			}
-
-			private function addGallery():void
-			{
-<<<<<<< HEAD
-				currentState=uiView.name;
-				usercenter.visible=false;
-				themelist.visible=false;
-				gallery.visible=true;
-			}
-
-			private function addUsercenter():void
-			{
-				currentState=uiView.name;
-				usercenter.visible=true;
-				themelist.visible=false;
-				gallery.visible=false;
-				usercenter.user=UserVO.crtUser;
-				usercenter.refreshNavi();
-			}
-
-			private function initConfig():void
-			{
-				QNService.HOST=VO.FILESERVER_HOST;
-			}
-
-			private function initFolderList():void
-			{
-				foldersList.dataProvider=new ArrayCollection(ThemeManager.getInstance().getThemeList());
-				foldersList.selectedIndex=0;
-				foldersList.visible=true;
-			}
-
-			private function initListeners():void
-			{
-				addEventListener(ThemeFolderEvent.EVENT_ID, onThemeFolder);
-				addEventListener("backToMain", onBackToMain);
-				addEventListener("gotoGallery", onGotoGallery);
-				addEventListener("gotoUserCenter", onGotoUserCenter);
-
-				guestView.addEventListener("exitVisit", onExitVisit);
-
-				addEventListener(DrawEvent.EVENT_ID, onDraw);
-				addEventListener(ReplayEvent.EVENT_ID, onReplay);
-				addEventListener(DetailEvent.EVENT_ID, onDetail);
-				addEventListener(UserItemEvent.EVENT_ID, onViewGuest);
-
-				parentView.addEventListener("parentsClose", function(e:Event):void
-				{
-					parentView.visible=false;
-=======
-				var paint:PaintVO=e.paint;
-
-				removeDetail();
-				detailView=new DiscussView();
-				detailView.setData(paint);
-				uiLayer.addElementAt(detailView, uiLayer.numElements - 1);
-				detailView.addEventListener("close", function(e:Event):void {
-					uiLayer.removeElement(detailView);
-					detailView.dispose();
->>>>>>> master
-				});
-			}
-
-			private function initPopup():void
-			{
-				popupLayer.graphics.beginFill(0, .6)
-				popupLayer.graphics.drawRect(-this.width, -this.height, this.width * 3, this.height * 3);
-				popupLayer.graphics.endFill();
-				DBPopUp.root=popupLayer;
-			}
-
-			private function initRecommend():void
-			{
-				recommendHodler.addChild(new Recommends(768, 1024));
-			}
-
-			private function initSound():void
-			{
-				var snd:Sound=new Sound(new URLRequest("assets/data/sounds/cnlet.mp3"));
-				snd.play();
-			}
-
-			private function onBackToMain(e:Event):void
-			{
-				currentState=mainView.name;
-			}
-
-			private function onDraw(e:DrawEvent):void
-			{
-				preState=currentState;
-				currentState=drawView.name;
-
-				var vo:ThemeVo=e.data;
-				drawerLayer.removeAllElements();
-				if (db)
-				{
-<<<<<<< HEAD
-					db.dispose();
-					db=null;
-=======
-					if (!preState)
-						preState=currentState;
-					currentState=visitView.name;
-					guestView.isGuest=true;
-					guestView.user=user;
-					guestView.refreshNavi();
->>>>>>> master
-				}
-
-				db=new DrawView();
-				db.initData(vo);
-				db.addEventListener("exitDraw", onExitDraw);
-				drawerLayer.addElement(db);
-			}
-
-			private function onGotoGallery(e:Event):void
-			{
-				addGallery();
-			}
-
-<<<<<<< HEAD
-			private function onGotoUserCenter(e:Event):void
-			{
-				addUsercenter();
-			}
-
-			private function openParent():void
-			{
-				parentView.visible=true;
-			}
-=======
-			protected function shopClick(event:MouseEvent):void
-			{
-				currentState=uiView.name;
-				usercenter.visible=false;
-				themelist.visible=false;
-				gallery.visible=false;
-				shop.visible=true;
-				shop.refresh();
-
-				removeDetail();
-			}
+			private var preState:String;
 
 			public function refreshList():void
 			{
-				callLater(initFolderList);
+				// TODO Auto Generated method stub
+
 			}
 
-			protected function deleteBtn_clickHandler(event:MouseEvent):void
-			{
-				if(crtTheme&&crtTheme.online)
-				{
-					DBPopUp.addDeletePopup(crtTheme);
-				}
-			}
-
->>>>>>> master
 		]]>
 	</fx:Script>
 
@@ -582,55 +387,49 @@
 		<mx:State id="drawView" name="drawViewState"/>
 	</s:states>
 
-	<s:Image width="100%" height="100%" verticalCenter="0" horizontalCenter="0" source="@Embed('assets/homepage/img/common/homepageBg_B.jpg')"
-			 mouseEnabled="false" includeIn="mainViewState"/>
+	<s:Group width="100%" height="100%" id="mainGroup" includeIn="mainViewState">
+		<s:Image width="100%" height="100%" top="0" left="0"
+				 source="@Embed('assets/homepage/img/common/homepageBg_B.png')"
+				 mouseEnabled="false"/>
 
-	<s:Image source="@Embed('assets/data/images/publicBg.jpg')" width="100%" verticalCenter="0" horizontalCenter="0" height="100%"
-			 mouseEnabled="false" excludeFrom="mainViewState"/>
+		<!--<s:Image source="@Embed('assets/homepage/img/common/titleBg.png')"
+				 mouseEnabled="false"/>-->
 
-	<s:Group width="1024" height="768" id="mainGroup" includeIn="mainViewState" verticalCenter="0" horizontalCenter="0">
-		<s:Image source="@Embed('assets/homepage/img/common/parents.png')" left="16" top="21" click="parent_clickHandler(event)"/>
-		<s:Image source="@Embed('assets/global/usercenterBtn.png')" right="42" top="21" click="usercenter_clickHandler(event)"/>
-		<s:Image source="@Embed('assets/homepage/img/common/title.png')" top="62" horizontalCenter="0" mouseEnabled="false"/>
+		<s:Image source="@Embed('assets/homepage/img/common/parents.png')"
+				 left="16" top="21" click="parent_clickHandler(event)"/>
 
-		<theme:ThemeFolderList2 id="foldersList" width="100%" height="70%" horizontalCenter="0" verticalCenter="0" visible="false">
+		<s:Image source="@Embed('assets/global/usercenterBtn.png')" right="42"
+				 top="21" click="usercenter_clickHandler(event)"/>
+
+		<s:Image source="@Embed('assets/homepage/img/common/title.png')"
+				 top="62" left="368" mouseEnabled="false"/>
+
+		<theme:ThemeFolderList2 id="foldersList" width="100%" height="400"
+								top="188" visible="false">
 		</theme:ThemeFolderList2>
 
-<<<<<<< HEAD
-		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')" left="330" bottom="21" visible="false"/>
-		<s:Image source="@Embed('assets/global/galleryBtn.png')" horizontalCenter="0" bottom="21" click="gallery_clickHandler(event)"/>
-		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" right="330" bottom="21" visible="false"/>
-	</s:Group>
-
-	<s:Image source="@Embed('assets/data/images/publicBg.jpg')" width="100%" verticalCenter="0" horizontalCenter="0" height="100%"
-			 mouseEnabled="false" visible="{parentView.visible}"/>
-	<s:Group width="1024" height="768" includeIn="mainViewState" verticalCenter="0" horizontalCenter="0">
-		<main:ParentView id="parentView" visible="false"/>
-=======
-		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')" id="deleteBtn"
-				 left="330" top="633" enabled="false" click="deleteBtn_clickHandler(event)"/>
+		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')"
+				 left="330" top="633" visible="false"/>
 		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="512"
 				 top="633" click="gallery_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
-				 top="633" click="shopClick(event)"/>
->>>>>>> master
+				 top="633" visible="false"/>
 	</s:Group>
 
-	<mx:UIComponent id="recommendHodler" visible="{currentState=='mainViewState'}"/>
+	<mx:UIComponent id="recommendHodler"
+					visible="{currentState=='mainViewState'}"/>
 
-	<s:Group id="uiLayer" includeIn="uiViewState" width="1024" height="768" verticalCenter="0" horizontalCenter="0">
+	<s:Group id="uiLayer" includeIn="uiViewState">
 		<theme:ThemeListView id="themelist" visible="false"/>
-		<shop:ShopView id="shop" visible="false"/>
 		<gallery:GalleryViewOnline id="gallery" visible="false"/>
 		<user:UserCenterView id="usercenter" visible="false"/>
 	</s:Group>
 
-	<user:UserCenterView id="guestView" includeIn="visitViewState" verticalCenter="0" horizontalCenter="0"/>
+	<user:UserCenterView id="guestView" includeIn="visitViewState"/>
 
-	<s:Image width="100%" height="100%" verticalCenter="0" horizontalCenter="0" source="@Embed('assets/homepage/img/common/drawBG.jpg')"
-			 mouseEnabled="false" includeIn="drawViewState"/>
-	<s:Group width="1024" height="768" id="drawerLayer" verticalCenter="0" horizontalCenter="0" includeIn="drawViewState"/>
+	<s:Group width="100%" height="100%" id="drawerLayer"
+			 includeIn="drawViewState"/>
 
-	<mx:UIComponent id="popupLayer" width="1024" height="768" visible="false" horizontalCenter="0" verticalCenter="0"/>
+	<mx:UIComponent id="popupLayer" width="1024" height="768" visible="false"/>
 
 </s:Group>
