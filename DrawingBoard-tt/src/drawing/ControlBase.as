@@ -3,7 +3,6 @@ package drawing
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.geom.Point;
-	//import flash.net.FileReference;
 	import flash.utils.ByteArray;
 	/*
 		功能面板控制类
@@ -18,6 +17,8 @@ package drawing
 		private var timerRate:int=10;//回放节奏控制
 		
 		private var reserveObject:Object;//用于记录回放数据的储存对象
+		
+		private var backIndex:int;
 		
 		public function ControlBase(){
 			
@@ -34,11 +35,13 @@ package drawing
 
 		//在画布清除时，让画布状态回到初始值
 		public function allDataInit():void{
+			Enum.bitmapArray=[];
 			Enum.pointArray=[];
 			Enum.brushTypeArray=[];
 			Enum.recordPointArray=[];
 			Enum.colorArray=[];
 			Enum.brushType="";
+			Enum.repealArray=[];
 		}
 
 		//设置笔刷
@@ -75,19 +78,20 @@ package drawing
 		}
 
 		//画布的撤销和恢复
-		/*public function backASRecover(_index:int):void{
+		public function backASRecover(_index:int):void{
 			backIndex=_index-1;
-			if(Enum.bitmapArray!=null&&Enum.isOperata==true){
+			if(Enum.bitmapArray.length!=0){
 				clearCanvas();	
 				Canvas.getCanvas().canvasBitmapData=new BitmapData(Enum.width,Enum.height,true,0x0);
 				Canvas.getCanvas().canvasBitmapData.draw(Enum.bitmapArray[backIndex]);
 				Canvas.getCanvas().canvasBitmap.bitmapData=Canvas.getCanvas().canvasBitmapData;
 			}
-		}*/
+		}
 		//记录画线的点，用于回放功能
 		public function memoryArray():void
 		{
 			Enum.recordPointArray.push(Enum.pointArray);
+			Enum.repealArray.push(Enum.pointArray);
 			Enum.brushTypeArray.push(Enum.brushType);
 			Enum.pointArray=[];
 		}
@@ -105,17 +109,17 @@ package drawing
 		}*/
 
 		//显示位图转存储位图
-		/*public function disToBitmap():void{
+		public function disToBitmap():void{
 			transBitmap=new Bitmap(new BitmapData(Enum.width,Enum.height,true,0x0));
 			transBitmap.bitmapData.draw(Canvas.getCanvas().canvasBitmap);
 			Enum.bitmapArray.push(transBitmap);
-		}*/
+		}
 		//画图储存
 		public function drawingReserve():ByteArray
 		{
 			Enum.recordByte=Canvas.getCanvas().canvasBitmap.bitmapData.getPixels(Canvas.getCanvas().canvasBitmap.bitmapData.rect);
 			Enum.recordByte.compress();
-
+			
 			return Enum.recordByte;
 			//外部自定义二进制数据保存格式保存
 			//new FileReference().save(Enum.recordByte,"image.bmd");

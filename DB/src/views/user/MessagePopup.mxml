@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="374" height="561" creationComplete="group1_creationCompleteHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import com.pamakids.models.ResultVO;
+
+			import mx.events.FlexEvent;
+
+			import controllers.API;
+
+			private var page:int;
+
+			protected function close_clickHandler(event:MouseEvent):void
+			{
+				dispatchEvent(new Event("closeMessage"));
+			}
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				page=1;
+				getList();
+			}
+
+			private var end:Boolean;
+
+			private var refreshing:Boolean;
+
+			private function msgListLoaded(o:ResultVO):void
+			{
+				if (o.status&&o.results is Array)
+				{
+					var arr:Array=o.results as Array;
+					if(arr.length>0)
+					{
+						page++;
+						end=false;
+						addItems(arr)
+					}else
+					{
+						end=true;
+					}
+				}else
+				{
+					end=true;					
+					refreshing=false;
+				}
+			}
+
+			private function getList():void
+			{
+				if(!end&&!refreshing)
+				{
+					refreshing=true;
+					API.instance.getMsgList(page, msgListLoaded);
+				}
+			}
+
+			protected function scroller_mouseDownHandler(event:MouseEvent):void
+			{
+				if (scroller.verticalScrollBar&&scroller.verticalScrollBar.value > itemGroupHeight - scroller.height)
+				{
+					getList();
+				}
+			}
+
+			private function get itemGroupHeight():Number
+			{
+				return itemGroup.numChildren*56;
+			}
+
+			private function addItems(arr:Array):void
+			{
+				for each (var o:Object in arr) 
+				{
+					var item:MessageItem=new MessageItem();
+					itemGroup.addElement(item);
+					item.initData(o);
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:Image source="@Embed('assets/global/popupbg.png')" mouseChildren="false"
+			 mouseEnabled="false"/>
+
+	<s:Group width="100%" height="72">
+		<s:Image source="@Embed('assets/message/messageTitle.png')" verticalCenter="0" horizontalCenter="0"/>
+		<s:Image source="@Embed('assets/global/close.png')" right="9" top="17"
+				 click="close_clickHandler(event)"/>
+	</s:Group>
+
+	<s:Scroller width="100%" bottom="0" top="72" id="scroller" 
+				mouseDown="scroller_mouseDownHandler(event)" verticalScrollPolicy="on" horizontalScrollPolicy="off">
+		<s:VGroup width="100%" id="itemGroup" gap="-7"/>
+	</s:Scroller>
+</s:Group>

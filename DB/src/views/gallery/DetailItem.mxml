@@ -8,7 +8,6 @@
 
 			import com.pamakids.manager.LoadManager;
 			import com.pamakids.models.ResultVO;
-			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
 
@@ -20,7 +19,6 @@
 
 			import models.PaintData;
 			import models.PaintVO;
-			import models.PraiseVO;
 			import models.UserVO;
 
 			import proxy.FileProxy;
@@ -31,8 +29,6 @@
 			[Bindable]
 			private var likeTimes:String;
 
-//			[Bindable]
-//			private var praiseTimes:String;
 
 			protected function group1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -66,7 +62,7 @@
 
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(data.coverUrl, pd, false, cachedAudio));
+				dispatchEvent(new ReplayEvent(data.coverUrl, pd, false, cachedAudio,data._id,self));
 			}
 
 			private function dataLoadComplete(s:String):void
@@ -76,17 +72,17 @@
 				{
 					var au:String=data.audioUrl;
 					cachedAudio=hostToLocal(data.audio);
-					LoadManager.instance.load(au, audioComplete, getPath(cachedAudio));
+					LoadManager.instance.load(au, audioComplete, cachedAudio);
 				}
 				else
 					DBPopUp.removeLoadingPopup();
 			}
 
-			private function getPath(u:String):String
-			{
-				var f:File=File.applicationStorageDirectory.resolvePath(u);
-				return f.nativePath;
-			}
+//			private function getPath(u:String):String
+//			{
+//				var f:File=File.applicationStorageDirectory.resolvePath(u);
+//				return f.nativePath;
+//			}
 
 			private var cachedAudio:String;
 
@@ -104,9 +100,6 @@
 			[Bindable]
 			private var liked:Boolean;
 
-//			[Bindable]
-//			private var praised:Boolean;
-
 			public function initData(o:PaintVO):void
 			{
 				mouseEnabled=mouseChildren=true;
@@ -117,11 +110,6 @@
 					likeTimes='99+';
 				else if (isNaN(data.agrees))
 					likeTimes='0';
-//				praiseTimes=o.favorites.toString();
-//				if (o.favorites > 99)
-//					praiseTimes='99+';
-//				else if (isNaN(o.favorites))
-//					praiseTimes='0';
 
 				playTimes=data.plays.toString();
 				if (data.plays > 99)
@@ -131,11 +119,13 @@
 
 				var user:UserVO=data.author;
 				userName.text=user.nickname ? user.nickname : user.username;
-//				trace(user.nickname)
 				avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
+				self=UserVO.crtUser&&user._id==UserVO.crtUser._id;
 
 				API.instance.getPaintPraised(likedCB, data._id);
 			}
+
+			private var self:Boolean;
 
 			private function likedCB(o:ResultVO):void
 			{
@@ -161,18 +151,6 @@
 				mouseEnabled=mouseChildren=false;
 				API.instance.praisePaint(data, praiseCB);
 			}
-
-//			protected function praise_click(event:MouseEvent):void
-//			{
-//				praised=true;
-//				API.instance.praisePaint(data, true, praiseCB);
-//			}
-//
-//			protected function disPraise_click(event:MouseEvent):void
-//			{
-//				praised=false;
-//				API.instance.praisePaint(data, false, praiseCB);
-//			}
 
 			private function praiseCB(o:ResultVO):void
 			{

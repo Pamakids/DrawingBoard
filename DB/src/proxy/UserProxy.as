@@ -34,7 +34,7 @@ package proxy
 		public function getFollowList(followListLoaded:Function):void
 		{
 			mfollowCB=followListLoaded;
-			var o:Object={"followed": true, "perPage": 100, "page": 1};
+			var o:Object={"followed": false, "perPage": 99, "page": 1};
 			if (user != UserVO.crtUser)
 				o["user_id"]=user._id
 			API.instance.getFollowList(o, followCB);
@@ -48,7 +48,7 @@ package proxy
 		public function getFanList(fanListLoaded:Function):void
 		{
 			mfanCB=fanListLoaded;
-			var o:Object={"followed": false, "perPage": 100, "page": 1};
+			var o:Object={"followed": true, "perPage": 99, "page": 1};
 			if (user != UserVO.crtUser)
 				o["user_id"]=user._id
 			API.instance.getFanList(o, fanCB);
@@ -65,3 +65,5 @@ package proxy
 		}
 	}
 }
+
+

@@ -1,12 +1,31 @@
 package models
 {
-	import utils.ArrayUtil;
+	import proxy.FileProxy;
 
 	public class ThemeFolderVo
 	{
-		public function ThemeFolderVo()
-		{
+		public var path:String;
+		public var num:int;
+		public var online:Boolean;
 
+		private var mThemeList:Array;
+
+		public function ThemeFolderVo(_path:String,_num:int,_online:Boolean=false)
+		{
+			path=_path;
+			num=_num;
+			online=_online;
+
+			mThemeList=[];
+
+			for (var i:int = 0; i < num; i++)
+			{
+				var theme:ThemeVo=new ThemeVo();
+				theme.path=path;
+				theme.index=i;
+				theme.online=online;
+				mThemeList.push(theme);
+			}
 		}
 
 		public function get themeList():Array
@@ -14,89 +33,21 @@ package models
 			return mThemeList
 		}
 
-		public function getRandomTheme():ThemeVo
+		public function get title():String
 		{
-			return ArrayUtil.pullRandom(mThemeList, false)
+			return cover.replace("cover", "title")
 		}
 
-		public function getTitleRef():String
+		public function get text():String
 		{
-			return this.thumbnail.replace("cover", "titles")
-//			var ref:Class
-//			if(this.type == "animal"){
-//				ref = ThemeAssets.title_animal
-//			}
-//			else if(this.type == "design"){
-//				ref = ThemeAssets.title_design
-//			}
-//			else if(this.type == "fantasty"){
-//				ref = ThemeAssets.title_fantasty
-//			}
-//			else if(this.type == "life"){
-//				ref = ThemeAssets.title_life
-//			}
-//			else if(this.type == "people"){
-//				ref = ThemeAssets.title_people
-//			}
-//			return ref
+			return cover.replace("cover", "text")
 		}
 
-
-		public function getTitleName():String
+		public function get cover():String
 		{
-			var name:String
-
-			if (this.type == "animal")
-			{
-				name="动物"
-			}
-			else if (this.type == "design")
-			{
-				name="设计"
-			}
-			else if (this.type == "fantasty")
-			{
-				name="魔法"
-			}
-			else if (this.type == "life")
-			{
-				name="生活"
-			}
-			else if (this.type == "people")
-			{
-				name="人物"
-			}
-			return name
+			return (online?FileProxy.storageUrl:'')+path+'/cover.png'
 		}
-
-		public function get ThemeTxt():String
-		{
-//			var ref:Class
-//			var url:String
-//			if(this.type == "animal"){
-//				ref = HomepageAssets.animalTxt
-//			}
-//			else if(this.type == "design"){
-//				ref = HomepageAssets.designTxt
-//			}
-//			else if(this.type == "fantasty"){
-//				ref = HomepageAssets.fantastyTxt
-//			}
-//			else if(this.type == "life"){
-//				ref = HomepageAssets.lifeTxt
-//			}
-//			else if(this.type == "people"){
-//				ref = HomepageAssets.peopleTxt
-//			}
-//			return ref
-			return this.thumbnail.replace("cover", "ThemeTxt")
-		}
-
-
-		public var thumbnail:String
-
-		public var type:String
-
-		private var mThemeList:Array=[]
 	}
 }
+
+

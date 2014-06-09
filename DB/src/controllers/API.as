@@ -30,7 +30,9 @@ package controllers
 //			if (Capabilities.isDebugger)
 //				ServiceBase.HOST='http://localhost:8000';
 //			else
-			ServiceBase.HOST='http://db.pamakids.com';
+			ServiceBase.HOST='http://m.pamakids.com';
+//			ServiceBase.HOST='http://23.97.70.26';
+//			ServiceBase.HOST='http://pamakids.duapp.com';
 		}
 
 		/**
@@ -290,3 +292,5 @@ package controllers
 		}
 	}
 }
+
+

@@ -28,8 +28,13 @@
 				dispose();
 				
 				data=_data;
+<<<<<<< HEAD
 				title.source=data.getTitleRef();
 				
+=======
+				title.source=data.title;
+
+>>>>>>> master
 				var arr:Array=data.themeList;
 				for each (var o:ThemeVo in arr)
 				{

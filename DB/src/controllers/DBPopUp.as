@@ -5,8 +5,14 @@ package controllers
 
 	import mx.core.UIComponent;
 
+	import models.ShopVO2;
+	import models.ThemeFolderVo;
+
 	import views.components.GesturePopUp;
 	import views.components.LoadingPopup;
+	import views.main.ThemeDeletePopup;
+	import views.shop.ShopDLPopup;
+	import views.user.MessagePopup;
 	import views.user.UserInfoPopup;
 	import views.user.UserLoginPopup;
 
@@ -27,22 +33,15 @@ package controllers
 			var dx:Number=root.width - window.width >> 1;
 			var dy:Number=root.height - window.height >> 1;
 
-//			window.x=dx * PosVO.scale + PosVO.offsetX;
-//			window.y=dy * PosVO.scale + PosVO.offsetY;
-//
-//			window.scaleX=window.scaleY=PosVO.scale;
 			window.x=dx;
 			window.y=dy;
 			root.addChild(window);
-//			PopUpManager.addPopUp(window, root, true);
 		}
 
-		public static function removePopUp(window:DisplayObject):void
+		public static function removePopUp(window:DisplayObject,hideLayer:Boolean=true):void
 		{
-			root.visible=false;
+			root.visible=!hideLayer;
 			root.removeChild(window);
-//			root.mouseEnabled=root.mouseChildren=false;
-//			PopUpManager.removePopUp(window);window
 		}
 
 		public static function addLoadingPopup(text:String, cb:Function):void
@@ -66,14 +65,27 @@ package controllers
 			loading=null;
 		}
 
-		public static function addGusturePopUp(callback:Function):void
+		public static function addMessagePopup():void
+		{
+			var mes:MessagePopup=new MessagePopup();
+			function remove(e:Event):void {
+				mes.removeEventListener("closeMessage", remove);
+				removePopUp(mes);
+				mes=null;
+			}
+			mes.addEventListener("closeMessage", remove);
+			mes.mouseEnabled=true;
+			addPopUp(mes);
+		}
+
+		public static function addGusturePopUp(callback:Function,inPopUp:Boolean=false):void
 		{
 			var ges:GesturePopUp=new GesturePopUp();
 			ges.callback=callback;
 
 			function remove(e:Event):void {
 				ges.removeEventListener("gestureClose", remove);
-				removePopUp(ges);
+				removePopUp(ges,!inPopUp);
 				ges=null;
 			}
 			ges.addEventListener("gestureClose", remove);
@@ -111,5 +123,40 @@ package controllers
 			ui.addEventListener("uiClose", remove);
 			addPopUp(ui);
 		}
+
+		public static function addDLPopup(o:ShopVO2,cb:Function):void
+		{
+			var sp:ShopDLPopup=new ShopDLPopup();
+			sp.initData(o);
+
+			function remove(e:Event):void {
+				sp.removeEventListener("dllose", remove);
+				if(sp.complete)
+				{
+					if(cb!=null)
+						cb();
+				}
+				removePopUp(sp);
+				sp=null;
+			}
+			sp.addEventListener("dllose", remove);
+			addPopUp(sp);
+		}
+
+		public static function addDeletePopup(o:ThemeFolderVo):void
+		{
+			var dp:ThemeDeletePopup=new ThemeDeletePopup();
+			dp.initData(o);
+
+			function remove(e:Event):void {
+				dp.removeEventListener("close", remove);
+				removePopUp(dp);
+				dp=null;
+			}
+			dp.addEventListener("close", remove);
+			addPopUp(dp);
+		}
 	}
 }
+
+

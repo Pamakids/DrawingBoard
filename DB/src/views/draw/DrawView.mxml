@@ -4,7 +4,7 @@
 		 xmlns:drawing="drawing.*" xmlns:draw="views.draw.*"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 creationComplete="group1_creationCompleteHandler(event)"
-		 xmlns:player="views.player.*">
+		 xmlns:player="views.player.*" enterFrame="group1_enterFrameHandler(event)">
 
 	<fx:Declarations>
 		<s:DateTimeFormatter id="df" dateTimePattern="yyyyMMddHHmmss/"/>
@@ -36,6 +36,10 @@
 				onSndComplete();
 				if (dm)
 				{
+					dm.removeEventListener("noRepeal",noRepeal);
+					dm.removeEventListener("noRecover",noRecover);
+					dm.removeEventListener("doRepeal",doRepeal);
+					dm.removeEventListener("doRecover",doRecover);
 					dm.dispose();
 					dbLayer.removeChild(dm);
 				}
@@ -49,6 +53,9 @@
 					controlPad.removeEventListener("exitDraw", onExit);
 					controlPad.removeEventListener("clearDrawBorad", onClear);
 					controlPad.removeEventListener("saveDraw", onSave);
+
+					controlPad.removeEventListener("recoverDraw", onRecoverDraw);//恢复
+					controlPad.removeEventListener("backDraw", onBackDraw);//撤销
 					controlPad.removeEventListener(BrushEvent.EVENT_ID, onBrush);
 				}
 				controlPad=null;
@@ -72,6 +79,10 @@
 
 				dm=new DrawingMain();
 				dbLayer.addChild(dm);
+				dm.addEventListener("noRepeal",noRepeal);
+				dm.addEventListener("noRecover",noRecover);
+				dm.addEventListener("doRepeal",doRepeal);
+				dm.addEventListener("doRecover",doRecover);
 				controlPad.layer=textureLayer;
 
 				controlPad.addEventListener("changeToTexture", onTexture);
@@ -79,6 +90,8 @@
 				controlPad.addEventListener("exitDraw", onExit);
 				controlPad.addEventListener("clearDrawBorad", onClear);
 				controlPad.addEventListener("saveDraw", onSave);
+				controlPad.addEventListener("recoverDraw", onRecoverDraw);//恢复
+				controlPad.addEventListener("backDraw", onBackDraw);//撤销
 				controlPad.addEventListener(BrushEvent.EVENT_ID, onBrush);
 
 				controlPad.crtBrushIndex=0;
@@ -167,6 +180,10 @@
 			{
 				if (dm)
 				{
+					dm.removeEventListener("noRepeal",noRepeal);
+					dm.removeEventListener("noRecover",noRecover);
+					dm.removeEventListener("doRepeal",doRepeal);
+					dm.removeEventListener("doRecover",doRecover);
 					dm.dispose();
 					dbLayer.removeChild(dm);
 				}
@@ -219,6 +236,44 @@
 			protected function onIoError(event:IOErrorEvent):void
 			{
 				onSndComplete();
+			}
+
+			protected function group1_enterFrameHandler(event:Event):void
+			{
+				if(dm)
+					controlPad.recoverable=dm.tempPointArray.length>0;
+			}
+
+			protected function onRecoverDraw(event:Event):void
+			{
+				if(dm)
+					dm.recoverFun();
+			}
+
+			protected function onBackDraw(event:Event):void
+			{
+				if(dm)
+					dm.repealFun();
+			}
+
+			protected function doRecover(event:Event):void
+			{
+				controlPad.recoverable=true;
+			}
+
+			protected function doRepeal(event:Event):void
+			{
+				controlPad.repealable=true;
+			}
+
+			protected function noRecover(event:Event):void
+			{
+				controlPad.recoverable=false;
+			}
+
+			protected function noRepeal(event:Event):void
+			{
+				controlPad.repealable=false;
 			}
 
 		]]>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="346" height="381"
 		 clipAndEnableScrolling="true" xmlns:photos="views.user.photos.*"
 		 creationComplete="group1_creationCompleteHandler(event)">
 
@@ -107,10 +107,10 @@
 	</fx:Script>
 
 	<s:Image id="selector" source="assets/avatar/picstyler-drop.png"
-			 horizontalCenter="0" click="selector_clickHandler(event)"/>
+			 horizontalCenter="0" top="32" click="selector_clickHandler(event)"/>
 
 	<s:Group visible="{!selector.visible}">
-		<s:Image id="mainBG" source="assets/avatar/avatar-bg.png"/>
+		<s:Image source="assets/avatar/avatar-bg2.png"/>
 		<photos:CameraTaker id="camera" visible="false"/>
 		<photos:PhotoAlbum id="album" visible="false"/>
 		<photos:PhotoEditor id="editor" visible="false"/>

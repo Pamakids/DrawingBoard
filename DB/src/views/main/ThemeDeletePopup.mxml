@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="329" height="235">
+	<fx:Script>
+		<![CDATA[
+			import com.pamakids.utils.CloneUtil;
+
+			import assets.homepage.HomepageAssets;
+
+			import controllers.MainController;
+
+			import models.ShopVO2;
+			import models.ThemeFolderVo;
+
+			import service.SOService;
+
+			private var data:ThemeFolderVo;
+
+			public function initData(o:ThemeFolderVo):void
+			{
+				data=o;
+			}
+
+			protected function confirm(event:MouseEvent):void
+			{
+				SOService.setDownloaded(CloneUtil.convertObject(data,ShopVO2),false);
+
+				var f:File=File.applicationStorageDirectory.resolvePath(data.path);
+				try
+				{
+					if (f.exists)
+						f.deleteDirectory(true);
+				}
+				catch (error:Error)
+				{
+					trace("Delete File Error:" + error.toString());
+				}
+
+				MainController.mv.refreshList();
+				dispatchEvent(new Event('close'));
+			}
+
+			protected function cancel(event:MouseEvent):void
+			{
+				dispatchEvent(new Event('close'));
+			}
+
+		]]>
+	</fx:Script>
+	<s:Image source="{HomepageAssets.removeThemeBg}"/>
+	<s:Image source="{HomepageAssets.removeThemeOk}" left="59" top="143" click="confirm(event)"/>
+	<s:Image source="{HomepageAssets.removeThemeCancel}" left="183" top="143" click="cancel(event)"/>
+</s:Group>

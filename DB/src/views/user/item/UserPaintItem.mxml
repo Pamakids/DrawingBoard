@@ -7,7 +7,6 @@
 
 	<fx:Script>
 		<![CDATA[
-
 			import com.pamakids.manager.LoadManager;
 			import com.pamakids.models.ResultVO;
 
@@ -20,6 +19,7 @@
 
 			import models.PaintData;
 			import models.PaintVO;
+			import models.UserVO;
 
 			import proxy.FileProxy;
 			import proxy.UploadProxy;
@@ -62,7 +62,7 @@
 				if (!ulp)
 					ulp=new UploadProxy(data);
 
-				statusGroup.visible=data.local;
+				statusGroup.visible=data.local&&(UserVO.crtUser!=null);
 				if (!data.local)
 				{
 					API.instance.getPaintDetail(detailCB, data._id);
@@ -104,6 +104,10 @@
 
 			private function uploadComplete(dataUrl:String, thumbUrl:String, audioUrl:String):void
 			{
+				if(ulp.uploadError){
+					status=0;
+					return;
+				}
 				po={"cover": thumbUrl, "data": dataUrl, "audio": audioUrl};
 				DBPopUp.addLoadingPopup("上传中,请稍后", uploadCB);
 				if (!paintData)
@@ -130,7 +134,6 @@
 				paintData=FileProxy.parseConfig(s);
 				updataPaint();
 			}
-
 
 			private function updataPaint():void
 			{
@@ -237,15 +240,23 @@
 
 			private function loadingCB():void
 			{
-				dispatchEvent(new ReplayEvent(img.source, paintData, false, getPath(cachedAudio)));
+				dispatchEvent(new ReplayEvent(img.source, paintData, false, getPath(),data._id,self));
 			}
 
-			private function getPath(u:String):String
+			private function getPath():String
 			{
-				if (!u)
-					return "";
-				var f:File=File.applicationStorageDirectory.resolvePath(u);
-				return f.nativePath;
+//				if (!u)
+//					return "";
+				if(data.local)
+				{
+					return data.audio;
+				}
+				if(cachedAudio)
+				{
+					var f:File=File.applicationStorageDirectory.resolvePath(cachedAudio);
+					return f.url;
+				}
+				return '';
 			}
 
 			public static function hostToLocal(url:String):String
@@ -256,7 +267,7 @@
 			private function dataLoadComplete(s:String):void
 			{
 				paintData=FileProxy.parseConfig(s);
-				if (!data.audio)
+				if (!data.audio||data.local)
 					DBPopUp.removeLoadingPopup();
 				else
 				{
@@ -267,6 +278,7 @@
 			}
 
 			private var cachedAudio:String;
+			public var self:Boolean;
 
 			private function audioComplete(o:Object):void
 			{

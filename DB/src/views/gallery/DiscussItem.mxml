@@ -5,7 +5,6 @@
 		 height="768" xmlns:gallery="views.gallery.*">
 	<fx:Script>
 		<![CDATA[
-
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
 			import com.pamakids.utils.CloneUtil;
@@ -13,9 +12,12 @@
 			import mx.events.FlexEvent;
 
 			import controllers.API;
+			import controllers.DBPopUp;
 
 			import models.PaintVO;
 			import models.PraiseVO;
+			import models.ShopManager;
+			import models.ShopVO2;
 			import models.ThemeFolderVo;
 			import models.ThemeManager;
 			import models.ThemeVo;
@@ -87,7 +89,18 @@
 				var pack:String=arr[0];
 				var index:int=int(arr[1]);
 				var folder:ThemeFolderVo=ThemeManager.getInstance().getThemeDirByType(pack);
-				return folder.themeList[index];
+				if(folder)
+					return folder.themeList[index];
+				else
+				{
+					var so:ShopVO2=ShopManager.instance.getShopVO(pack);
+					if(so)
+						DBPopUp.addDLPopup(so,
+							function():void{
+								dispatchEvent(new Event('themeDownloaded',true));
+							}); 
+					return null;
+				}
 			}
 
 			private var py:Number;

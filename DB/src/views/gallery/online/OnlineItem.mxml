@@ -39,7 +39,7 @@
 			public function set data(o:PaintVO):void
 			{
 				_data=o;
-				img.source=_data.coverUrl;
+				img.source=_data.big?_data.getSmallCover(441,332):_data.getSmallCover(213,160);
 			}
 
 			public function get data():PaintVO

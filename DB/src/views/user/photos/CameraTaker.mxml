@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="221" height="301"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="346" height="381"
 		 creationComplete="group1_creationCompleteHandler(event)"
 		 clipAndEnableScrolling="true" xmlns:mx="library://ns.adobe.com/flex/mx">
 	<fx:Script>
@@ -69,20 +69,19 @@
 
 			public function dispose():void
 			{
-
 			}
 
 		]]>
 	</fx:Script>
-	<s:Group width="221" height="293" top="8" id="takePhoto">
+	<s:Group width="346" height="373" bottom="0" id="takePhoto">
 		<mx:UIComponent id="cameraView" width="1024" height="768"
-						scaleX="0.390625" scaleY="0.390625" left="-90"/>
-		<s:Image source="assets/avatar/cam-switch.png" left="193" top="1"
+						scaleX="0.48567708" scaleY="0.48567708" left="-76"/>
+		<s:Image source="assets/avatar/cam-switch.png" right="1" top="6"
 				 id="camSwitcher" click="camSwitcher_clickHandler(event)"/>
 		<s:Image source="assets/avatar/camera-btn.png" horizontalCenter="0"
 				 id="shotBtn" bottom="3" click="image1_clickHandler(event)"/>
 	</s:Group>
 
-	<s:Image source="assets/avatar/back-btn.png" id="returnBtn" left="3"
+	<s:Image source="assets/avatar/back-btn.png" id="returnBtn" left="10"
 			 top="22" click="returnBtn_clickHandler(event)"/>
 </s:Group>

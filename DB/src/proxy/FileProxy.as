@@ -27,7 +27,7 @@ package proxy
 		 */
 		public function FileProxy()
 		{
-
+			
 		}
 
 		/**
@@ -103,22 +103,25 @@ package proxy
 				{
 //					var str:String=FileManager.readFile(username + "/" + f.name + "/config.json", false, true) as String;
 					var thumb:File=f.resolvePath(VO.THUMB_NAME);
+					var audio:File=f.resolvePath(VO.AUDIO_NAME);
 					var pv:PaintVO=new PaintVO();
 					pv.cover=thumb.url;
 					pv.data=config.url;
+					if(audio.exists)
+						pv.audio=audio.url;
 					pv.local=true;
 					pv.path=f.name;
 //					trace(f.name);
 					configArr.push(pv);
 
-					pathDic[thumb.url]=username + "/" + pv.path + "/" + VO.THUMB_NAME;
-					pathDic[config.url]=username + "/" + pv.path + "/" + VO.DATA_NAME;
+//					pathDic[thumb.url]=username + "/" + pv.path + "/" + VO.THUMB_NAME;
+//					pathDic[config.url]=username + "/" + pv.path + "/" + VO.DATA_NAME;
 				}
 			}
 			return configArr;
 		}
 
-		private static var pathDic:Dictionary=new Dictionary();
+//		private static var pathDic:Dictionary=new Dictionary();
 
 		public static function getFile(url:String):File
 		{
@@ -127,6 +130,15 @@ package proxy
 			var u:String=i == -1 ? url : url.substr(i);
 			return File.applicationStorageDirectory.resolvePath(u);
 		}
+
+		public static function get storageUrl():String
+		{
+			if(!_storageUrl)
+				_storageUrl=File.applicationStorageDirectory.url;
+			return _storageUrl;
+		}
+
+		private static var _storageUrl:String;
 
 		/**
 		 *
@@ -152,3 +164,5 @@ package proxy
 		public static var audioToken:String;
 	}
 }
+
+

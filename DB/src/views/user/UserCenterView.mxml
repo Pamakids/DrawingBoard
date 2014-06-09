@@ -6,9 +6,9 @@
 
 	<fx:Script>
 		<![CDATA[
-
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
+			import com.pamakids.services.QNService;
 			import com.pamakids.utils.CloneUtil;
 
 			import mx.events.FlexEvent;
@@ -79,6 +79,8 @@
 				inited=false;
 				paintEnd=false;
 				adding=false;
+				if(!isGuest)
+					user=UserVO.crtUser;
 				initData(user);
 			}
 
@@ -91,7 +93,7 @@
 			private var uproxy:UserProxy;
 
 			[Bindable]
-			private var isGuest:Boolean=false;
+			public var isGuest:Boolean=false;
 
 			private var localArr:Array;
 
@@ -102,12 +104,10 @@
 
 			}
 
-			public function initData(_user:UserVO):void
+			private function initData(_user:UserVO):void
 			{
 				FileProxy.mergeFiles();
 				user=_user;
-
-				isGuest=(user != UserVO.crtUser);
 
 				followedText="关注\n0";
 				befollowedText="粉丝\n0";
@@ -120,14 +120,15 @@
 				{
 					localArr=FileProxy.getLocalPaints();
 					localArr.reverse();
-				}
+				}else
+					loginBtn.visible=false;
 
 				totalPaint=localArr.length;
 
 				if (user != null)
 				{
 					crtUsername=user.nickname ? user.nickname : user.username;
-					avatar.source=user.portrait ? (VO.FILESERVER_HOST + user.portrait) : VO.DEFAULT_AVATAR;
+					avatar.source=user.portrait ? QNService.getQNThumbnail(user.portrait,157,157) : VO.DEFAULT_AVATAR;
 
 					uproxy=new UserProxy();
 					uproxy.pageIndex=1;
@@ -136,14 +137,15 @@
 					uproxy.getFollowList(followListLoaded);
 					uproxy.getFanList(fanListLoaded);
 					uproxy.getMsgCount(msgCountLoaded);
-//					API.instance.getMsgList(1, msgListLoaded);
 					editable=!isGuest;
+					loginBtn.visible=false;
 				}
 				else
 				{
 					editable=false;
 					crtUsername="";
-					avatar.source="";
+					avatar.source=VO.UNLOG_AVATAR;
+					loginBtn.visible=true;
 				}
 
 				followArr=[];
@@ -217,9 +219,9 @@
 
 			private function fanListLoaded(arr:Object):void
 			{
+				fanArr=[];
 				if (arr is Array)
 				{
-					fanArr=[];
 					for each (var o:Object in arr)
 					{
 						fanArr.push(CloneUtil.convertObject(o.friend, UserVO));
@@ -237,12 +239,6 @@
 			{
 				if (o.status)
 					messageCount=o.results.toString();
-			}
-
-			private function msgListLoaded(o:ResultVO):void
-			{
-				if (o.status)
-					o.results;
 			}
 
 			protected function navi_clickHandler(event:MouseEvent):void
@@ -291,6 +287,7 @@
 						if (!paintList)
 						{
 							paintList=new PaintList();
+							paintList.self=!isGuest;
 						}
 						if (!inited)
 						{
@@ -307,7 +304,6 @@
 					{
 						if (!followList)
 						{
-//							testArr(followArr, 20);
 							followList=new FollowList();
 							followList.initData(followArr);
 						}
@@ -319,7 +315,6 @@
 					{
 						if (!fanList)
 						{
-//							testArr(fanArr, 10);
 							fanList=new Fanlist();
 							fanList.initData(fanArr);
 						}
@@ -480,12 +475,6 @@
 				return false;
 			}
 
-			protected function addFriend(event:MouseEvent):void
-			{
-				// TODO Auto-generated method stub
-
-			}
-
 			protected function followClick(event:MouseEvent):void
 			{
 				followEnable=false;
@@ -514,6 +503,25 @@
 				else
 				{
 
+				}
+			}
+
+			protected function messageClick(event:MouseEvent):void
+			{
+				messageCount='0';
+
+				if(UserVO.crtUser==null)
+				{
+					DBPopUp.addLoginPopup(refreshNavi);
+				}else
+					DBPopUp.addMessagePopup();
+			}
+
+			protected function loginBtn_clickHandler(event:MouseEvent):void
+			{
+				if(UserVO.crtUser==null)
+				{
+					DBPopUp.addLoginPopup(refreshNavi);
 				}
 			}
 
@@ -563,12 +571,10 @@
 				<s:Label text="{crtUsername}" left="362" top="45"
 						 mouseEnabled="false" fontSize="18" color="#60cdb5"/>
 
-				<s:Group visible="{!isGuest}">
-					<s:Image 
-							 source="@Embed('assets/usercenter/userinfo/message.png')"
-							 left="363" top="123"/>
+				<s:Group visible="{!isGuest}" click="messageClick(event)" left="363" top="123" width="76" height="55">
+					<s:Image source="@Embed('assets/usercenter/userinfo/message.png')" />
 
-					<s:Group left="392" top="134" visible="{messageCount!='0'}">
+					<s:Group left="29" top="12" visible="{messageCount!='0'}">
 						<s:Image 
 								 source="@Embed('assets/usercenter/userinfo/countBG.png')"/>
 						<s:Label text="{messageCount}" textAlign="center"
@@ -577,14 +583,15 @@
 					</s:Group>
 				</s:Group>
 
-				<s:Image visible="{isGuest}"
-						 source="@Embed('assets/usercenter/userinfo/addFriend.png')"
-						 left="460" top="123" click="addFriend(event)"/>
-
 				<s:Image 
 						 source="@Embed('assets/usercenter/userinfo/editBtn.png')"
 						 left="845" top="129" click="editClickHandler(event)"
 						 visible="{editable}"/>
+
+				<s:Image 
+						 source="@Embed('assets/usercenter/userinfo/userlogin.png')" id="loginBtn"
+						 left="845" top="129" click="loginBtn_clickHandler(event)"
+						 visible="false"/>
 
 				<s:Group visible="{isGuest}" enabled="{followEnable}">
 					<s:Image visible="{!followed}"

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768">
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768" creationComplete="group1_creationCompleteHandler(event)">
 
 	<fx:Script>
 		<![CDATA[
-
 			import com.greensock.TweenLite;
 			import com.pamakids.models.ResultVO;
 			import com.pamakids.utils.CloneUtil;
+
+			import mx.events.FlexEvent;
 
 			import controllers.API;
 
@@ -49,7 +50,9 @@
 
 			protected function drawClick(event:MouseEvent):void
 			{
-				dispatchEvent(new DrawEvent(getTheme()));
+				var to:ThemeVo=getTheme();
+				if(to)
+					dispatchEvent(new DrawEvent(to));
 			}
 
 			private var dataArr:Array
@@ -190,6 +193,16 @@
 			[Bindable]
 			private var paddingL:Number=169;
 			private var gap:Number=64 + 686;
+
+			protected function group1_creationCompleteHandler(event:FlexEvent):void
+			{
+				addEventListener('themeDownloaded',onThemeDownloaded);
+			}
+
+			protected function onThemeDownloaded(event:Event):void
+			{
+				drawClick(null);
+			}
 
 		]]>
 	</fx:Script>

@@ -81,8 +81,18 @@
 
 			protected function shareClick(event:MouseEvent):void
 			{
-				// TODO Auto-generated method stub
+				if(url is String)
+					UMSocial.instance.share('sharePaint',getFullCommit(),url as String);
+			}
 
+			private static var commit:String='hi, 我刚刚画了一幅画, 大家来看看我是怎么画的吧^_^';
+			private static var commit2:String='hi, 我看到了一幅不错的画, 分享给大家';
+
+			private function getFullCommit():String
+			{
+				var s:String=self?commit:commit2;
+				s+='  http://db.pamakids.com/player?'+paintID;
+				return s;
 			}
 
 			protected function recordClick(event:MouseEvent):void
@@ -104,7 +114,12 @@
 			}
 
 			public var recordUrl:String;
+
+			[Bindable]
+			public var paintID:String;
+			public var url:Object;
 			private var isHide:Boolean=false;
+			public var self:Boolean;
 
 
 			public function playBars():void
@@ -163,7 +178,7 @@
 			<components:ImageButton id="speed3x" left="120"
 									click="speed_clickHandler(event)"/>
 		</s:Group>
-		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)"
-				 visible="false" left="847"/>
+		<s:Image source="{PlayerAssets.shared}" click="shareClick(event)" visible="{paintID}" 
+				 left="847"/>
 	</s:Group>
 </s:Group>

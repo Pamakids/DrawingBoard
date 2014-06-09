@@ -249,7 +249,7 @@
 			protected function onPhotoReady(event:Event):void
 			{
 				var ba:ByteArray=new ByteArray();
-				selector.bd.encode(new Rectangle(0, 0, 1024, 768), new JPEGEncoderOptions(), ba);
+				selector.bd.encode(new Rectangle(0, 0, 1024, 768), new PNGEncoderOptions(), ba);
 				var path:String=UserVO.crtUser.username + "/" + VO.AVATAR_NAME;
 				var f:File=FileManager.saveFile(path, ba) as File;
 
@@ -284,7 +284,6 @@
 					selector.visible=false;
 				}
 			}
-
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('assets/global/popupbg.png')" mouseChildren="false"
@@ -311,12 +310,14 @@
 			<s:Image source="@Embed('assets/global/line.png')" top="140"/>
 
 			<s:Label text="头像:" top="65" left="10"/>
-			<s:Image id="avatar" width="53" height="53" left="127" top="55"
+			<s:Image id="avatar" width="53" height="53" left="135" top="55"
 					 click="avatarClick(event)"/>
 		</s:Group>
 
-		<photos:PhotoSelector id="selector" visible="false" top="209" left="69"
-							  depth="10"/>
+		<s:Group width="374" height="561"  depth="10">
+			<photos:PhotoSelector id="selector" visible="false" 
+								  bottom="6" horizontalCenter="0"/>
+		</s:Group>
 
 		<s:Group enabled="{!selector.visible}">
 			<s:Label text="{statusText}" width="374" height="30" top="255"

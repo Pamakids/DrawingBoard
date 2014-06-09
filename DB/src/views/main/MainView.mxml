@@ -1,10 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="100%" xmlns:views="views.*"
 		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:photos="views.user.photos.*" xmlns:theme="views.theme.*" xmlns:draw="views.draw.*"
 		 xmlns:user="views.user.*" xmlns:gallery="views.gallery.*" xmlns:test="views.main.test.*" xmlns:ns="http://flex.apache.org/experimental/ns"
 		 xmlns:controls="com.pamakids.components.controls.*" xmlns:components="views.components.*" xmlns:layout="com.pamakids.layout.*"
 		 creationComplete="group1_creationCompleteHandler(event)" addedToStage="group1_addedToStageHandler(event)"
 		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*">
+=======
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark" width="1024" height="768"
+		 xmlns:views="views.*" xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:photos="views.user.photos.*" xmlns:theme="views.theme.*"
+		 xmlns:draw="views.draw.*" xmlns:user="views.user.*"
+		 xmlns:gallery="views.gallery.*" xmlns:test="views.main.test.*"
+		 xmlns:ns="http://flex.apache.org/experimental/ns"
+		 xmlns:controls="com.pamakids.components.controls.*"
+		 xmlns:components="views.components.*"
+		 xmlns:layout="com.pamakids.layout.*"
+		 creationComplete="group1_creationCompleteHandler(event)"
+		 addedToStage="group1_addedToStageHandler(event)"
+		 initialize="group1_initializeHandler(event)" xmlns:main="views.main.*" xmlns:shop="views.shop.*">
+>>>>>>> master
 
 	<fx:Script>
 		<![CDATA[
@@ -13,15 +29,26 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			import controllers.DBPopUp;
+<<<<<<< HEAD
+=======
+			import controllers.MainController;
+
+>>>>>>> master
 			import events.DetailEvent;
 			import events.DrawEvent;
 			import events.ReplayEvent;
+			import events.ThemeChangeEvent;
 			import events.ThemeFolderEvent;
 			import events.UserItemEvent;
+<<<<<<< HEAD
 			import models.DataManager;
+=======
+
+>>>>>>> master
 			import models.FontManager;
 			import models.PaintVO;
 			import models.PasterManager;
+			import models.ShopManager;
 			import models.ThemeFolderVo;
 			import models.ThemeManager;
 			import models.ThemeVo;
@@ -34,10 +61,81 @@
 			import views.user.UserCenterView;
 			import vo.VO;
 
+<<<<<<< HEAD
 			private var db:DrawView;
 			private var detailView:DiscussView;
 
 			private var player:ReplayView;
+=======
+			protected function parent_clickHandler(event:MouseEvent):void
+			{
+				DBPopUp.addGusturePopUp(openParent);
+			}
+
+			private function initPopup():void
+			{
+				popupLayer.graphics.beginFill(0, .6)
+				popupLayer.graphics.drawRect(0, 0, 1024, 768);
+				popupLayer.graphics.endFill();
+				DBPopUp.root=popupLayer;
+			}
+
+			private function initFolderList():void
+			{
+				foldersList.dataProvider=new ArrayCollection(ThemeManager.getInstance().getThemeList());
+				foldersList.selectedIndex=0;
+				foldersList.visible=true;
+			}
+
+			private function initListeners():void
+			{
+				addEventListener(ThemeFolderEvent.EVENT_ID, onThemeFolder);
+				addEventListener("backToMain", onBackToMain);
+				addEventListener("gotoGallery", onGotoGallery);
+				addEventListener("gotoUserCenter", onGotoUserCenter);
+
+				guestView.addEventListener("exitVisit", onExitVisit);
+
+				addEventListener(ThemeChangeEvent.EVENT_ID,onThemeChange);
+				addEventListener(DrawEvent.EVENT_ID, onDraw);
+				addEventListener(ReplayEvent.EVENT_ID, onReplay);
+				addEventListener(DetailEvent.EVENT_ID, onDetail);
+				addEventListener(UserItemEvent.EVENT_ID, onViewGuest);
+			}
+
+			private function onThemeChange(e:ThemeChangeEvent):void
+			{
+				crtTheme=e.data;
+				deleteBtn.enabled=crtTheme.online;
+			}
+
+			private var crtTheme:ThemeFolderVo;
+
+			protected function onExitVisit(e:Event):void
+			{
+				if (preState)
+				{
+					currentState=preState;
+					preState='';
+				}
+				else
+					currentState=uiView.name;
+			}
+
+			protected function onThemeFolder(e:ThemeFolderEvent):void
+			{
+				var data:ThemeFolderVo=e.data as ThemeFolderVo;
+				themelist.setData(data);
+
+				currentState=uiView.name;
+				usercenter.visible=false;
+				themelist.visible=true;
+				gallery.visible=false;
+				shop.visible=false;
+
+				removeDetail();
+			}
+>>>>>>> master
 
 			private var preState:String;
 
@@ -64,7 +162,12 @@
 
 				initPopup();
 				initFolderList();
+<<<<<<< HEAD
 				initSound();
+=======
+				initRecommend();
+//				initSound();
+>>>>>>> master
 			}
 
 			protected function group1_initializeHandler(event:FlexEvent):void
@@ -78,7 +181,11 @@
 				FontManager.initialize();
 			}
 
+<<<<<<< HEAD
 			protected function onClosePlayer(event:Event):void
+=======
+			public function initSound():void
+>>>>>>> master
 			{
 				if (player)
 				{
@@ -163,8 +270,74 @@
 					currentState=preState;
 					preState='';
 				}
+<<<<<<< HEAD
 				else
 					currentState=uiView.name;
+=======
+				mainGroup.addElement(pv);
+			}
+
+			private var pv:ParentView;
+
+			protected function gallery_clickHandler(event:MouseEvent):void
+			{
+				addGallery();
+			}
+
+
+			protected function usercenter_clickHandler(event:MouseEvent):void
+			{
+				addUsercenter();
+			}
+
+			private function addGallery():void
+			{
+				currentState=uiView.name;
+				usercenter.visible=false;
+				themelist.visible=false;
+				gallery.visible=true;
+				shop.visible=false;
+
+				removeDetail();
+			}
+
+			private function removeDetail():void
+			{
+				if (detailView)
+				{
+					if (uiLayer.containsElement(detailView))
+						uiLayer.removeElement(detailView);
+					detailView.dispose();
+					detailView=null;
+				}
+			}
+
+			private function addUsercenter():void
+			{
+				currentState=uiView.name;
+				usercenter.visible=true;
+				themelist.visible=false;
+				gallery.visible=false;
+				usercenter.user=UserVO.crtUser;
+				usercenter.refreshNavi();
+			}
+
+			protected function group1_initializeHandler(event:FlexEvent):void
+			{
+				initConfig();
+				LoginProxy.autoLogin();
+				FontManager.initialize();
+
+				ThemeManager.getInstance().initialize();
+				PasterManager.getInstance().initialize();
+				ShopManager.instance.init();
+			}
+
+			private function initConfig():void
+			{
+				MainController.mv=this;
+				QNService.HOST=VO.FILESERVER_HOST;
+>>>>>>> master
 			}
 
 			protected function onReplay(e:ReplayEvent):void
@@ -186,7 +359,7 @@
 				player=null;
 
 				player=new ReplayView();
-				player.initData(e.cover, e.data, e.audio);
+				player.initData(e.cover, e.data, e.audio,e.id,e.self);
 				player.addEventListener("replayToCenter", onplayerToCenter);
 				player.addEventListener("closeReplay", onClosePlayer);
 				player.recordVisible=e.recordVisible;
@@ -228,13 +401,7 @@
 
 			protected function onplayerToCenter(event:Event):void
 			{
-				if (detailView)
-				{
-					if (uiLayer.containsElement(detailView))
-						uiLayer.removeElement(detailView);
-					detailView.dispose();
-					detailView=null;
-				}
+				removeDetail();
 				addUsercenter();
 			}
 
@@ -251,6 +418,7 @@
 
 			private function addGallery():void
 			{
+<<<<<<< HEAD
 				currentState=uiView.name;
 				usercenter.visible=false;
 				themelist.visible=false;
@@ -296,6 +464,17 @@
 				parentView.addEventListener("parentsClose", function(e:Event):void
 				{
 					parentView.visible=false;
+=======
+				var paint:PaintVO=e.paint;
+
+				removeDetail();
+				detailView=new DiscussView();
+				detailView.setData(paint);
+				uiLayer.addElementAt(detailView, uiLayer.numElements - 1);
+				detailView.addEventListener("close", function(e:Event):void {
+					uiLayer.removeElement(detailView);
+					detailView.dispose();
+>>>>>>> master
 				});
 			}
 
@@ -332,8 +511,17 @@
 				drawerLayer.removeAllElements();
 				if (db)
 				{
+<<<<<<< HEAD
 					db.dispose();
 					db=null;
+=======
+					if (!preState)
+						preState=currentState;
+					currentState=visitView.name;
+					guestView.isGuest=true;
+					guestView.user=user;
+					guestView.refreshNavi();
+>>>>>>> master
 				}
 
 				db=new DrawView();
@@ -347,6 +535,7 @@
 				addGallery();
 			}
 
+<<<<<<< HEAD
 			private function onGotoUserCenter(e:Event):void
 			{
 				addUsercenter();
@@ -356,6 +545,33 @@
 			{
 				parentView.visible=true;
 			}
+=======
+			protected function shopClick(event:MouseEvent):void
+			{
+				currentState=uiView.name;
+				usercenter.visible=false;
+				themelist.visible=false;
+				gallery.visible=false;
+				shop.visible=true;
+				shop.refresh();
+
+				removeDetail();
+			}
+
+			public function refreshList():void
+			{
+				callLater(initFolderList);
+			}
+
+			protected function deleteBtn_clickHandler(event:MouseEvent):void
+			{
+				if(crtTheme&&crtTheme.online)
+				{
+					DBPopUp.addDeletePopup(crtTheme);
+				}
+			}
+
+>>>>>>> master
 		]]>
 	</fx:Script>
 
@@ -380,6 +596,7 @@
 		<theme:ThemeFolderList2 id="foldersList" width="100%" height="70%" horizontalCenter="0" verticalCenter="0" visible="false">
 		</theme:ThemeFolderList2>
 
+<<<<<<< HEAD
 		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')" left="330" bottom="21" visible="false"/>
 		<s:Image source="@Embed('assets/global/galleryBtn.png')" horizontalCenter="0" bottom="21" click="gallery_clickHandler(event)"/>
 		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" right="330" bottom="21" visible="false"/>
@@ -389,12 +606,21 @@
 			 mouseEnabled="false" visible="{parentView.visible}"/>
 	<s:Group width="1024" height="768" includeIn="mainViewState" verticalCenter="0" horizontalCenter="0">
 		<main:ParentView id="parentView" visible="false"/>
+=======
+		<s:Image source="@Embed('assets/homepage/btn/btn_removeTheme.png')" id="deleteBtn"
+				 left="330" top="633" enabled="false" click="deleteBtn_clickHandler(event)"/>
+		<s:Image source="@Embed('assets/global/galleryBtn.png')" left="512"
+				 top="633" click="gallery_clickHandler(event)"/>
+		<s:Image source="@Embed('assets/homepage/btn/btn_shop.png')" left="634"
+				 top="633" click="shopClick(event)"/>
+>>>>>>> master
 	</s:Group>
 
 	<mx:UIComponent id="recommendHodler" visible="{currentState=='mainViewState'}"/>
 
 	<s:Group id="uiLayer" includeIn="uiViewState" width="1024" height="768" verticalCenter="0" horizontalCenter="0">
 		<theme:ThemeListView id="themelist" visible="false"/>
+		<shop:ShopView id="shop" visible="false"/>
 		<gallery:GalleryViewOnline id="gallery" visible="false"/>
 		<user:UserCenterView id="usercenter" visible="false"/>
 	</s:Group>
